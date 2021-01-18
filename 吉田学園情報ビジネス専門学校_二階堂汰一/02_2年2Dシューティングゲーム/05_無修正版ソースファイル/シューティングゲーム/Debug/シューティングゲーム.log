@@ -1,0 +1,32 @@
+﻿  wormhole.cpp
+  title.cpp
+  score.cpp
+  result.cpp
+  Renderer.cpp
+  ranking.cpp
+  player.cpp
+  name.cpp
+  manager.cpp
+  item.cpp
+  game.cpp
+  enemy.cpp
+  bullet.cpp
+  boss.cpp
+  コードを生成中...
+  コンパイル中...
+  sound.cpp
+  scene2d.cpp
+  ownui.cpp
+  own.cpp
+  number.cpp
+  main.cpp
+  fade.cpp
+  explosion.cpp
+  effect.cpp
+  bombui.cpp
+  bombtexture.cpp
+  Bomb.cpp
+  background.cpp
+  コードを生成中...
+  シューティングゲーム.vcxproj -> C:\Users\gsp025\Desktop\シューティングゲーム\Debug\シューティングゲーム.exe
+  シューティングゲーム.vcxproj -> C:\Users\gsp025\Desktop\シューティングゲーム\Debug\シューティングゲーム.pdb (Full PDB)
