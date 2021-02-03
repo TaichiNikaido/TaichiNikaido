@@ -32,7 +32,7 @@ CFlame::CFlame(int nPriority) :CScene2d(nPriority)
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
 		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//頂点座標
-		m_col[nCount] = D3DCOLOR_RGBA(0, 0, 0, 255);
+		m_col[nCount] = D3DCOLOR_RGBA(0, 0, 0, 255);	//頂点カラー
 	}
 }
 
@@ -92,25 +92,23 @@ HRESULT CFlame::Init(D3DXVECTOR3 pos, float SizeWidth, float SizeHeight)
 
 	//オブジェタイプを敵にする
 	SetObjType(CScene::OBJTYPE_NONE);
-
 	m_pos = pos;	//位置
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
 		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//頂点座標
 	}
-
 	//位置の設定
 	SetPosition(m_pos);
-
 	// 頂点座標を設定
 	m_vpos[0] = D3DXVECTOR3(m_pos.x + (-SizeWidth / 2), m_pos.y + (-SizeHeight / 2), 0.0f);
 	m_vpos[1] = D3DXVECTOR3(m_pos.x + (SizeWidth / 2), m_pos.y + (-SizeHeight / 2), 0.0f);
 	m_vpos[2] = D3DXVECTOR3(m_pos.x + (-SizeWidth / 2), m_pos.y + (SizeHeight / 2), 0.0f);
 	m_vpos[3] = D3DXVECTOR3(m_pos.x + (SizeWidth / 2), m_pos.y + (SizeHeight / 2), 0.0f);
-
 	//頂点座標のセット
 	SetVertexPosition(m_vpos);
+	//テクスチャの設定
 	SetTex(0.0f, 0.0f, 1.0f, 1.0f);
+	//色の設定
 	SetColor(m_col);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);

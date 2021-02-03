@@ -24,6 +24,9 @@
 #include "player.h"
 #include "warning.h"
 
+//*****************************************************************************
+// 静的メンバ変数の初期化
+//*****************************************************************************
 LPDIRECT3DTEXTURE9 CBullet::m_apTexture[TEXTURE_MAX] = {};
 D3DCOLOR CBullet::m_aColor[COLOR_MAX] = //色パラメータ
 {
@@ -38,6 +41,7 @@ D3DCOLOR CBullet::m_aColor[COLOR_MAX] = //色パラメータ
 };
 bool CBullet::m_bFireBall = true;
 bool CBullet::m_bCharage = true;
+
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -51,34 +55,27 @@ CBullet::CBullet(int nPriority) : CScene2d(nPriority)
 	}
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//移動量	
 	m_user = USER_NONE;						//使用者
-	m_type = TYPE_NORMAL;	                    //タイプ
+	m_type = TYPE_NORMAL;	                //タイプ
 	m_texture = BULLET_TEXTURE;				//テクスチャ
 	m_nAttack = 0;							//攻撃力
 	m_fWidth = 0.0f;						//幅
 	m_fHeight = 0.0f;						//高さ
 	m_pEffect = NULL;						//エフェクトのポインタ
-	m_nCountBullet = 0;
-	m_fadd = 0.0f;
-	m_theta = 0.0f;
-	m_nBreatheCount = 0;
-	m_nLife = 0;
-	m_pCol = COLOR_ORANGE;
-	//弾の速度
-	m_fVx = 0.0f;
-	m_fVy = 0.0f;
-	m_nCount = 0;
-	m_fDistance = 0.0f;
+	m_nCountBullet = 0;						//カウント
+	m_nBreatheCount = 0;					//ブレスカウント
+	m_nLife = 0;							//体力
+	m_pCol = COLOR_ORANGE;					//色へのポインタ
+	m_nCount = 0;							//カウント
+	m_fDistance = 0.0f;						//距離
 	m_TargetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//向き
-	m_fSpeed = 0.0f;
+	m_fSpeed = 0.0f;						//速さ
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//向き
 	m_fAngle = 0.0f;						//角度
 	m_fLength = 0.0f;						//長さ
-	m_fScale = 0.0f;		//大きさ
-	m_fAddScale = 0.0f;	//大きさの加算量
-	m_bShotFireball = true;
-	m_bShotFire = false;
-	m_bFireBall = true;
-	//m_bCharage = true;
+	m_fScale = 0.0f;						//大きさ
+	m_fAddScale = 0.0f;						//大きさの加算量
+	m_bShotFireball = true;					//火球を撃ったかどうか
+	m_bFireBall = true;						//火球の使用状態
 }
 
 //=============================================================================
@@ -160,16 +157,17 @@ HRESULT CBullet::Init(D3DXVECTOR3 pos, D3DXVECTOR3 move, float SizeWidth, float 
 	}
 	m_move = move;			//移動量
 	m_user = user;			//使用者
-	m_type = type;
+	m_type = type;			//タイプ
 	m_texture = texture;	//テクスチャ
 	m_nAttack = nAttack;	//攻撃力
 	m_fWidth = SizeWidth;	//幅
 	m_fHeight = SizeHeight;	//高さ
-	m_pCol = col;
+	m_pCol = col;			//カラー
 	m_pEffect = CEffect::Create(m_pos, D3DCOLOR_RGBA(0, 0, 0, 0), BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE, CEffect::TYPE_NONE);
-	m_nCountBullet = 0;
-	m_nBreatheCount = 0;
-	m_nLife = 175;
+	m_nCountBullet = 0;		//カウント
+	m_nBreatheCount = 0;	//ブレスカウント
+	m_nLife = 175;			//体力
+	//もし誘導弾だったら
 	if (m_type == TYPE_GUID)
 	{
 		m_nLife = 110;
@@ -180,40 +178,26 @@ HRESULT CBullet::Init(D3DXVECTOR3 pos, D3DXVECTOR3 move, float SizeWidth, float 
 	m_fAngle = atan2f((SizeHeight / 2), (SizeWidth / 2));
 	m_fScale = 1.0f;		//大きさ
 	m_fAddScale = 0.01f;	//大きさの加算量
-	m_bShotFireball = true;
-	m_bShotFire = false;
-	m_TargetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-
+	m_bShotFireball = true;	//火球を撃ったかどうか
+	m_TargetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//目標の位置
 	//オブジェタイプを弾にする。
 	SetObjType(CScene::OBJTYPE_BULLET);
-
+	//もしタイプが火球だったら
 	if (m_type == TYPE_FIREBALL)
 	{
 		m_fScale = 0.1f;
 		m_nLife = 75;
 		SetObjType(CScene::OBJTYPE_FIREBALL);
 		m_bCharage = true;
-		//CWarning::Create(D3DXVECTOR3(m_pos.x, m_pos.y + m_move.y * m_nLife,0.0f), 1500.0f, 1500.0f);
 	}
-
+	//もしタイプが火だったr
 	if (m_type == TYPE_FIRE)
 	{
 		SetObjType(CScene::OBJTYPE_FIRE);
 	}
-
-	//m_fSpeed = 10.0f;
-	m_fadd = -1.0f;
-	m_theta = 0.0f;
-
-	//弾の速度
-	m_fVx = 0.0f;
-	m_fVy = 0.0f;
-
 	//目標までの距離
 	m_fDistance = 0.0f;
-	m_fSpeed = 5.0f;
-
+	m_fSpeed = 5.0f;	//速さ
 	//頂点座標の設定
 	m_vpos[0].x = pos.x - cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[0].y = pos.y - sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
@@ -230,16 +214,16 @@ HRESULT CBullet::Init(D3DXVECTOR3 pos, D3DXVECTOR3 move, float SizeWidth, float 
 	m_vpos[3].x = pos.x + cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[3].y = pos.y + sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[3].z = 0.0f;
-
 	CPlayer * pPlayer = CGame::GetPlayer();
 	D3DXVECTOR3 PlayerPos = pPlayer->GetPosition();
 	//プレイヤーへの角度
 	m_rot.z = atan2f(PlayerPos.y - pos.y , PlayerPos.x - pos.x);
 	//頂点座標をセット
 	SetVertexPosition(m_vpos);
-
+	//もしテクスチャが花だったrくぁ
 	if (m_texture == FLOWER_TEXTURE)
 	{
+		//テクスチャの設定
 		SetTex(
 			m_pCol * 0.1428f,
 			0.0f,
@@ -256,7 +240,7 @@ HRESULT CBullet::Init(D3DXVECTOR3 pos, D3DXVECTOR3 move, float SizeWidth, float 
 			1.0f,
 			1.0f);
 	}
-
+	//頂点カラーの設定
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
 		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 255);
@@ -286,19 +270,162 @@ void CBullet::Update(void)
 	CScene2d::Update();
 	//位置を取得
 	m_pos = GetPosition();
-
-	int nCountPriority = 4;
-
-	//もし弾が画面外に行ったら
-	if (m_pos.y < 0 ||
-		m_pos.y > FIELD_HEIGHT ||
-		m_pos.x < FIELD_WIDTH_MIN ||
-		m_pos.x > FIELD_WIDTH)
+	//移動可能範囲制御処理関数呼び出し
+	MovableRange();
+	//衝突判定処理関数呼び出し
+	Collision();
+	if (m_type == TYPE_FIREBALL)
 	{
-		//弾の削除
-		Uninit();
-		return;
+		if (m_nCountBullet == 0)
+		{
+			CWarning::Create(D3DXVECTOR3(m_pos.x, m_TargetPos.y, 0.0f), D3DXVECTOR3(m_move.x, m_move.y, 0.0f), 1120 - 200, FIELD_HEIGHT / 4);
+		}
 	}
+	//位置更新処理関数呼び出し
+	UpdatePosition();
+	//体力減算処理関数呼び出し
+	SubLife();
+	//エフェクト生成処理関数呼び出し
+	EffectCreate();
+
+	//弾のタイプが火球だった時
+	if (m_type == TYPE_FIREBALL)
+	{
+		//もしドラゴンが生きてたら
+		if (CDragon::GetDeath() == false)
+		{
+			//目標のスケール以下の時
+			if (m_fScale < 2.0f)
+			{
+				if (m_nCountBullet % 10 == 0)
+				{
+					//拡大してく
+					m_fScale += 0.1f;
+				}
+			}
+			else
+			{
+				//火球の発射状態を偽にする
+				m_bShotFireball = true;
+			}
+		}
+		else
+		{
+			m_bFireBall = false;
+			m_bCharage = false;
+			Uninit();
+			return;
+		}
+		m_nCountBullet++;
+	}
+
+	if (m_type == TYPE_FLOWER)
+	{
+		if (m_nCount == 100)
+		{
+			int nCountPriority = 4;
+
+			for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
+			{
+				CScene * pScene = GetScene(nCountPriority, nCountScene);
+
+				if (pScene != NULL)
+				{
+					//オブジェタイプの取得
+					OBJTYPE objType;
+					objType = pScene->GetObjType();
+					if (objType == OBJTYPE_PLAYER)
+					{
+						//プレイヤーの位置を取得
+						D3DXVECTOR3 player_pos;
+						player_pos = pScene->GetPosition();
+						////目標までの距離を算出//今回は生成時のプレイヤーに向けての方向指定のみ
+						D3DXVECTOR3 m_TargetDistance = D3DXVECTOR3(player_pos.x - m_pos.x, player_pos.y - m_pos.y, 0.0f);
+						m_rot.y = atan2f(m_TargetDistance.y, m_TargetDistance.x);
+						m_move = D3DXVECTOR3(cosf(m_rot.y)*5.5f, sinf(m_rot.y)*5.5f, 0.0f);
+					}
+
+				}
+			}
+		}
+		m_nCount++;
+	}
+	//進行方向に向きを合わせる
+	m_rot.z = atan2f((m_pos.x + m_move.x) - m_pos.x, (m_pos.y + m_move.y) - m_pos.y);
+	//頂点座標の設定
+	m_vpos[0].x = m_pos.x - cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
+	m_vpos[0].y = m_pos.y - sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
+	m_vpos[0].z = 0.0f;
+	//頂点座標の設定
+	m_vpos[1].x = m_pos.x + cosf(m_fAngle + m_rot.z) * m_fLength * m_fScale;
+	m_vpos[1].y = m_pos.y - sinf(m_fAngle + m_rot.z) * m_fLength * m_fScale;
+	m_vpos[1].z = 0.0f;
+	//頂点座標の設定
+	m_vpos[2].x = m_pos.x - cosf(m_fAngle + m_rot.z) * m_fLength * m_fScale;
+	m_vpos[2].y = m_pos.y + sinf(m_fAngle + m_rot.z) * m_fLength * m_fScale;
+	m_vpos[2].z = 0.0f;
+	//頂点座標の設定
+	m_vpos[3].x = m_pos.x + cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
+	m_vpos[3].y = m_pos.y + sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
+	m_vpos[3].z = 0.0f;
+	//頂点座標のセット
+	SetVertexPosition(m_vpos);
+	if (m_texture == FLOWER_TEXTURE)
+	{
+		SetTex(
+			m_pCol * 0.1428f,
+			0.0f,
+			m_pCol * 0.1428f + 0.1428f,
+			1.0f
+		);
+	}
+	else
+	{
+		//テクスチャのセット
+		SetTex(
+			0.0f,
+			0.0f,
+			1.0f,
+			1.0f);
+	}
+	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
+	{
+		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 255);	//頂点カラー
+	}
+	//色のセット
+	SetColor(m_col);
+	//現在位置をセット
+	SetPosition(m_pos);
+}
+
+
+//=============================================================================
+// 描画関数
+//=============================================================================
+void CBullet::Draw(void)
+{
+	if(m_type == TYPE_FIRE)
+	{
+		CRenderer * pRenderer = CManager::GetRenderer();
+		LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		CScene2d::Draw();
+		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	}
+	else
+	{
+		CScene2d::Draw();
+	}
+	
+}
+
+//=============================================================================
+// 衝突判定処理関数
+//=============================================================================
+void CBullet::Collision(void)
+{
+	//参照するプライオリティを設定
+	int nCountPriority = 4;
 
 	for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
 	{
@@ -376,12 +503,6 @@ void CBullet::Update(void)
 						m_pos.y + BULLET_SIZE / 2 > player_pos.y - (PLAYER_SIZE - 55) &&
 						m_pos.y - BULLET_SIZE / 2 < player_pos.y + (PLAYER_SIZE - 55))
 					{
-						//爆発の発生
-						//CExplosion::Create(m_pos, BOMB_EXPLOSION_SIZE, BOMB_EXPLOSION_SIZE, CExplosion::TYPE_BULLET);
-						//爆発の音再生
-						//pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
-						//弾の削除
-
 						//プレイヤーのHIT関数呼び出し
 						CPlayer * pPlayer = dynamic_cast<CPlayer*> (pScene);
 						if (pPlayer != NULL)
@@ -410,7 +531,7 @@ void CBullet::Update(void)
 						Uninit();
 						return;
 					}
-					
+
 				}
 				break;
 			default:
@@ -483,49 +604,38 @@ void CBullet::Update(void)
 			case TYPE_FIRE:
 				if (objType == OBJTYPE_DRAGON)
 				{
-					/*			if (m_bShotFire == true)
-								{
-
-								}
-								else
-								{*/
 					m_pos.x = dragon_pos.x;
 
 					m_move.y = 10.0f;
-					//}
 				}
 				break;
 			}
 		}
 	}
+}
 
-	if (m_type == TYPE_FIREBALL)
+//=============================================================================
+// 移動可能範囲制御処理関数関数
+//=============================================================================
+void CBullet::MovableRange(void)
+{
+	//もし弾が画面外に行ったら
+	if (m_pos.y < 0 ||
+		m_pos.y > FIELD_HEIGHT ||
+		m_pos.x < FIELD_WIDTH_MIN ||
+		m_pos.x > FIELD_WIDTH)
 	{
-		if (m_nCountBullet == 0)
-		{
-		CWarning::Create(D3DXVECTOR3(m_pos.x, m_TargetPos.y, 0.0f), D3DXVECTOR3(m_move.x, m_move.y, 0.0f), 1120 - 200, FIELD_HEIGHT / 4);
-		}
+		//弾の削除
+		Uninit();
+		return;
 	}
-	//弾のタイプが通常弾の時
-	if (m_type == TYPE_NORMAL)
-	{
-		//位置更新
-		m_pos.x += m_move.x;
-		m_pos.y += m_move.y;
-		//エフェクトの生成
-		m_pEffect = CEffect::Create(m_pos, m_aColor[m_pCol], BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE / 2, CEffect::TYPE_PLAYER);
-	}
+}
 
-	//弾のタイプが狙い撃ち弾の時
-	if (m_type == TYPE_AIM)
-	{
-		//位置更新
-		m_pos.x += m_move.x * cosf(m_fAngle);
-		m_pos.y += m_move.y * sinf(m_fAngle);
-		//エフェクトの生成
-		m_pEffect = CEffect::Create(m_pos, m_aColor[m_pCol], BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE, CEffect::TYPE_ENEMY);
-	}
-
+//=============================================================================
+// 体力減算処理関数
+//=============================================================================
+void CBullet::SubLife(void)
+{
 	//弾のタイプが誘導弾だった時
 	if (m_type == TYPE_GUID)
 	{
@@ -538,56 +648,7 @@ void CBullet::Update(void)
 			Uninit();
 			return;
 		}
-		//位置更新
-		m_pos.x += m_move.x;
-		m_pos.y += m_move.y;
-		//エフェクトの生成
-		m_pEffect = CEffect::Create(m_pos, D3DCOLOR_RGBA(255, 0, 0, 255), BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE, CEffect::TYPE_ENEMY);
 	}
-
-	//弾のタイプがn_way弾だった時
-	if (m_type == TYPE_N_WAY)
-	{
-		//位置更新
-		m_pos.x += m_move.x;
-		m_pos.y += m_move.y;
-		//エフェクトの生成
-		m_pEffect = CEffect::Create(m_pos, D3DCOLOR_RGBA(0, 0, 255, 255), BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE, CEffect::TYPE_ENEMY);
-	}
-
-	//弾のタイプが誘導弾だった時
-	if (m_type == TYPE_FIREBALL)
-	{
-		//pSound->PlaySound(CSound::SOUND_LABEL_CHARGE);
-		if (CDragon::GetDeath() == false)
-		{
-			if (m_fScale < 2.0f)
-			{
-				if (m_nCountBullet % 10 == 0)
-				{
-					m_fScale += 0.1f;
-				}
-				/*m_nCountBullet++;*/
-			}
-			else
-			{
-				m_bShotFireball = true;
-				//m_bCharage = true;
-			}
-		}
-		else
-		{
-			m_bFireBall = false;
-			m_bCharage = false;
-			Uninit();
-			return;
-		}
-
-		//エフェクトの生成
-		m_pEffect = CEffect::Create(m_pos, m_aColor[m_pCol], (m_fWidth + 10.0f) * m_fScale, (m_fWidth + 10.0f) * m_fScale, 20, CEffect::TYPE_DRAGON);
-		m_nCountBullet++;
-	}
-
 	if (m_type == TYPE_FIRE)
 	{
 		m_nLife--;
@@ -595,122 +656,66 @@ void CBullet::Update(void)
 		{
 			Uninit();
 		}
+	}
+}
+
+//=============================================================================
+// 位置更新処理関数
+//=============================================================================
+void CBullet::UpdatePosition(void)
+{
+	//弾のタイプが狙い撃ち弾の時
+	if (m_type == TYPE_AIM)
+	{
+		//位置更新
+		m_pos.x += m_move.x * cosf(m_fAngle);
+		m_pos.y += m_move.y * sinf(m_fAngle);
+	}
+	else
+	{
 		//位置更新
 		m_pos.x += m_move.x;
 		m_pos.y += m_move.y;
 	}
+}
 
+//=============================================================================
+// エフェクト生成処理関数
+//=============================================================================
+void CBullet::EffectCreate(void)
+{
+	//弾のタイプが通常弾の時
+	if (m_type == TYPE_NORMAL)
+	{
+		//エフェクトの生成
+		m_pEffect = CEffect::Create(m_pos, m_aColor[m_pCol], BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE / 2, CEffect::TYPE_PLAYER);
+	}
+	//弾のタイプが誘導弾だった時
+	if (m_type == TYPE_GUID)
+	{
+		m_pEffect = CEffect::Create(m_pos, D3DCOLOR_RGBA(255, 0, 0, 255), BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE, CEffect::TYPE_ENEMY);
+	}
+	//弾のタイプがn_way弾だった時
+	if (m_type == TYPE_N_WAY)
+	{
+		//エフェクトの生成
+		m_pEffect = CEffect::Create(m_pos, D3DCOLOR_RGBA(0, 0, 255, 255), BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE, CEffect::TYPE_ENEMY);
+	}
+	//弾のタイプが狙い撃ち弾の時
+	if (m_type == TYPE_AIM)
+	{
+		//エフェクトの生成
+		m_pEffect = CEffect::Create(m_pos, m_aColor[m_pCol], BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE, CEffect::TYPE_ENEMY);
+	}
 	if (m_type == TYPE_BREATHE)
 	{
 		//エフェクトの生成
 		m_pEffect = CEffect::Create(m_pos, m_aColor[m_pCol], BULLET_SIZE* 1.5f, BULLET_SIZE * 1.5f, EFFECT_LIFE, CEffect::TYPE_PLAYER);
 	}
-
-	if (m_type == TYPE_FLOWER)
+	//弾のタイプが火球だった時
+	if (m_type == TYPE_FIREBALL)
 	{
-		if (m_nCount == 100)
-		{
-			int nCountPriority = 4;
-
-			for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
-			{
-				CScene * pScene = GetScene(nCountPriority, nCountScene);
-
-				if (pScene != NULL)
-				{
-					//オブジェタイプの取得
-					OBJTYPE objType;
-					objType = pScene->GetObjType();
-					if (objType == OBJTYPE_PLAYER)
-					{
-						//プレイヤーの位置を取得
-						D3DXVECTOR3 player_pos;
-						player_pos = pScene->GetPosition();
-						////目標までの距離を算出//今回は生成時のプレイヤーに向けての方向指定のみ
-						D3DXVECTOR3 m_TargetDistance = D3DXVECTOR3(player_pos.x - m_pos.x, player_pos.y - m_pos.y, 0.0f);
-						m_rot.y = atan2f(m_TargetDistance.y, m_TargetDistance.x);
-						m_move = D3DXVECTOR3(cosf(m_rot.y)*5.5f, sinf(m_rot.y)*5.5f, 0.0f);
-					}
-
-				}
-			}
-		}
-
-		m_nCount++;
-		//位置更新
-		m_pos.x += m_move.x;
-		m_pos.y += m_move.y;
+		//エフェクトの生成
+		m_pEffect = CEffect::Create(m_pos, m_aColor[m_pCol], (m_fWidth + 10.0f) * m_fScale, (m_fWidth + 10.0f) * m_fScale, 20, CEffect::TYPE_DRAGON);
 	}
-
-	//進行方向に向きを合わせる
-	m_rot.z = atan2f((m_pos.x + m_move.x) - m_pos.x, (m_pos.y + m_move.y) - m_pos.y);
-
-	//頂点座標の設定
-	m_vpos[0].x = m_pos.x - cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
-	m_vpos[0].y = m_pos.y - sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
-	m_vpos[0].z = 0.0f;
-	//頂点座標の設定
-	m_vpos[1].x = m_pos.x + cosf(m_fAngle + m_rot.z) * m_fLength * m_fScale;
-	m_vpos[1].y = m_pos.y - sinf(m_fAngle + m_rot.z) * m_fLength * m_fScale;
-	m_vpos[1].z = 0.0f;
-	//頂点座標の設定
-	m_vpos[2].x = m_pos.x - cosf(m_fAngle + m_rot.z) * m_fLength * m_fScale;
-	m_vpos[2].y = m_pos.y + sinf(m_fAngle + m_rot.z) * m_fLength * m_fScale;
-	m_vpos[2].z = 0.0f;
-	//頂点座標の設定
-	m_vpos[3].x = m_pos.x + cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
-	m_vpos[3].y = m_pos.y + sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
-	m_vpos[3].z = 0.0f;
-	//頂点座標のセット
-	SetVertexPosition(m_vpos);
-
-	if (m_texture == FLOWER_TEXTURE)
-	{
-		SetTex(
-			m_pCol * 0.1428f,
-			0.0f,
-			m_pCol * 0.1428f + 0.1428f,
-			1.0f
-		);
-	}
-	else
-	{
-		//テクスチャのセット
-		SetTex(
-			0.0f,
-			0.0f,
-			1.0f,
-			1.0f);
-	}
-
-	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
-	{
-		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 255);
-	}
-	//色のセット
-	SetColor(m_col);
-
-	//現在位置をセット
-	SetPosition(m_pos);
-}
-
-
-//=============================================================================
-// 描画関数
-//=============================================================================
-void CBullet::Draw(void)
-{
-	if(m_type == TYPE_FIRE)
-	{
-		CRenderer * pRenderer = CManager::GetRenderer();
-		LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-		CScene2d::Draw();
-		pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	}
-	else
-	{
-		CScene2d::Draw();
-	}
-	
 }

@@ -47,14 +47,15 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	static LPDIRECT3DTEXTURE9 m_pTexture;
-	D3DXVECTOR3 m_pos;				//位置
-	D3DXVECTOR3 m_vpos[NUM_VERTEX];	//頂点座標
-	D3DXVECTOR3 m_move;				//移動
-	TYPE m_Type;					//タイプ
-	int m_nLife;					//ライフ
-	int m_nAttack;					//攻撃力
-	float m_fWidth;					//幅
-	float m_fHeight;				//高さ
+	void SubLife(void);
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
+	D3DXVECTOR3 m_pos;						//位置
+	D3DXVECTOR3 m_vpos[NUM_VERTEX];			//頂点座標
+	D3DXVECTOR3 m_move;						//移動
+	TYPE m_Type;							//タイプ
+	int m_nLife;							//ライフ
+	int m_nAttack;							//攻撃力
+	float m_fWidth;							//幅
+	float m_fHeight;						//高さ
 };
 #endif

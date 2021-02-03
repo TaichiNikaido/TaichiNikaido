@@ -16,7 +16,6 @@
 #include "joystick.h"
 #include "fade.h"
 #include "sound.h"
-#include "pause.h"
 
 LPDIRECT3DTEXTURE9 CTitle::m_apTexture[TYPE_MAX] = {};
 bool CTitle::m_bReplay = false;
@@ -245,15 +244,15 @@ void CTitle::Update(void)
 		m_IsTrigger.Down.nCount++;
 	}
 
-	if (m_IsTrigger.Up.nCount > COUNT_TRIGGER_PAUSE)
+	if (m_IsTrigger.Up.nCount > 5)
 	{
 		m_IsTrigger.Up.bTrigger = true;
-		m_IsTrigger.Up.nCount = COUNT_TRIGGER_PAUSE - 5;
+		m_IsTrigger.Up.nCount = 5 - 5;
 	}
-	if (m_IsTrigger.Down.nCount > COUNT_TRIGGER_PAUSE)
+	if (m_IsTrigger.Down.nCount > 5)
 	{
 		m_IsTrigger.Down.bTrigger = true;
-		m_IsTrigger.Down.nCount = COUNT_TRIGGER_PAUSE - 5;
+		m_IsTrigger.Down.nCount = 5 - 5;
 	}
 
 	//もし下矢印が押されらたら
@@ -263,8 +262,6 @@ void CTitle::Update(void)
 		m_IsTrigger.Down.bTrigger = false;
 		if (m_nButtonPos < 4)
 		{
-			////ショット音の再生
-			//pSound->CSound::PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 			m_nButtonPos++;
 		}
 	}
@@ -272,20 +269,15 @@ void CTitle::Update(void)
 	//もし上矢印が押されら
 	if (m_IsTrigger.Up.bTrigger == true)
 	{
-
 		m_IsTrigger.Up.bTrigger = false;
 		if (m_nButtonPos > 2)
 		{
-			////ショット音の再生
-			//pSound->CSound::PlaySound(CSound::SOUND_LABEL_SE_SELECT);
 			m_nButtonPos--;
 		}
 	}
 
 	if (pInputKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pInputJoystick->GetJoystickTrigger(JS_A))
 	{
-		////ショット音の再生
-		//pSound->CSound::PlaySound(CSound::SOUND_LABEL_SE_ENTER);
 		switch (m_nButtonPos)
 		{
 		case 2://スタート
@@ -352,43 +344,6 @@ void CTitle::Update(void)
 	default:
 		break;
 	}
-	//m_fMove += 0.001f;
-	//m_fFastMove += 0.01f;
-	//m_fSlowMove += 0.001f;
-
-	//for (int nCount = 0; nCount < MAX_TITLE_TEXTURE; nCount++)
-	//{
-	//	m_apScene[nCount]->Update();
-	//	m_apScene[nCount]->SetVertexPosition(m_vpos);
-	//	m_apScene[nCount]->SetTex(0.0f, 0.0f, 1.0f, 1.0f);
-	//}
-	//m_apScene[0]->SetTex(0.0f, 0.0f, 1.0f, 1.0f);
-	////m_apScene[1]->SetTex(m_fTextureX, m_fTextureY - m_fFastMove, 1.0f);
-	////m_apScene[2]->SetTex(m_fTextureX, m_fTextureY - m_fSlowMove, 1.0f);
-
-	//// 頂点座標を設定
-	//m_vpos[0] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
-	//m_vpos[1] = D3DXVECTOR3(m_pos.x + (m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
-	//m_vpos[2] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (m_fHeight / 2), 0.0f);
-	//m_vpos[3] = D3DXVECTOR3(m_pos.x + (m_fWidth / 2), m_pos.y + (m_fHeight / 2), 0.0f);
-
-	//もしENTERかAボタンを押したとき
-	//if (pInputKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pInputJoystick->GetJoystickTrigger(JS_A))
-	//{
-	//	//名前入力に移動
-	//	pSound->PlaySound(CSound::SOUND_LABEL_ENTER);
-	//	CManager::StartFade(CManager::MODE_NAME);
-	//	pSound->StopSound();
-	//}
-
-	//if (pInputKeyboard->GetKeyboardTrigger(DIK_R))
-	//{
-	//	pSound->PlaySound(CSound::SOUND_LABEL_ENTER);
-	//	pSound->StopSound();
-	//	m_bReplay = true;
-	//	//名前入力に移動
-	//	CManager::StartFade(CManager::MODE_GAME);
-	//}
 }
 
 //=============================================================================

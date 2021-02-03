@@ -14,12 +14,12 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_EXPLOSION "data/TEXTURE/explosion000.png"	//テテクスチャの保存先
-#define BOMB_EXPLOSION_SIZE 500.0f	//爆弾の爆発サイズ
-#define FIREBALL_EXPLOSION_SIZEX 500.0f	//爆弾の爆発サイズ
-#define FIREBALL_EXPLOSION_SIZEY 500.0f	//爆弾の爆発サイズ
-#define PLAYER_EXPLOSION_SIZE 50.0f	//プレイヤーの爆発サイズ
-#define ENEMY_EXPLOSION_SIZE 50.0f	//敵の爆発サイズ
+#define TEXTURE_EXPLOSION "data/TEXTURE/explosion000.png"
+#define BOMB_EXPLOSION_SIZE 500.0f		
+#define FIREBALL_EXPLOSION_SIZEX 500.0f	
+#define FIREBALL_EXPLOSION_SIZEY 500.0f	
+#define PLAYER_EXPLOSION_SIZE 50.0f		
+#define ENEMY_EXPLOSION_SIZE 50.0f		
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
@@ -48,12 +48,13 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	static LPDIRECT3DTEXTURE9 m_pTexture;
-	D3DXVECTOR3 m_vpos[NUM_VERTEX];	//頂点座標
-	int m_nCounterAnim;				//アニメカウンタ
-	int m_nPatternAnim;				//アニメパターン
-	float m_fWidth;					//幅
-	float m_fHeight;				//高さ
-	TYPE m_type;					//タイプ
+	void Animation(void);
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
+	D3DXVECTOR3 m_vpos[NUM_VERTEX];			//頂点座標
+	int m_nCounterAnim;						//アニメカウンタ
+	int m_nPatternAnim;						//アニメパターン
+	float m_fWidth;							//幅
+	float m_fHeight;						//高さ
+	TYPE m_type;							//タイプ
 };
 #endif

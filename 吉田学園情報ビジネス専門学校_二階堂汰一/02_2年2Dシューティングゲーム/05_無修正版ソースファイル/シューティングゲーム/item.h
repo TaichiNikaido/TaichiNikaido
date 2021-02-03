@@ -50,6 +50,8 @@ public:
 	void Draw(void);
 	bool CItem::isCollision(D3DXVECTOR3 pos);
 private:
+	void Effect(void);
+	void MovableRange(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture[MAX_ITEM_TEXTURE];
 	D3DXVECTOR3 m_pos;	//à íu
 	D3DXVECTOR3 m_vpos[NUM_VERTEX];	//í∏ì_ç¿ïW

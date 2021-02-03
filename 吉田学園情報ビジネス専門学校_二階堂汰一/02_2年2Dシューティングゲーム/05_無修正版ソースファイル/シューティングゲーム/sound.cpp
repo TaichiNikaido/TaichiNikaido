@@ -11,19 +11,16 @@
 #include "main.h"
 #include "manager.h"
 #include "sound.h"
+
 CSound::PARAM CSound::m_aParam[SOUND_LABEL_MAX] =
 {
-	//{ "data/BGM/normal.wav", -1 },			// BGM0
-	//{ "data/BGM/bgm001.wav", -1 },		// BGM1
-	//{ "data/BGM/bgm002.wav", -1 },		// BGM2
-	{ "data/SE/shot1.wav", 0 },		// ’e”­ŽË‰¹
-										//{ "data/SE/hit000.wav", 0 },		// ƒqƒbƒg‰¹
-	{ "data/SE/explosion1.wav", 0 },	// ”š”­‰¹
+	{ "data/SE/shot1.wav", 0 },		
+	{ "data/SE/explosion1.wav", 0 },
 	{ "data/BGM/normal.wav", -1 },
 	{ "data/BGM/dragon.wav", -1 },
-	{ "data/SE/fire1.wav", 0 },	// ”š”­‰¹
-	{ "data/SE/lvup.wav", 0 },	// ”š”­‰¹
-	{ "data/SE/charge.wav", 0 },	// ”š”­‰¹
+	{ "data/SE/fire1.wav", 0 },		
+	{ "data/SE/lvup.wav", 0 },		
+	{ "data/SE/charge.wav", 0 },	
 	{ "data/BGM/title.wav", -1 },
 	{ "data/BGM/name.wav", -1 },
 	{ "data/BGM/result.wav", -1 },

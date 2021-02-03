@@ -53,8 +53,7 @@ HRESULT COwnUI::Init(D3DXVECTOR3 pos, float SizeWidth,float SizeHeight)
 	{
 		m_apOwnUI[nCount] = COwn::Create(D3DXVECTOR3(pos.x + (SizeWidth * nCount), pos.y, 0.0f), SizeHeight, SizeWidth);
 	}
-	
-	m_nOwnUI = 0;	//Ž©‹@‚ÌUI
+	m_nOwnUI = 0;
 	return S_OK;
 }
 

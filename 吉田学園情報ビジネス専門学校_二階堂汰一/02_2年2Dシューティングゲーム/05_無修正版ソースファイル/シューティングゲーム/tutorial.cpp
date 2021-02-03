@@ -16,10 +16,13 @@
 #include "joystick.h"
 #include "fade.h"
 #include "sound.h"
-#include "pause.h"
 #include "tutorial.h"
 
-LPDIRECT3DTEXTURE9 CTutorial::m_pTexture = NULL;;
+//*****************************************************************************
+// 静的メンバ変数初期化
+//*****************************************************************************
+LPDIRECT3DTEXTURE9 CTutorial::m_pTexture = NULL;
+
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -32,12 +35,8 @@ CTutorial::CTutorial(int nPriority) : CScene(nPriority)
 		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 100);
 	}
-
 	m_fTextureX = 0.0f;
 	m_fTextureY = 0.0f;
-	m_fFastMove = 0.0f;
-	m_fSlowMove = 0.0f;
-	m_fMove = 0.0f;
 	m_fWidth = 0.0f;
 	m_fHeight = 0.0f;
 }
@@ -59,7 +58,7 @@ HRESULT CTutorial::Load(void)
 
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,				// デバイスへのポインタ
-		TEXTURE_TUTORIAL,								// ファイルの名前
+		TEXTURE_TUTORIAL,							// ファイルの名前
 		&m_pTexture);								// 読み込むメモリー
 	return S_OK;
 }
@@ -69,12 +68,12 @@ HRESULT CTutorial::Load(void)
 //=============================================================================
 void CTutorial::Unload(void)
 {
-		// テクスチャの破棄
-		if (m_pTexture != NULL)
-		{
-			m_pTexture->Release();
-			m_pTexture = NULL;
-		}
+	// テクスチャの破棄
+	if (m_pTexture != NULL)
+	{
+		m_pTexture->Release();
+		m_pTexture = NULL;
+	}
 }
 
 //=============================================================================
@@ -85,7 +84,6 @@ CTutorial * CTutorial::Create(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth
 	CTutorial * pTutorial;
 	pTutorial = new CTutorial;
 	pTutorial->Init(pos, SizeHeight, SizeWidth);
-	//pBg->SetPosition(pos);
 	return pTutorial;
 }
 
@@ -105,16 +103,13 @@ HRESULT CTutorial::Init(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth)
 
 	m_fWidth = SizeWidth;
 	m_fHeight = SizeHeight;
-	//背景
 	m_pScene= new CScene2d;
 	m_pScene->Init(pos, SizeHeight, SizeWidth);
-
 	// 頂点座標を設定
 	m_vpos[0] = D3DXVECTOR3(pos.x + (-SCREEN_WIDTH / 2), pos.y + (-SCREEN_HEIGHT / 2), 0.0f);
 	m_vpos[1] = D3DXVECTOR3(pos.x + (SCREEN_WIDTH / 2), pos.y + (-SCREEN_HEIGHT / 2), 0.0f);
 	m_vpos[2] = D3DXVECTOR3(pos.x + (-SCREEN_WIDTH / 2), pos.y + (SCREEN_HEIGHT / 2), 0.0f);
 	m_vpos[3] = D3DXVECTOR3(pos.x + (SCREEN_WIDTH / 2), pos.y + (SCREEN_HEIGHT / 2), 0.0f);
-
 	m_pScene->SetVertexPosition(m_vpos);
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
@@ -123,7 +118,6 @@ HRESULT CTutorial::Init(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth)
 	m_pScene->SetColor(m_col);
 	m_pScene->SetTex(0.0f, 0.0f, 1.0f, 1.0f);
 	m_pScene->BindTexture(m_pTexture);
-
 	return S_OK;
 }
 
@@ -132,11 +126,11 @@ HRESULT CTutorial::Init(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth)
 //=============================================================================
 void CTutorial::Uninit(void)
 {
-		if (m_pScene != NULL)
-		{
-			m_pScene->Uninit();
-			m_pScene = NULL;
-		}
+	if (m_pScene != NULL)
+	{
+		m_pScene->Uninit();
+		m_pScene = NULL;
+	}
 	Release();
 }
 

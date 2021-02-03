@@ -35,14 +35,15 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	static LPDIRECT3DTEXTURE9 m_pTexture;
-	D3DXVECTOR3 m_pos;
-	D3DXVECTOR3 m_move;
-	D3DXVECTOR3 m_vpos[NUM_VERTEX];	//頂点座標
-	D3DCOLOR m_col[NUM_VERTEX];		//色
-	float m_fWidth;					//幅
-	float m_fHeight;				//高さ
-	int m_nColCount;
-	int m_nCount;
+	void ColorChange(void);
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャ
+	D3DXVECTOR3 m_pos;						//位置
+	D3DXVECTOR3 m_move;						//移動量
+	D3DXVECTOR3 m_vpos[NUM_VERTEX];			//頂点座標
+	D3DCOLOR m_col[NUM_VERTEX];				//色
+	float m_fWidth;							//幅
+	float m_fHeight;						//高さ
+	int m_nColCount;						//色変更カウント
+	int m_nCount;							//カウント
 };
 #endif

@@ -71,15 +71,19 @@ public:
 	void AddBomb(int nValue);
 	void SubBomb(int nValue);
 	static void SetPlayerScpre(int nValue);
-	static void SetPlayerName(int nCount ,char aName);
-	static bool GetbDeath (void) {return m_bDeath;};
-	//static void SetbPause(bool bUse) { m_bUse = bUse; };
+	static void SetPlayerName(int nCount, char aName);
+	static bool GetbDeath(void) { return m_bDeath; };
+	D3DXVECTOR3 GetPosition(void) { return m_pos; }
+private:
+	void Input(void);
+	void Attack(void);
+	void MovableRange(void);
+	void Invincible(void);
+	void Death(void);
 	void Save(void);
 	void InputSave(void);
 	void InputLoad(void);
-	D3DXVECTOR3 GetPosition(void) { return m_pos; }
-private:
-	static LPDIRECT3DTEXTURE9 m_pTexture;
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 	static int m_nScore;					//スコア
 	static  char m_aPlayerName[MAX_NAME];	//名前
 	static int m_nNameCount;				//名前の文字数カウンタ

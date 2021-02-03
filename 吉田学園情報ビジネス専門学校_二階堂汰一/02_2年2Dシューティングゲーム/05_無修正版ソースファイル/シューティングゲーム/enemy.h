@@ -67,41 +67,42 @@ public:
 	void Hit(void);
 	void SubLife(int nValue);
 private:
+	void AI(void);
+	void Damage(void);
+	void Animation(void);
+	void MovableRange(void);
 	static LPDIRECT3DTEXTURE9 m_apScene[TYPE_MAX];
-	static int m_nCountEnemy;	//敵の総数
-	TYPE m_type;		//敵の種類
-	//static bool m_bDeath;
-	D3DXVECTOR3 m_pos;	//位置
-	static int         m_nBombEnemyLife;
-	D3DXVECTOR3 m_vpos[NUM_VERTEX];  //頂点座標
-	D3DXVECTOR3 m_move; //敵の移動量
-	float       m_fRd;//ラジアン
-	float       m_fRdScale;
+	static int m_nCountEnemy;		//敵の総数
+	static int  m_nBombEnemyLife;	//爆弾敵のライフ
+	TYPE m_type;					//敵の種類
+	D3DXVECTOR3 m_pos;				//位置
+	D3DXVECTOR3 m_vpos[NUM_VERTEX]; //頂点座標
+	D3DXVECTOR3 m_move;				//敵の移動量
+	float       m_fRd;				//ラジアン
+	float       m_fRdScale;			//ラジアン拡縮
 	D3DXVECTOR3 m_Location[MAX_LOCATION];	//地点
-	D3DCOLOR	m_col[NUM_VERTEX];	//色
-	// 対角線、角度の設定
-	float m_fLength;
-	float m_fAngle;
-	float m_fAngleRot;//ポリゴン全体の向き
-	D3DXVECTOR3 m_rot;
-	float m_fScale;
-	int m_nLife;		//体力
-	int m_nCountBullet; //弾のカウンタ
-	int m_nEnemyTimeCount;
-	int m_nBulletIndex;
-	int m_nHitCount;
-	float m_fBulletAngle;
-	float m_fWidth;		//幅
-	float m_fHeight;	//高さ
-	float m_fTime;		//タイム
-	float m_fStop;		//敵が止まる場所
-	bool m_bHit;		//ヒットしたかどうか
-	bool m_bShot;
-	bool m_bStay;
-	int m_nStayCount;
-	int m_nCounterAnim;
-	int m_nPatternAnim;
-	int m_nColor;
-	CBullet * m_pBullet;//弾のポインタ
+	D3DCOLOR	m_col[NUM_VERTEX];			//色
+	float m_fLength;				//長さ
+	float m_fAngle;					//角度
+	float m_fRot;					//向き
+	float m_fScale;					//拡縮
+	int m_nLife;					//体力
+	int m_nCountBullet;				//弾のカウンタ
+	int m_nEnemyTimeCount;			//敵の滞在時間
+	int m_nBulletIndex;				//弾の発射数
+	int m_nHitCount;				//HITカウント
+	float m_fBulletAngle;			//弾の角度
+	float m_fWidth;					//幅
+	float m_fHeight;				//高さ
+	float m_fTime;					//タイム
+	float m_fStop;					//敵が止まる場所
+	bool m_bHit;					//ヒットしたかどうか
+	bool m_bShot;					//弾を撃ったかどうか
+	bool m_bStay;					//滞在してるかどうか
+	int m_nStayCount;				//滞在時間
+	int m_nCounterAnim;				//アニメカウンタ
+	int m_nPatternAnim;				//パターンアニメ
+	int m_nColorCount;				//色カウンタ
+	CBullet * m_pBullet;			//弾のポインタ
 };
 #endif

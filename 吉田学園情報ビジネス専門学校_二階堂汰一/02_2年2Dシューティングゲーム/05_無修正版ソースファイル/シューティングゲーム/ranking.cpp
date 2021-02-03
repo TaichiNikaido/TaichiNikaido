@@ -19,7 +19,7 @@
 #include "result.h"
 #include "sound.h"
 
-LPDIRECT3DTEXTURE9 CRanking::m_apTexture[MAX_RANKING_TEXTURE] = {};
+LPDIRECT3DTEXTURE9 CRanking::m_pTexture = NULL;
 CRanking::RankingData CRanking::m_aRankingData[MAX_RANKING] = {};
 //=============================================================================
 // コンストラクタ
@@ -38,9 +38,6 @@ CRanking::CRanking(int nPriority) : CScene(nPriority)
 	memset(m_col, 0, sizeof(m_col));
 	m_fTextureX = 0.0f;
 	m_fTextureY = 0.0f;
-	m_fFastMove = 0.0f;
-	m_fSlowMove = 0.0f;
-	m_fMove = 0.0f;
 	m_fWidth = 0.0f;
 	m_fHeight = 0.0f;
 }
@@ -62,15 +59,7 @@ HRESULT CRanking::Load(void)
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,					// デバイスへのポインタ
 		TEXTURE_RANKING,								// ファイルの名前
-		&m_apTexture[0]);								// 読み込むメモリー
-														// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,					// デバイスへのポインタ
-		TEXTURE_RANKING,								// ファイルの名前
-		&m_apTexture[1]);								// 読み込むメモリー
-														// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,					// デバイスへのポインタ
-		TEXTURE_RANKING,								// ファイルの名前
-		&m_apTexture[2]);								// 読み込むメモリー
+		&m_pTexture);									// 読み込むメモリー
 	return S_OK;
 }
 
@@ -82,10 +71,10 @@ void CRanking::Unload(void)
 	for (int nCount = 0; nCount < MAX_RANKING_TEXTURE; nCount++)
 	{
 		// テクスチャの破棄
-		if (m_apTexture[nCount] != NULL)
+		if (m_pTexture != NULL)
 		{
-			m_apTexture[nCount]->Release();
-			m_apTexture[nCount] = NULL;
+			m_pTexture->Release();
+			m_pTexture = NULL;
 		}
 	}
 }
@@ -114,16 +103,14 @@ HRESULT CRanking::Init(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth)
 	{
 		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
-
 	m_fWidth = SizeWidth;
 	m_fHeight = SizeHeight;
-
 	for (int nCount = 0; nCount < MAX_RANKING_TEXTURE; nCount++)
 	{
 		m_apScene[nCount] = new CScene2d;
 		m_apScene[nCount]->Init(pos, SizeHeight, SizeWidth);
 		m_apScene[nCount]->SetVertexPosition(m_vpos);
-		m_apScene[nCount]->BindTexture(m_apTexture[nCount]);
+		m_apScene[nCount]->BindTexture(m_pTexture);
 
 		for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 		{
@@ -142,14 +129,6 @@ HRESULT CRanking::Init(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth)
 //=============================================================================
 void CRanking::Uninit(void)
 {
-	//for (int nCount = 0; nCount < MAX_BG_TEXTURE; nCount++)
-	//{
-	//	if (m_apScene[nCount] != NULL)
-	//	{
-	//		m_apScene[nCount]->Uninit();
-	//		m_apScene[nCount] = NULL;
-	//	}
-	//}
 	CScene::Release();
 }
 
@@ -172,11 +151,6 @@ void CRanking::Update(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-
-	//m_fMove += 0.001f;
-	//m_fFastMove += 0.01f;
-	//m_fSlowMove += 0.001f;
-
 	for (int nCount = 0; nCount < MAX_RANKING_TEXTURE; nCount++)
 	{
 		m_apScene[nCount]->Update();
@@ -184,8 +158,6 @@ void CRanking::Update(void)
 		m_apScene[nCount]->SetTex(0.0f, 0.0f, 1.0f,1.0f);
 	}
 	m_apScene[0]->SetTex(0.0f, 0.0f, 1.0f, 1.0f);
-	//m_apScene[1]->SetTex(m_fTextureX, m_fTextureY - m_fFastMove, 1.0f);
-	//m_apScene[2]->SetTex(m_fTextureX, m_fTextureY - m_fSlowMove, 1.0f);
 
 	// 頂点座標を設定
 	m_vpos[0] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
@@ -196,6 +168,7 @@ void CRanking::Update(void)
 	//もしENTERかAボタンを押したとき
 	if (pInputKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pInputJoystick->GetJoystickTrigger(JS_A))
 	{
+		//サウンドを停止する
 		pSound->StopSound();
 		//タイトルに移動
 		CManager::StartFade(CManager::MODE_TITLE);
@@ -212,34 +185,28 @@ void CRanking::Draw(void)
 void CRanking::GetRanking(RankingData * pRankingData)
 {
 	WSADATA wsaData;
-
 	int nErr = WSAStartup(WINSOCK_VERSION, &wsaData);
 	//何らかの原因で初期化に失敗した場合
 	if (nErr != 0)
 	{
 		/*printf("WSAStartup failed\n");*/
 	}
-
 	CTcpClient *pTcpClient = pTcpClient->Create(SERVER_IP_NUM, SERVER_PORT_NUM);
-
 	if (pTcpClient == NULL)
 	{
-		////ソケット接続をクローズ
+		//ソケット接続をクローズ
 		//pTcpClient->Close();
 		return;
 	}
-
 	char aSendBuf[BUFFER_NUM];
 	memset(aSendBuf, 0, sizeof(aSendBuf));
 	aSendBuf[0] = COMMAND_TYPE_GET_RANKING;
 	//文字列をサーバに送信
 	pTcpClient->Send(aSendBuf, sizeof(int));
-
 	////データをサーバから受け取る
 	char aRecvBuffer[BUFFER_NUM];
 	memset(aRecvBuffer, 0, sizeof(aRecvBuffer));
 	pTcpClient->Recv(aRecvBuffer, sizeof(aRecvBuffer));
-
 	int nIndex = 0;
 	for (int nCntRank = 0; nCntRank < MAX_RANKING; nCntRank++)
 	{
@@ -255,9 +222,7 @@ void CRanking::GetRanking(RankingData * pRankingData)
 
 int CRanking::SetRanking(int nScore, char aName[MAX_NAME])
 {
-
 	WSADATA wsaData;
-
 	int nErr = WSAStartup(WINSOCK_VERSION, &wsaData);
 	//何らかの原因で初期化に失敗した場合
 	if (nErr != 0)
@@ -269,7 +234,7 @@ int CRanking::SetRanking(int nScore, char aName[MAX_NAME])
 
 	if (pTcpClient == NULL)
 	{
-		////ソケット接続をクローズ
+		//ソケット接続をクローズ
 		//pTcpClient->Close();
 		return 0;
 	}
@@ -283,19 +248,9 @@ int CRanking::SetRanking(int nScore, char aName[MAX_NAME])
 	memcpy(&aSendBuf[1], &nScore, sizeof(int));
 	//名前せってい
 	memcpy(&aSendBuf[5], aName, MAX_NAME);
-	////死亡回数
-	//memcpy(&aSendBuf[5], &pPlayerData.nDeath, MAX_NAME);
-	////コンティニュー数
-	//memcpy(&aSendBuf[5], &pPlayerData.nContinue, MAX_NAME);
-	////爆弾の数
-	//memcpy(&aSendBuf[5], &pPlayerData.nBomb, MAX_NAME);
-	//スコア
-	/*memcpy(&aSendBuf[5], &pPlayerData.nScore, MAX_NAME);*/
-
 	//送信
 	pTcpClient->Send(aSendBuf, 13);
-
-	////データをサーバから受け取る
+	//データをサーバから受け取る
 	char aRecvBuffer[BUFFER_NUM];
 	memset(aRecvBuffer, 0, sizeof(aRecvBuffer));
 	pTcpClient->Recv(aRecvBuffer, sizeof(aRecvBuffer));

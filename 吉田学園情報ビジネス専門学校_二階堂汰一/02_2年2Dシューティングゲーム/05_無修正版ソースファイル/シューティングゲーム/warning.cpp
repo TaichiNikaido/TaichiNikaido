@@ -16,6 +16,9 @@
 #include "bullet.h"
 #include "warning.h"
 
+//*****************************************************************************
+// 静的メンバ変数の初期化
+//*****************************************************************************
 LPDIRECT3DTEXTURE9 CWarning::m_pTexture = NULL;
 
 //=============================================================================
@@ -23,17 +26,17 @@ LPDIRECT3DTEXTURE9 CWarning::m_pTexture = NULL;
 //=============================================================================
 CWarning::CWarning()
 {
-	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//位置
+	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//移動量
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
-		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//頂点座標
-		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 255);
+		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//頂点座標
+		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 255);	//頂点カラー
 	}
 	m_fWidth = 0;		//幅
 	m_fHeight = 0;		//高さ
-	m_nColCount = 0;
-	m_nCount = 0;
+	m_nColCount = 0;	//色変更カウント
+	m_nCount = 0;		//カウント
 }
 
 //=============================================================================
@@ -92,27 +95,27 @@ HRESULT CWarning::Init(D3DXVECTOR3 pos, D3DXVECTOR3 move, float SizeWidth, float
 {
 	CScene2d::Init(pos, SizeWidth, SizeHeight);
 
-	m_pos = pos;
-	m_move = move;
+	m_pos = pos;	//位置
+	m_move = move;	//移動量
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
-		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//頂点座標
-		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 255);
+		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//頂点座標
+		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 255);	//色
 	}
 	m_fWidth = SizeWidth;	//幅
 	m_fHeight = SizeHeight; //高さ
-	m_nColCount = 0;
-	m_nCount = 0;
+	m_nColCount = 0;		//色変更カウント
+	m_nCount = 0;			//カウント
 	// 頂点座標を設定
 	m_vpos[0] = D3DXVECTOR3(pos.x + (-SizeWidth / 2), pos.y + (-SizeHeight / 2), 0.0f);
 	m_vpos[1] = D3DXVECTOR3(pos.x + (SizeWidth / 2), pos.y + (-SizeHeight / 2), 0.0f);
 	m_vpos[2] = D3DXVECTOR3(pos.x + (-SizeWidth / 2), pos.y + (SizeHeight / 2), 0.0f);
 	m_vpos[3] = D3DXVECTOR3(pos.x + (SizeWidth / 2), pos.y + (SizeHeight / 2), 0.0f);
-
 	//頂点座標のセット
 	SetVertexPosition(m_vpos);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
+	//テクスチャの設定
 	SetTex(
 		0.0f, 0.0f, 1.0f, 1.0f
 	);
@@ -138,7 +141,6 @@ void CWarning::Update(void)
 	CScene2d::Update();
 	//位置の取得
 	D3DXVECTOR3 pos = GetPosition();
-
 	for (int nCountPriority = 1; nCountPriority < 5; nCountPriority++)
 	{
 		for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
@@ -149,17 +151,16 @@ void CWarning::Update(void)
 			{
 				//オブジェタイプの取得
 				OBJTYPE objType;
+				//オブジェクトタイプを取得
 				objType = pScene->GetObjType();
-				//敵の位置を取得
-				D3DXVECTOR3 target_pos;
-				target_pos = pScene->GetPosition();
-
+				//目標の位置を取得
+				D3DXVECTOR3 target_pos = pScene->GetPosition();
+				//もしオブジェクトタイプが火球だったら
 				if (objType == OBJTYPE_FIREBALL)
 				{
 					m_pos.x = target_pos.x;
-					//m_move.x = 1.0f;
 				}
-
+				//もしオブジェタイプがプレイヤーだったら
 				if (objType == OBJTYPE_PLAYER)
 				{
 					m_pos.y = target_pos.y;
@@ -167,11 +168,46 @@ void CWarning::Update(void)
 			}
 		}
 	}
+	//色変更処理関数呼び出し
+	ColorChange();
+	//もし火球が偽になったら
+	if (CBullet::GetbFireBall() == false)
+	{
+		//終了処理関数呼び出し
+		Uninit();
+		return;
+	}
+	// 頂点座標を設定
+	m_vpos[0] = D3DXVECTOR3(pos.x + (-m_fWidth / 2), pos.y + (-m_fHeight / 2), 0.0f);
+	m_vpos[1] = D3DXVECTOR3(pos.x + (m_fWidth / 2), pos.y + (-m_fHeight / 2), 0.0f);
+	m_vpos[2] = D3DXVECTOR3(pos.x + (-m_fWidth / 2), pos.y + (m_fHeight / 2), 0.0f);
+	m_vpos[3] = D3DXVECTOR3(pos.x + (m_fWidth / 2), pos.y + (m_fHeight / 2), 0.0f);
+	//現在位置のセット
+	SetPosition(m_pos);
+	//頂点座標の設定
+	SetVertexPosition(m_vpos);
+	//テクスチャの設定
+	SetTex(
+		0.0f, 0.0f, 1.0f, 1.0f
+	);
+	//色のセット
+	SetColor(m_col);
+}
 
-	//位置更新
-	//m_pos.x += m_move.x;
-	//m_pos.y += m_move.y;
 
+//=============================================================================
+// 描画関数
+//=============================================================================
+void CWarning::Draw(void)
+{
+	CScene2d::Draw();
+}
+
+//=============================================================================
+// 色変更処理関数関数
+//=============================================================================
+void CWarning::ColorChange(void)
+{
 	if (m_nCount % 10 == 0)
 	{
 		if (m_nColCount % 2 == 0)
@@ -190,37 +226,5 @@ void CWarning::Update(void)
 		}
 		m_nColCount++;
 	}
-
 	m_nCount++;
-
-	if (CBullet::GetbFireBall() == false)
-	{
-		Uninit();
-		return;
-	}
-
-	// 頂点座標を設定
-	m_vpos[0] = D3DXVECTOR3(pos.x + (-m_fWidth / 2), pos.y + (-m_fHeight / 2), 0.0f);
-	m_vpos[1] = D3DXVECTOR3(pos.x + (m_fWidth / 2), pos.y + (-m_fHeight / 2), 0.0f);
-	m_vpos[2] = D3DXVECTOR3(pos.x + (-m_fWidth / 2), pos.y + (m_fHeight / 2), 0.0f);
-	m_vpos[3] = D3DXVECTOR3(pos.x + (m_fWidth / 2), pos.y + (m_fHeight / 2), 0.0f);
-	//現在位置のセット
-	SetPosition(m_pos);
-	//頂点座標の設定
-	SetVertexPosition(m_vpos);
-
-	SetTex(
-		0.0f, 0.0f, 1.0f, 1.0f
-	);
-	//色のセット
-	SetColor(m_col);
-}
-
-
-//=============================================================================
-// 描画関数
-//=============================================================================
-void CWarning::Draw(void)
-{
-	CScene2d::Draw();
 }

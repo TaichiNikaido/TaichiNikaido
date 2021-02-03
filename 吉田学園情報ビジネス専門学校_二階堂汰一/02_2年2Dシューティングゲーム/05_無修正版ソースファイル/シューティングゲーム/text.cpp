@@ -16,8 +16,15 @@
 #include "result.h"
 #include "ranking.h"
 
+//*****************************************************************************
+// 静的メンバ変数の初期化
+//*****************************************************************************
 bool CText::m_IsDraw = false;
 char CText::m_str[256] = {};
+
+//=============================================================================
+// コンストラクタ
+//=============================================================================
 CText::CText()
 {
 	m_pFont = NULL;
@@ -26,25 +33,31 @@ CText::CText()
 	m_Rect[2] = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	m_Rect[3] = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	memset(m_str, 0, sizeof(m_str));
-	/*memset(&m_playerData, 0, sizeof(m_playerData));*/
 	posX = 0;
 	posY = 0;
 }
+
+//=============================================================================
+// デストラクタ
+//=============================================================================
 CText::~CText()
 {
-
 }
 
+//=============================================================================
+// 生成処理関数
+//=============================================================================
 CText * CText::Create(D3DXVECTOR3 pos, float fSizeWidth, float fSizeHeight)
 {
 	CText *pText;
-
 	pText = new CText;
 	pText->Init(pos, fSizeWidth, fSizeHeight);
-
 	return pText;
 }
 
+//=============================================================================
+// 初期化処理関数
+//=============================================================================
 HRESULT CText::Init(D3DXVECTOR3 pos, float fSizeWidth, float fSizeHeight)
 {
 	CRenderer * pRenderer = CManager::GetRenderer();
@@ -52,12 +65,14 @@ HRESULT CText::Init(D3DXVECTOR3 pos, float fSizeWidth, float fSizeHeight)
 	// フォントの生成
 	D3DXCreateFont(pDevice, 32, 25, 0, 0, FALSE, SHIFTJIS_CHARSET,
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, FONT_NAME, &m_pFont);
-
 	posX = SCREEN_WIDTH - 650;
 	posY = SCREEN_HEIGHT - 550;
 	return S_OK;
 }
 
+//=============================================================================
+// 終了処理関数
+//=============================================================================
 void CText::Uninit(void)
 {
 	// フォントの破棄
@@ -68,12 +83,16 @@ void CText::Uninit(void)
 	}
 }
 
+//=============================================================================
+// 更新処理関数
+//=============================================================================
 void CText::Update(void)
 {
-
-
 }
 
+//=============================================================================
+// 描画処理関数
+//=============================================================================
 void CText::Draw(void)
 {
 	if (m_IsDraw == true)
@@ -81,20 +100,6 @@ void CText::Draw(void)
 		switch (CManager::GetMode())
 		{
 		case CManager::MODE_GAME:
-			//m_Rect[0] = { posX + 2, posY + 2 , posX + 2 + 400, posY + 2 + 100 };
-			//m_Rect[1] = { posX, posY, posX + 400, posY + 100 };
-
-			//posX = FIELD_WIDTH - 650;
-			//posY = FIELD_HEIGHT - 550;
-
-			////m_Rect[0] = { posX + 2, posY + 2 , posX + 2 + 400, posY + 2 + 100 };
-			////m_Rect[1] = { posX, posY, posX + 400, posY + 100 };
-			////wsprintf(m_str, &m_str[0]);
-			//// テキスト描画
-			//wsprintf(m_str, "testssssssssssssssssss");
-			//m_pFont->DrawText(NULL, m_str, -1, &m_Rect[0], DT_LEFT, D3DCOLOR_RGBA(255, 255, 255, 100));
-			//m_pFont->DrawText(NULL, m_str, -1, &m_Rect[1], DT_LEFT, D3DCOLOR_RGBA(255, 255, 255, 255));
-			//m_pFont->DrawText(NULL, m_str, -1, &m_Rect[1], DT_LEFT, D3DCOLOR_RGBA(255, 255, 255, 255));
 			break;
 		case CManager::MODE_RESULT:
 			posX = 200;

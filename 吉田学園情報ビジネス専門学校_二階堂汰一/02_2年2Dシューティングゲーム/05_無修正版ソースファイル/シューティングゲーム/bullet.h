@@ -15,7 +15,7 @@
 // マクロ定義
 //*****************************************************************************
 #define TEXTURE_BULLET "data/TEXTURE/bullet000.png"		//弾のテクスチャの保存先
-#define TEXTURE_FIERBALL "data/TEXTURE/bullet000.png"   //火球のテクスチャの保存先
+#define TEXTURE_FIERBALL "data/TEXTURE/8.png"   //火球のテクスチャの保存先
 #define TEXTURE_BREATHE "data/TEXTURE/bullet000.png"	//ブレスのテクスチャの保存先
 #define TEXTURE_BEAM "data/TEXTURE/beam.png"			//ビームのテクスチャの保存先
 #define TEXTURE_BIRA "data/TEXTURE/bira.png"			//ビームのテクスチャの保存先
@@ -95,6 +95,11 @@ public:
 	static bool GetbFireBall(void) { return m_bFireBall; };
 	static bool GetbCharage(void) { return m_bCharage; };
 private:
+	void Collision(void);
+	void MovableRange(void);
+	void SubLife(void);
+	void UpdatePosition(void);
+	void EffectCreate(void);
 	static LPDIRECT3DTEXTURE9 m_apTexture[TEXTURE_MAX];
 	static D3DCOLOR         m_aColor[COLOR_MAX];//7色プリセット
 	static bool m_bFireBall;
@@ -117,19 +122,12 @@ private:
 	int m_nCount;					//カウント
 	int m_nBreatheCount;			//ブレスの長さ
 	int m_nLife;					//ライフ
-	//弾の速度
-	float m_fVx; 
-	float m_fVy;
-	int m_nCountBullet;
-	float m_fadd;
-	float m_theta;
-	//弾幕の本
-	float m_fDistance;
-	float m_fSpeed;
-	float m_fLength;			//長さ
-	float m_fScale;			//大きさ
-	float m_fAddScale;		//大きさの加算量
-	bool m_bShotFireball;
-	bool m_bShotFire;
+	int m_nCountBullet;				//カウント
+	float m_fDistance;				//距離
+	float m_fSpeed;					//速さ
+	float m_fLength;				//長さ
+	float m_fScale;					//大きさ
+	float m_fAddScale;				//大きさの加算量
+	bool m_bShotFireball;			//火球を発射したか
 };
 #endif

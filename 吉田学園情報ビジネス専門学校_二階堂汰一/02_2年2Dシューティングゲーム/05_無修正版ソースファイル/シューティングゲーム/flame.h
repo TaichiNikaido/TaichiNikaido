@@ -13,7 +13,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_FLAME1	"data/TEXTURE/ENEMY/name.png"		//目の敵のテクスチャ保存先
+#define TEXTURE_FLAME1	"data/TEXTURE/ENEMY/name.png"
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
@@ -34,9 +34,9 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	static LPDIRECT3DTEXTURE9 m_pTexture;
-	D3DXVECTOR3 m_pos;	//位置
-	D3DXVECTOR3 m_vpos[NUM_VERTEX];  //頂点座標
-	D3DCOLOR m_col[NUM_VERTEX];		//色
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
+	D3DXVECTOR3 m_pos;						//位置
+	D3DXVECTOR3 m_vpos[NUM_VERTEX];			//頂点座標
+	D3DCOLOR m_col[NUM_VERTEX];				//色
 };
 #endif

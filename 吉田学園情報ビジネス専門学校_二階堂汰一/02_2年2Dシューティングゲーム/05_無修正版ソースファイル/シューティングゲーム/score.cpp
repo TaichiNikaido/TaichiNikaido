@@ -4,7 +4,6 @@
 // Author: 二階堂汰一
 //
 //=============================================================================
-#define _CRT_SECURE_NO_WARNINGS
 
 //*****************************************************************************
 // ヘッダファイルのインクルード
@@ -68,7 +67,6 @@ void CScore::Uninit(void)
 	{
 		if (m_apNumber[nCount] != NULL)
 		{
-			//Uninit,delete,NULL代入
 			m_apNumber[nCount]->Uninit();
 			delete m_apNumber[nCount];
 			m_apNumber[nCount] = NULL;

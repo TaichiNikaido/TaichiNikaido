@@ -190,8 +190,6 @@ void CExplosion::Update(void)
 				}
 			}
 		}
-		
-	
 	case TYPE_FIERBALL:
 		for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
 		{
@@ -226,6 +224,34 @@ void CExplosion::Update(void)
 	default:
 		break;
 	}
+
+	//アニメーション
+	Animation();
+
+	// 頂点座標を設定
+	m_vpos[0] = D3DXVECTOR3(pos.x + (-m_fWidth / 2), pos.y + (-m_fHeight / 2), 0.0f);
+	m_vpos[1] = D3DXVECTOR3(pos.x + (m_fWidth / 2), pos.y + (-m_fHeight / 2), 0.0f);
+	m_vpos[2] = D3DXVECTOR3(pos.x + (-m_fWidth / 2), pos.y + (m_fHeight / 2), 0.0f);
+	m_vpos[3] = D3DXVECTOR3(pos.x + (m_fWidth / 2), pos.y + (m_fHeight / 2), 0.0f);
+
+	//頂点座標の設定
+	SetVertexPosition(m_vpos);
+}
+
+
+//=============================================================================
+// 描画関数
+//=============================================================================
+void CExplosion::Draw(void)
+{
+	CScene2d::Draw();
+}
+
+//=============================================================================
+// アニメーション処理関数
+//=============================================================================
+void CExplosion::Animation(void)
+{
 	//カウントインクリメント
 	m_nCounterAnim++;
 	//カウントが4以上になった場合
@@ -249,22 +275,4 @@ void CExplosion::Update(void)
 		0.0f,
 		m_nPatternAnim * 0.125f + 0.125f,
 		1.0f);
-
-	// 頂点座標を設定
-	m_vpos[0] = D3DXVECTOR3(pos.x + (-m_fWidth / 2), pos.y + (-m_fHeight / 2), 0.0f);
-	m_vpos[1] = D3DXVECTOR3(pos.x + (m_fWidth / 2), pos.y + (-m_fHeight / 2), 0.0f);
-	m_vpos[2] = D3DXVECTOR3(pos.x + (-m_fWidth / 2), pos.y + (m_fHeight / 2), 0.0f);
-	m_vpos[3] = D3DXVECTOR3(pos.x + (m_fWidth / 2), pos.y + (m_fHeight / 2), 0.0f);
-
-	//頂点座標の設定
-	SetVertexPosition(m_vpos);
-}
-
-
-//=============================================================================
-// 描画関数
-//=============================================================================
-void CExplosion::Draw(void)
-{
-	CScene2d::Draw();
 }

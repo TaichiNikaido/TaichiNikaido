@@ -6,11 +6,12 @@
 //=============================================================================
 #ifndef _GAME_H_
 #define _GAME_H_
-
+//*****************************************************************************
+// ヘッダファイルのインクルード
+//*****************************************************************************
 #include "wormhole.h"
 #include "enemy.h"
 #include "dragon.h"
-
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -19,7 +20,6 @@
 // 前方宣言
 //*****************************************************************************
 class CPlayer;
-//class CScene2d;
 class CBg;
 class CEnemy;
 class Wormhole;
@@ -45,16 +45,16 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	static CPlayer * GetPlayer(void);
-	CEnemy * GetEnemy(void);
-	CWormhole * GetWormhole(void);
-	CScene2d * GetScene2d(void);
-	static CScore * GetScore(void) { return m_pScore; };
-	static COwnUI * GetOwnUI(void) { return m_pOwnUI; };
-	static CBombUI * GetBombUI(void) { return m_pBombUI; };
-	static CDragon * GetDragon(void) {return m_pDragon;};
-	static int GetbInputSaveCount(void){ return m_nInputSaveCount; };
-	static int GetbInputLoadCount(void) { return m_nInputLoadCount; };
+	static CPlayer * GetPlayer(void) { return m_pPlayer; }
+	CEnemy * GetEnemy(void) { return m_pEnemy; }
+	CWormhole * GetWormhole(void) { return m_pWormhole; }
+	CScene2d * GetScene2d(void) { return m_pScene2d; }
+	static CScore * GetScore(void) { return m_pScore; }
+	static COwnUI * GetOwnUI(void) { return m_pOwnUI; }
+	static CBombUI * GetBombUI(void) { return m_pBombUI; }
+	static CDragon * GetDragon(void) {return m_pDragon;}
+	static int GetbInputSaveCount(void){ return m_nInputSaveCount; }
+	static int GetbInputLoadCount(void) { return m_nInputLoadCount; }
 private:
 	static CScore * m_pScore;
 	static COwnUI * m_pOwnUI;

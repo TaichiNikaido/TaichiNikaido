@@ -15,7 +15,6 @@
 #include "manager.h"
 #include "fade.h"
 #include "text.h"
-#include "pause.h"
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -177,8 +176,6 @@ void CRenderer::Draw(void)
 	CFade * pFade = CManager::GetFade();
 	//サウンド取得
 	CText * pText = CManager::GetText();
-	//ポーズの取得
-	CPause * pPause = CManager::GetPause();
 
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
@@ -188,12 +185,6 @@ void CRenderer::Draw(void)
 		pFade->Draw();
 		//テキストの描画
 		pText->Draw();
-		//ポーズの描画
-		if (CManager::GetbPause() == true)
-		{
-			pPause->Draw();
-		}
-
 #ifdef _DEBUG
 		// FPS表示
 		DrawFPS();

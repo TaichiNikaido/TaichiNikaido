@@ -19,8 +19,14 @@
 #include "name.h"
 #include "sound.h"
 
+//*****************************************************************************
+// マクロ定義
+//*****************************************************************************
 #define COUNT_TRIGGER 20
 
+//*****************************************************************************
+// 静的メンバ変数初期化
+//*****************************************************************************
 //テクスチャの初期化
 LPDIRECT3DTEXTURE9 CName::m_apTexture[MAX_NAME_TEXTURE] = {};
 //文字格納用変数の初期化
@@ -31,7 +37,6 @@ CName::Letter CName::m_aLetter[MAX_COLUMN][COLUMN_MAXNUMBER] = {};
 //=============================================================================
 CName::CName(int nPriority) : CScene(nPriority)
 {
-	
 	for (int nCount = 0; nCount < MAX_POLYGON; nCount++)
 	{
 		m_apSceneBG[nCount] = NULL;
@@ -44,18 +49,14 @@ CName::CName(int nPriority) : CScene(nPriority)
 	{
 		m_apSceneText[nCount] = NULL;
 	}
-
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
 		m_vPos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_col[nCount] = D3DCOLOR_RGBA(255, 255, 255, 255);
 	}
-
 	m_fTextureX = 0.0f;
 	m_fTextureY = 0.0f;
-	m_fMove = 0.0f;
 	m_fWidth = 0.0f;
 	m_fHeight = 0.0f;
 	memset(m_aName, NULL, sizeof(m_aName));

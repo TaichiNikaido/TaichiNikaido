@@ -26,7 +26,6 @@ class CRanking;
 class CFade;
 class CName;
 class CText;
-class CPause;
 class CTutorial;
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
@@ -63,7 +62,6 @@ public:
 	static CSound * GetSound(void);
 	static CFade * GetFade(void);
 	static CText * GetText(void) { return m_pText; };
-	static CPause * GetPause(void) { return m_pPause; };
 	static bool GetbPause(void) { return m_bPause; };
 	static void SetbPause(bool bPause) { m_bPause = bPause; };
 	static void StartFade(MODE mode);
@@ -82,7 +80,6 @@ private:
 	static CRanking * m_pRanking;
 	static CFade * m_pFade;
 	static CText * m_pText;
-	static CPause * m_pPause;
 	static bool m_bUseFade;
 	static bool m_bPause;
 	static MODE m_mode;

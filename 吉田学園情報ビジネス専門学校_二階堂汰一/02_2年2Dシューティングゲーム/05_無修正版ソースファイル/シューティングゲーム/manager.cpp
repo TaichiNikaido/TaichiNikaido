@@ -36,11 +36,9 @@
 #include "game.h"
 #include "result.h"
 #include "ranking.h"
-#include "boss.h"
 #include "bombtexture.h"
 #include "fade.h"
 #include "text.h"
-#include "pause.h"
 #include "warning.h"
 #include "flame.h"
 #include "tutorial.h"
@@ -57,7 +55,6 @@ CResult * CManager::m_pResult = NULL;
 CRanking * CManager::m_pRanking = NULL;
 CFade * CManager::m_pFade = NULL;
 CText * CManager::m_pText = NULL;
-CPause * CManager::m_pPause = NULL;
 CManager::MODE CManager::m_mode = MODE_NONE;
 bool CManager::m_bUseFade = false;
 bool CManager::m_bPause = false;
@@ -173,12 +170,6 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	//ランキングのロード
 	CRanking::Load();
 
-	//ボスのロード
-	CBoss::Load();
-
-	//ポーズのロード
-	CPause::Load();
-
 	//爆弾のテクスチャロード
 	CBombTexture::Load();
 
@@ -194,8 +185,6 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	//フェードの生成
 	m_pFade = CFade::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f), SCREEN_WIDTH, SCREEN_HEIGHT, m_mode);
 
-	//ポーズの生成
-	m_pPause = CPause::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f), FIELD_WIDTH, FIELD_HEIGHT);
 	return S_OK;
 }
 
@@ -254,12 +243,6 @@ void CManager::Uninit(void)
 	//ランキングのアンロード
 	CRanking::Unload();
 
-	//ボスのアンロード
-	CBoss::Unload();
-
-	//ポーズのアンロード
-	CPause::Unload();
-
 	//爆弾のテクスチャアンロード
 	CBombTexture::Unload();
 
@@ -316,14 +299,6 @@ void CManager::Uninit(void)
 		delete m_pText;
 		m_pText = NULL;
 	}
-
-	//ポーズの破棄
-	if (m_pPause != NULL)
-	{
-		m_pPause->Uninit();
-		delete m_pPause;
-		m_pPause = NULL;
-	}
 }
 
 //=============================================================================
@@ -355,15 +330,6 @@ void CManager::Update(void)
 		if (m_pFade != NULL)
 		{
 			m_pFade->Update();
-		}
-	}
-
-	//ポーズ更新
-	if (m_bPause == true)
-	{
-		if (m_pPause != NULL)
-		{
-			m_pPause->Update();
 		}
 	}
 }

@@ -116,21 +116,23 @@ HRESULT CItem::Init(D3DXVECTOR3 pos, float SizeWidth, float SizeHeight, TYPE typ
 
 	//オブジェタイプをアイテムに
 	SetObjType(CScene::OBJTYPE_ITEM);
-
 	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
-	m_pos = pos;			//位置
+	//位置を設定する
+	m_pos = pos;
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
 		m_vpos[nCount] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//頂点座標
 	}
-	m_move = D3DXVECTOR3(0.0f, ITEM_SPEED, 0.0f);	//移動量
-	m_Type = type;			//タイプ
-	m_fWidth = SizeWidth;	//幅
-	m_fHeight = SizeHeight; //高さ
-
+	//移動量を設定する
+	m_move = D3DXVECTOR3(0.0f, ITEM_SPEED, 0.0f);
+	//タイプを設定する
+	m_Type = type;
+	//幅
+	m_fWidth = SizeWidth;
+	//高さ
+	m_fHeight = SizeHeight;
 	// 頂点座標を設定
 	m_vpos[0] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
 	m_vpos[1] = D3DXVECTOR3(m_pos.x + (m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
@@ -162,7 +164,62 @@ void CItem::Uninit(void)
 void CItem::Update(void)
 {
 	CScene2d::Update();
+	//効果処理関数呼び出し
+	Effect();
+	//位置に移動量を加算
+	m_pos += m_move;
+	//移動可能範囲制御処理関数
+	MovableRange();
+	//頂点座標を設定
+	m_vpos[0] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
+	m_vpos[1] = D3DXVECTOR3(m_pos.x + (m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
+	m_vpos[2] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (m_fHeight / 2), 0.0f);
+	m_vpos[3] = D3DXVECTOR3(m_pos.x + (m_fWidth / 2), m_pos.y + (m_fHeight / 2), 0.0f);
+	//頂点座標のセット
+	SetVertexPosition(m_vpos);
+	//現在位置のセット
+	SetPosition(m_pos);
+	//テクスチャのセット
+	SetTex(0.0f,
+		0.0f,
+		1.0f,
+		1.0f);
+}
 
+//=============================================================================
+// 描画関数
+//=============================================================================
+void CItem::Draw(void)
+{
+	CScene2d::Draw();
+}
+
+//=============================================================================
+// 衝突処理関数
+//=============================================================================
+bool CItem::isCollision(D3DXVECTOR3 pos)
+{
+	if (CPlayer::GetbDeath() == false)
+	{
+		if (m_pos.x + ITEM_SIZE / 2 > pos.x - (PLAYER_SIZE / 2) &&
+			m_pos.x - ITEM_SIZE / 2 < pos.x + (PLAYER_SIZE / 2) &&
+			m_pos.y + ITEM_SIZE / 2 > pos.y - (PLAYER_SIZE / 2) &&
+			m_pos.y - ITEM_SIZE / 2 < pos.y + (PLAYER_SIZE / 2))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
+//=============================================================================
+// 効果処理関数
+//=============================================================================
+void CItem::Effect(void)
+{
 	for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
 	{
 		//シーンの取得
@@ -171,17 +228,14 @@ void CItem::Update(void)
 		CScore * pScore = CGame::GetScore();
 		//プレイヤーのポインタ
 		CPlayer * pPlayer;
-
 		if (pScene != NULL)
 		{
 			//オブジェタイプの取得
 			OBJTYPE objType;
 			objType = pScene->GetObjType();
-
 			//オブジェの位置
 			D3DXVECTOR3 objPos;
 			objPos = pScene->GetPosition();
-
 			//もしオブジェタイプがプレイヤーだったら
 			if (objType == OBJTYPE_PLAYER)
 			{
@@ -229,10 +283,13 @@ void CItem::Update(void)
 			}
 		}
 	}
+}
 
-	//位置に移動量を加算
-	m_pos += m_move;
-
+//=============================================================================
+// 移動可能範囲制御処理関数
+//=============================================================================
+void CItem::MovableRange(void)
+{
 	//もしアイテムが画面外に言ったら
 	if (m_pos.y > FIELD_HEIGHT ||
 		m_pos.x < 0 ||
@@ -240,50 +297,5 @@ void CItem::Update(void)
 	{
 		Uninit();
 		return;
-	}
-
-	// 頂点座標を設定
-	m_vpos[0] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
-	m_vpos[1] = D3DXVECTOR3(m_pos.x + (m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
-	m_vpos[2] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (m_fHeight / 2), 0.0f);
-	m_vpos[3] = D3DXVECTOR3(m_pos.x + (m_fWidth / 2), m_pos.y + (m_fHeight / 2), 0.0f);
-
-	//頂点座標のセット
-	SetVertexPosition(m_vpos);
-	//現在位置のセット
-	SetPosition(m_pos);
-	//テクスチャのセット
-	SetTex(0.0f,
-		0.0f,
-		1.0f,
-		1.0f);
-}
-
-//=============================================================================
-// 描画関数
-//=============================================================================
-void CItem::Draw(void)
-{
-	CScene2d::Draw();
-}
-
-//=============================================================================
-// 衝突処理
-//=============================================================================
-bool CItem::isCollision(D3DXVECTOR3 pos)
-{
-	if (CPlayer::GetbDeath() == false)
-	{
-		if (m_pos.x + ITEM_SIZE / 2 > pos.x - (PLAYER_SIZE / 2) &&
-			m_pos.x - ITEM_SIZE / 2 < pos.x + (PLAYER_SIZE / 2) &&
-			m_pos.y + ITEM_SIZE / 2 > pos.y - (PLAYER_SIZE / 2) &&
-			m_pos.y - ITEM_SIZE / 2 < pos.y + (PLAYER_SIZE / 2))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
 	}
 }

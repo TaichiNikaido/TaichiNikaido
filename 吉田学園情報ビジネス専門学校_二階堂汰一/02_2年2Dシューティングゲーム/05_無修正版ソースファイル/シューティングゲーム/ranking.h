@@ -22,12 +22,10 @@
 #define SERVER_IP_NUM "127.0.0.1"
 #define SERVER_PORT_NUM 12345
 #define BUFFER_NUM 1024
-
 //*****************************************************************************
 // 前方宣言
 //*****************************************************************************
 class CResult;
-
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
@@ -43,14 +41,12 @@ public:
 		int nScore;
 		char aName[MAX_NAME];
 	} RankingData;
-
 	typedef enum
 	{
 		COMMAND_TYPE_NONE = 0,
 		COMMAND_TYPE_GET_RANKING,		// ランキング一覧を取得
 		COMMAND_TYPE_SET_RANKING		// ランキングを設定
 	} COMMAND_TYPE;
-
 	CRanking(int nPriority = 0);
 	~CRanking();
 	static HRESULT Load(void);
@@ -64,17 +60,14 @@ public:
 	void    GetRanking(RankingData * pRankingData);
 	int     SetRanking(int nScore, char aName[MAX_NAME]);
 private:
-	static LPDIRECT3DTEXTURE9 m_apTexture[MAX_RANKING_TEXTURE];
-	static RankingData	m_aRankingData[MAX_RANKING];//ランキングデータ
-	D3DXVECTOR3 m_pos;
-	CScene2d * m_apScene[MAX_POLYGON];
-	D3DXVECTOR3 m_vpos[NUM_VERTEX];
-	D3DCOLOR m_col[NUM_VERTEX];
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
+	static RankingData	m_aRankingData[MAX_RANKING];			//ランキングデータ
+	D3DXVECTOR3 m_pos;											//位置
+	CScene2d * m_apScene[MAX_POLYGON];							//シーン2Dへのポインタ
+	D3DXVECTOR3 m_vpos[NUM_VERTEX];								//頂点座標
+	D3DCOLOR m_col[NUM_VERTEX];									//色
 	float m_fTextureX;
 	float m_fTextureY;
-	float m_fFastMove;
-	float m_fSlowMove;
-	float m_fMove;
 	float m_fWidth;
 	float m_fHeight;
 };

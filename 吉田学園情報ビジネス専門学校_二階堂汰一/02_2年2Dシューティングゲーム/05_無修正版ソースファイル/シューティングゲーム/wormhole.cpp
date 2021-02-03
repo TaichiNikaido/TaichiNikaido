@@ -18,8 +18,12 @@
 #include "dragon.h"
 #include "enemy.h"
 
+//*****************************************************************************
+// 静的メンバ変数の初期化
+//*****************************************************************************
 LPDIRECT3DTEXTURE9 CWormhole::m_pTexture[MAX_WORMHOLE_TEXTURE] = {};
 bool CWormhole::m_bSpawn = false;
+
 //=============================================================================
 // コンストラクタ
 //=============================================================================
@@ -37,9 +41,9 @@ CWormhole::CWormhole(int nPriority)
 	m_fLength = 0.0f;						//長さ
 	m_fScale = 0.1f;						//大きさ
 	m_fAddScale = 0.01f;					//大きさの加算量
-	m_Texture = TEX_NONE;
-	m_nCountSpawn = 0;
-	m_bSpawn = false;
+	m_Texture = TEX_NONE;					//テクスチャの種類
+	m_nCountSpawn = 0;						//スポーン開始までのカウント
+	m_bSpawn = false;						//スポーンの真偽
 }
 
 //=============================================================================
@@ -103,14 +107,11 @@ CWormhole * CWormhole::Create(D3DXVECTOR3 pos, float SizeWidth, float SizeHeight
 HRESULT CWormhole::Init(D3DXVECTOR3 pos, float SizeWidth, float SizeHeight, TYPE type, TEXTURE texture, D3DCOLOR col)
 {
 	CScene2d::Init(pos, SizeWidth,SizeHeight);
-	
 	//オブジェタイプをワームホールに
 	SetObjType(CScene::OBJTYPE_WORMHOLE);
-
 	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	m_pos = pos;	//位置
 	for (int nCount = 0; nCount < NUM_VERTEX; nCount++)
 	{
@@ -122,14 +123,13 @@ HRESULT CWormhole::Init(D3DXVECTOR3 pos, float SizeWidth, float SizeHeight, TYPE
 	m_fAngle = atan2f((SizeWidth / 2), (SizeWidth / 2));														//角度
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//向き
 	m_Type = type;			//タイプ
-	m_Texture = texture;
+	m_Texture = texture;	//テクスチャのタイプ
 	m_fScale = 0.1f;		//大きさ
 	m_fAddScale = 0.01f;	//大きさの加算量
-	m_nCountSpawn = 0;
-	m_bSpawn = false;
+	m_nCountSpawn = 0;		//スポーンするまでのカウント
+	m_bSpawn = false;		//スポーンの真偽
 	//頂点カラーのセット
 	SetColor(m_col);
-
 	//頂点座標の設定
 	m_vpos[0].x = m_pos.x - cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[0].y = m_pos.y - sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
@@ -146,7 +146,6 @@ HRESULT CWormhole::Init(D3DXVECTOR3 pos, float SizeWidth, float SizeHeight, TYPE
 	m_vpos[3].x = m_pos.x + cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[3].y = m_pos.y + sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[3].z = 0.0f;
-
 	//頂点座標のセット
 	SetVertexPosition(m_vpos);
 	//テクスチャのセット
@@ -170,66 +169,27 @@ void CWormhole::Uninit(void)
 void CWormhole::Update(void)
 {
 	CScene2d::Update();
-
 	//位置の取得
 	m_pos = GetPosition();
-
-	// 回転
-	m_rot.z -= D3DX_PI * 0.01f;
-
-	if (m_rot.z >= D3DX_PI)
-	{
-		m_rot.z += D3DX_PI * 2.0f;
-	}
-
-	if (m_bSpawn == false)
-	{
-		if (m_fScale <= 2.0f)
-		{
-			m_fScale += m_fAddScale;
-		}
-		else
-		{
-			if (m_nCountSpawn == 70)
-			{
-				Spawn();
-			}
-			m_nCountSpawn++;
-		}
-	}
-
-	if (CDragon::GetSpawn() == true)
-	{
-			m_fScale -= m_fAddScale;
-	}
-
-	if (m_fScale <= 0.0f)
-	{
-		m_bSpawn = false;
-		Uninit();
-		return;
-	}
-
+	//拡縮処理関数呼び出し
+	Scale();
 	for (int nCountPriority = 0; nCountPriority < PRIORITY_MAX; nCountPriority++)
 	{
 		for (int nCountScene = 0; nCountScene < MAX_SCENE; nCountScene++)
 		{
 			//シーンを取得
 			CScene * pScene = GetScene(nCountPriority, nCountScene);
-
 			if (pScene != NULL)
 			{
 				//オブジェタイプの取得
 				OBJTYPE objType;
 				objType = pScene->GetObjType();
-
 				//プレイヤーの位置を取得
 				D3DXVECTOR3 player_pos;
 				player_pos = pScene->GetPosition();
 			}
 		}
 	}
-
 	//頂点座標の設定
 	m_vpos[0].x = m_pos.x - cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[0].y = m_pos.y - sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
@@ -246,7 +206,6 @@ void CWormhole::Update(void)
 	m_vpos[3].x = m_pos.x + cosf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[3].y = m_pos.y + sinf(m_fAngle - m_rot.z) * m_fLength * m_fScale;
 	m_vpos[3].z = 0.0f;
-
 	//頂点座標のセット
 	SetVertexPosition(m_vpos);
 	//現在位置のセット
@@ -277,11 +236,59 @@ void CWormhole::Spawn(void)
 			//ドラゴンの生成
 			CDragon::Create(m_pos, DRAGON_SIZE_WIDTH, DRAGON_SIZE_HEIGHT, DRAGON_MAX_HP);
 		}
-		m_bSpawn = true;
-		m_nCountSpawn = 0;
+		m_bSpawn = true;	//スポーンを真にする
+		m_nCountSpawn = 0;	//スポーンするまでのカウントを0にする
 	}
 }
 
+//=============================================================================
+// 拡縮処理関数
+//=============================================================================
+void CWormhole::Scale(void)
+{
+	// 回転
+	m_rot.z -= D3DX_PI * 0.01f;
+	if (m_rot.z >= D3DX_PI)
+	{
+		m_rot.z += D3DX_PI * 2.0f;
+	}
+	if (m_bSpawn == false)
+	{
+		if (m_fScale <= 2.0f)
+		{
+			m_fScale += m_fAddScale;
+		}
+		else
+		{
+			//目標のサイズまで拡大されたら
+			if (m_nCountSpawn == 70)
+			{
+				//スポーン処理関数呼び出し
+				Spawn();
+			}
+			m_nCountSpawn++;
+		}
+	}
+	//ドラゴンがスポーン完了したら
+	if (CDragon::GetSpawn() == true)
+	{
+		//縮小する
+		m_fScale -= m_fAddScale;
+	}
+	//もし拡縮が0以下になったら
+	if (m_fScale <= 0.0f)
+	{
+		//スポーンを偽にする
+		m_bSpawn = false;
+		//終了処理関数
+		Uninit();
+		return;
+	}
+}
+
+//=============================================================================
+// スポーン真偽の設定
+//=============================================================================
 void CWormhole::SetSpawn(bool bSpawn)
 {
 	m_bSpawn = bSpawn;

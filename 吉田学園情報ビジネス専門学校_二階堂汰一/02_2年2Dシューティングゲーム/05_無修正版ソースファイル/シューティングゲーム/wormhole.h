@@ -20,6 +20,7 @@
 #define WORMHOLEEFFECT_TEXTURE_SIZE 200.0f					//ワームホールのエフェクトサイズ
 #define WORMHOLE_SPEED 1.0f									//ワームホールのスピード
 #define WORMHOLE_SIZE 50.0f									//ワームホールの当たり判定
+
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
@@ -57,6 +58,7 @@ public:
 	static bool GetSpawn(void){return m_bSpawn; };
 	static void SetSpawn(bool bSpawn);
 private:
+	void Scale(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture[MAX_WORMHOLE_TEXTURE];
 	static bool	m_bSpawn;
 	D3DXVECTOR3 m_pos;				//位置

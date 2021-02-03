@@ -42,33 +42,37 @@ public:
 	void SubLife(int nValue);
 	static bool GetSpawn(void) { return m_bSpawn; };
 	static bool GetDeath(void) { return m_bDeath; };
-	static void SetSpawn(bool bDeath);
+	static void SetSpawn(bool bSpawn);
 	static void SetDeath(bool bDeath);
 private:
+	void AI(void);
+	void Animation(void);
+	void Damage(void);
+	void Attack(void);
 	static LPDIRECT3DTEXTURE9 m_pScene;
-	static 	bool m_bSpawn;
-	static 	bool m_bDeath;
-	D3DXVECTOR3 m_pos;	//位置
-	D3DXVECTOR3 m_vpos[NUM_VERTEX];  //頂点座標
-	D3DXVECTOR3 m_move; //敵の移動量
-	D3DCOLOR m_col[NUM_VERTEX];
+	static 	bool m_bSpawn;			//スポーンしたかどうか
+	static 	bool m_bDeath;			//死亡したかどうか
+	D3DXVECTOR3 m_pos;				//位置
+	D3DXVECTOR3 m_vpos[NUM_VERTEX]; //頂点座標
+	D3DXVECTOR3 m_move;				//敵の移動量
+	D3DCOLOR m_col[NUM_VERTEX];		//色
 	D3DXVECTOR3	m_rot;				//向き
-	D3DXVECTOR3 m_TargetDistance;//目標までの距離
-	D3DXVECTOR3 m_TargetPos;//目標地点
-	int m_nLife;		//体力
-	int m_nCountBullet; //弾のカウンタ
-	int m_nCountAI;
-	int m_nCounterAnim;	//アニメカウンタ
-	int m_nPatternAnim;	//アニメパターン
-	int m_nHitCount;
-	float m_fWidth;		//幅
-	float m_fHeight;	//高さ
-	float m_fTime;		//タイム
-	float m_fAngle;		//角度
-	float m_fLength;	//長さ
-	float m_fScale;		//大きさ
-	float m_fAddScale;	//大きさの加算量
-	bool m_bHit;		//ヒットしたかどうか
-	CBullet * m_pBullet;//弾のポインタ
+	D3DXVECTOR3 m_TargetDistance;	//目標までの距離
+	D3DXVECTOR3 m_TargetPos;		//目標地点
+	int m_nLife;					//体力
+	int m_nCountBullet;				//弾のカウンタ
+	int m_nCountAI;					//AIカウンタ
+	int m_nCounterAnim;				//アニメカウンタ
+	int m_nPatternAnim;				//アニメパターン
+	int m_nHitCount;				//HITカウンタ
+	float m_fWidth;					//幅
+	float m_fHeight;				//高さ
+	float m_fTime;					//タイム
+	float m_fAngle;					//角度
+	float m_fLength;				//長さ
+	float m_fScale;					//大きさ
+	float m_fAddScale;				//大きさの加算量
+	bool m_bHit;					//ヒットしたかどうか
+	CBullet * m_pBullet;			//弾のポインタ
 };
 #endif

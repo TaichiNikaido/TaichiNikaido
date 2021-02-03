@@ -14,11 +14,9 @@
 //*****************************************************************************
 // É}ÉNÉçíËã`
 //*****************************************************************************
-#define TEXTURE_TUTORIAL	"data/TEXTURE/tutorial.png"
-
+#define TEXTURE_TUTORIAL	"data/TEXTURE/cyu.png"
 #define LOGO_SIZE_WIDTH 988
 #define LOGO_SIZE_HEIGHT 353
-
 #define TBUTTON_SIZE_WIDTH 431
 #define TBUTTON_SIZE_HEIGHT 83
 //*****************************************************************************
@@ -48,9 +46,6 @@ private:
 	D3DXVECTOR3 m_pos;
 	float m_fTextureX;
 	float m_fTextureY;
-	float m_fFastMove;
-	float m_fSlowMove;
-	float m_fMove;
 	float m_fWidth;
 	float m_fHeight;
 };
