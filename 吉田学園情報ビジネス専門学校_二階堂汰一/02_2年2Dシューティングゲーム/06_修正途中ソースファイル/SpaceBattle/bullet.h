@@ -30,7 +30,7 @@
 class CBullet :public CScene2d
 {
 public:
-	CBullet(int nPriority = DEFAULT_PRIORITY);
+	CBullet(int nPriority = 3);
 	~CBullet();
 	HRESULT Init(void);
 	void Uninit(void);

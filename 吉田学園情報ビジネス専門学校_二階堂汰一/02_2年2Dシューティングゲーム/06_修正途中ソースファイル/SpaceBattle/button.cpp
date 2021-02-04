@@ -26,7 +26,7 @@
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CButton::m_apTexture[BUTTON_MAX] = {};	//テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 CButton::m_pTexture[BUTTON_MAX] = {};	//テクスチャへのポインタ
 
 //=============================================================================
 // コンストラクタ
@@ -54,13 +54,13 @@ HRESULT CButton::TextureLoad(void)
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
 		PLAY_BUTTON_TEXTURE,				// ファイルの名前
-		&m_apTexture[BUTTON_PLAY]);					// 読み込むメモリー
+		&m_pTexture[BUTTON_PLAY]);					// 読み込むメモリー
 	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
 		REPLAY_BUTTON_TEXTURE,				// ファイルの名前
-		&m_apTexture[BUTTON_REPLAY]);					// 読み込むメモリー
+		&m_pTexture[BUTTON_REPLAY]);					// 読み込むメモリー
 	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
 		EXIT_BUTTON_TEXTRUE,				// ファイルの名前
-		&m_apTexture[BUTTON_EXIT]);					// 読み込むメモリー
+		&m_pTexture[BUTTON_EXIT]);					// 読み込むメモリー
 	return S_OK;
 }
 
@@ -72,10 +72,10 @@ void CButton::TextureUnload(void)
 	for (int nCount = 0; nCount < 3; nCount++)
 	{
 		// テクスチャの破棄
-		if (m_apTexture[nCount] != NULL)
+		if (m_pTexture[nCount] != NULL)
 		{
-			m_apTexture[nCount]->Release();
-			m_apTexture[nCount] = NULL;
+			m_pTexture[nCount]->Release();
+			m_pTexture[nCount] = NULL;
 		}
 	}
 }
@@ -110,7 +110,7 @@ HRESULT CButton::Init(BUTTON Button)
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
-	BindTexture(m_apTexture[Button]);
+	BindTexture(m_pTexture[Button]);
 	return S_OK;
 }
 

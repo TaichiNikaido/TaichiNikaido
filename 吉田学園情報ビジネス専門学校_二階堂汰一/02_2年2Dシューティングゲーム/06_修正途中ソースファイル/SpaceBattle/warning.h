@@ -10,7 +10,7 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include "scene.h"
+#include "scene2d.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -27,4 +27,23 @@
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
+class CWarning : public CScene2d
+{
+public:
+	CWarning();
+	~CWarning();
+	static HRESULT TextureLoad(void);
+	static void TextureUnload(void);
+	static CWarning * Create(void);
+	HRESULT Init();
+	void Uninit();
+	void Update();
+	void Draw();
+private:
+	void Position(void);
+	void ColorChange(void);
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャ
+	int m_nColorChangeTime;					//色を変更する時間
+	int m_nColorChangeCount;				//色を変更するカウント
+};
 #endif

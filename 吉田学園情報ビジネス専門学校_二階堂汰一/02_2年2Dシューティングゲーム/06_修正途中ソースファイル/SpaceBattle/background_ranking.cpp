@@ -33,7 +33,7 @@ LPDIRECT3DTEXTURE9 CBackgroundRanking::m_pTexture = NULL;	//テクスチャへのポイン
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBackgroundRanking::CBackgroundRanking(int nPriority)
+CBackgroundRanking::CBackgroundRanking(int nPriority) : CBackground(nPriority)
 {
 }
 

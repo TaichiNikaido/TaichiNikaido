@@ -134,16 +134,6 @@ void CScene::SetObjType(OBJTYPE objType)
 	m_objType = objType;
 }
 
-void CScene::SetPosition(D3DXVECTOR3 pos)
-{
-	m_Position = pos;
-}
-
-D3DXVECTOR3 CScene::GetPosition(void)
-{
-	return m_Position;
-}
-
 //=============================================================================
 // Ží—Þ‚ðŽæ“¾
 //=============================================================================

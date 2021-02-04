@@ -48,7 +48,5 @@ private:
 	int m_nCounterAnime;					//アニメカウンタ
 	int m_nPatternAnime;					//アニメパターン
 	int m_nCountBullet;						//弾のカウント
-	int m_nMoveCount;						//移動カウント
-	int m_nStopCount;						//停止カウント
 };
 #endif

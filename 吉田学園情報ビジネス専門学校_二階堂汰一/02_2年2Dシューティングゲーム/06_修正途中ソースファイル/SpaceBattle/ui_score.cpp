@@ -29,7 +29,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CScoreUI::CScoreUI(int nPriority)
+CScoreUI::CScoreUI(int nPriority) : CScene(nPriority)
 {
 	memset(m_apNumberTexture, NULL, sizeof(m_apNumberTexture));	//UI用テクスチャへのポインタ
 }

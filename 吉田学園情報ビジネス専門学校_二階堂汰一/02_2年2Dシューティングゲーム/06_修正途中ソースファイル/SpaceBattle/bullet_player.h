@@ -30,7 +30,7 @@
 class CBulletPlayer :public CBullet
 {
 public:
-	CBulletPlayer(int nPriority = DEFAULT_PRIORITY);
+	CBulletPlayer(int nPriority = 3);
 	~CBulletPlayer();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

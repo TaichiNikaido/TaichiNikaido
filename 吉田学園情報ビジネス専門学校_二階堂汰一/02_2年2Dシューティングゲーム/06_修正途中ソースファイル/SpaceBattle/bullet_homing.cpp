@@ -38,7 +38,7 @@ LPDIRECT3DTEXTURE9 CBulletHoming::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletHoming::CBulletHoming(int nPriority)
+CBulletHoming::CBulletHoming(int nPriority) : CBulletEnemy(nPriority)
 {
 }
 

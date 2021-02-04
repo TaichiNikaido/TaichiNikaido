@@ -30,7 +30,7 @@
 class CBackgroundResult :public CBackground
 {
 public:
-	CBackgroundResult(int nPriority = DEFAULT_PRIORITY);
+	CBackgroundResult(int nPriority = 1);
 	~CBackgroundResult();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

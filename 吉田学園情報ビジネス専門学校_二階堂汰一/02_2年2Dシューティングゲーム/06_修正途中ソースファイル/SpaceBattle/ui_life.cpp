@@ -29,7 +29,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CLifeUI::CLifeUI(int nPriority) :CScene(nPriority)
+CLifeUI::CLifeUI(int nPriority) : CScene(nPriority)
 {
 	memset(m_apLifeTexture, 0, sizeof(m_apLifeTexture));	//UI用数字テクスチャへのポインタ
 }
@@ -57,6 +57,7 @@ CLifeUI * CLifeUI::Create(void)
 //=============================================================================
 HRESULT CLifeUI::Init(void)
 {
+	//UI用ライフテクスチャ生成
 	for (int nCount = 0; nCount < PLAYER_MAX_LIFE; nCount++)
 	{
 		m_apLifeTexture[nCount] = CUILifeTexture::Create(D3DXVECTOR3(POSITION.x + (SIZE.x * nCount), POSITION.y, 0.0f), SIZE);

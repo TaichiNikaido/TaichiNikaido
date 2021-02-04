@@ -39,7 +39,7 @@ LPDIRECT3DTEXTURE9 CBulletPlayer::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletPlayer::CBulletPlayer(int nPriority)
+CBulletPlayer::CBulletPlayer(int nPriority) : CBullet(nPriority)
 {
 }
 

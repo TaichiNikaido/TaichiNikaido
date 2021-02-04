@@ -33,7 +33,7 @@ LPDIRECT3DTEXTURE9 CBackgroundResult::m_pTexture = NULL;	//ƒeƒNƒXƒ`ƒƒ‚Ö‚Ìƒ|ƒCƒ“ƒ
 //=============================================================================
 // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //=============================================================================
-CBackgroundResult::CBackgroundResult(int nPriority)
+CBackgroundResult::CBackgroundResult(int nPriority) : CBackground(nPriority)
 {
 }
 

@@ -29,7 +29,7 @@
 // 静的メンバ変数初期化
 //*****************************************************************************
 //テクスチャの初期化
-LPDIRECT3DTEXTURE9 CName::m_apTexture[MAX_NAME_TEXTURE] = {};
+LPDIRECT3DTEXTURE9 CName::m_pTexture[MAX_NAME_TEXTURE] = {};
 //文字格納用変数の初期化
 CName::Letter CName::m_aLetter[MAX_ROW][MAX_COLUMN] = {};
 
@@ -83,7 +83,7 @@ HRESULT CName::TextureLoad(void)
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,
 		TEXTURE,
-		&m_apTexture[0]);
+		&m_pTexture[0]);
 
 	return S_OK;
 }
@@ -96,10 +96,10 @@ void CName::TextureUnload(void)
 	for (int nCount = 0; nCount < MAX_NAME_TEXTURE; nCount++)
 	{
 		// テクスチャの破棄
-		if (m_apTexture[nCount] != NULL)
+		if (m_pTexture[nCount] != NULL)
 		{
-			m_apTexture[nCount]->Release();
-			m_apTexture[nCount] = NULL;
+			m_pTexture[nCount]->Release();
+			m_pTexture[nCount] = NULL;
 		}
 	}
 }
@@ -156,7 +156,7 @@ HRESULT CName::Init(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth)
 
 			m_apScene[nAlphabetCount]->Init();
 			//テクスチャの割り当て
-			m_apScene[nAlphabetCount]->BindTexture(m_apTexture[0]);
+			m_apScene[nAlphabetCount]->BindTexture(m_pTexture[0]);
 
 			nAlphabetCount++;
 		}
@@ -185,7 +185,7 @@ HRESULT CName::Init(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth)
 
 		m_apSceneText[nCount]->Init();
 		//テクスチャの割り当て
-		m_apSceneText[nCount]->BindTexture(m_apTexture[0]);
+		m_apSceneText[nCount]->BindTexture(m_pTexture[0]);
 	}
 
 	m_fWidth = SizeWidth;	//幅

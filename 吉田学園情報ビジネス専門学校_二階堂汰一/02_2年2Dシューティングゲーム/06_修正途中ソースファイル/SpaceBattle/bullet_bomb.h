@@ -31,7 +31,7 @@
 class CBulletBomb :public CBullet
 {
 public:
-	CBulletBomb(int nPriority = DEFAULT_PRIORITY);
+	CBulletBomb(int nPriority = 3);
 	~CBulletBomb();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

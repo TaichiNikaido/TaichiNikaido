@@ -19,6 +19,7 @@
 //*****************************************************************************
 // 前方宣言
 //*****************************************************************************
+class CWarning;
 
 //*****************************************************************************
 // 構造体定義
@@ -30,16 +31,17 @@
 class CBulletFireball :public CBulletEnemy
 {
 public:
-	CBulletFireball(int nPriority = DEFAULT_PRIORITY);
+	CBulletFireball(int nPriority = 3);
 	~CBulletFireball();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
-	static CBulletFireball * Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed, D3DXVECTOR3 Size);
+	static CBulletFireball * Create(D3DXVECTOR3 Position);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
 private:
+	void Charge(void);
 	void Death(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 };

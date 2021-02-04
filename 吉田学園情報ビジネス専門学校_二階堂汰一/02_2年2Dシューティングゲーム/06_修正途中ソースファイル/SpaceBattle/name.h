@@ -63,7 +63,7 @@ private:
 		IsCount Left;
 	}IsPress;
 
-	static LPDIRECT3DTEXTURE9 m_apTexture[MAX_NAME_TEXTURE];	//テクスチャ												
+	static LPDIRECT3DTEXTURE9 m_pTexture[MAX_NAME_TEXTURE];	//テクスチャ												
 	static Letter m_aLetter[MAX_ROW][MAX_COLUMN];               //文字列
 	D3DXVECTOR3 m_pos;											//位置
 	CScene2d * m_apScene[MAX_WORD];							    //シーン

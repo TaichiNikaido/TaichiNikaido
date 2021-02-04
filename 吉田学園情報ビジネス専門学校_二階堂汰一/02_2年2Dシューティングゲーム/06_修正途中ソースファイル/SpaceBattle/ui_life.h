@@ -33,7 +33,7 @@ class CUILifeTexture;
 class CLifeUI :public CScene
 {
 public:
-	CLifeUI(int nPriority = DEFAULT_PRIORITY);
+	CLifeUI(int nPriority = 5);
 	~CLifeUI();
 	static CLifeUI * Create(void);
 	HRESULT Init(void);

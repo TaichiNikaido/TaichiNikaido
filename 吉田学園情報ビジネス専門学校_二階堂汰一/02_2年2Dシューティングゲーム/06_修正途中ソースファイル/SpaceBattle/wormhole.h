@@ -28,10 +28,10 @@
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-class CWormhole :public CScene2d
+class CWormhole :public CScene
 {
 public:
-	CWormhole(int nPriority = 4);
+	CWormhole(int nPriority = 2);
 	~CWormhole();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
@@ -41,7 +41,17 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
+	typedef enum
+	{
+		TEXTURE_NONE = -1,
+		TEXTURE_WORMHOLE,
+		TEXTURE_WORMHOLE_EFFECT,
+		TEXTURE_MAX
+	}TEXTURE;
+	void Scale(void);
 	void Spawn(void);
-	static LPDIRECT3DTEXTURE9 m_pTexture[2];
+	static LPDIRECT3DTEXTURE9 m_pTexture[TEXTURE_MAX];	//テクスチャへのポインタ
+	CScene2d * m_pScene2d[TEXTURE_MAX];					//シーン2Dへのポインタ
+	bool m_bSpawn;										//スポーンの真偽
 };
 #endif

@@ -29,7 +29,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBombUI::CBombUI(int nPriority) :CScene(nPriority)
+CBombUI::CBombUI(int nPriority) : CScene(nPriority)
 {
 	memset(m_apBombTexture, 0, sizeof(m_apBombTexture));
 }
@@ -48,7 +48,6 @@ CBombUI * CBombUI::Create(void)
 {
 	CBombUI * pBombUI;
 	pBombUI = new CBombUI;
-	pBombUI->SetPosition(POSITION);
 	pBombUI->Init();
 	return pBombUI;
 }
@@ -58,6 +57,7 @@ CBombUI * CBombUI::Create(void)
 //=============================================================================
 HRESULT CBombUI::Init(void)
 {
+	//UI用爆弾テクスチャ生成
 	for (int nCount = 0; nCount < PLAYER_MAX_BOMB; nCount++)
 	{
 		m_apBombTexture[nCount] = CUIBombTexture::Create(D3DXVECTOR3(POSITION.x + (SIZE.x * nCount), POSITION.y, 0.0f), SIZE);

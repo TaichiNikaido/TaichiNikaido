@@ -40,9 +40,6 @@ public:
 	static void ReleaseAll(void);
 	static int GetNumAll(void);
 	void SetObjType(OBJTYPE pbjType);
-	void SetPosition(D3DXVECTOR3 pos);
-	D3DXVECTOR3 GetPosition(void);
-
 	OBJTYPE GetObjType(void);
 	static CScene * GetScene(int nPriority, int nCnt);
 protected:

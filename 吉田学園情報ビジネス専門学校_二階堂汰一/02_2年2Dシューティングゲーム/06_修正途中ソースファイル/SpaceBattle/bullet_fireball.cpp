@@ -11,19 +11,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
+#include "mode_game.h"
 #include "manager.h"
 #include "renderer.h"
 #include "scene2d.h"
 #include "sound.h"
 #include "bullet.h"
 #include "bullet_fireball.h"
+#include "player.h"
+#include "warning.h"
+#include "explosion_fireball.h"
+#include "effect.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Bullet/Bullet_fireball.png")
-#define COLOR (D3DXCOLOR(0.0f,1.0f,0.0f,1.0f))
-#define LIFE (75)
+#define TEXTURE ("Data/Texture/Bullet/bullet_fireball.png")
+#define SIZE (D3DXVECTOR3(35.0f,35.0f,0.0f))
+#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
+#define SPEED (D3DXVECTOR3(0.0f,3.0f,0.0f))
+#define ADD_SCALE (0.1f)
+#define EFFECT_LIFE (7)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -33,7 +41,7 @@ LPDIRECT3DTEXTURE9 CBulletFireball::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletFireball::CBulletFireball(int nPriority)
+CBulletFireball::CBulletFireball(int nPriority) : CBulletEnemy(nPriority)
 {
 }
 
@@ -75,14 +83,12 @@ void CBulletFireball::TextureUnload(void)
 //=============================================================================
 // 生成処理関数
 //=============================================================================
-CBulletFireball * CBulletFireball::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed, D3DXVECTOR3 Size)
+CBulletFireball * CBulletFireball::Create(D3DXVECTOR3 Position)
 {
 	CBulletFireball * pFireBall;
 	pFireBall = new CBulletFireball;
 	pFireBall->Init();
 	pFireBall->SetPosition(Position);
-	pFireBall->SetSize(Size);
-	pFireBall->SetMove(Speed);
 	return pFireBall;
 }
 
@@ -99,14 +105,16 @@ HRESULT CBulletFireball::Init(void)
 	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
 	//敵の弾の初期化処理関数呼び出し
 	CBulletEnemy::Init();
+	//サイズの初期設定
+	SetSize(SIZE);
 	//色の初期設定
 	SetColor(COLOR);
-	//体力の初期設定
-	SetLife(LIFE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
+	//危険地帯の生成
+	CGameMode::SetWarning(CWarning::Create());
 	return S_OK;
 }
 
@@ -124,18 +132,12 @@ void CBulletFireball::Uninit(void)
 //=============================================================================
 void CBulletFireball::Update(void)
 {
-	//移動量の取得
-	D3DXVECTOR3 Move = GetMove();
-	//もしライフが0になったら
-	if (GetLife() <= 0)
-	{
-		//死亡処理関数呼び出し
-		Death();
-	}
-	//移動量を設定する
-	SetMove(Move);
 	//敵の弾の更新処理関数呼び出し
 	CBulletEnemy::Update();
+	//チャージ処理関数呼び出し
+	Charge();
+	//死亡処理関数呼び出し
+	Death();
 }
 
 //=============================================================================
@@ -148,15 +150,51 @@ void CBulletFireball::Draw(void)
 }
 
 //=============================================================================
+// チャージ処理関数
+//=============================================================================
+void CBulletFireball::Charge(void)
+{
+	float fScale = GetScale();
+	//スケールが目標の
+	if (fScale < 4.0f)
+	{
+		//拡大していく
+		fScale += ADD_SCALE;
+		//拡縮を設定する
+		SetScale(fScale);
+	}
+	else
+	{
+		//移動量を設定
+		SetMove(SPEED);
+	}
+}
+
+//=============================================================================
 // 死亡処理関数
 //=============================================================================
 void CBulletFireball::Death(void)
 {
-	//爆発エフェクトの生成
-	//
-	//爆発サウンドの再生
-	//
-	//終了処理関数呼び出し
-	Uninit();
-	return;
+	//位置を取得
+	D3DXVECTOR3 Position = GetPosition();
+	//プレイヤーを取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//危険地帯を取得
+	CWarning * pWarning = CGameMode::GetWarning();
+	if (pPlayer != NULL)
+	{
+		//目標の位置を取得
+		D3DXVECTOR3 TargetPosition = pPlayer->GetPosition();
+		//もし位置のY座標が目標のY座標を越えたら
+		if (Position.y >= TargetPosition.y)
+		{
+			//爆発エフェクトの生成
+			CExplosionFireball::Create(Position);
+			//危険地帯の終了処理関数呼び出し
+			pWarning->Uninit();
+			//終了処理関数呼び出し
+			Uninit();
+			return;
+		}
+	}
 }

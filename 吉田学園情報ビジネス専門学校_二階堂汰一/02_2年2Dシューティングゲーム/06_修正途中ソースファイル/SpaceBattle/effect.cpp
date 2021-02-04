@@ -100,7 +100,7 @@ HRESULT CEffect::Init(D3DXVECTOR3 Position, D3DXVECTOR3 Size, D3DXCOLOR Color, i
 	//スケールの初期設定
 	m_fScale = SCALE;
 	SetScale(m_fScale);
-	m_nAlpha = 255;
+	m_fAlpha = 255.0f;
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
@@ -138,7 +138,7 @@ void CEffect::Update(void)
 
 	if (m_nLife > 0)
 	{
-		m_nAlpha -= 10;
+		m_fAlpha -= 10.0f;
 		m_fScale -= 0.1f;
 	}
 
@@ -146,7 +146,7 @@ void CEffect::Update(void)
 	m_nLife--;
 
 	//色を設定する
-	D3DXCOLOR Color = D3DXCOLOR(GetColor().r, GetColor().g, GetColor().b,m_nAlpha);
+	D3DXCOLOR Color = D3DXCOLOR(GetColor().r, GetColor().g, GetColor().b,m_fAlpha);
 	SetColor(Color);
 	//位置を設定
 	SetPosition(Position);

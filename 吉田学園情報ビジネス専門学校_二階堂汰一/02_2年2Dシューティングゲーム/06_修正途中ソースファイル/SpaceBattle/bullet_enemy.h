@@ -30,7 +30,7 @@
 class CBulletEnemy :public CBullet
 {
 public:
-	CBulletEnemy(int nPriority = DEFAULT_PRIORITY);
+	CBulletEnemy(int nPriority = 3);
 	~CBulletEnemy();
 	HRESULT Init(void);
 	void Uninit(void);

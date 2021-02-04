@@ -211,14 +211,21 @@ void CEnemyEyeHard::Gaze(void)
 {
 	//プレイヤーを取得する
 	CPlayer * pPlayer = CGameMode::GetPlayer();
-	if (GetState() == STATE_NONE || GetState() == STATE_MOVE)
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPosition();
+	if (pPlayer != NULL)
 	{
-		pPlayer->GetPosition();
-		//プレイヤーまでの距離を計算
-		D3DXVECTOR3 m_TargetDistance = D3DXVECTOR3(pPlayer->GetPosition().x - GetPosition().x, pPlayer->GetPosition().y - GetPosition().y, 0.0f);
-		//プレイヤの方に向けた角度を計算
-		m_fAngleRot = atan2f(m_TargetDistance.y, m_TargetDistance.x);
-		//向きを設定する
-		SetRotation(D3DXVECTOR3(0.0f, 0.0f, m_fAngleRot * -1.0f));
+		//目標の位置を取得する
+		D3DXVECTOR3 TargetPosition = pPlayer->GetPosition();
+		//もし状態が無又は移動状態だったら
+		if (GetState() == STATE_NONE || GetState() == STATE_MOVE)
+		{
+			//プレイヤーまでの距離を計算
+			D3DXVECTOR3 m_TargetDistance = D3DXVECTOR3(TargetPosition.x - Position.x, TargetPosition.y - Position.y, 0.0f);
+			//プレイヤの方に向けた角度を計算
+			m_fAngleRot = atan2f(m_TargetDistance.y, m_TargetDistance.x);
+			//向きを設定する
+			SetRotation(D3DXVECTOR3(0.0f, 0.0f, m_fAngleRot * -1.0f));
+		}
 	}
 }

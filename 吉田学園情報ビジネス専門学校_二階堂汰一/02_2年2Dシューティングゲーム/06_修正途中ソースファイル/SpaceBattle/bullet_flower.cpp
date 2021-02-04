@@ -34,7 +34,7 @@ LPDIRECT3DTEXTURE9 CBulletFlower::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletFlower::CBulletFlower(int nPriority)
+CBulletFlower::CBulletFlower(int nPriority) : CBulletEnemy(nPriority)
 {
 }
 
@@ -103,7 +103,7 @@ HRESULT CBulletFlower::Init(void)
 	//SetColor(COLOR);
 	//体力の初期設定
 	SetLife(LIFE);
-	////テクスチャの設定
+	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);

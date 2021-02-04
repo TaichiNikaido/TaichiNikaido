@@ -30,7 +30,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletEnemy::CBulletEnemy(int nPriority)
+CBulletEnemy::CBulletEnemy(int nPriority) : CBullet(nPriority)
 {
 }
 

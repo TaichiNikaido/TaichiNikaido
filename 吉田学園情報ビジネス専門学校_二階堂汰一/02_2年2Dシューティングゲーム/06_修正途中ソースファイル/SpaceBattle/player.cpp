@@ -53,7 +53,7 @@ LPDIRECT3DTEXTURE9 CPlayer::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CPlayer::CPlayer(int nPriority)
+CPlayer::CPlayer(int nPriority) : CScene2d(nPriority)
 {
 	m_pBullet = NULL;									//弾へのポインタ
 	m_Move = D3DXVECTOR3(0.0f,0.0f,0.0f);				//移動量
@@ -408,11 +408,6 @@ void CPlayer::Input(void)
 		m_Attack = ATTACK_BOMB;
 		//攻撃処理関数呼び出し
 		Attack();
-	}
-
-	if (pKeyboard->GetKeyboardTrigger(DIK_Z))
-	{
-		Death();
 	}
 }
 

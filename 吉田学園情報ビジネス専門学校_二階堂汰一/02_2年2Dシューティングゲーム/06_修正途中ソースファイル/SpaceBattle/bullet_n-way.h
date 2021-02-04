@@ -30,7 +30,7 @@
 class CBulletN_Way :public CBulletEnemy
 {
 public:
-	CBulletN_Way(int nPriority = DEFAULT_PRIORITY);
+	CBulletN_Way(int nPriority = 3);
 	~CBulletN_Way();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

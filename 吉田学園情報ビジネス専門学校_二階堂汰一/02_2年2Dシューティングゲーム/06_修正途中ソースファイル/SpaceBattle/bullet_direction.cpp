@@ -35,7 +35,7 @@ LPDIRECT3DTEXTURE9 CBulletDirection::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletDirection::CBulletDirection(int nPriority)
+CBulletDirection::CBulletDirection(int nPriority) : CBulletEnemy(nPriority)
 {
 }
 

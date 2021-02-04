@@ -40,6 +40,8 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
+	void Animation(void);
+	void Collision(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 	int m_nCounterAnime;					//アニメカウンタ
 	int m_nPatternAnime;					//アニメパターン

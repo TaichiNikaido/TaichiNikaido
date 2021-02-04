@@ -56,6 +56,9 @@
 #include "name.h"
 #include "explosion_bomb.h"
 #include "explosion_death.h"
+#include "explosion_fireball.h"
+#include "wormhole.h"
+#include "warning.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -303,6 +306,12 @@ void CManager::LoadAll(void)
 	CExplosionBomb::TextureLoad();
 	//死亡時爆発テクスチャ読み込み
 	CExplosionDeath::TextureLoad();
+	//火球爆発テクスチャ読み込み
+	CExplosionFireball::TextureLoad();
+	//ワームホールテクスチャ読み込み
+	CWormhole::TextureLoad();
+	//ワーニングテクスチャ読み込み
+	CWarning::TextureLoad();
 }
 
 //=============================================================================
@@ -372,6 +381,12 @@ void CManager::UnloadAll(void)
 	CExplosionBomb::TextureUnload();
 	//死亡時爆発テクスチャ破棄
 	CExplosionDeath::TextureUnload();
+	//火球爆発テクスチャ破棄
+	CExplosionFireball::TextureUnload();
+	//ワームホールテクスチャ破棄
+	CWormhole::TextureUnload();
+	//ワーニングテクスチャ破棄
+	CWarning::TextureUnload();
 }
 
 //=============================================================================

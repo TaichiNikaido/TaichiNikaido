@@ -42,7 +42,7 @@ public:
 private:
 	static LPDIRECT3DTEXTURE9 m_pTexture;
 	int m_nLife;
-	int m_nAlpha;
+	float m_fAlpha;
 	float m_fScale;
 };
 #endif

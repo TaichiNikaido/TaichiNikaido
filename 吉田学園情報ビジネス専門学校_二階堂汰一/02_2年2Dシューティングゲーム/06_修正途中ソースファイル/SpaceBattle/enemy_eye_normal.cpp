@@ -177,6 +177,7 @@ void CEnemyEyeNormal::Attack(void)
 		//ƒvƒŒƒCƒ„[‚ª€‚ñ‚Å‚¢‚È‚¢‚Æ‚«
 		if (pPlayer->GetState() != CPlayer::STATE_DEATH)
 		{
+			//‚à‚µ”­Ë‚µ‚½’e‚Ì”‚ª4ˆÈ‰º‚¾‚Á‚½‚ç
 			if (m_nShotCount < 4)
 			{
 				if (m_nShotCount <= 0)

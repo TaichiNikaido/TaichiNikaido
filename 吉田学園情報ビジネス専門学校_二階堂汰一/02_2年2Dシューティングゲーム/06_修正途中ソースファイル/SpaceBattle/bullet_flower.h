@@ -30,7 +30,7 @@
 class CBulletFlower :public CBulletEnemy
 {
 public:
-	CBulletFlower(int nPriority = DEFAULT_PRIORITY);
+	CBulletFlower(int nPriority = 3);
 	~CBulletFlower();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

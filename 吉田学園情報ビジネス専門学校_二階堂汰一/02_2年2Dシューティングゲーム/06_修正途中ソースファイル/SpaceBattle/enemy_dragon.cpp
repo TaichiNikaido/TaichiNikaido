@@ -11,11 +11,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
+#include "mode_game.h"
 #include "manager.h"
 #include "renderer.h"
 #include "scene2d.h"
 #include "enemy_dragon.h"
-#include "bullet.h"
+#include "bullet_fireball.h"
+#include "player.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -23,6 +25,9 @@
 #define TEXTURE ("Data/Texture/Enemy/dragon.png")
 #define SIZE (D3DXVECTOR3(600.0f,600.0f,0.0f))
 #define LIFE (300)
+#define SCALE (0.1f)
+#define ADD_SCALE (0.01f)
+#define SCORE (100000)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -36,6 +41,7 @@ CEnemyDragon::CEnemyDragon(int nPriority)
 {
 	m_nPatternAnime = 0;	//パターンアニメ
 	m_nCounterAnime = 0;	//カウンターアニメ
+	m_nBulletTime = 0;		//弾の発射間隔
 }
 
 //=============================================================================
@@ -100,6 +106,8 @@ HRESULT CEnemyDragon::Init(void)
 	CEnemy::Init();
 	//サイズの初期設定
 	SetSize(SIZE);
+	//スケールの初期設定
+	SetScale(SCALE);
 	//体力の初期設定
 	SetLife(LIFE);
 	//テクスチャの設定
@@ -125,14 +133,16 @@ void CEnemyDragon::Update(void)
 {
 	//敵の更新処理関数呼び出し
 	CEnemy::Update();
+	//拡縮処理関数呼び出し
+	Scale();
+	//アニメーション処理関数呼び出し
+	Animation();
 	//もしライフが0になったら
 	if (GetLife() <= 0)
 	{
 		//死亡処理関数呼び出し
 		Death();
 	}
-	//アニメーション処理関数呼び出し
-	Animation();
 }
 
 //=============================================================================
@@ -145,10 +155,62 @@ void CEnemyDragon::Draw(void)
 }
 
 //=============================================================================
+// スポーン処理関数
+//=============================================================================
+bool CEnemyDragon::GetbSpawn(void)
+{
+	return m_bSpawn;
+}
+
+//=============================================================================
+// 拡縮処理関数
+//=============================================================================
+void CEnemyDragon::Scale(void)
+{
+	//拡大率を取得する
+	float fScale = GetScale();
+	//もし拡大率が1倍以下の場合
+	if (fScale <= 1.0f)
+	{
+		//拡大する
+		fScale += ADD_SCALE;
+	}
+	else
+	{
+		//攻撃処理関数呼び出し
+		Attack();
+	}
+	//拡縮を設定
+	SetScale(fScale);
+}
+
+//=============================================================================
 // 攻撃処理関数
 //=============================================================================
 void CEnemyDragon::Attack(void)
 {
+	//位置を取得
+	D3DXVECTOR3 Position = GetPosition();
+	//サイズを取得
+	D3DXVECTOR3 Size = GetSize();
+	//プレイヤーを取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	if (pPlayer != NULL)
+	{
+		//プレイヤーの位置を取得
+		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
+		//もしプレイヤーの位置が下の場合
+		if (PlayerPosition.y >= Position.y)
+		{
+			if (m_nBulletTime % 400 == 0)
+			{
+				//火球の発射
+				CBulletFireball::Create(D3DXVECTOR3(Position.x, Position.y + Size.y / 2, 0.0f));
+			}
+		}
+	}
+	//バレットの発射間隔を進める
+	m_nBulletTime++;
 }
 
 //=============================================================================
@@ -156,6 +218,15 @@ void CEnemyDragon::Attack(void)
 //=============================================================================
 void CEnemyDragon::Death(void)
 {
+	//プレイヤーを取得する
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	if (pPlayer != NULL)
+	{
+		//プレイヤーのスコアを加算する
+		pPlayer->AddScore(SCORE);
+	}
+	//リザルトへ遷移
+	CManager::StartFade(CManager::MODE_RESULT);
 	//終了処理関数呼び出し
 	Uninit();
 	return;
@@ -173,16 +244,15 @@ void CEnemyDragon::Animation(void)
 	{
 		//カウントを0にする
 		m_nCounterAnime = 0;
-
 		//パターンのインクリメント
 		m_nPatternAnime++;
-
+		//もしパターンアニメが4になったら
 		if (m_nPatternAnime > 4)
 		{
+			//パターンアニメを初期化する
 			m_nPatternAnime = 0;
 		}
 	}
-
 	//アニメーションのカウントを進める
 	m_nCounterAnime++;
 	//テクスチャのUV座標の設定

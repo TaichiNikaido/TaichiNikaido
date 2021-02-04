@@ -39,12 +39,16 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	bool GetbSpawn(void);
 private:
+	void Scale(void);
 	void Attack(void);
 	void Death(void);
 	void Animation(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 	int m_nPatternAnime;	//パターンアニメ
 	int m_nCounterAnime;	//カウンターアニメ
+	int m_nBulletTime;		//弾の発射間隔
+	bool m_bSpawn;			//スポーンしたかどうか
 };
 #endif

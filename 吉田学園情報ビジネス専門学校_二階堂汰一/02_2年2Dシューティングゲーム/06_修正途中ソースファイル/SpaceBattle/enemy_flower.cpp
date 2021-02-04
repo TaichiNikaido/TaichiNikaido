@@ -45,8 +45,6 @@ CEnemyFlower::CEnemyFlower(int nPriority)
 {
 	m_nCounterAnime = 0;					//アニメカウンタ
 	m_nPatternAnime = 0;					//アニメパターン
-	m_nMoveCount = 0;
-	m_nStopCount = 0;
 	m_nCountBullet = 0;
 }
 
@@ -114,8 +112,6 @@ HRESULT CEnemyFlower::Init(void)
 	SetSize(SIZE);
 	//体力の初期設定
 	SetLife(LIFE);
-	//停止カウントの初期設定
-	m_nStopCount = rand() % 100 + 50;
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て

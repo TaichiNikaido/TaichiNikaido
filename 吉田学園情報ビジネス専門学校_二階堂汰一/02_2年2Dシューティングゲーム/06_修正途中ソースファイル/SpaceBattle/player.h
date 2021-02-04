@@ -68,7 +68,7 @@ public:
 		LEVEL_3,
 		LEVEL_MAX
 	}LEVEL;
-	CPlayer(int nPriority = DEFAULT_PRIORITY);
+	CPlayer(int nPriority = 4);
 	~CPlayer();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

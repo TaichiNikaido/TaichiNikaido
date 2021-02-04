@@ -6,6 +6,11 @@
 //=============================================================================
 
 //*****************************************************************************
+// 警告制御
+//*****************************************************************************
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
+//*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
 #include <stdio.h>
@@ -71,7 +76,6 @@ bool CTcpClient::Init(const char *pHostName, int nPortNum)
 //=============================================================================
 int CTcpClient::Send(char *pSendData, int nSendDataSize)
 {
-
 	if (m_sock < 0)
 	{
 		return 0;
@@ -87,14 +91,11 @@ int CTcpClient::Recv(char *pRecvBuf, int nRecvBufSize)
 {
 	//バッファを0クリア
 	memset(pRecvBuf, 0, nRecvBufSize);
-
 	int nRecvSize = recv(m_sock, pRecvBuf, nRecvBufSize, 0);
-
 	if (nRecvBufSize <= 0)
 	{
 		closesocket(m_sock);
 	}
-
 	return nRecvBufSize;
 }
 

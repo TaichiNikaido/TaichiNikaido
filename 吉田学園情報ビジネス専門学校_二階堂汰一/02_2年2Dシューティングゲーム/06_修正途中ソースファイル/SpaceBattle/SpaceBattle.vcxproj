@@ -175,6 +175,7 @@
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="explosion_bomb.cpp" />
     <ClCompile Include="explosion_death.cpp" />
+    <ClCompile Include="explosion_fireball.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="mode_game.cpp" />
     <ClCompile Include="input.cpp" />

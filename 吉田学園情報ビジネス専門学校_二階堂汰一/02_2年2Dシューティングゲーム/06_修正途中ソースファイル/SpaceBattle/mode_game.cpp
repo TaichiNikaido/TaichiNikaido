@@ -18,6 +18,7 @@
 #include "enemy_spider.h"
 #include "enemy_flower.h"
 #include "enemy_dragon.h"
+#include "wormhole.h"
 #include "background_manager.h"
 #include "ui_score.h"
 #include "ui_bomb.h"
@@ -35,6 +36,8 @@ CBombUI * CGameMode::m_pBombUI = NULL;		//爆弾のUIへのポインタ
 CLifeUI * CGameMode::m_pLifeUI = NULL;		//体力のUIへのポインタ
 CPlayer * CGameMode::m_pPlayer = NULL;		//プレイヤーへのポインタ
 CEnemy * CGameMode::m_pEnemy = NULL;		//敵へのポインタ
+CEnemyDragon * CGameMode::m_pDragon = NULL;	//ドラゴンへのポインタ
+CWarning * CGameMode::m_pWarning = NULL;	//危険地帯へのポインタ
 
 //=============================================================================
 // コンストラクタ
@@ -133,5 +136,9 @@ void CGameMode::CreateAll(void)
 
 	//CEnemyDragon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 
-	CEnemyFlower::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	//CEnemyFlower::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+
+	CWormhole::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+
+	//m_pDragon = CEnemyDragon::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4, 0.0f));
 }
