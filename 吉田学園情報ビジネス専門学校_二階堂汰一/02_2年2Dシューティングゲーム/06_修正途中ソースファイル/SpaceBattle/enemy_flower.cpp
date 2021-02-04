@@ -45,7 +45,7 @@ CEnemyFlower::CEnemyFlower(int nPriority)
 {
 	m_nCounterAnime = 0;					//アニメカウンタ
 	m_nPatternAnime = 0;					//アニメパターン
-	m_nCountBullet = 0;
+	m_nBulletTime = 0;						//弾の発射間隔
 }
 
 //=============================================================================
@@ -166,6 +166,25 @@ void CEnemyFlower::Draw(void)
 //=============================================================================
 void CEnemyFlower::Attack(void)
 {
+	//プレイヤーを取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	if (pPlayer != NULL)
+	{
+		//もしプレイヤーの状態が死亡状態じゃないとき
+		if (pPlayer->GetState() != CPlayer::STATE_DEATH)
+		{
+			//弾を発射するまでの時間
+			if (m_nBulletTime >= 50)
+			{
+				if (m_nBulletTime % 20 == 0)
+				{
+
+				}
+			}
+		}
+		//弾を発射するまでの時間を加算する
+		m_nBulletTime++;
+	}
 }
 
 //=============================================================================

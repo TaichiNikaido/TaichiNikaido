@@ -30,6 +30,19 @@
 class CBulletFlower :public CBulletEnemy
 {
 public:
+	typedef enum
+	{
+		COLOR_NONE = -1,
+		COLOR_RED,
+		COLOR_ORANGE,
+		COLOR_YELLOW,
+		COLOR_GREEN,
+		COLOR_BLUE,
+		COLOR_PURPLE,
+		COLOR_PINK,
+		COLOR_WHITE,
+		COLOR_MAX
+	}COLOR;
 	CBulletFlower(int nPriority = 3);
 	~CBulletFlower();
 	static HRESULT TextureLoad(void);
@@ -41,6 +54,7 @@ public:
 	void Draw(void);
 private:
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
+	COLOR m_Color;
 };
 #endif
 

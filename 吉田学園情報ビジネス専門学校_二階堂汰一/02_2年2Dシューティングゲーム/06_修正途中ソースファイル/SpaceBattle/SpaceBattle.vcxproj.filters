@@ -73,17 +73,14 @@
     <Filter Include="ヘッダー ファイル\Explosion">
       <UniqueIdentifier>{aadd1ec4-2e56-45dd-b7be-9cd26a65b6b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Scene2d">
+      <UniqueIdentifier>{8b224d3c-95f2-43d7-86dd-b19bdc2eebf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene2d">
+      <UniqueIdentifier>{86448ced-3520-4800-a083-e8b8d6adc33e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="warning.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="wormhole.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="effect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="button.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -91,9 +88,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="text.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="tcp_client.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="result.cpp">
@@ -270,20 +264,20 @@
     <ClCompile Include="explosion_fireball.cpp">
       <Filter>ソース ファイル\Explosion</Filter>
     </ClCompile>
+    <ClCompile Include="wormhole.cpp">
+      <Filter>ソース ファイル\Scene2d</Filter>
+    </ClCompile>
+    <ClCompile Include="warning.cpp">
+      <Filter>ソース ファイル\Scene2d</Filter>
+    </ClCompile>
+    <ClCompile Include="effect.cpp">
+      <Filter>ソース ファイル\Scene2d</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_client.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="warning.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="wormhole.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_bomb.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="effect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="button.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -291,9 +285,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="text.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="tcp_client.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="result.h">
@@ -466,6 +457,21 @@
     </ClInclude>
     <ClInclude Include="explosion.h">
       <Filter>ヘッダー ファイル\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="wormhole.h">
+      <Filter>ヘッダー ファイル\Scene2d</Filter>
+    </ClInclude>
+    <ClInclude Include="warning.h">
+      <Filter>ヘッダー ファイル\Scene2d</Filter>
+    </ClInclude>
+    <ClInclude Include="effect.h">
+      <Filter>ヘッダー ファイル\Scene2d</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_client.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_bomb.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -36,6 +36,7 @@ LPDIRECT3DTEXTURE9 CBulletFlower::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 CBulletFlower::CBulletFlower(int nPriority) : CBulletEnemy(nPriority)
 {
+	m_Color = COLOR_NONE;
 }
 
 //=============================================================================

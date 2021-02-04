@@ -47,6 +47,6 @@ private:
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 	int m_nCounterAnime;					//アニメカウンタ
 	int m_nPatternAnime;					//アニメパターン
-	int m_nCountBullet;						//弾のカウント
+	int m_nBulletTime;						//弾の発射間隔
 };
 #endif

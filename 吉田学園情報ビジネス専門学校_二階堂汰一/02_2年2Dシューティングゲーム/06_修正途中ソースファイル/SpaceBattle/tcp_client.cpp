@@ -99,6 +99,9 @@ int CTcpClient::Recv(char *pRecvBuf, int nRecvBufSize)
 	return nRecvBufSize;
 }
 
+//=============================================================================
+// ï¬Ç∂ÇÈèàóùä÷êî
+//=============================================================================
 void CTcpClient::Close()
 {
 	if (m_sock < 0)
@@ -109,6 +112,9 @@ void CTcpClient::Close()
 	m_sock = -1;
 }
 
+//=============================================================================
+// ê∂ê¨èàóùä÷êî
+//=============================================================================
 CTcpClient * CTcpClient::Create(const char *pHostName, int nPortNum)
 {
 	CTcpClient *pTcpClient = new CTcpClient;
@@ -120,6 +126,9 @@ CTcpClient * CTcpClient::Create(const char *pHostName, int nPortNum)
 	return pTcpClient;
 }
 
+//=============================================================================
+// îjä¸èàóùä÷êî
+//=============================================================================
 void CTcpClient::Release(void)
 {
 	Close();
