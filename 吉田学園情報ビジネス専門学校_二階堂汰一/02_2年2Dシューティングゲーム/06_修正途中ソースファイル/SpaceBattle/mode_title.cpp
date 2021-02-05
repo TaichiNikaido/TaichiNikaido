@@ -20,7 +20,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define COUNT_TRIGGER_PAUSE (5)
+#define INPUT_TIME (5)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -31,16 +31,12 @@
 //=============================================================================
 CTitleMode::CTitleMode()
 {
-	m_IsTrigger.Down.bTrigger = false;//押されてるかどうか
-	m_IsTrigger.Up.bTrigger = false;
-	m_IsTrigger.Left.bTrigger = false;
-	m_IsTrigger.Right.bTrigger = false;
-	m_IsTrigger.Down.nCount = 0;//押されてるかどうか
-	m_IsTrigger.Up.nCount = 0;
-	m_IsTrigger.Left.nCount = 0;
-	m_IsTrigger.Right.nCount = 0;
-	m_nButtonPosition = 0;
-	memset(m_apButton,NULL,sizeof(m_apButton));
+	m_InputStick.Up.bTrigger = false;			//スティックを上に倒しているかどうか
+	m_InputStick.Down.bTrigger = false;			//スティックを下に倒しているかどうか
+	m_InputStick.Up.nCount = 0;					//スティックの上入力の遊び
+	m_InputStick.Down.nCount = 0;				//スティックの下入力の遊び
+	m_nButtonPosition = 0;						//選択中のボタンの位置
+	memset(m_apButton,NULL,sizeof(m_apButton));	//ボタンへのポインタ
 }
 
 //=============================================================================
@@ -89,8 +85,9 @@ void CTitleMode::Update(void)
 {
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
+	//入力処理関数呼び出し
 	Input();
-	
+	//ボタン設定処理関数呼び出し
 	SetButtonUI();
 }
 
@@ -106,7 +103,7 @@ void CTitleMode::Draw(void)
 }
 
 //=============================================================================
-// 処理関数
+// ボタン設定処理関数
 //=============================================================================
 void CTitleMode::SetButtonUI(void)
 {
@@ -119,7 +116,7 @@ void CTitleMode::SetButtonUI(void)
 }
 
 //=============================================================================
-// 入力関数
+// 入力処理関数
 //=============================================================================
 void CTitleMode::Input(void)
 {
@@ -136,43 +133,80 @@ void CTitleMode::Input(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-
-	if (lpDIDevice != NULL &&js.lY == -1000 || pKeyboard->GetKeyboardPress(DIK_W))//上
+	//スティックの上が入力されたとき
+	if (lpDIDevice != NULL &&js.lY == -1000)
 	{
-		m_IsTrigger.Up.nCount++;
+		//スティックの上入力の遊びを加算する
+		m_InputStick.Up.nCount++;
 	}
-	if (lpDIDevice != NULL &&js.lY == 1000 || pKeyboard->GetKeyboardPress(DIK_S))//下
+	//Wキーが入力されたとき
+	if (pKeyboard->GetKeyboardTrigger(DIK_W))
 	{
-		m_IsTrigger.Down.nCount++;
-	}
-
-	if (m_IsTrigger.Up.nCount > COUNT_TRIGGER_PAUSE)
-	{
-		m_IsTrigger.Up.bTrigger = true;
-		m_IsTrigger.Up.nCount = COUNT_TRIGGER_PAUSE - 5;
-	}
-	if (m_IsTrigger.Down.nCount > COUNT_TRIGGER_PAUSE)
-	{
-		m_IsTrigger.Down.bTrigger = true;
-		m_IsTrigger.Down.nCount = COUNT_TRIGGER_PAUSE - 5;
-	}
-	if (m_IsTrigger.Down.bTrigger == true)
-	{
-		m_IsTrigger.Down.bTrigger = false;
-		if (m_nButtonPosition < 2)
+		//もしボタンの位置がプレイボタンより上だったら
+		if (m_nButtonPosition > CButton::BUTTON_PLAY)
 		{
-			m_nButtonPosition++;
-		}
-	}
-	if (m_IsTrigger.Up.bTrigger == true)
-	{
-		m_IsTrigger.Up.bTrigger = false;
-		if (m_nButtonPosition > 0)
-		{
+			//選択中のボタンの位置を下げる
 			m_nButtonPosition--;
 		}
 	}
+	//スティックの下が入力されたとき
+	if (lpDIDevice != NULL &&js.lY == 1000)
+	{
+		//スティックの下入力の遊びを加算する
+		m_InputStick.Down.nCount++;
+	}
+	//Sキーが入力されたとき
+	if (pKeyboard->GetKeyboardTrigger(DIK_S))
+	{
+		//もしボタンの位置がEXITボタンより上だったら
+		if (m_nButtonPosition < CButton::BUTTON_EXIT)
+		{
+			//選択中のボタンの位置を上げる
+			m_nButtonPosition++;
+		}
 
+	}
+	//スティックの上入力の遊びが指定の時間になったら
+	if (m_InputStick.Up.nCount > INPUT_TIME)
+	{
+		//スティックの上入力を真にする
+		m_InputStick.Up.bTrigger = true;
+		//入力の遊びを0にする
+		m_InputStick.Up.nCount = 0;
+	}
+	//スティックの下入力の遊びが指定の時間になったら
+	if (m_InputStick.Down.nCount > INPUT_TIME)
+	{
+		//スティックの下入力を真にする
+		m_InputStick.Down.bTrigger = true;
+		//入力の遊びを0にする
+		m_InputStick.Down.nCount = 0;
+	}
+	//もしスティックの上入力が真になったら
+	if (m_InputStick.Up.bTrigger == true)
+	{
+		//もしスティックの上入力を偽にする
+		m_InputStick.Up.bTrigger = false;
+		//もしボタンの位置がプレイボタンより上だったら
+		if (m_nButtonPosition > CButton::BUTTON_PLAY)
+		{
+			//選択中のボタンの位置を下げる
+			m_nButtonPosition--;
+		}
+	}
+	//もしスティックの下入力が真になったら
+	if (m_InputStick.Down.bTrigger == true)
+	{
+		//もしスティックの下入力を偽にする
+		m_InputStick.Down.bTrigger = false;
+		//もしボタンの位置がEXITボタンより上だったら
+		if (m_nButtonPosition < CButton::BUTTON_EXIT)
+		{
+			//選択中のボタンの位置を上げる
+			m_nButtonPosition++;
+		}
+	}
+	//もしキーボードのエンターキー又はジョイスティックのAボタンがおされたら
 	if (pKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pJoystick->GetJoystickTrigger(JS_A))
 	{
 		//選択処理関数呼び出し
@@ -185,24 +219,18 @@ void CTitleMode::Input(void)
 //=============================================================================
 void CTitleMode::Select(void)
 {
-	//pSound->CSound::PlaySound(CSound::SOUND_LABEL_SE_ENTER);
 	switch (m_nButtonPosition)
 	{
-	case CButton::BUTTON_PLAY://スタート
-		 //名前入力に移動
-		 //pSound->PlaySound(CSound::SOUND_LABEL_ENTER);
+	case CButton::BUTTON_PLAY:
+		 //名前入力モードに遷移
 		CManager::StartFade(CManager::MODE_NAME);
-		//pSound->StopSound();
 		break;
-	case CButton::BUTTON_REPLAY://リプレイボタン
-		//pSound->PlaySound(CSound::SOUND_LABEL_ENTER);
-		//pSound->StopSound();
-		//m_bReplay = true;
-		//名前入力に移動
+	case CButton::BUTTON_REPLAY:
+		//ゲームモードに遷移
 		CManager::StartFade(CManager::MODE_GAME);
 		break;
-	case CButton::BUTTON_EXIT://終了
-		//pSound->PlaySound(CSound::SOUND_LABEL_ENTER);
+	case CButton::BUTTON_EXIT:
+		//終了処理
 		exit(0);
 		return;
 		break;
@@ -221,6 +249,6 @@ void CTitleMode::CreateAll(void)
 	//プレイボタンの生成
 	for (int nCount = 0; nCount < CButton::BUTTON_MAX; nCount++)
 	{
-		m_apButton[nCount] = CButton::Create(D3DXVECTOR3(600.0f, 300.0f + 100.0f * nCount, 0.0f),(CButton::BUTTON)nCount);
+		m_apButton[nCount] = CButton::Create(D3DXVECTOR3(float(SCREEN_WIDTH * 0.75), float(SCREEN_HEIGHT * 0.6 + 100.0f * nCount), 0.0f),(CButton::BUTTON)nCount);
 	}
 }

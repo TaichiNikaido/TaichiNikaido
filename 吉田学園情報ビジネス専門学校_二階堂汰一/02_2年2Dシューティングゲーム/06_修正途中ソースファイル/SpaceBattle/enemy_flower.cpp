@@ -31,6 +31,7 @@
 #define LIFE (13)
 #define SCORE (50000)
 #define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
+#define BULLET_MOVE (D3DXVECTOR3(cosf(D3DXToRadian(nCnt * (360 / 20)))*3.5f, sinf(D3DXToRadian(nCnt * (360 / 20)))*3.5f, 0.0f))
 #define RATE_MOVE (0.03f)
 
 //*****************************************************************************
@@ -46,6 +47,7 @@ CEnemyFlower::CEnemyFlower(int nPriority)
 	m_nCounterAnime = 0;					//アニメカウンタ
 	m_nPatternAnime = 0;					//アニメパターン
 	m_nBulletTime = 0;						//弾の発射間隔
+	m_nColorCount = 0;						//色カウント
 }
 
 //=============================================================================
@@ -117,7 +119,7 @@ HRESULT CEnemyFlower::Init(void)
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
 	//状態を移動中
-	SetState(STATE_MOVE);
+	SetState(STATE_NONE);
 	return S_OK;
 }
 
@@ -142,14 +144,14 @@ void CEnemyFlower::Update(void)
 	{
 		Attack();
 	}
+	//アニメーション処理関数呼び出し
+	Animation();
 	//もしライフが0になったら
 	if (GetLife() <= 0)
 	{
 		//死亡処理関数呼び出し
 		Death();
 	}
-	//アニメーション処理関数呼び出し
-	Animation();
 }
 
 //=============================================================================
@@ -168,6 +170,8 @@ void CEnemyFlower::Attack(void)
 {
 	//プレイヤーを取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//位置を取得
+	D3DXVECTOR3 Position = GetPosition();
 	if (pPlayer != NULL)
 	{
 		//もしプレイヤーの状態が死亡状態じゃないとき
@@ -178,7 +182,26 @@ void CEnemyFlower::Attack(void)
 			{
 				if (m_nBulletTime % 20 == 0)
 				{
-
+					//色カウントが最大以下の場合
+					if (m_nColorCount < CBulletFlower::COLOR_NUMBER_MAX)
+					{
+						for (int nCnt = 0; nCnt < 20; nCnt++)
+						{
+							//花弾の生成
+							CBulletFlower::Create(Position, BULLET_MOVE, (CBulletFlower::COLOR_NUMBER)m_nColorCount);
+						}
+					}
+					//色のカウントを加算
+					m_nColorCount++;
+				}
+				//色カウントが最大数を越えたの場合
+				if (m_nColorCount > CBulletFlower::COLOR_NUMBER_MAX)
+				{
+					if (m_nBulletTime % 100 == 0)
+					{
+						//色のカウントを0にする
+						m_nColorCount = 0;
+					}
 				}
 			}
 		}

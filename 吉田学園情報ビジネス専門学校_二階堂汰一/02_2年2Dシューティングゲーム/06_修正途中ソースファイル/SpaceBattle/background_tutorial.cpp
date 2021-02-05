@@ -17,18 +17,20 @@
 #include "scene2d.h"
 #include "background.h"
 #include "background_tutorial.h"
+#include "joystick.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Background/background_tutorial.png")
+#define KEYBOARD_GUID_TEXTURE ("Data/Texture/Background/background_keyboard_guid.png")
+#define JOYSTICK_GUID_TEXTURE ("Data/Texture/Background/background_joystick_guid.png")
 #define SIZE (D3DXVECTOR3(1920.0f,1080.0f,0.0f))
 #define FLAME (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CBackgroundTutorial::m_pTexture = NULL;	//テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 CBackgroundTutorial::m_apTexture[TEXTURE_MAX] = {};	//テクスチャへのポインタ
 
 //=============================================================================
 // コンストラクタ
@@ -53,9 +55,13 @@ HRESULT CBackgroundTutorial::TextureLoad(void)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE,						// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	D3DXCreateTextureFromFile(pDevice,			// デバイスへのポインタ
+		KEYBOARD_GUID_TEXTURE,					// ファイルの名前
+		&m_apTexture[TEXTURE_KEYBOARD_GUID]);	// 読み込むメモリー
+	// テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,			// デバイスへのポインタ
+		JOYSTICK_GUID_TEXTURE,					// ファイルの名前
+		&m_apTexture[TEXTURE_JOYSTICK_GUID]);	// 読み込むメモリー
 	return S_OK;
 }
 
@@ -64,11 +70,14 @@ HRESULT CBackgroundTutorial::TextureLoad(void)
 //=============================================================================
 void CBackgroundTutorial::TextureUnload(void)
 {
-	// テクスチャの破棄
-	if (m_pTexture != NULL)
+	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
-		m_pTexture->Release();
-		m_pTexture = NULL;
+		// テクスチャの破棄
+		if (m_apTexture[nCount] != NULL)
+		{
+			m_apTexture[nCount]->Release();
+			m_apTexture[nCount] = NULL;
+		}
 	}
 }
 
@@ -103,8 +112,17 @@ HRESULT CBackgroundTutorial::Init(void)
 	SetFlame(FLAME);
 	//テクスチャの設定
 	SetTexture(aTexture);
-	//テクスチャの割り当て
-	BindTexture(m_pTexture);
+	//もしジョイスティックがNULLだったら
+	if (CJoystick::GetDevice() == NULL)
+	{
+		//テクスチャの割り当て
+		BindTexture(m_apTexture[TEXTURE_KEYBOARD_GUID]);
+	}
+	else
+	{
+		//テクスチャの割り当て
+		BindTexture(m_apTexture[TEXTURE_JOYSTICK_GUID]);
+	}
 	return S_OK;
 }
 

@@ -40,6 +40,13 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
+	typedef enum
+	{
+		TEXTURE_NONE = -1,
+		TEXTURE_KEYBOARD_GUID,
+		TEXTURE_JOYSTICK_GUID,
+		TEXTURE_MAX
+	}TEXTURE;
+	static LPDIRECT3DTEXTURE9 m_apTexture[TEXTURE_MAX];	//テクスチャへのポインタ
 };
 #endif

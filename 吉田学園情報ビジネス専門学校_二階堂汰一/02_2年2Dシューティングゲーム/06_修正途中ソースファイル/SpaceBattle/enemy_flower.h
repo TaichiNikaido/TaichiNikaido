@@ -48,5 +48,6 @@ private:
 	int m_nCounterAnime;					//アニメカウンタ
 	int m_nPatternAnime;					//アニメパターン
 	int m_nBulletTime;						//弾の発射間隔
+	int m_nColorCount;						//色カウント
 };
 #endif

@@ -39,25 +39,23 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void SetButtonUI(void);
-	void Input(void);
-	void Select(void);
 private:
 	typedef struct
 	{
-		int nCount;
-		bool bTrigger;
-	}IsCount;
+		int nCount;		//ステックの遊び
+		bool bTrigger;	//ステックを倒しているか
+	}STICK;
 	typedef struct
 	{
-		IsCount Up;
-		IsCount Down;
-		IsCount Right;
-		IsCount Left;
-	}IsPress;
+		STICK Up;
+		STICK Down;
+	}INPUT_STICK;
+	void SetButtonUI(void);
+	void Input(void);
+	void Select(void);
 	void CreateAll(void);
-	IsPress m_IsTrigger;
-	int   m_nButtonPosition;
-	CButton * m_apButton[CButton::BUTTON_MAX];
+	INPUT_STICK m_InputStick;					//スティックの入力方向
+	int   m_nButtonPosition;					//選択中のボタンの位置
+	CButton * m_apButton[CButton::BUTTON_MAX];	//ボタンへのポインタ
 };
 #endif

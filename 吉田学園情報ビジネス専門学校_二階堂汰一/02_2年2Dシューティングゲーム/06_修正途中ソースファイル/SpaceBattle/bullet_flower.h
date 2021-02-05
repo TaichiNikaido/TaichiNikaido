@@ -32,29 +32,33 @@ class CBulletFlower :public CBulletEnemy
 public:
 	typedef enum
 	{
-		COLOR_NONE = -1,
-		COLOR_RED,
-		COLOR_ORANGE,
-		COLOR_YELLOW,
-		COLOR_GREEN,
-		COLOR_BLUE,
-		COLOR_PURPLE,
-		COLOR_PINK,
-		COLOR_WHITE,
-		COLOR_MAX
-	}COLOR;
+		COLOR_NUMBER_NONE = -1,
+		COLOR_NUMBER_RED,
+		COLOR_NUMBER_ORANGE,
+		COLOR_NUMBER_YELLOW,
+		COLOR_NUMBER_GREEN,
+		COLOR_NUMBER_BLUE,
+		COLOR_NUMBER_PURPLE,
+		COLOR_NUMBER_PINK,
+		COLOR_NUMBER_WHITE,
+		COLOR_NUMBER_MAX
+	}COLOR_NUMBER;
 	CBulletFlower(int nPriority = 3);
 	~CBulletFlower();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
-	static CBulletFlower * Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed);
+	static CBulletFlower * Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed,COLOR_NUMBER nColor);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
 private:
+	void Move(void);
+	void ColorSelect(void);
+	void Death(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	COLOR m_Color;
+	COLOR_NUMBER m_ColorNumber;				//色の番号
+	int m_nTime;							//時間
 };
 #endif
 

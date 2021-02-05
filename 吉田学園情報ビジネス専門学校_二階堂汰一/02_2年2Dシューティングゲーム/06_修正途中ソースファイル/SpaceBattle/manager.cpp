@@ -35,6 +35,7 @@
 #include "bullet_n-way.h"
 #include "bullet_direction.h"
 #include "bullet_homing.h"
+#include "bullet_flower.h"
 #include "bullet_bomb.h"
 #include "item_bomb.h"
 #include "item_life.h"
@@ -131,7 +132,7 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	//全読み込み関数呼び出し
 	LoadAll();
 	//モードの設定
-	SetMode(MODE_GAME);
+	SetMode(MODE_TUTORIAL);
 	return S_OK;
 }
 
@@ -266,6 +267,8 @@ void CManager::LoadAll(void)
 	CBulletDirection::TextureLoad();
 	//ホーミング弾のテクスチャ
 	CBulletHoming::TextureLoad();
+	//花弾のテクスチャ
+	CBulletFlower::TextureLoad();
 	//爆弾のテクスチャ読み込み
 	CBulletBomb::TextureLoad();
 	//爆弾付与アイテムテクスチャ読み込み
@@ -341,6 +344,8 @@ void CManager::UnloadAll(void)
 	CBulletDirection::TextureUnload();
 	//ホーミング弾のテクスチャ破棄
 	CBulletHoming::TextureUnload();
+	//花弾のテクスチャ破棄
+	CBulletFlower::TextureUnload();
 	//爆弾のテクスチャ
 	CBulletBomb::TextureUnload();
 	//爆弾付与アイテムテクスチャ破棄
