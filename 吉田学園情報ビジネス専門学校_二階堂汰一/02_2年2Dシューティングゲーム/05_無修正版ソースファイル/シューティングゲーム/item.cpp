@@ -168,8 +168,6 @@ void CItem::Update(void)
 	Effect();
 	//位置に移動量を加算
 	m_pos += m_move;
-	//移動可能範囲制御処理関数
-	MovableRange();
 	//頂点座標を設定
 	m_vpos[0] = D3DXVECTOR3(m_pos.x + (-m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
 	m_vpos[1] = D3DXVECTOR3(m_pos.x + (m_fWidth / 2), m_pos.y + (-m_fHeight / 2), 0.0f);
@@ -184,6 +182,8 @@ void CItem::Update(void)
 		0.0f,
 		1.0f,
 		1.0f);
+	//移動可能範囲制御処理関数
+	MovableRange();
 }
 
 //=============================================================================

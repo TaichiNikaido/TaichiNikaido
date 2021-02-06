@@ -274,6 +274,12 @@ void CBullet::Update(void)
 	MovableRange();
 	//衝突判定処理関数呼び出し
 	Collision();
+	//位置更新処理関数呼び出し
+	UpdatePosition();
+	//体力減算処理関数呼び出し
+	SubLife();
+	//エフェクト生成処理関数呼び出し
+	EffectCreate();
 	if (m_type == TYPE_FIREBALL)
 	{
 		if (m_nCountBullet == 0)
@@ -281,13 +287,6 @@ void CBullet::Update(void)
 			CWarning::Create(D3DXVECTOR3(m_pos.x, m_TargetPos.y, 0.0f), D3DXVECTOR3(m_move.x, m_move.y, 0.0f), 1120 - 200, FIELD_HEIGHT / 4);
 		}
 	}
-	//位置更新処理関数呼び出し
-	UpdatePosition();
-	//体力減算処理関数呼び出し
-	SubLife();
-	//エフェクト生成処理関数呼び出し
-	EffectCreate();
-
 	//弾のタイプが火球だった時
 	if (m_type == TYPE_FIREBALL)
 	{
@@ -608,6 +607,8 @@ void CBullet::Collision(void)
 
 					m_move.y = 10.0f;
 				}
+				break;
+			default:
 				break;
 			}
 		}
