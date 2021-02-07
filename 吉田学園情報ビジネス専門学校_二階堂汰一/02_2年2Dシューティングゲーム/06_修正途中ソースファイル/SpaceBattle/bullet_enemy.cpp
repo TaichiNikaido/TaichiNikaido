@@ -93,10 +93,10 @@ void CBulletEnemy::Collision(void)
 		if (pPlayer->GetState() != CPlayer::STATE_DEATH)
 		{
 			//プレイヤーとの衝突
-			if (GetPosition().x + GetSize().x / 2 > pPlayer->GetPosition().x - (pPlayer->GetSize().x / 2) &&
-				GetPosition().x - GetSize().x / 2 < pPlayer->GetPosition().x + (pPlayer->GetSize().x / 2) &&
-				GetPosition().y + GetSize().y / 2 > pPlayer->GetPosition().y - (pPlayer->GetSize().y / 2) &&
-				GetPosition().y - GetSize().y / 2 < pPlayer->GetPosition().y + (pPlayer->GetSize().y / 2))
+			if (GetPosition().x + GetSize().x / 2 > pPlayer->GetPosition().x - (pPlayer->GetSize().x - 55) &&
+				GetPosition().x - GetSize().x / 2 < pPlayer->GetPosition().x + (pPlayer->GetSize().x - 55) &&
+				GetPosition().y + GetSize().y / 2 > pPlayer->GetPosition().y - (pPlayer->GetSize().y - 55) &&
+				GetPosition().y - GetSize().y / 2 < pPlayer->GetPosition().y + (pPlayer->GetSize().y - 55))
 			{
 				//プレイヤーにダメージを与える
 				pPlayer->SubLife(GetAttack());

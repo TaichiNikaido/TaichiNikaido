@@ -63,6 +63,7 @@
 #include "wormhole.h"
 #include "warning.h"
 #include "text.h"
+#include "flame.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -329,6 +330,8 @@ void CManager::LoadAll(void)
 	CWormhole::TextureLoad();
 	//ワーニングテクスチャ読み込み
 	CWarning::TextureLoad();
+	//フレームテクスチャ読み込み
+	CFlame::TextureLoad();
 }
 
 //=============================================================================
@@ -410,6 +413,8 @@ void CManager::UnloadAll(void)
 	CWormhole::TextureUnload();
 	//ワーニングテクスチャ破棄
 	CWarning::TextureUnload();
+	//フレームテクスチャ破棄
+	CFlame::TextureUnload();
 }
 
 //=============================================================================

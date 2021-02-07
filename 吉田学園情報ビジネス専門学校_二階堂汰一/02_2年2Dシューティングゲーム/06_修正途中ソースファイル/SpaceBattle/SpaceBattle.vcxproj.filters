@@ -282,6 +282,9 @@
     <ClCompile Include="enemy_bomb_body.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="flame.cpp">
+      <Filter>ソース ファイル\Scene2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="name.h">
@@ -484,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="enemy_bomb_body.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="flame.h">
+      <Filter>ヘッダー ファイル\Scene2d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

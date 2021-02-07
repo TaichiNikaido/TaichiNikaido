@@ -25,6 +25,7 @@
 #include "ui_score.h"
 #include "ui_bomb.h"
 #include "ui_life.h"
+#include "flame.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -108,6 +109,9 @@ void CGameMode::Draw(void)
 //=============================================================================
 void CGameMode::InitCreateAll(void)
 {
+	//フレームの生成
+	CFlame::Create(D3DXVECTOR3(200, SCREEN_HEIGHT / 2, 0.0f));
+	CFlame::Create(D3DXVECTOR3(1720, SCREEN_HEIGHT / 2, 0.0f));
 	//背景管理の生成
 	CBackgroundManager::Create();
 	//スコアのUIの生成

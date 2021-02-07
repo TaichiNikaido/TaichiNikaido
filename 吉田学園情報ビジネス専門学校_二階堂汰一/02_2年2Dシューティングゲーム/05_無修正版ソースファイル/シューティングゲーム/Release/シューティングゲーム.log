@@ -1,7 +1,5 @@
-﻿  result.cpp
-  コード生成しています。
+﻿  コード生成しています。
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\05_無修正版ソースファイル\シューティングゲーム\item.cpp(216): warning C4715: 'CItem::isCollision': 値を返さないコントロール パスがあります。
 c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\05_無修正版ソースファイル\シューティングゲーム\result.cpp(138): error C4716: 'CResult::Init': 値を返さなければいけません
-  2 of 436 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  All 436 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
 LINK : fatal error LNK1257: コードの生成に失敗しました。

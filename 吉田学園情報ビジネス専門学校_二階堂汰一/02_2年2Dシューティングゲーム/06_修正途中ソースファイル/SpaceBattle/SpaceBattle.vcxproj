@@ -179,6 +179,7 @@
     <ClCompile Include="explosion_death.cpp" />
     <ClCompile Include="explosion_fireball.cpp" />
     <ClCompile Include="fade.cpp" />
+    <ClCompile Include="flame.cpp" />
     <ClCompile Include="mode_game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="item.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="explosion_death.h" />
     <ClInclude Include="explosion_fireball.h" />
     <ClInclude Include="fade.h" />
+    <ClInclude Include="flame.h" />
     <ClInclude Include="mode_game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="item.h" />
