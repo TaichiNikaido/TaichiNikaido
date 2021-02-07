@@ -1,0 +1,133 @@
+﻿  wormhole.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  warning.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_score.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_number_texture.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_life_texture.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_life.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_bomb_texture.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_bomb.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  text.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  tcp_client.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  sound.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  scene2d.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  scene.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  renderer.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  player.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  name.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  mode_tutorial.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  mode_title.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  mode_result.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  mode_ranking.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  コードを生成中...
+  コンパイル中...
+  mode_name.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  mode_game.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  manager.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  main.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  kyoboard.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  joystick.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  item_life.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  item_levelup.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  item_bomb.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  item.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  input.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  fade.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  explosion_fireball.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  explosion_death.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  explosion_bomb.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  explosion.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  enemy_spider.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  enemy_flower.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  enemy_eye_normal.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  enemy_eye_hard.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  コードを生成中...
+  コンパイル中...
+  enemy_dragon.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  enemy.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  effect.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  button.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet_player.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet_n-way.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet_homing.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet_flower.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet_fireball.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet_enemy.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet_direction.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet_bomb.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  bullet.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_upper_layer.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_under_layer.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_tutorial.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_title.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_result.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_ranking.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_name.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  コードを生成中...
+  コンパイル中...
+  background_middle_layer.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_manager.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\02_2年2dシューティングゲーム\06_修正途中ソースファイル\spacebattle\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  コードを生成中...
