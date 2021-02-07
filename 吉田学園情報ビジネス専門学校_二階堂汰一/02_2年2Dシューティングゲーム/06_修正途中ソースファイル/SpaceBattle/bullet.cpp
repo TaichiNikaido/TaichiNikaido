@@ -50,8 +50,6 @@ HRESULT CBullet::Init(void)
 {
 	//2Dシーン管理初期化処理関数呼び出し
 	CScene2d::Init();
-	//オブジェタイプを弾にする
-	SetObjType(CScene::OBJTYPE_BULLET);
 	//攻撃力を設定する
 	m_nAttack = ATTACK_POINT;
 	return S_OK;

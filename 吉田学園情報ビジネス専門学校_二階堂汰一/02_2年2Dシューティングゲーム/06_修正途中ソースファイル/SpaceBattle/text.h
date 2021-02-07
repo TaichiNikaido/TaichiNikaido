@@ -31,8 +31,8 @@ class CText
 public:
 	CText();
 	~CText();
-	static CText *Create(D3DXVECTOR3 pos, float fSizeWidth, float fSizeHeight);
-	HRESULT Init(D3DXVECTOR3 pos, float fSizeWidth, float fSizeHeight);
+	static CText *Create(void);
+	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
@@ -44,6 +44,5 @@ private:
 	int                     posY;
 	static char             m_str[256];
 	static bool             m_IsDraw;
-
 };
-#endif // !_TEXT_H_
+#endif

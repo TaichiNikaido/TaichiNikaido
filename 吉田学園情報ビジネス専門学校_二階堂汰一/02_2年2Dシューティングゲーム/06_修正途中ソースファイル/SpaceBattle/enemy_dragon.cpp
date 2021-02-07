@@ -15,6 +15,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "scene2d.h"
+#include "sound.h"
 #include "enemy_dragon.h"
 #include "bullet_fireball.h"
 #include "player.h"
@@ -37,11 +38,16 @@ LPDIRECT3DTEXTURE9 CEnemyDragon::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CEnemyDragon::CEnemyDragon(int nPriority)
+CEnemyDragon::CEnemyDragon(int nPriority) : CEnemy(nPriority)
 {
 	m_nPatternAnime = 0;	//パターンアニメ
 	m_nCounterAnime = 0;	//カウンターアニメ
 	m_nBulletTime = 0;		//弾の発射間隔
+	m_TargetDistance = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_TargetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_bCharge = false;
+	m_nChargeTime = 0;
+	m_pBulletFireBall = NULL;
 }
 
 //=============================================================================
@@ -96,6 +102,8 @@ CEnemyDragon * CEnemyDragon::Create(D3DXVECTOR3 Position)
 //=============================================================================
 HRESULT CEnemyDragon::Init(void)
 {
+	//サウンドの取得
+	CSound * pSound = CManager::GetSound();
 	//テクスチャのUV座標の設定
 	D3DXVECTOR2 aTexture[NUM_VERTEX];
 	aTexture[0] = D3DXVECTOR2(0.1666f * m_nPatternAnime, 0.0f);
@@ -114,6 +122,8 @@ HRESULT CEnemyDragon::Init(void)
 	SetTexture(aTexture);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
+	//BGMの再生
+	pSound->PlaySound(CSound::SOUND_LABEL_BGM_DRAGON);
 	return S_OK;
 }
 
@@ -131,6 +141,52 @@ void CEnemyDragon::Uninit(void)
 //=============================================================================
 void CEnemyDragon::Update(void)
 {
+	if (m_bCharge == true)
+	{
+		SetMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	}
+	else
+	{
+		if (GetScale() >= 1.0f)
+		{
+			//目標距離に近づいたら目標を再設定する
+			if (GetPosition().x >= m_TargetPos.x - 50 / 2 &&
+				GetPosition().x < m_TargetPos.x + 50 / 2 &&
+				GetPosition().y >= m_TargetPos.y - 50 / 2 &&
+				GetPosition().y < m_TargetPos.y + 50 / 2)
+			{
+				//ランダムシード値
+				int nRandSeed = rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500);
+				srand((unsigned int)nRandSeed);
+				m_TargetPos.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
+				m_TargetPos.y = (float)(rand() % 300 + 200);
+			}
+			else
+			{
+				m_TargetDistance = D3DXVECTOR3(m_TargetPos.x - GetPosition().x, m_TargetPos.y - GetPosition().y, 0.0f);//目標までの距離を算出
+				SetRotation(D3DXVECTOR3(GetRotation().x, atan2f(m_TargetDistance.y, m_TargetDistance.x), GetRotation().z));
+				SetMove(D3DXVECTOR3(cosf(GetRotation().y)*2.5f, sinf(GetRotation().y)*2.5f, 0.0f));
+			}
+			if (GetPosition().x > FIELD_WIDTH - 200)
+			{
+				//ランダムシード値
+				int nRandSeed = rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500);
+				srand((unsigned int)nRandSeed);
+				m_TargetPos.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
+				m_TargetPos.y = (float)(rand() % 300 + 200);
+				m_TargetPos.x += -600.0f;
+			}
+			if (GetPosition().x < FIELD_WIDTH_MIN + 200)
+			{
+				//ランダムシード値
+				int nRandSeed = rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500);
+				srand((unsigned int)nRandSeed);
+				m_TargetPos.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
+				m_TargetPos.y = (float)(rand() % 300 + 200);
+				m_TargetPos.x += 200.0f;
+			}
+		}
+	}
 	//敵の更新処理関数呼び出し
 	CEnemy::Update();
 	//拡縮処理関数呼び出し
@@ -152,14 +208,6 @@ void CEnemyDragon::Draw(void)
 {
 	//敵の描画処理関数呼び出し
 	CEnemy::Draw();
-}
-
-//=============================================================================
-// スポーン処理関数
-//=============================================================================
-bool CEnemyDragon::GetbSpawn(void)
-{
-	return m_bSpawn;
 }
 
 //=============================================================================
@@ -205,9 +253,19 @@ void CEnemyDragon::Attack(void)
 			if (m_nBulletTime % 400 == 0)
 			{
 				//火球の発射
-				CBulletFireball::Create(D3DXVECTOR3(Position.x, Position.y + Size.y / 2, 0.0f));
+				m_pBulletFireBall = CBulletFireball::Create(D3DXVECTOR3(Position.x, Position.y + Size.y / 2, 0.0f));
+				m_bCharge = true;
 			}
 		}
+	}
+	if (m_bCharge == true)
+	{
+		if (m_nChargeTime >= 70)
+		{
+			m_bCharge = false;
+			m_nChargeTime = 0;
+		}
+		m_nChargeTime++;
 	}
 	//バレットの発射間隔を進める
 	m_nBulletTime++;
@@ -223,10 +281,9 @@ void CEnemyDragon::Death(void)
 	if (pPlayer != NULL)
 	{
 		//プレイヤーのスコアを加算する
-		pPlayer->AddScore(SCORE);
+ 		pPlayer->AddScore(SCORE);
+		pPlayer->Clear();
 	}
-	//リザルトへ遷移
-	CManager::StartFade(CManager::MODE_RESULT);
 	//終了処理関数呼び出し
 	Uninit();
 	return;

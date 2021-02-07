@@ -30,6 +30,7 @@ CSound::PARAM CSound::m_aParam[SOUND_LABEL_MAX] =
 	{ "Data/BGM/boss.wav", -1 },
 	{ "Data/BGM/result.wav", -1 },
 	{ "Data/BGM/ranking.wav", -1 },
+	{ "Data/BGM/dragon.wav", -1 },
 };
 
 //=============================================================================

@@ -94,6 +94,7 @@ HRESULT CEffect::Init(D3DXVECTOR3 Position, D3DXVECTOR3 Size, D3DXCOLOR Color, i
 	SetPosition(Position);
 	//サイズの初期設定
 	SetSize(Size);
+	//カラーの初期設定
 	SetColor(Color);
 	//ライフの初期設定
 	m_nLife = nLife;

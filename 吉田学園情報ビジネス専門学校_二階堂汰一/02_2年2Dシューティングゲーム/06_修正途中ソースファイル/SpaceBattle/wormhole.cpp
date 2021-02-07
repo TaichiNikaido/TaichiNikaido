@@ -12,6 +12,7 @@
 #include "manager.h"
 #include "renderer.h"
 #include "scene2d.h"
+#include "sound.h"
 #include "mode_game.h"
 #include "wormhole.h"
 #include "enemy_dragon.h"
@@ -106,6 +107,14 @@ CWormhole * CWormhole::Create(D3DXVECTOR3 Position)
 //=============================================================================
 HRESULT CWormhole::Init(void)
 {
+	//テクスチャのUV座標の設定
+	D3DXVECTOR2 aTexture[NUM_VERTEX];
+	aTexture[0] = D3DXVECTOR2(0.0f, 0.0f);
+	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
+	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
+	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
+	//サウンドの取得
+	CSound * pSound = CManager::GetSound();
 	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
 		if (m_pScene2d[nCount] == NULL)
@@ -116,12 +125,6 @@ HRESULT CWormhole::Init(void)
 		//シーン2Dの初期化処理関数呼び出し
 		m_pScene2d[nCount]->Init();
 	}
-	//テクスチャのUV座標の設定
-	D3DXVECTOR2 aTexture[NUM_VERTEX];
-	aTexture[0] = D3DXVECTOR2(0.0f, 0.0f);
-	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
-	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
-	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
 	//サイズの初期設定
 	m_pScene2d[TEXTURE_WORMHOLE]->SetSize(WORMHOLE_SIZE);
 	//色の初期設定
@@ -137,6 +140,8 @@ HRESULT CWormhole::Init(void)
 		//テクスチャの割り当て
 		m_pScene2d[nCount]->BindTexture(m_pTexture[nCount]);
 	}
+	//サウンドの停止
+	pSound->StopSound();
 	return S_OK;
 }
 
@@ -227,7 +232,7 @@ void CWormhole::Spawn(void)
 	//スポーンを真にする
 	m_bSpawn = true;
 	//位置を取得
-	D3DXVECTOR3 Position = m_pScene2d[TEXTURE_WORMHOLE]->GetPosition();	//位置
+   	D3DXVECTOR3 Position = m_pScene2d[TEXTURE_WORMHOLE]->GetPosition();	//位置
 	//ドラゴンの生成処理関数呼び出し
 	CGameMode::SetDragon(CEnemyDragon::Create(Position));
 }

@@ -16,6 +16,7 @@
 #include "warning.h"
 #include "player.h"
 #include "enemy_dragon.h"
+#include "bullet_fireball.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -159,12 +160,12 @@ void CWarning::Position(void)
 	CEnemyDragon * pDragon = CGameMode::GetDragon();
 	//プレイヤーの位置を取得
 	D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
-	//ドラゴンの位置を取得
-	D3DXVECTOR3 DragonPosition = pDragon->GetPosition();
+	//火球の位置を取得
+	D3DXVECTOR3 FireBallPosition = pDragon->GetBulletFireBall()->GetPosition();
 	//位置を取得
 	D3DXVECTOR3 Position = GetPosition();
 	//X座標をドラゴンのX座標に合わせる
-	Position.x = DragonPosition.x;
+	Position.x = FireBallPosition.x;
 	//Y座標をプレイヤーのY座標に合わせる
 	Position.y = PlayerPosition.y;
 	//位置を設定する

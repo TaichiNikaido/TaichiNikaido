@@ -137,6 +137,16 @@ void CBulletPlayer::Update(void)
 {
 	//移動量の取得
 	D3DXVECTOR3 Move = GetMove();
+
+	//エフェクトの生成
+	CEffect::Create(GetPosition(), GetSize(), GetColor(), EFFECT_LIFE);
+	//移動量を設定する
+	SetMove(Move);
+
+	//弾の更新処理関数呼び出し
+	CBullet::Update();
+	//衝突判定処理関数呼び出し
+	Collision();
 	//もしライフが0になったら
 	if (GetLife() <= 0)
 	{
@@ -144,14 +154,6 @@ void CBulletPlayer::Update(void)
 		Uninit();
 		return;
 	}
-	//エフェクトの生成
-	CEffect::Create(GetPosition(), GetSize(), GetColor(), EFFECT_LIFE);
-	//移動量を設定する
-	SetMove(Move);
-	//衝突判定処理関数呼び出し
-	Collision();
-	//弾の更新処理関数呼び出し
-	CBullet::Update();
 }
 
 //=============================================================================
@@ -178,20 +180,38 @@ void CBulletPlayer::Death(void)
 //=============================================================================
 void CBulletPlayer::Collision(void)
 {
-	//敵の取得
-	CEnemy * pEnemy = CGameMode::GetEnemy();
-	if (pEnemy != NULL)
+	for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
 	{
-		//敵との衝突
-		if (GetPosition().x + GetSize().x / 2 > pEnemy->GetPosition().x - (pEnemy->GetSize().x / 2) &&
-			GetPosition().x - GetSize().x / 2 < pEnemy->GetPosition().x + (pEnemy->GetSize().x / 2) &&
-			GetPosition().y + GetSize().y / 2 > pEnemy->GetPosition().y - (pEnemy->GetSize().y / 2) &&
-			GetPosition().y - GetSize().y / 2 < pEnemy->GetPosition().y + (pEnemy->GetSize().y / 2))
+		//シーンの取得
+		CScene * pScene = GetScene(4, nCountScene);
+		if (pScene != NULL)
 		{
-			//敵のヒット処理関数呼び出し
-			pEnemy->Hit();
-			//死亡処理関数呼び出し
-			Death();
+			//オブジェタイプの取得
+			OBJTYPE objType;
+			objType = pScene->GetObjType();
+			
+			//もしオブジェクトタイプが敵だったら
+			if (objType == OBJTYPE_ENEMY)
+			{
+				CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
+				if (pEnemy != NULL)
+				{
+					D3DXVECTOR3 TargetPosition = pEnemy->GetPosition();
+					D3DXVECTOR3 TargetSize = pEnemy->GetSize();
+					//敵との衝突
+					if (GetPosition().x + GetSize().x / 2 > TargetPosition.x - (TargetSize.x / 2) &&
+						GetPosition().x - GetSize().x / 2 < TargetPosition.x + (TargetSize.x / 2) &&
+						GetPosition().y + GetSize().y / 2 > TargetPosition.y - (TargetSize.y / 2) &&
+						GetPosition().y - GetSize().y / 2 < TargetPosition.y + (TargetSize.y / 2))
+					{
+						//敵のヒット処理関数呼び出し
+						pEnemy->Hit();
+						//死亡処理関数呼び出し
+						SetLife(0);
+						return;
+					}
+				}
+			}
 		}
 	}
 }

@@ -31,10 +31,12 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CEnemy::CEnemy(int nPriority)
+CEnemy::CEnemy(int nPriority) : CScene2d(nPriority)
 {
 	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//移動量
 	m_nLife = 0;							//体力
+	m_nChangeColorTime = 0;					//色変更時間
+	m_bHit = false;							//ヒットしたか
 	m_State = STATE_NONE;					//状態
 }
 
@@ -79,6 +81,22 @@ void CEnemy::Update(void)
 	Position += m_Move;
 	//位置の設定
 	SetPosition(Position);
+
+	//もしヒットしたら
+	if (m_bHit == true)
+	{
+		//色変更時間を進める
+		m_nChangeColorTime++;
+		if (m_nChangeColorTime == 10)
+		{
+			//色を設定する
+ 			SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+			//ヒット状態を偽にする
+			m_bHit = false;
+			//色変更時間を初期化する
+			m_nChangeColorTime = 0;
+		}
+	}
 }
 
 //=============================================================================
@@ -95,8 +113,8 @@ void CEnemy::Draw(void)
 //=============================================================================
 void CEnemy::Hit(void)
 {
-	//色を指定する
-	D3DXCOLOR Color = D3DXCOLOR(1.0f, 0.0, 0.0, 1.0f);
+	//ヒット状態にする
+	m_bHit = true;
 	//プレイヤーを取得する
 	CPlayer * pPlayer = CGameMode::GetPlayer();
 	if (pPlayer != NULL)
@@ -106,7 +124,7 @@ void CEnemy::Hit(void)
 	}
 	//体力減算関数呼び出し
 	SubLife();
-	SetColor(Color);
+	SetColor(D3DXCOLOR(1.0f, 0.0, 0.0, 1.0f));
 }
 
 //=============================================================================
@@ -116,10 +134,8 @@ void CEnemy::SubLife(void)
 {
 	//プレイヤーの取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
-	//弾の取得
-	CBullet * pBullet = pPlayer->GetBullet();
 	//体力を減算する
-	m_nLife -= pBullet->GetAttack();
+	m_nLife--;
 }
 
 //=============================================================================

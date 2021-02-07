@@ -19,6 +19,7 @@
 //*****************************************************************************
 // ‘O•ûéŒ¾
 //*****************************************************************************
+class CRanking;
 
 //*****************************************************************************
 // \‘¢‘Ì’è‹`
@@ -37,7 +38,9 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	CRanking * GetRanking(void) { return m_pRanking; }
 private:
 	void CreateAll(void);
+	CRanking * m_pRanking;
 };
 #endif

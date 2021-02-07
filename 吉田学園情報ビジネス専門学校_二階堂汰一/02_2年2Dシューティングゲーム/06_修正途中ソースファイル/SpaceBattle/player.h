@@ -11,7 +11,7 @@
 // ヘッダファイルのインクルード
 //*****************************************************************************
 #include "scene2d.h"
-
+#include "name.h"
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -85,8 +85,10 @@ public:
 	void AddScore(int nValue);
 	void SubScore(int nValue);
 	STATE GetState(void) { return m_State; }
-	CBullet * GetBullet(void) { return m_pBullet; }
 	int GetScore(void) { return m_nScore; }
+	static void SetPlayerName(int nCount, char aName);
+	static void SetbReplay(bool bReplay) { m_bReplay = bReplay; }
+	void Clear(void);
 private:
 	void Input(void);
 	void Move(void);
@@ -101,8 +103,9 @@ private:
 	void InputDataSave(void);
 	void InputDataLoad(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	CBullet * m_pBullet;					//弾へのポインタ
 	D3DXVECTOR3 m_Move;						//移動量
+	static  char m_aPlayerName[MAX_NAME];	//名前
+	static bool m_bReplay;					//リプレイなのか
 	int m_nLife;							//体力
 	int m_nBomb;							//爆弾の所持数
 	int m_nUseBomb;							//爆弾の使用回数

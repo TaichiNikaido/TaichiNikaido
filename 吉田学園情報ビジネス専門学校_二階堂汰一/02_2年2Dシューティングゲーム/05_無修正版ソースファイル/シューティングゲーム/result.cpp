@@ -134,26 +134,7 @@ HRESULT CResult::Init(D3DXVECTOR3 pos, float SizeHeight, float SizeWidth)
 		}
 		m_apScene[nCount]->SetColor(m_col);
 	}
-
-	FILE *pFile;
-	int nNumPlayer = 0;
-
-	pFile = fopen("data/TEXT/PlayerData.txt", "r"); //ファイルの読み込み
-
-	if (pFile != NULL)
-	{
-		//fscanf(pFile, "%d", &nNumPlayer); //プレイヤーの人数
-
-		fscanf(pFile, "%s", &m_PlayerData.aName);//名前入力
-		fscanf(pFile, "%d", &m_PlayerData.nDeath);	//死んだ回数
-		fscanf(pFile, "%d", &m_PlayerData.nContinue);//コンティニューした回数
-		fscanf(pFile, "%d", &m_PlayerData.nBomb);//使用したボムの個数
-		fscanf(pFile, "%d", &m_PlayerData.nScore);
-
-		fclose(pFile); //ファイルを閉じる
-	}
-
-	return S_OK;
+	TextLoad();
 }
 
 //=============================================================================

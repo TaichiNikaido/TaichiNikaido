@@ -18,8 +18,12 @@ class CRenderer;
 class CSound;
 class CKeyboard;
 class CJoystick;
+class CTitleMode;
+class CResultMode;
+class CRankingMode;
 class CGameMode;
 class CFade;
+class CText;
 
 //*****************************************************************************
 // ç\ë¢ëÃíËã`
@@ -57,7 +61,10 @@ public:
 	static CKeyboard * GetKeyboard(void) { return m_pKeyboard; }
 	static CJoystick * GetJoystick(void) { return m_pJoystick; }
 	static CGameMode * GetGameMode(void) { return m_pGameMode; }
+	static CResultMode * GetResultMode(void) { return m_pResultMode; }
+	static CRankingMode * GetRankingMode(void) { return m_pRankingMode; }
 	static CFade * GetFade(void) { return m_pFade; }
+	static CText * GetText(void) { return m_pText; }
 private:
 	void LoadAll(void);
 	void UnloadAll(void);
@@ -67,7 +74,10 @@ private:
 	static CKeyboard * m_pKeyboard;
 	static CJoystick * m_pJoystick;
 	static CGameMode * m_pGameMode;
+	static CResultMode * m_pResultMode;
+	static CRankingMode * m_pRankingMode;
 	static CFade * m_pFade;
+	static CText * m_pText;
 	static MODE m_Mode;
 	static bool m_bUseFade;
 };

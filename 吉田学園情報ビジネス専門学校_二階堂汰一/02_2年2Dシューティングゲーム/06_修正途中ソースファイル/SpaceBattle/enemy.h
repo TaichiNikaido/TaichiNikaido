@@ -52,8 +52,10 @@ public:
 	STATE GetState(void) { return m_State; }
 private:
 	void SubLife(void);
-	D3DXVECTOR3 m_Move;	//移動量
-	int m_nLife;		//体力
-	STATE m_State;      //状態
+	D3DXVECTOR3 m_Move;		//移動量
+	int m_nLife;			//体力
+	int m_nChangeColorTime;	//色変更時間
+	bool m_bHit;			//ヒット
+	STATE m_State;			//状態
 };
 #endif

@@ -43,10 +43,14 @@ private:
 	void Attack(void);
 	void Death(void);
 	void Gaze(void);
+	void Stop(void);
+	void Stay(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	int m_nShotCount;		//発射する数
-	int m_nCountBullet;		//弾の発射間隔
-	float m_fAngleRot;		//向き
-	float m_fBulletAngle;	//発射方向
+	D3DXVECTOR3 m_StopPosition;	//敵が止まる場所
+	int m_nShotCount;			//発射する数
+	int m_nCountBullet;			//弾の発射間隔
+	int m_nStayTime;
+	float m_fAngleRot;			//向き
+	float m_fBulletAngle;		//発射方向
 };
 #endif

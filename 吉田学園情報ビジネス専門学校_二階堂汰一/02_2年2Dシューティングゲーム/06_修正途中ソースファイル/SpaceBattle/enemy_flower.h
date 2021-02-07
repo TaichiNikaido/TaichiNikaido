@@ -41,13 +41,17 @@ public:
 	void Draw(void);
 private:
 	void Attack(void);
+	void Stop(void);
+	void Stay(void);
 	void Death(void);
 	void Drop(void);
 	void Animation(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
+	D3DXVECTOR3 m_StopPosition;				//止まる位置
 	int m_nCounterAnime;					//アニメカウンタ
 	int m_nPatternAnime;					//アニメパターン
 	int m_nBulletTime;						//弾の発射間隔
 	int m_nColorCount;						//色カウント
+	int m_nStayTime;
 };
 #endif

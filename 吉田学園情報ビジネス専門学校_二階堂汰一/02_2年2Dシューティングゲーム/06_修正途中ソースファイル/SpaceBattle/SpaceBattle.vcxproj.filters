@@ -81,13 +81,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="button.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="name.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="text.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="result.cpp">
@@ -276,11 +270,20 @@
     <ClCompile Include="tcp_client.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>ソース ファイル\Scene2d</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_bomb_head.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_bomb_body.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="button.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="name.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -472,6 +475,15 @@
     </ClInclude>
     <ClInclude Include="ui_bomb.h">
       <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>ヘッダー ファイル\Scene2d</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_bomb_head.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_bomb_body.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,6 +29,8 @@
 #include "enemy_spider.h"
 #include "enemy_flower.h"
 #include "enemy_dragon.h"
+#include "enemy_bomb_head.h"
+#include "enemy_bomb_body.h"
 #include "bullet_player.h"
 #include "bullet_enemy.h"
 #include "bullet_fireball.h"
@@ -60,6 +62,7 @@
 #include "explosion_fireball.h"
 #include "wormhole.h"
 #include "warning.h"
+#include "text.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -73,7 +76,10 @@ CSound * CManager::m_pSound = NULL;				//サウンドへのポインタ
 CKeyboard * CManager::m_pKeyboard = NULL;		//キーボードへのポインタ
 CJoystick * CManager::m_pJoystick = NULL;		//マネージャーへのポインタ
 CGameMode * CManager::m_pGameMode = NULL;		//ゲームモードへのポインタ
+CResultMode * CManager::m_pResultMode = NULL;	//リザルトモードへのポインタ
+CRankingMode * CManager::m_pRankingMode = NULL;	//リザルトモードへのポインタ
 CFade * CManager::m_pFade = NULL;				//フェードへのポインタ
+CText * CManager::m_pText = NULL;				//テキストへのポインタ
 CManager::MODE  CManager::m_Mode = MODE_NONE;	//モード
 bool CManager::m_bUseFade = false;				//フェードの真偽
 
@@ -103,9 +109,9 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	}
 	//レンダラーの初期化処理
 	m_pRenderer->Init(hWnd, TRUE);
-	//フェードの生成
 	if (m_pFade == NULL)
 	{
+		//フェードの生成処理関数呼び出し
 		m_pFade = CFade::Create(m_Mode);
 	}
 	//サウンドの生成
@@ -129,10 +135,12 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	}
 	//ジョイスティックの初期化
 	m_pJoystick->Init(hInsitance, hWnd);
+	//テキストの生成
+	m_pText = CText::Create();
 	//全読み込み関数呼び出し
 	LoadAll();
 	//モードの設定
-	SetMode(MODE_TUTORIAL);
+	SetMode(MODE_TITLE);
 	return S_OK;
 }
 
@@ -196,6 +204,7 @@ void CManager::StartFade(MODE mode)
 {
 	m_Mode = mode;
 	m_bUseFade = true;
+	CText::IsDrawText(false);
 }
 
 //=============================================================================
@@ -203,6 +212,7 @@ void CManager::StartFade(MODE mode)
 //=============================================================================
 void CManager::StopFade(void)
 {
+	CText::IsDrawText(true);
 	m_bUseFade = false;
 }
 
@@ -231,10 +241,10 @@ void CManager::SetMode(MODE Mode)
 		m_pGameMode = CGameMode::Create();
 		break;
 	case MODE_RESULT:
-		CResultMode::Create();
+		m_pResultMode = CResultMode::Create();
 		break;
 	case MODE_RANKING:
-		CRankingMode::Create();
+		m_pRankingMode = CRankingMode::Create();
 	default:
 		break;
 	}
@@ -257,6 +267,10 @@ void CManager::LoadAll(void)
 	CEnemyFlower::TextureLoad();
 	//ドラゴンのテクスチャ読み込み
 	CEnemyDragon::TextureLoad();
+	//爆弾敵の頭テクスチャ読み込み
+	CEnemyBombHead::TextureLoad();
+	//爆弾敵の体テクスチャ読み込み
+	CEnemyBombBody::TextureLoad();
 	//プレイヤーの弾のテクスチャ読み込み
 	CBulletPlayer::TextureLoad();
 	//火球のテクスチャ読み込み
@@ -334,6 +348,10 @@ void CManager::UnloadAll(void)
 	CEnemyFlower::TextureUnload();
 	//ドラゴンのテクスチャ破棄
 	CEnemyDragon::TextureUnload();
+	//爆弾敵の頭テクスチャ破棄
+	CEnemyBombHead::TextureUnload();
+	//爆弾敵の体テクスチャ読み込み
+	CEnemyBombBody::TextureUnload();
 	//プレイヤーの弾のテクスチャ破棄
 	CBulletPlayer::TextureUnload();
 	//火球のテクスチャ破棄

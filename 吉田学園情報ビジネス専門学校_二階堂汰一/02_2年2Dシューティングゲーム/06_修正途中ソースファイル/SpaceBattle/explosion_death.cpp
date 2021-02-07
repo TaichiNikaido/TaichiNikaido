@@ -32,10 +32,10 @@ LPDIRECT3DTEXTURE9 CExplosionDeath::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CExplosionDeath::CExplosionDeath(int nPriority)
+CExplosionDeath::CExplosionDeath(int nPriority) : CExplosion(nPriority)
 {
-	m_nCounterAnime = 0;					//アニメカウンタ
-	m_nPatternAnime = 0;					//アニメパターン
+	m_nCounterAnime = 0;	//アニメカウンタ
+	m_nPatternAnime = 0;	//アニメパターン
 }
 
 //=============================================================================

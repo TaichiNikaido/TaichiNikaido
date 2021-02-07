@@ -19,6 +19,7 @@
 //*****************************************************************************
 // ‘O•ûéŒ¾
 //*****************************************************************************
+class CResult;
 
 //*****************************************************************************
 // \‘¢‘Ì’è‹`
@@ -37,7 +38,9 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	CResult * GetResult(void) { return m_pResult; }
 private:
 	void CreateAll(void);
+	CResult * m_pResult;
 };
 #endif

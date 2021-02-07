@@ -104,4 +104,5 @@ void CNameMode::CreateAll(void)
 	//名前入力背景生成処理関数呼び出し
 	CBackgroundName::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 	//名前入力処理生成処理関数呼び出し
+	m_pName = CName::Create();
 }

@@ -15,6 +15,7 @@
 #include "background_result.h"
 #include "keyboard.h"
 #include "joystick.h"
+#include "result.h"
 
 //*****************************************************************************
 // É}ÉNÉçíËã`
@@ -113,4 +114,5 @@ void CResultMode::Draw(void)
 void CResultMode::CreateAll(void)
 {
 	CBackgroundResult::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	m_pResult = CResult::Create();
 }

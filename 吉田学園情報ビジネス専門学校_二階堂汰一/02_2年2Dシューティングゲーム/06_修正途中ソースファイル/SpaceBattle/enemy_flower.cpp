@@ -31,6 +31,9 @@
 #define LIFE (13)
 #define SCORE (50000)
 #define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
+#define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))
+#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))
+#define STAY_TIME (500)
 #define BULLET_MOVE (D3DXVECTOR3(cosf(D3DXToRadian(nCnt * (360 / 20)))*3.5f, sinf(D3DXToRadian(nCnt * (360 / 20)))*3.5f, 0.0f))
 #define RATE_MOVE (0.03f)
 
@@ -42,12 +45,14 @@ LPDIRECT3DTEXTURE9 CEnemyFlower::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CEnemyFlower::CEnemyFlower(int nPriority)
+CEnemyFlower::CEnemyFlower(int nPriority) : CEnemy(nPriority)
 {
+	m_StopPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_nCounterAnime = 0;					//アニメカウンタ
 	m_nPatternAnime = 0;					//アニメパターン
 	m_nBulletTime = 0;						//弾の発射間隔
 	m_nColorCount = 0;						//色カウント
+	m_nStayTime = 0;
 }
 
 //=============================================================================
@@ -114,12 +119,16 @@ HRESULT CEnemyFlower::Init(void)
 	SetSize(SIZE);
 	//体力の初期設定
 	SetLife(LIFE);
+	//移動量の初期設定
+	SetMove(SPEED);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
 	//状態を移動中
-	SetState(STATE_NONE);
+	SetState(STATE_MOVE);
+	//敵の止まる位置を指定する
+	m_StopPosition.y = float(rand() % (FIELD_HEIGHT / 6) + 100);
 	return S_OK;
 }
 
@@ -139,11 +148,15 @@ void CEnemyFlower::Update(void)
 {
 	//敵の更新処理関数呼び出し
 	CEnemy::Update();
-	//攻撃処理関数呼び出し
+	//状態が移動状態じゃないとき
 	if (GetState() != STATE_MOVE)
 	{
+		//攻撃処理関数呼び出し
 		Attack();
 	}
+	//停止処理関数呼び出し
+	Stop();
+	Stay();
 	//アニメーション処理関数呼び出し
 	Animation();
 	//もしライフが0になったら
@@ -207,6 +220,31 @@ void CEnemyFlower::Attack(void)
 		}
 		//弾を発射するまでの時間を加算する
 		m_nBulletTime++;
+	}
+}
+
+//=============================================================================
+// 停止処理関数
+//=============================================================================
+void CEnemyFlower::Stop(void)
+{
+	D3DXVECTOR3 Position = GetPosition();
+
+	if (Position.y >= m_StopPosition.y)
+	{
+		SetMove(STOP);
+		SetState(STATE_NONE);
+	}
+}
+
+void CEnemyFlower::Stay(void)
+{
+	m_nStayTime++;
+	if (m_nStayTime == STAY_TIME)
+	{
+		//状態を移動中
+		SetState(STATE_MOVE);
+		SetMove(RETURN_SPEED);
 	}
 }
 

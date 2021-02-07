@@ -51,8 +51,6 @@ HRESULT CItem::Init(void)
 {
 	//2Dシーン管理初期化処理関数呼び出し
 	CScene2d::Init();
-	//オブジェタイプをアイテムにする
-	SetObjType(CScene::OBJTYPE_ITEM);
 	//移動量の初期設定
 	m_Move = SPEED;
 	//サイズの初期設定

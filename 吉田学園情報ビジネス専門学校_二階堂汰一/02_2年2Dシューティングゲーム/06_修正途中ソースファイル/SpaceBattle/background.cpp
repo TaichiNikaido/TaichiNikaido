@@ -50,8 +50,6 @@ HRESULT CBackground::Init(void)
 {
 	//2Dシーンの初期化処理関数呼び出し
 	CScene2d::Init();
-	//オブジェタイプを背景にする
-	SetObjType(CScene::OBJTYPE_BACKGROUND);
 	return S_OK;
 }
 

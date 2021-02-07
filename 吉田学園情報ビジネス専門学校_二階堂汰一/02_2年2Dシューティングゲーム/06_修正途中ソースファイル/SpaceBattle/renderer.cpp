@@ -14,6 +14,7 @@
 #include "scene2d.h"
 #include "manager.h"
 #include "fade.h"
+#include "text.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -179,10 +180,17 @@ void CRenderer::Draw(void)
 	m_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 	//フェードの取得
 	CFade * pFade = CManager::GetFade();
+	//テキスト取得
+	CText * pText = CManager::GetText();
 	// Direct3Dによる描画の開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{
 		CScene::DrawAll();
+		if (pText != NULL)
+		{
+			//テキストの描画処理関数呼び出し
+			pText->Draw();
+		}
 		if (pFade != NULL)
 		{
 			//フェードの描画

@@ -18,6 +18,7 @@
 #include "sound.h"
 #include "explosion_bomb.h"
 #include "enemy.h"
+#include "bullet.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -33,10 +34,10 @@ LPDIRECT3DTEXTURE9 CExplosionBomb::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CExplosionBomb::CExplosionBomb(int nPriority)
+CExplosionBomb::CExplosionBomb(int nPriority) : CExplosion(nPriority)
 {
-	m_nCounterAnime = 0;					//アニメカウンタ
-	m_nPatternAnime = 0;					//アニメパターン
+	m_nCounterAnime = 0;	//アニメカウンタ
+	m_nPatternAnime = 0;	//アニメパターン
 }
 
 //=============================================================================
@@ -124,6 +125,8 @@ void CExplosionBomb::Update(void)
 {
 	//爆発の更新処理関数呼び出し
 	CExplosion::Update();
+	//当たり判定
+	Collision();
 	//アニメーション処理関数呼び出し
 	Animation();
 
@@ -174,6 +177,55 @@ void CExplosionBomb::Animation(void)
 //=============================================================================
 // 衝突判定処理
 //=============================================================================
-void CExplosionBomb::Collisio(void)
+void CExplosionBomb::Collision(void)
 {
+	for (int nCountPriority = 3; nCountPriority < 5; nCountPriority++)
+	{
+		for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
+		{
+			//シーンの取得
+			CScene * pScene = GetScene(nCountPriority, nCountScene);
+			if (pScene != NULL)
+			{
+				//オブジェタイプの取得
+				OBJTYPE objType;
+				objType = pScene->GetObjType();
+
+				//もしオブジェクトタイプが敵だったら
+				if (objType == OBJTYPE_ENEMY)
+				{
+					CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
+					if (pEnemy != NULL)
+					{
+						D3DXVECTOR3 TargetPosition = pEnemy->GetPosition();
+						D3DXVECTOR3 TargetSize = pEnemy->GetSize();
+						//敵との衝突
+						if (GetPosition().x + GetSize().x / 2 > TargetPosition.x - (TargetSize.x / 2) &&
+							GetPosition().x - GetSize().x / 2 < TargetPosition.x + (TargetSize.x / 2) &&
+							GetPosition().y + GetSize().y / 2 > TargetPosition.y - (TargetSize.y / 2) &&
+							GetPosition().y - GetSize().y / 2 < TargetPosition.y + (TargetSize.y / 2))
+						{
+							//敵のヒット処理関数呼び出し
+							pEnemy->Hit();
+						}
+					}
+				}
+				CBullet * pBullet = dynamic_cast<CBullet*> (pScene);
+				if (pBullet != NULL)
+				{
+					D3DXVECTOR3 TargetPosition = pBullet->GetPosition();
+					D3DXVECTOR3 TargetSize = pBullet->GetSize();
+					//敵との衝突
+					if (GetPosition().x + GetSize().x / 2 > TargetPosition.x - (TargetSize.x / 2) &&
+						GetPosition().x - GetSize().x / 2 < TargetPosition.x + (TargetSize.x / 2) &&
+						GetPosition().y + GetSize().y / 2 > TargetPosition.y - (TargetSize.y / 2) &&
+						GetPosition().y - GetSize().y / 2 < TargetPosition.y + (TargetSize.y / 2))
+					{
+						//弾の消去
+						pBullet->Uninit();
+					}
+				}
+			}
+		}
+	}
 }

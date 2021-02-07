@@ -29,8 +29,11 @@
 #define TEXTURE ("Data/Texture/Enemy/eye_hard.png")
 #define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
 #define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
+#define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))
+#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))
 #define LIFE (3)
 #define SCORE (10000)
+#define STAY_TIME (500)
 #define RATE_MOVE (0.03f)
 #define BULLET_SPEED (7.0f)
 
@@ -42,10 +45,12 @@ LPDIRECT3DTEXTURE9 CEnemyEyeHard::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CEnemyEyeHard::CEnemyEyeHard(int nPriority)
+CEnemyEyeHard::CEnemyEyeHard(int nPriority) : CEnemy(nPriority)
 {
+	m_StopPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_fAngleRot = 0.0f;	//向き
 	m_nCountBullet = 0;	//発射間隔
+	m_nStayTime = 0;
 }
 
 //=============================================================================
@@ -112,12 +117,16 @@ HRESULT CEnemyEyeHard::Init(void)
 	SetSize(SIZE);
 	//体力の初期設定
 	SetLife(LIFE);
+	//移動量の初期設定
+	SetMove(SPEED);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
-	//状態を無にする
-	SetState(STATE_NONE);
+	//状態を移動中
+	SetState(STATE_MOVE);
+	//敵の止まる位置を指定する
+	m_StopPosition.y = float(rand() % (FIELD_HEIGHT / 2) + 100);
 	return S_OK;
 }
 
@@ -139,8 +148,15 @@ void CEnemyEyeHard::Update(void)
 	CEnemy::Update();
 	//見つめる処理関数呼び出し
 	Gaze();
-	//攻撃処理関数呼び出し
-	Attack();
+	//状態が移動状態じゃないとき
+	if (GetState() != STATE_MOVE)
+	{
+		//攻撃処理関数呼び出し
+		Attack();
+	}
+	//停止処理関数呼び出し
+	Stop();
+	Stay();
 	//もしライフが0になったら
 	if (GetLife() <= 0)
 	{
@@ -227,5 +243,30 @@ void CEnemyEyeHard::Gaze(void)
 			//向きを設定する
 			SetRotation(D3DXVECTOR3(0.0f, 0.0f, m_fAngleRot * -1.0f));
 		}
+	}
+}
+
+//=============================================================================
+// 停止処理関数
+//=============================================================================
+void CEnemyEyeHard::Stop(void)
+{
+	D3DXVECTOR3 Position = GetPosition();
+
+	if (Position.y >= m_StopPosition.y)
+	{
+		SetMove(STOP);
+		SetState(STATE_NONE);
+	}
+}
+
+void CEnemyEyeHard::Stay(void)
+{
+	m_nStayTime++;
+	if (m_nStayTime == STAY_TIME)
+	{
+		//状態を移動中
+		SetState(STATE_MOVE);
+		SetMove(RETURN_SPEED);
 	}
 }

@@ -16,6 +16,7 @@
 #include "keyboard.h"
 #include "joystick.h"
 #include "button.h"
+#include "player.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -226,6 +227,7 @@ void CTitleMode::Select(void)
 		CManager::StartFade(CManager::MODE_NAME);
 		break;
 	case CButton::BUTTON_REPLAY:
+		CPlayer::SetbReplay(true);
 		//ゲームモードに遷移
 		CManager::StartFade(CManager::MODE_GAME);
 		break;

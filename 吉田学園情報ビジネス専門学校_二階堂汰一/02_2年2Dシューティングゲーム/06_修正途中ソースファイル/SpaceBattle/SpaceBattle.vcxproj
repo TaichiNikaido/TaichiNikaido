@@ -166,6 +166,8 @@
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="bullet_enemy.cpp" />
+    <ClCompile Include="enemy_bomb_body.cpp" />
+    <ClCompile Include="enemy_bomb_head.cpp" />
     <ClCompile Include="enemy_dragon.cpp" />
     <ClCompile Include="enemy_eye_normal.cpp" />
     <ClCompile Include="enemy_eye_hard.cpp" />
@@ -233,6 +235,8 @@
     <ClInclude Include="effect.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="bullet_enemy.h" />
+    <ClInclude Include="enemy_bomb_body.h" />
+    <ClInclude Include="enemy_bomb_head.h" />
     <ClInclude Include="enemy_dragon.h" />
     <ClInclude Include="enemy_eye_normal.h" />
     <ClInclude Include="enemy_eye_hard.h" />

@@ -30,6 +30,7 @@
 #include "ui_bomb.h"
 #include "ui_life.h"
 #include "explosion_death.h"
+#include "enemy_dragon.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -49,13 +50,13 @@
 // 静的メンバ変数の初期化
 //*****************************************************************************
 LPDIRECT3DTEXTURE9 CPlayer::m_pTexture = NULL;	//テクスチャへのポインタ
-
+char CPlayer::m_aPlayerName[MAX_NAME] = {};
+bool CPlayer::m_bReplay = false;
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CPlayer::CPlayer(int nPriority) : CScene2d(nPriority)
 {
-	m_pBullet = NULL;									//弾へのポインタ
 	m_Move = D3DXVECTOR3(0.0f,0.0f,0.0f);				//移動量
 	m_nLife = 0;										//体力
 	m_nBomb = 0;										//爆弾の所持数
@@ -136,8 +137,6 @@ HRESULT CPlayer::Init(void)
 	aTexture[3] = D3DXVECTOR2(0.33333f * m_nLevel + 0.33333f, 1.0f);
 	//2Dシーン管理初期化処理関数呼び出し
 	CScene2d::Init();
-	//オブジェタイプをプレイヤーにする
-	SetObjType(CScene::OBJTYPE_PLAYER);
 	//移動速度の初期設定
 	m_fSpeed = PLAYER_SPEED;
 	//体力の初期設定
@@ -150,6 +149,10 @@ HRESULT CPlayer::Init(void)
 	SetTexture(aTexture);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
+	if (m_bReplay == true)
+	{
+		InputDataLoad();
+	}
 	return S_OK;
 }
 
@@ -167,14 +170,14 @@ void CPlayer::Uninit(void)
 //=============================================================================
 void CPlayer::Update(void)
 {
-	//ゲームモードの取得
-	CGameMode * pGameMode = CManager::GetGameMode();
 	//スコアのUIを取得
 	CScoreUI * pScoreUI = CGameMode::GetScoreUI();
 	//爆弾のUIを取得
 	CBombUI * pBombUI = CGameMode::GetBombUI();
 	//体力のUIを取得
 	CLifeUI * pLifeUI = CGameMode::GetLifeUI();
+	//ドラゴンの取得
+	CEnemyDragon * pEnemyDragon = CGameMode::GetDragon();
 	//2Dシーン管理更新処理関数呼び出し
 	CScene2d::Update();
 	//テクスチャのUV座標の設定
@@ -186,7 +189,7 @@ void CPlayer::Update(void)
 	//位置を取得
 	D3DXVECTOR3 Position = GetPosition();
 	//もしリプレイ状態が偽のとき
-	if (pGameMode->GetbReplay() == false)
+	if (m_bReplay == false)
 	{
 		//入力処理関数呼び出し
 		Input();
@@ -409,6 +412,11 @@ void CPlayer::Input(void)
 		//攻撃処理関数呼び出し
 		Attack();
 	}
+
+	if (pKeyboard->GetKeyboardTrigger(DIK_C))
+	{
+		Clear();
+	}
 }
 
 //=============================================================================
@@ -457,19 +465,19 @@ void CPlayer::Attack(void)
 				{
 				case LEVEL_1:
 					//弾の生成
-					m_pBullet = CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
+					CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
 					break;
 				case LEVEL_2:
 					//弾の生成
-					m_pBullet = CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x + GetSize().x / 5, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
-					m_pBullet = CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x - GetSize().x / 5, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
+					CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x + GetSize().x / 5, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
+					CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x - GetSize().x / 5, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
 					break;
 				case LEVEL_3:
 					//弾の生成
-					m_pBullet = CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x + GetSize().x / 5, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
-					m_pBullet = CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x - GetSize().x / 5, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
-					m_pBullet = CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x, GetPosition().y - GetSize().y / 2, 0.0f), LEVEL2_LEFTBULLETSPEED);
-					m_pBullet = CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x, GetPosition().y - GetSize().y / 2, 0.0f), LEVEL2_RIGHTBULLETSPEED);
+					CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x + GetSize().x / 5, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
+					CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x - GetSize().x / 5, GetPosition().y - GetSize().y / 2, GetPosition().z), LEVEL1_BULLETSPEED);
+					CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x, GetPosition().y - GetSize().y / 2, 0.0f), LEVEL2_LEFTBULLETSPEED);
+					CBulletPlayer::Create(D3DXVECTOR3(GetPosition().x, GetPosition().y - GetSize().y / 2, 0.0f), LEVEL2_RIGHTBULLETSPEED);
 					break;
 				default:
 					break;
@@ -481,7 +489,7 @@ void CPlayer::Attack(void)
 			if (m_nBomb > 0)
 			{
 				//爆弾の生成
-				m_pBullet = CBulletBomb::Create(D3DXVECTOR3(GetPosition().x, GetPosition().y - GetSize().y / 2, 0.0f), BOMB_SPEED);
+				CBulletBomb::Create(D3DXVECTOR3(GetPosition().x, GetPosition().y - GetSize().y / 2, 0.0f), BOMB_SPEED);
 				//爆弾減算関数呼び出し
 				SubBomb();
 			}
@@ -596,11 +604,11 @@ void CPlayer::Replay(void)
 {
 	//ゲームモードの取得
 	CGameMode * pGameMode = CManager::GetGameMode();
+	//プレイヤーが移動していないとき
+	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	//上キーの入力情報があるとき
 	if (m_aInputData[pGameMode->GetFlameCount()][INPUT_UP] == '1')
 	{
-		//移動量を代入
-		m_Move.y = cosf(D3DX_PI)*m_fSpeed;
 		//入力キー情報を上にする
 		m_Input = INPUT_UP;
 		//移動処理関数呼び出し
@@ -609,8 +617,6 @@ void CPlayer::Replay(void)
 	//下キーの入力情報があるとき
 	if (m_aInputData[pGameMode->GetFlameCount()][INPUT_DOWN] == '1')
 	{
-		//移動量を代入
-		m_Move.y = cosf(D3DX_PI)*-m_fSpeed;
 		//入力キー情報を下にする
 		m_Input = INPUT_DOWN;
 		//移動処理関数呼び出し
@@ -619,8 +625,6 @@ void CPlayer::Replay(void)
 	//左キーの入力情報があるとき
 	if (m_aInputData[pGameMode->GetFlameCount()][INPUT_LEFT] == '1')
 	{
-		//移動量を代入
-		m_Move.x = cosf(D3DX_PI)*m_fSpeed;
 		//入力キー情報を左にする
 		m_Input = INPUT_LEFT;
 		//移動処理関数呼び出し
@@ -629,8 +633,6 @@ void CPlayer::Replay(void)
 	//右キーの入力情報があるとき
 	if (m_aInputData[pGameMode->GetFlameCount()][INPUT_RIGHT] == '1')
 	{
-		//移動量を代入
-		m_Move.x = cosf(D3DX_PI)*-m_fSpeed;
 		//入力キー情報を右にする
 		m_Input = INPUT_RIGHT;
 		//移動処理関数呼び出し
@@ -698,18 +700,37 @@ void CPlayer::TimeCount(void)
 }
 
 //=============================================================================
-// プレイヤー情報保存処理関数
+// クリア処理関数
+//=============================================================================
+void CPlayer::Clear(void)
+{
+	//もしリプレイモードでは無い場合
+	if (m_bReplay == false)
+	{
+		//入力情報保存処理関数呼び出し
+		InputDataSave();
+	}
+	else
+	{
+		m_bReplay = false;
+	}
+	//データ保存処理関数呼び出し
+	DataSave();
+	//リザルトへ遷移
+	CManager::StartFade(CManager::MODE_RESULT);
+}
+
+//=============================================================================
+// データ保存処理関数
 //=============================================================================
 void CPlayer::DataSave(void)
 {
 	FILE * pFile;
-
-	pFile = fopen("data/TEXT/PlayerData.txt", "w"); //ファイルの書き込み
-
+	pFile = fopen("data/Text/PlayerData.txt", "w"); //ファイルの書き込み
 	if (pFile != NULL)
 	{
 		//名前を記録
-		//fprintf(pFile, "%s\n", &m_aPlayerName);
+		fprintf(pFile, "%s\n", &m_aPlayerName);
 		//死亡数を記録
 		fprintf(pFile, "%d\n", m_nDeathCount);
 		//コンティニュー数を記録
@@ -718,7 +739,6 @@ void CPlayer::DataSave(void)
 		fprintf(pFile, "%d\n", m_nUseBomb);
 		//スコアを記録
 		fprintf(pFile, "%d\n", m_nScore);
-
 		//ファイルを閉じる
 		fclose(pFile);
 	}
@@ -732,15 +752,12 @@ void CPlayer::InputDataSave(void)
 	FILE * pFile;
 	//ゲームモードの取得
 	CGameMode * pGameMode = CManager::GetGameMode();
-
 	//ファイルの書き込み
-	pFile = fopen("data/TEXT/InputData.txt", "w");
-
+	pFile = fopen("data/Text/InputData.txt", "w");
 	if (pFile != NULL)
 	{
 		for (int nCount = 0; nCount < pGameMode->GetFlameCount(); nCount++)
 		{
-		//	プレイヤーの入力情報の記録
 			fprintf(pFile, "%d", m_aInputData[nCount][INPUT_UP]);
 			fprintf(pFile, "%d", m_aInputData[nCount][INPUT_DOWN]);
 			fprintf(pFile, "%d", m_aInputData[nCount][INPUT_LEFT]);
@@ -748,7 +765,6 @@ void CPlayer::InputDataSave(void)
 			fprintf(pFile, "%d", m_aInputData[nCount][INPUT_BOMB]);
 			fprintf(pFile, "%d\n", m_aInputData[nCount][INPUT_SHOT]);
 		}
-
 		//ファイルを閉じる
 		fclose(pFile);
 	}
@@ -775,7 +791,13 @@ void CPlayer::InputDataLoad(void)
 		fclose(pFile);
 	}
 }
-
+//=============================================================================
+// 名前取得関数
+//=============================================================================
+void CPlayer::SetPlayerName(int nCount, char aName)
+{
+	m_aPlayerName[nCount] = aName;
+}
 
 
 

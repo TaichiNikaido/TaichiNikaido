@@ -31,11 +31,13 @@
 #define RATE_MOVE (0.03f)
 #define SIZE (D3DXVECTOR3(150.0f,150.0f,0.0f))
 #define LIFE (12)
-#define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
+#define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))
+#define RETURN_SPEED ((D3DXVECTOR3(0.0f,-7.0f,0.0f)))
+#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))
+#define STAY_TIME (500)
 #define SHOT_SPEED (D3DXVECTOR3(cosf(D3DXToRadian(nCnt * (360 / 30) + 40.0f))*5.5f, sinf(D3DXToRadian(nCnt * (360 / 30) + 40.0f))*5.5f, 0.0f))
 #define SHOT_TIME (50)
 #define SHOT_INTERVAL (20)
-#define RETURN_SPEED ((D3DXVECTOR3(0.0f,-7.0f,0.0f)))
 #define SCORE (100000)
 
 //*****************************************************************************
@@ -46,11 +48,13 @@ LPDIRECT3DTEXTURE9 CEnemySpider::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CEnemySpider::CEnemySpider(int nPriority)
+CEnemySpider::CEnemySpider(int nPriority) : CEnemy(nPriority)
 {
+	m_StopPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_nCountBullet = 0;		//弾のカウンタ
 	m_nCounterAnime = 0;	//アニメカウンタ
 	m_nPatternAnime = 0;	//パターンアニメ
+	m_nStayTime = 0;
 }
 
 //=============================================================================
@@ -117,12 +121,15 @@ HRESULT CEnemySpider::Init(void)
 	SetSize(SIZE);
 	//体力の初期設定
 	SetLife(LIFE);
+	//移動量の初期設定
+	SetMove(SPEED);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
-	//状態を無にする
-	SetState(STATE_NONE);
+	//状態を移動中
+	SetState(STATE_MOVE);
+	m_StopPosition.y = float(rand() % (FIELD_HEIGHT / 6) + 100);
 	return S_OK;
 }
 
@@ -142,8 +149,15 @@ void CEnemySpider::Update(void)
 {
 	//敵の更新処理関数呼び出し
 	CEnemy::Update();
-	//攻撃処理関数呼び出し
-	Attack();
+	//状態が移動状態じゃないとき
+	if (GetState() != STATE_MOVE)
+	{
+		//攻撃処理関数呼び出し
+		Attack();
+	}
+	//停止処理関数呼び出し
+	Stop();
+	Stay();
 	//もしライフが0になったら
 	if (GetLife() <= 0)
 	{
@@ -206,6 +220,31 @@ void CEnemySpider::Attack(void)
 			//弾のカウントを加算
 			m_nCountBullet++;
 		}
+	}
+}
+
+//=============================================================================
+// 停止処理関数
+//=============================================================================
+void CEnemySpider::Stop(void)
+{
+	D3DXVECTOR3 Position = GetPosition();
+
+	if (Position.y >= m_StopPosition.y)
+	{
+		SetMove(STOP);
+		SetState(STATE_NONE);
+	}
+}
+
+void CEnemySpider::Stay(void)
+{
+	m_nStayTime++;
+	if (m_nStayTime == STAY_TIME)
+	{
+		//状態を移動中
+		SetState(STATE_MOVE);
+		SetMove(RETURN_SPEED);
 	}
 }
 

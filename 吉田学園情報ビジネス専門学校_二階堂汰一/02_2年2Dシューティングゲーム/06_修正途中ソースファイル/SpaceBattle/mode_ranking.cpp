@@ -15,6 +15,7 @@
 #include "background_ranking.h"
 #include "keyboard.h"
 #include "joystick.h"
+#include "ranking.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -114,4 +115,5 @@ void CRankingMode::CreateAll(void)
 {
 	//ランキング背景生成
 	CBackgroundRanking::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	m_pRanking = CRanking::Create();
 }
