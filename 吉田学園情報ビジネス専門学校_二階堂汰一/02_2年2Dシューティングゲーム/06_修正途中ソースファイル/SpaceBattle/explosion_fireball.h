@@ -30,7 +30,7 @@
 class CExplosionFireball :public CExplosion
 {
 public:
-	CExplosionFireball(int nPriority = DEFAULT_PRIORITY);
+	CExplosionFireball();
 	~CExplosionFireball();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

@@ -8,20 +8,18 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
-#include "mode_game.h"
 #include "renderer.h"
 #include "scene2d.h"
-#include "item_bomb.h"
+#include "mode_game.h"
 #include "player.h"
+#include "item_bomb.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Item/Bomb.png")
+#define TEXTURE ("Data/Texture/Item/Bomb.png")	//テクスチャ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -31,7 +29,7 @@ LPDIRECT3DTEXTURE9 CItemBomb::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CItemBomb::CItemBomb(int nPriority)
+CItemBomb::CItemBomb()
 {
 }
 
@@ -47,9 +45,10 @@ CItemBomb::~CItemBomb()
 //=============================================================================
 HRESULT CItemBomb::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -62,10 +61,12 @@ HRESULT CItemBomb::TextureLoad(void)
 //=============================================================================
 void CItemBomb::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -75,10 +76,22 @@ void CItemBomb::TextureUnload(void)
 //=============================================================================
 CItemBomb * CItemBomb::Create(D3DXVECTOR3 Position)
 {
-	CItemBomb * pItemBomb;
-	pItemBomb = new CItemBomb;
-	pItemBomb->Init();
-	pItemBomb->SetPosition(Position);
+	//爆弾付与アイテムのポインタ
+	CItemBomb * pItemBomb = NULL;
+	//爆弾付与アイテムのポインタがNULLの場合
+	if (pItemBomb == NULL)
+	{
+		//爆弾付与アイテムのメモリ確保
+		pItemBomb = new CItemBomb;
+	}
+	//爆弾付与アイテムのポインタがNULLじゃない場合
+	if (pItemBomb != NULL)
+	{
+		//位置を設定する
+		pItemBomb->SetPosition(Position);
+		//初期化処理関数呼び出し
+		pItemBomb->Init();
+	}
 	return pItemBomb;
 }
 
@@ -93,8 +106,6 @@ HRESULT CItemBomb::Init(void)
 	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
 	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
 	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
-	//サウンドの取得
-	CSound * pSound = CManager::GetSound();
 	//アイテムの初期化処理関数呼び出し
 	CItem::Init();
 	//テクスチャの設定
@@ -144,6 +155,7 @@ void CItemBomb::Give(void)
 {
 	//プレイヤーの取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//プレイヤーがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
 		//爆弾加算処理関数呼び出し

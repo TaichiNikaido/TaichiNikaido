@@ -16,8 +16,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Bullet/Bullet.png")
-#define SCALE (1.0f)
+#define TEXTURE ("Data/Texture/Bullet/Bullet.png")	//テクスチャ
+#define SCALE (1.0f)								//拡縮
+#define MINIMUM_SCALE (0.0f)
+#define ALPHA (255.0f)
+#define SUB_ALPHA (10.0f)
+#define SUB_SCALE (0.1f)
+#define MINIMUM_LIFE (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -29,7 +34,7 @@ LPDIRECT3DTEXTURE9 CEffect::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 CEffect::CEffect(int nPriority)
 {
-	m_fScale = 0.0f;
+	m_fScale = MINIMUM_SCALE;	//拡縮
 }
 
 //=============================================================================
@@ -44,7 +49,9 @@ CEffect::~CEffect()
 //=============================================================================
 HRESULT CEffect::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,				// デバイスへのポインタ
@@ -58,10 +65,12 @@ HRESULT CEffect::TextureLoad(void)
 //=============================================================================
 void CEffect::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -71,8 +80,15 @@ void CEffect::TextureUnload(void)
 //=============================================================================
 CEffect * CEffect::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Size, D3DXCOLOR Color, int nLife)
 {
-	CEffect * pEffect;
-	pEffect = new CEffect;
+	//エフェクトのポインタ
+	CEffect * pEffect = NULL;
+	//もしエフェクトのポインタがNULLの場合
+	if (pEffect == NULL)
+	{
+		//エフェクトのメモリ確保
+		pEffect = new CEffect;
+	}
+	//初期化処理関数呼び出し
 	pEffect->Init(Position, Size, Color, nLife);
 	return pEffect;
 }
@@ -100,8 +116,10 @@ HRESULT CEffect::Init(D3DXVECTOR3 Position, D3DXVECTOR3 Size, D3DXCOLOR Color, i
 	m_nLife = nLife;
 	//スケールの初期設定
 	m_fScale = SCALE;
+	//拡縮を設定する
 	SetScale(m_fScale);
-	m_fAlpha = 255.0f;
+	//アルファ値の代入
+	m_fAlpha = ALPHA;
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
@@ -130,24 +148,25 @@ void CEffect::Update(void)
 	//2Dシーンの更新処理関数呼び出し
 	CScene2d::Update();
 	//ライフが0になったら
-	if (m_nLife <= 0)
+	if (m_nLife <= MINIMUM_LIFE)
 	{
 		//終了処理関数呼び出し
 		Uninit();
 		return;
 	}
-
-	if (m_nLife > 0)
+	//もしライフが0より上だったら
+	if (m_nLife > MINIMUM_LIFE)
 	{
-		m_fAlpha -= 10.0f;
-		m_fScale -= 0.1f;
+		//アルファ値を減算する
+		m_fAlpha -= SUB_ALPHA;
+		//縮小する
+		m_fScale -= SUB_SCALE;
 	}
-
 	//ライフを減算する
 	m_nLife--;
-
-	//色を設定する
+	//色を代入する
 	D3DXCOLOR Color = D3DXCOLOR(GetColor().r, GetColor().g, GetColor().b,m_fAlpha);
+	//色を設定する
 	SetColor(Color);
 	//位置を設定
 	SetPosition(Position);
@@ -162,9 +181,14 @@ void CEffect::Update(void)
 //=============================================================================
 void CEffect::Draw(void)
 {
+	//レンダラーの取得
 	CRenderer * pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+	//アルファブレンド
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	//描画処理関数呼び出し
 	CScene2d::Draw();
+	//アルファブレンドを元に戻す
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }

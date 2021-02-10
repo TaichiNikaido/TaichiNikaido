@@ -30,7 +30,7 @@
 class CFlame : public CScene2d
 {
 public:
-	CFlame(int nPriority = 7);
+	CFlame(int nPriority = PRIORITY_FLAME);
 	~CFlame();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

@@ -18,22 +18,24 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE (D3DXVECTOR3(431.0f,83.0f,0.0f))
-#define PLAY_BUTTON_TEXTURE ("Data/Texture/Button/button_play.png")
-#define REPLAY_BUTTON_TEXTURE ("Data/Texture/Button/button_replay.png")
-#define EXIT_BUTTON_TEXTRUE ("Data/Texture/Button/button_exit.png")
+#define SIZE (D3DXVECTOR3(431.0f,83.0f,0.0f))							//サイズ
+#define SHOW_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))						//見える色
+#define HIDE_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,0.3f))						//若干見える色
+#define PLAY_BUTTON_TEXTURE ("Data/Texture/Button/button_play.png")		//プレイボタンのテクスチャ
+#define REPLAY_BUTTON_TEXTURE ("Data/Texture/Button/button_replay.png")	//リプレイボタンのテクスチャ
+#define EXIT_BUTTON_TEXTRUE ("Data/Texture/Button/button_exit.png")		//終了ボタンのテクスチャ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CButton::m_pTexture[BUTTON_MAX] = {};	//テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 CButton::m_apTexture[BUTTON_MAX] = {};	//テクスチャへのポインタ
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CButton::CButton(int nPriority)
 {
-	m_Button = BUTTON_NONE;
+	m_Button = BUTTON_NONE;	//ボタン情報
 }
 
 //=============================================================================
@@ -48,19 +50,20 @@ CButton::~CButton()
 //=============================================================================
 HRESULT CButton::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
 		PLAY_BUTTON_TEXTURE,				// ファイルの名前
-		&m_pTexture[BUTTON_PLAY]);					// 読み込むメモリー
+		&m_apTexture[BUTTON_PLAY]);			// 読み込むメモリー
 	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
 		REPLAY_BUTTON_TEXTURE,				// ファイルの名前
-		&m_pTexture[BUTTON_REPLAY]);					// 読み込むメモリー
+		&m_apTexture[BUTTON_REPLAY]);		// 読み込むメモリー
 	D3DXCreateTextureFromFile(pDevice,		// デバイスへのポインタ
 		EXIT_BUTTON_TEXTRUE,				// ファイルの名前
-		&m_pTexture[BUTTON_EXIT]);					// 読み込むメモリー
+		&m_apTexture[BUTTON_EXIT]);			// 読み込むメモリー
 	return S_OK;
 }
 
@@ -69,13 +72,16 @@ HRESULT CButton::TextureLoad(void)
 //=============================================================================
 void CButton::TextureUnload(void)
 {
-	for (int nCount = 0; nCount < 3; nCount++)
+	//ボタンの最大数回す
+	for (int nCount = 0; nCount < BUTTON_MAX; nCount++)
 	{
-		// テクスチャの破棄
-		if (m_pTexture[nCount] != NULL)
+		//もしテクスチャがNULLじゃない場合
+		if (m_apTexture[nCount] != NULL)
 		{
-			m_pTexture[nCount]->Release();
-			m_pTexture[nCount] = NULL;
+			//テクスチャの破棄処理関数呼び出し
+			m_apTexture[nCount]->Release();
+			//テクスチャをNULLにする
+			m_apTexture[nCount] = NULL;
 		}
 	}
 }
@@ -85,10 +91,22 @@ void CButton::TextureUnload(void)
 //=============================================================================
 CButton * CButton::Create(D3DXVECTOR3 Positon, BUTTON Button)
 {
-	CButton * pButton;
-	pButton = new CButton;
-	pButton->SetPosition(Positon);
-	pButton->Init(Button);
+	//ボタンのポインタ
+	CButton * pButton = NULL;
+	//ボタンのポインタがNULLの場合
+	if (pButton == NULL)
+	{
+		//ボタンのメモリ確保
+		pButton = new CButton;
+	}
+	//ボタンのポインタがNULLじゃない場合
+	if (pButton != NULL)
+	{
+		//位置を設定する
+		pButton->SetPosition(Positon);
+		//初期化処理関数呼び出し
+		pButton->Init(Button);
+	}
 	return pButton;
 }
 
@@ -110,7 +128,7 @@ HRESULT CButton::Init(BUTTON Button)
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
-	BindTexture(m_pTexture[Button]);
+	BindTexture(m_apTexture[Button]);
 	return S_OK;
 }
 
@@ -150,13 +168,15 @@ void CButton::SelectButton(bool bSelect)
 	if (bSelect == true)
 	{
 		//色を指定する
-		D3DXCOLOR Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		D3DXCOLOR Color = SHOW_COLOR;
+		//色を設定する
 		SetColor(Color);
 	}
 	else
 	{
 		//色を指定する
-		D3DXCOLOR Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.3f);
+		D3DXCOLOR Color = HIDE_COLOR;
+		//色を設定する
 		SetColor(Color);
 	}
 }

@@ -23,6 +23,11 @@
 //*****************************************************************************
 #define TEXTURE ("Data/Texture/explosion.png")
 #define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
+#define MINIMUM_COUNTER__ANIME (0)
+#define MINIMUM_PATTERN_ANIME (0)
+#define ANIMATION_VALUE (0.125f)
+#define MAX_COUNTER_ANIME (4)
+#define MAX_PATTERN_ANIME (8)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -32,10 +37,10 @@ LPDIRECT3DTEXTURE9 CExplosionDeath::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CExplosionDeath::CExplosionDeath(int nPriority) : CExplosion(nPriority)
+CExplosionDeath::CExplosionDeath()
 {
-	m_nCounterAnime = 0;	//アニメカウンタ
-	m_nPatternAnime = 0;	//アニメパターン
+	m_nCounterAnime = MINIMUM_COUNTER__ANIME;	//アニメカウンタ
+	m_nPatternAnime = MINIMUM_PATTERN_ANIME;	//アニメパターン
 }
 
 //=============================================================================
@@ -50,9 +55,10 @@ CExplosionDeath::~CExplosionDeath()
 //=============================================================================
 HRESULT CExplosionDeath::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -65,10 +71,12 @@ HRESULT CExplosionDeath::TextureLoad(void)
 //=============================================================================
 void CExplosionDeath::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -78,9 +86,17 @@ void CExplosionDeath::TextureUnload(void)
 //=============================================================================
 CExplosionDeath * CExplosionDeath::Create(D3DXVECTOR3 Position)
 {
-	CExplosionDeath * pExplosionDeath;
-	pExplosionDeath = new CExplosionDeath;
+	//死亡時の爆発のポインタ
+	CExplosionDeath * pExplosionDeath = NULL;
+	//もし死亡時の爆発のポインタがNULLの場合
+	if (pExplosionDeath == NULL)
+	{
+		//死亡時の爆発のメモリ確保
+		pExplosionDeath = new CExplosionDeath;
+	}
+	//初期化処理関数呼び出し
 	pExplosionDeath->Init();
+	//位置を設定する
 	pExplosionDeath->SetPosition(Position);
 	return pExplosionDeath;
 }
@@ -92,10 +108,10 @@ HRESULT CExplosionDeath::Init(void)
 {
 	//テクスチャのUV座標の設定
 	D3DXVECTOR2 aTexture[NUM_VERTEX];
-	aTexture[0] = D3DXVECTOR2(0.125f * m_nPatternAnime, 0.0f);
-	aTexture[1] = D3DXVECTOR2(0.125f * m_nPatternAnime + 0.125f, 0.0f);
-	aTexture[2] = D3DXVECTOR2(0.125f * m_nPatternAnime, 1.0f);
-	aTexture[3] = D3DXVECTOR2(0.125f * m_nPatternAnime + 0.125f, 1.0f);
+	aTexture[0] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime, 0.0f);
+	aTexture[1] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 0.0f);
+	aTexture[2] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime, 1.0f);
+	aTexture[3] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 1.0f);
 	//爆発の初期化処理関数呼び出し
 	CExplosion::Init();
 	//サイズの初期設定
@@ -123,31 +139,29 @@ void CExplosionDeath::Update(void)
 {
 	//爆発の更新処理関数呼び出し
 	CExplosion::Update();
-
 	//カウントインクリメント
 	m_nCounterAnime++;
 	//カウントが4以上になった場合
-	if (m_nCounterAnime > 4)
+	if (m_nCounterAnime > MAX_COUNTER_ANIME)
 	{
 		//カウントを0にする
-		m_nCounterAnime = 0;
-
+		m_nCounterAnime = MINIMUM_COUNTER__ANIME;
 		//パターンのインクリメント
 		m_nPatternAnime++;
 		//パターンが8になった場合
-		if (m_nPatternAnime > 8)
+		if (m_nPatternAnime > MAX_PATTERN_ANIME)
 		{
-			//終了
+			//終了処理関数呼び出し
 			Uninit();
 			return;
 		}
 	}
 	//テクスチャのUV座標の設定
 	D3DXVECTOR2 aTexture[NUM_VERTEX];
-	aTexture[0] = D3DXVECTOR2(0.125f * m_nPatternAnime, 0.0f);
-	aTexture[1] = D3DXVECTOR2(0.125f * m_nPatternAnime + 0.125f, 0.0f);
-	aTexture[2] = D3DXVECTOR2(0.125f * m_nPatternAnime, 1.0f);
-	aTexture[3] = D3DXVECTOR2(0.125f * m_nPatternAnime + 0.125f, 1.0f);
+	aTexture[0] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime, 0.0f);
+	aTexture[1] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 0.0f);
+	aTexture[2] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime, 1.0f);
+	aTexture[3] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 1.0f);
 	//テクスチャの設定
 	SetTexture(aTexture);
 }

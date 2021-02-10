@@ -44,7 +44,9 @@ CFlame::~CFlame()
 //=============================================================================
 HRESULT CFlame::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,				// デバイスへのポインタ
@@ -58,10 +60,12 @@ HRESULT CFlame::TextureLoad(void)
 //=============================================================================
 void CFlame::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -71,9 +75,17 @@ void CFlame::TextureUnload(void)
 //=============================================================================
 CFlame * CFlame::Create(D3DXVECTOR3 Position)
 {
-	CFlame * pFlame;
-	pFlame = new CFlame;
+	//フレームのポインタ
+	CFlame * pFlame = NULL;
+	//もしフレームのポインタがNULLの場合
+	if (pFlame == NULL)
+	{
+		//フレームのメモリ確保
+		pFlame = new CFlame;
+	}
+	//初期化処理関数呼び出し
 	pFlame->Init();
+	//位置を設定する
 	pFlame->SetPosition(Position);
 	return pFlame;
 }

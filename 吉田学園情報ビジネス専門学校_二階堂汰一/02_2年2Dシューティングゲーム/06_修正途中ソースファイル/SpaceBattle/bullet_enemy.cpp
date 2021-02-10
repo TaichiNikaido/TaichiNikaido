@@ -22,6 +22,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+#define MINIMUM_LIFE (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -30,7 +31,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletEnemy::CBulletEnemy(int nPriority) : CBullet(nPriority)
+CBulletEnemy::CBulletEnemy()
 {
 }
 
@@ -87,12 +88,13 @@ void CBulletEnemy::Collision(void)
 {
 	//プレイヤーの取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もしプレイヤーがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
 		//もしプレイヤーの状態が死亡状態じゃないとき
 		if (pPlayer->GetState() != CPlayer::STATE_DEATH)
 		{
-			//プレイヤーとの衝突
+			//プレイヤーとの衝突判定
 			if (GetPosition().x + GetSize().x / 2 > pPlayer->GetPosition().x - (pPlayer->GetSize().x - 55) &&
 				GetPosition().x - GetSize().x / 2 < pPlayer->GetPosition().x + (pPlayer->GetSize().x - 55) &&
 				GetPosition().y + GetSize().y / 2 > pPlayer->GetPosition().y - (pPlayer->GetSize().y - 55) &&
@@ -101,7 +103,7 @@ void CBulletEnemy::Collision(void)
 				//プレイヤーにダメージを与える
 				pPlayer->SubLife(GetAttack());
 				//体力を0にする
-				SetLife(0);
+				SetLife(MINIMUM_LIFE);
 			}
 		}
 	}

@@ -30,7 +30,7 @@
 class CEnemySpider :public CEnemy
 {
 public:
-	CEnemySpider(int nPriority = DEFAULT_PRIORITY);
+	CEnemySpider();
 	~CEnemySpider();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
@@ -40,7 +40,6 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	void Move(void);
 	void Attack(void);
 	void Stop(void);
 	void Stay(void);
@@ -49,9 +48,9 @@ private:
 	void Animation(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 	D3DXVECTOR3 m_StopPosition;				//止まる位置
-	int m_nCountBullet;						//弾のカウンタ
+	int m_nShotTime;						//弾の発射時間
 	int m_nCounterAnime;					//アニメカウンタ
 	int m_nPatternAnime;					//パターンアニメ
-	int m_nStayTime;
+	int m_nStayTime;						//滞在時間
 };
 #endif

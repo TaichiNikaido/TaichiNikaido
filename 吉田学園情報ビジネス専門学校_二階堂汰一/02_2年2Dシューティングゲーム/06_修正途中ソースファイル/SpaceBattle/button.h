@@ -49,7 +49,7 @@ public:
 	void Draw(void);
 	void SelectButton(bool bSelect);
 private:
-	static LPDIRECT3DTEXTURE9 m_pTexture[BUTTON_MAX];
-	BUTTON m_Button;
+	static LPDIRECT3DTEXTURE9 m_apTexture[BUTTON_MAX];	//テクスチャのポインタ
+	BUTTON m_Button;									//ボタン情報
 };
 #endif

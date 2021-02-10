@@ -32,7 +32,7 @@ class CUINumberTexture;
 class CScoreUI :public CScene
 {
 public:
-	CScoreUI(int nPriority = 5);
+	CScoreUI(int nPriority = PRIORITY_UI);
 	~CScoreUI();
 	static CScoreUI * Create(void);
 	HRESULT Init(void);

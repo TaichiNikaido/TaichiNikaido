@@ -29,6 +29,7 @@
 #define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
 #define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
 #define LIFE (50)
+#define MINIMUM_LIFE (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -38,7 +39,7 @@ LPDIRECT3DTEXTURE9 CBulletBomb::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletBomb::CBulletBomb(int nPriority) : CBullet(nPriority)
+CBulletBomb::CBulletBomb()
 {
 }
 
@@ -54,9 +55,10 @@ CBulletBomb::~CBulletBomb()
 //=============================================================================
 HRESULT CBulletBomb::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスを取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -69,10 +71,12 @@ HRESULT CBulletBomb::TextureLoad(void)
 //=============================================================================
 void CBulletBomb::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -82,10 +86,19 @@ void CBulletBomb::TextureUnload(void)
 //=============================================================================
 CBulletBomb * CBulletBomb::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed)
 {
-	CBulletBomb * pBulletBomb;
-	pBulletBomb = new CBulletBomb;
+	//爆弾のポインタ
+	CBulletBomb * pBulletBomb = NULL;
+	//もし爆弾のポインタがNULLの場合
+	if (pBulletBomb == NULL)
+	{
+		//爆弾のメモリ確保
+		pBulletBomb = new CBulletBomb;
+	}
+	//初期化処理関数呼び出し
 	pBulletBomb->Init();
+	//位置を設定する
 	pBulletBomb->SetPosition(Position);
+	//移動量を設定する
 	pBulletBomb->SetMove(Speed);
 	return pBulletBomb;
 }
@@ -141,7 +154,7 @@ void CBulletBomb::Update(void)
 	//弾の更新処理関数呼び出し
 	CBullet::Update();
 	//もしライフが0になったら
-	if (GetLife() <= 0)
+	if (GetLife() <= MINIMUM_LIFE)
 	{
 		//死亡処理関数呼び出し
 		Death();

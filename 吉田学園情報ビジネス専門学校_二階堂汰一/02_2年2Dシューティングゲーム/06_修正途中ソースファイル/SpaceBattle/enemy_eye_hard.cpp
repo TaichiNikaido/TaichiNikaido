@@ -30,12 +30,19 @@
 #define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
 #define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
 #define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))
-#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))
+#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))
+#define MINIMUM_SHOT_TIME (0)
+#define MINIMUM_STAY_TIME (0)
+#define MINIMUM_TARGET_ANGLE (0.0f)
+#define SHOT_TIME (100)
+#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y) * RATE_MOVE,GetMove().z))
 #define LIFE (3)
 #define SCORE (10000)
 #define STAY_TIME (500)
 #define RATE_MOVE (0.03f)
 #define BULLET_SPEED (7.0f)
+#define MINIMUM_LIFE (0)
+#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 2) + 100))
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -45,12 +52,12 @@ LPDIRECT3DTEXTURE9 CEnemyEyeHard::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CEnemyEyeHard::CEnemyEyeHard(int nPriority) : CEnemy(nPriority)
+CEnemyEyeHard::CEnemyEyeHard()
 {
-	m_StopPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_fAngleRot = 0.0f;	//向き
-	m_nCountBullet = 0;	//発射間隔
-	m_nStayTime = 0;
+	m_StopPosition = INITIAL_STOP_POSITION;		//停止位置
+	m_fTargetAngle = MINIMUM_TARGET_ANGLE;		//目標までの角度
+	m_nShotTime = MINIMUM_SHOT_TIME;			//弾を発射するまでの時間
+	m_nStayTime = MINIMUM_STAY_TIME;			//滞在時間
 }
 
 //=============================================================================
@@ -65,9 +72,10 @@ CEnemyEyeHard::~CEnemyEyeHard()
 //=============================================================================
 HRESULT CEnemyEyeHard::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -80,10 +88,12 @@ HRESULT CEnemyEyeHard::TextureLoad(void)
 //=============================================================================
 void CEnemyEyeHard::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -93,9 +103,16 @@ void CEnemyEyeHard::TextureUnload(void)
 //=============================================================================
 CEnemyEyeHard * CEnemyEyeHard::Create(D3DXVECTOR3 Position)
 {
-	CEnemyEyeHard * pEnemyEyeHard;
-	pEnemyEyeHard = new CEnemyEyeHard;
+	//目玉の敵(ハード)のポインタ
+	CEnemyEyeHard * pEnemyEyeHard = NULL;
+	if (pEnemyEyeHard == NULL)
+	{
+		//目玉の敵(ハード)のメモリ確保
+		pEnemyEyeHard = new CEnemyEyeHard;
+	}
+	//初期化処理関数呼び出し
 	pEnemyEyeHard->Init();
+	//位置を設定する
 	pEnemyEyeHard->SetPosition(Position);
 	return pEnemyEyeHard;
 }
@@ -125,8 +142,8 @@ HRESULT CEnemyEyeHard::Init(void)
 	BindTexture(m_pTexture);
 	//状態を移動中
 	SetState(STATE_MOVE);
-	//敵の止まる位置を指定する
-	m_StopPosition.y = float(rand() % (FIELD_HEIGHT / 2) + 100);
+	//停止場所の初期設定
+	m_StopPosition.y = STOP_POSITION;
 	return S_OK;
 }
 
@@ -156,9 +173,10 @@ void CEnemyEyeHard::Update(void)
 	}
 	//停止処理関数呼び出し
 	Stop();
+	//停止処理関数呼び出し
 	Stay();
 	//もしライフが0になったら
-	if (GetLife() <= 0)
+	if (GetLife() <= MINIMUM_LIFE)
 	{
 		//死亡処理関数呼び出し
 		Death();
@@ -179,20 +197,24 @@ void CEnemyEyeHard::Draw(void)
 //=============================================================================
 void CEnemyEyeHard::Attack(void)
 {
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPosition();
 	//プレイヤーの取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もしプレイヤーのポインタがNULLじゃなかったら
 	if (pPlayer != NULL)
 	{
 		//もしプレイヤーの状態が死亡状態以外の時
 		if (pPlayer->GetState() != CPlayer::STATE_DEATH)
 		{
-			if (m_nCountBullet % 100 == 0)
+			//弾を発射する時間になったら
+			if (m_nShotTime % SHOT_TIME == REMAINDER)
 			{
 				//ホーミング弾の生成
-				CBulletHoming::Create(GetPosition());
+				CBulletHoming::Create(Position);
 			}
 			//弾のカウントを加算
-			m_nCountBullet++;
+			m_nShotTime++;
 		}
 	}
 }
@@ -206,6 +228,7 @@ void CEnemyEyeHard::Death(void)
 	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
+	//プレイヤーがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
 		//爆発エフェクトの生成
@@ -225,23 +248,24 @@ void CEnemyEyeHard::Death(void)
 //=============================================================================
 void CEnemyEyeHard::Gaze(void)
 {
-	//プレイヤーを取得する
-	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPosition();
+	//プレイヤーを取得する
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//プレイヤーがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
 		//目標の位置を取得する
-		D3DXVECTOR3 TargetPosition = pPlayer->GetPosition();
+		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
 		//もし状態が無又は移動状態だったら
 		if (GetState() == STATE_NONE || GetState() == STATE_MOVE)
 		{
 			//プレイヤーまでの距離を計算
-			D3DXVECTOR3 m_TargetDistance = D3DXVECTOR3(TargetPosition.x - Position.x, TargetPosition.y - Position.y, 0.0f);
+			D3DXVECTOR3 m_TargetDistance = D3DXVECTOR3(PlayerPosition.x - Position.x, PlayerPosition.y - Position.y, 0.0f);
 			//プレイヤの方に向けた角度を計算
-			m_fAngleRot = atan2f(m_TargetDistance.y, m_TargetDistance.x);
+			m_fTargetAngle = atan2f(m_TargetDistance.y, m_TargetDistance.x);
 			//向きを設定する
-			SetRotation(D3DXVECTOR3(0.0f, 0.0f, m_fAngleRot * -1.0f));
+			SetRotation(D3DXVECTOR3(0.0f, 0.0f, -m_fTargetAngle));
 		}
 	}
 }
@@ -251,22 +275,31 @@ void CEnemyEyeHard::Gaze(void)
 //=============================================================================
 void CEnemyEyeHard::Stop(void)
 {
+	//位置を取得する
 	D3DXVECTOR3 Position = GetPosition();
-
+	//現在の位置が停止位置より値が上だった場合
 	if (Position.y >= m_StopPosition.y)
 	{
+		//移動量を設定する
 		SetMove(STOP);
+		//状態を無にする
 		SetState(STATE_NONE);
 	}
 }
 
+//=============================================================================
+// 滞在処理関数
+//=============================================================================
 void CEnemyEyeHard::Stay(void)
 {
+	//滞在時間を加算する
 	m_nStayTime++;
-	if (m_nStayTime == STAY_TIME)
+	//もし指定の滞在時間を過ぎたら
+	if (m_nStayTime >= STAY_TIME)
 	{
 		//状態を移動中
 		SetState(STATE_MOVE);
+		//移動量を設定する
 		SetMove(RETURN_SPEED);
 	}
 }

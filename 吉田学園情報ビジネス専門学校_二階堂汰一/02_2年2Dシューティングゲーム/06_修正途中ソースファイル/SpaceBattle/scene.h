@@ -11,8 +11,8 @@
 // マクロ定義
 //*****************************************************************************
 #define MAX_SCENE (2056)
-#define PRIORITY_MAX (10)
 #define DEFAULT_PRIORITY (4)
+
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
@@ -25,6 +25,19 @@ public:
 		OBJTYPE_ENEMY,
 		OBJTYPE_MAX
 	}OBJTYPE;
+	typedef enum
+	{
+		PRIORITY_NONE = -1,
+		PRIORITY_BG,
+		PRIORITY_BULLET,
+		PRIORITY_ENEMY,
+		PRIORITY_EXPLOSION,
+		PRIORITY_ITEM,
+		PRIORITY_PLAYER,
+		PRIORITY_UI,
+		PRIORITY_FLAME,
+		PRIORITY_MAX
+	}PRIORITY;
 	CScene(int nPriority = DEFAULT_PRIORITY);
 	virtual ~CScene();
 	virtual HRESULT Init(void) = 0;

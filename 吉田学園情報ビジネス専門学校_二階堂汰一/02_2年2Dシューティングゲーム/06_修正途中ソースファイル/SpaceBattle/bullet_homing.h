@@ -30,7 +30,7 @@
 class CBulletHoming :public CBulletEnemy
 {
 public:
-	CBulletHoming(int nPriority = 3);
+	CBulletHoming();
 	~CBulletHoming();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

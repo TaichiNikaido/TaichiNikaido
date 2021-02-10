@@ -30,7 +30,7 @@
 class CExplosionDeath :public CExplosion
 {
 public:
-	CExplosionDeath(int nPriority = DEFAULT_PRIORITY);
+	CExplosionDeath();
 	~CExplosionDeath();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

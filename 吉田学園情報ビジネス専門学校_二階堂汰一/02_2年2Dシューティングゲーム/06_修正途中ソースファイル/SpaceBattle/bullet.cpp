@@ -21,6 +21,8 @@
 // マクロ定義
 //*****************************************************************************
 #define ATTACK_POINT (1)
+#define MINIMUM_LIFE (0)
+#define MINIMUM_ATTACK (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -31,9 +33,9 @@
 //=============================================================================
 CBullet::CBullet(int nPriority) : CScene2d(nPriority)
 {
-	m_nLife = 0;								//体力
-	m_nAttack = 0;								//攻撃力
-	m_Move = D3DXVECTOR3(0.0f,0.0f,0.0f);		//移動量
+	m_nLife = MINIMUM_LIFE;			//体力
+	m_nAttack = MINIMUM_ATTACK;		//攻撃力
+	m_Move = INITIAL_MOVE;			//移動量
 }
 
 //=============================================================================
@@ -107,13 +109,13 @@ void CBullet::SubLife(void)
 void CBullet::MovableRange(void)
 {
 	//もし画面外に行ったら
-	if (GetPosition().y < 0 ||
+	if (GetPosition().y < FIELD_HEIGHT_MIN ||
 		GetPosition().y > FIELD_HEIGHT ||
 		GetPosition().x < FIELD_WIDTH_MIN ||
 		GetPosition().x > FIELD_WIDTH)
 	{
 		//体力を0にする
-		m_nLife = 0;
+		m_nLife = MINIMUM_LIFE;
 	}
 }
 

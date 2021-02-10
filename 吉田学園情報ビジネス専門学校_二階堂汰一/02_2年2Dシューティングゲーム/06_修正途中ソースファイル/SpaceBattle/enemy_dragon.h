@@ -31,7 +31,7 @@ class CBulletFireball;
 class CEnemyDragon :public CEnemy
 {
 public:
-	CEnemyDragon(int nPriority = DEFAULT_PRIORITY);
+	CEnemyDragon();
 	~CEnemyDragon();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
@@ -40,20 +40,20 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	void SetbCharge(bool bCharge) { m_bCharge = bCharge; }
 	CBulletFireball * GetBulletFireBall(void) { return m_pBulletFireBall; }
 private:
 	void Scale(void);
+	void AI(void);
 	void Attack(void);
 	void Death(void);
 	void Animation(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	D3DXVECTOR3 m_TargetDistance;//目標までの距離
-	D3DXVECTOR3 m_TargetPos;//目標地点
+	D3DXVECTOR3 m_TargetDistance;			//目標までの距離
 	int m_nPatternAnime;					//パターンアニメ
 	int m_nCounterAnime;					//カウンターアニメ
-	int m_nBulletTime;						//弾の発射間隔
-	bool m_bCharge;
-	int m_nChargeTime;
-	CBulletFireball * m_pBulletFireBall;
+	int m_nBulletTime;						//弾の発射までの時間
+	bool m_bCharge;							//チャージしてるか
+	CBulletFireball * m_pBulletFireBall;	//火球のポインタ
 };
 #endif

@@ -41,7 +41,7 @@ LPDIRECT3DTEXTURE9 CEnemyBombBody::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CEnemyBombBody::CEnemyBombBody(int nPriority) : CEnemy(nPriority)
+CEnemyBombBody::CEnemyBombBody()
 {
 	m_fRd = 0.0f;
 	m_fRdScale = 0.1f;

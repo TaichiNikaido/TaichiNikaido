@@ -33,7 +33,7 @@ LPDIRECT3DTEXTURE9 CBackgroundName::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBackgroundName::CBackgroundName(int nPriority) : CBackground(nPriority)
+CBackgroundName::CBackgroundName()
 {
 }
 

@@ -33,7 +33,7 @@ LPDIRECT3DTEXTURE9 CBackgroundUpperLayer::m_pTexture = NULL;	//ƒeƒNƒXƒ`ƒƒ‚Ö‚Ìƒ|ƒ
 //=============================================================================
 // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //=============================================================================
-CBackgroundUpperLayer::CBackgroundUpperLayer(int nPriority) : CBackground(nPriority)
+CBackgroundUpperLayer::CBackgroundUpperLayer()
 {
 }
 

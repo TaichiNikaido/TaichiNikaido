@@ -63,7 +63,6 @@ private:
 	LONG  m_rglDirection[2] = { 1 , 1 };
 	DICONSTANTFORCE cf;
 	DIEFFECT        eff;
-
 	BYTE m_aJoyState[NUM_JS_MAX];				// ジョイスティックの入力情報ワーク
 	BYTE m_aJoyStateTrigger[NUM_JS_MAX];		//ジョイスティックトリガー情報
 	BYTE m_aJoyStateRelease[NUM_JS_MAX];		// ジョイスティックリリース情報

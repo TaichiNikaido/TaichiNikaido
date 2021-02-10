@@ -22,6 +22,7 @@
 #include "warning.h"
 #include "explosion_fireball.h"
 #include "effect.h"
+#include "enemy_dragon.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -32,6 +33,7 @@
 #define SPEED (D3DXVECTOR3(0.0f,3.0f,0.0f))
 #define ADD_SCALE (0.1f)
 #define EFFECT_LIFE (7)
+#define MAX_SCALE (4.0f)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -41,7 +43,7 @@ LPDIRECT3DTEXTURE9 CBulletFireball::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletFireball::CBulletFireball(int nPriority) : CBulletEnemy(nPriority)
+CBulletFireball::CBulletFireball()
 {
 }
 
@@ -57,9 +59,10 @@ CBulletFireball::~CBulletFireball()
 //=============================================================================
 HRESULT CBulletFireball::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -72,10 +75,12 @@ HRESULT CBulletFireball::TextureLoad(void)
 //=============================================================================
 void CBulletFireball::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -85,9 +90,17 @@ void CBulletFireball::TextureUnload(void)
 //=============================================================================
 CBulletFireball * CBulletFireball::Create(D3DXVECTOR3 Position)
 {
-	CBulletFireball * pFireBall;
-	pFireBall = new CBulletFireball;
+	//火球のポインタ
+	CBulletFireball * pFireBall = NULL;
+	//もし火球のポインタがNULLの場合
+	if (pFireBall == NULL)
+	{
+		//火球のメモリ確保
+		pFireBall = new CBulletFireball;
+	}
+	//初期化処理関数呼び出し
 	pFireBall->Init();
+	//位置を設定する
 	pFireBall->SetPosition(Position);
 	return pFireBall;
 }
@@ -154,19 +167,28 @@ void CBulletFireball::Draw(void)
 //=============================================================================
 void CBulletFireball::Charge(void)
 {
+	//スケールを取得
 	float fScale = GetScale();
-	//スケールが目標の
-	if (fScale < 4.0f)
+	//ドラゴンを取得
+	CEnemyDragon * pEnemyDragon = CGameMode::GetDragon();
+	//もしドラゴンのポインタがNULLじゃない場合
+	if (pEnemyDragon != NULL)
 	{
-		//拡大していく
-		fScale += ADD_SCALE;
-		//拡縮を設定する
-		SetScale(fScale);
-	}
-	else
-	{
-		//移動量を設定
-		SetMove(SPEED);
+		//スケールが最大になったら
+		if (fScale < MAX_SCALE)
+		{
+			//ドラゴンのチャージを完了にする
+			pEnemyDragon->SetbCharge(true);
+			//拡大していく
+			fScale += ADD_SCALE;
+			//拡縮を設定する
+			SetScale(fScale);
+		}
+		else
+		{
+			//移動量を設定
+			SetMove(SPEED);
+		}
 	}
 }
 
@@ -181,12 +203,13 @@ void CBulletFireball::Death(void)
 	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//危険地帯を取得
 	CWarning * pWarning = CGameMode::GetWarning();
+	//もし危険地帯がNULLじゃない場合
 	if (pPlayer != NULL)
 	{
 		//目標の位置を取得
-		D3DXVECTOR3 TargetPosition = pPlayer->GetPosition();
+		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
 		//もし位置のY座標が目標のY座標を越えたら
-		if (Position.y >= TargetPosition.y)
+		if (Position.y >= PlayerPosition.y)
 		{
 			//爆発エフェクトの生成
 			CExplosionFireball::Create(Position);

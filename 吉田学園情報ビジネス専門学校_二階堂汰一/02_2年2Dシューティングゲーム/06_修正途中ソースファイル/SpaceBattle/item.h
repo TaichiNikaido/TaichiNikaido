@@ -30,7 +30,7 @@
 class CItem :public CScene2d
 {
 public:
-	CItem(int nPriority = DEFAULT_PRIORITY);
+	CItem(int nPriority = PRIORITY_ITEM);
 	~CItem();
 	HRESULT Init(void);
 	void Uninit(void);

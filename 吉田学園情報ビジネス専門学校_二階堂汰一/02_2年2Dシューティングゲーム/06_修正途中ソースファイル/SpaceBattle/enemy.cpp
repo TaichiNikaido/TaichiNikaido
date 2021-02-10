@@ -23,6 +23,11 @@
 // マクロ定義
 //*****************************************************************************
 #define SCORE (100)
+#define MINIMUM_LFE (0)
+#define MINIMUM_COLOR_CHANGE_TIME (0)
+#define COLOR_CHANGE_TIME (10)
+#define DEFAULT_COLOR (D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f))
+#define HIT_COLOR (D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f))
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -33,11 +38,11 @@
 //=============================================================================
 CEnemy::CEnemy(int nPriority) : CScene2d(nPriority)
 {
-	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//移動量
-	m_nLife = 0;							//体力
-	m_nChangeColorTime = 0;					//色変更時間
-	m_bHit = false;							//ヒットしたか
-	m_State = STATE_NONE;					//状態
+	m_Move = INITIAL_MOVE;								//移動量
+	m_nLife = MINIMUM_LFE;								//体力
+	m_nChangeColorTime = MINIMUM_COLOR_CHANGE_TIME;		//色変更時間
+	m_bHit = false;										//ヒットしたか
+	m_State = STATE_NONE;								//状態
 }
 
 //=============================================================================
@@ -81,20 +86,20 @@ void CEnemy::Update(void)
 	Position += m_Move;
 	//位置の設定
 	SetPosition(Position);
-
 	//もしヒットしたら
 	if (m_bHit == true)
 	{
 		//色変更時間を進める
 		m_nChangeColorTime++;
-		if (m_nChangeColorTime == 10)
+		//もし色変更時間になったら
+		if (m_nChangeColorTime == COLOR_CHANGE_TIME)
 		{
 			//色を設定する
- 			SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+ 			SetColor(DEFAULT_COLOR);
 			//ヒット状態を偽にする
 			m_bHit = false;
 			//色変更時間を初期化する
-			m_nChangeColorTime = 0;
+			m_nChangeColorTime = MINIMUM_COLOR_CHANGE_TIME;
 		}
 	}
 }
@@ -117,6 +122,7 @@ void CEnemy::Hit(void)
 	m_bHit = true;
 	//プレイヤーを取得する
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もしプレイヤーのポインタがNULLじゃなかったら
 	if (pPlayer != NULL)
 	{
 		//プレイヤーのスコアを加算する
@@ -124,7 +130,8 @@ void CEnemy::Hit(void)
 	}
 	//体力減算関数呼び出し
 	SubLife();
-	SetColor(D3DXCOLOR(1.0f, 0.0, 0.0, 1.0f));
+	//色を設定する
+	SetColor(HIT_COLOR);
 }
 
 //=============================================================================

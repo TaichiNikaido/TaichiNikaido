@@ -30,7 +30,7 @@
 class CBackground :public CScene2d
 {
 public:
-	CBackground(int nPriority = 1);
+	CBackground(int nPriority = PRIORITY_BG);
 	~CBackground();
 	HRESULT Init(void);
 	void Uninit(void);

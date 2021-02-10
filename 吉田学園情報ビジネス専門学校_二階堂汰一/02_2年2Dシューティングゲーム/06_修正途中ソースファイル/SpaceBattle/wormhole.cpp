@@ -28,19 +28,21 @@
 #define WORMHOLE_SIZE (D3DXVECTOR3(200.0f,200.0f,0.0f))
 #define WORMHOLE_EFFECT_COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,1.0f))
 #define WORMHOLE_COLOR (D3DXCOLOR(1.0f,0.0f,0.0f,1.0f))
+#define MAX_SCALE (2.0f)
+#define MINIMUM_SCALE (0.0f)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CWormhole::m_pTexture[2] = {};	//テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 CWormhole::m_apTexture[2] = {};	//テクスチャへのポインタ
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CWormhole::CWormhole(int nPriority) : CScene(nPriority)
 {
-	memset(m_pScene2d, NULL, sizeof(m_pScene2d));	//シーン2Dへのポインタ
-	m_bSpawn = false;								//スポーンの真偽
+	memset(m_apScene2d, NULL, sizeof(m_apScene2d));	//シーン2Dへのポインタ
+	m_bSpawn = false;								//スポーンしたか
 }
 
 //=============================================================================
@@ -57,17 +59,16 @@ HRESULT CWormhole::TextureLoad(void)
 {
 	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,				// デバイスへのポインタ
 		WORMHOLE_EFFECT,							// ファイルの名前
-		&m_pTexture[TEXTURE_WORMHOLE]);			// 読み込むメモリー
-
+		&m_apTexture[TEXTURE_WORMHOLE]);				// 読み込むメモリー
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,				// デバイスへのポインタ
 		WORMHOLE,									// ファイルの名前
-		&m_pTexture[TEXTURE_WORMHOLE_EFFECT]);		// 読み込むメモリー
+		&m_apTexture[TEXTURE_WORMHOLE_EFFECT]);		// 読み込むメモリー
 	return S_OK;
 }
 
@@ -76,13 +77,16 @@ HRESULT CWormhole::TextureLoad(void)
 //=============================================================================
 void CWormhole::TextureUnload(void)
 {
-	for (int nCount = 0; nCount < 2; nCount++)
+	//最大テクスチャ数分回す
+	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
-		// テクスチャの破棄
-		if (m_pTexture[nCount] != NULL)
+		//もしテクスチャがNULLじゃない場合
+		if (m_apTexture[nCount] != NULL)
 		{
-			m_pTexture[nCount]->Release();
-			m_pTexture[nCount] = NULL;
+			//テクスチャの破棄処理関数呼び出し
+			m_apTexture[nCount]->Release();
+			//テクスチャをNULLにする
+			m_apTexture[nCount] = NULL;
 		}
 	}
 }
@@ -92,12 +96,21 @@ void CWormhole::TextureUnload(void)
 //=============================================================================
 CWormhole * CWormhole::Create(D3DXVECTOR3 Position)
 {
-	CWormhole * pWormhole;
-	pWormhole = new CWormhole;
+	//ワームホールのポインタ
+	CWormhole * pWormhole = NULL;
+	//もしワームホールがNULLの場合
+	if (pWormhole == NULL)
+	{
+		//ワームホールのメモリ確保
+		pWormhole = new CWormhole;
+	}
+	//初期化処理関数呼び出し
 	pWormhole->Init();
+	//テクスチャの最大数分回す
 	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
-		pWormhole->m_pScene2d[nCount]->SetPosition(Position);
+		//位置を設定する
+		pWormhole->m_apScene2d[nCount]->SetPosition(Position);
 	}
 	return pWormhole;
 }
@@ -115,33 +128,40 @@ HRESULT CWormhole::Init(void)
 	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
+	//テクスチャの最大数分回す
 	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
-		if (m_pScene2d[nCount] == NULL)
+		//もしシーン2DがNULLの場合
+		if (m_apScene2d[nCount] == NULL)
 		{
 			//シーン2Dのメモリ確保
-			m_pScene2d[nCount] = new CScene2d(2);
+			m_apScene2d[nCount] = new CScene2d(2);
 		}
 		//シーン2Dの初期化処理関数呼び出し
-		m_pScene2d[nCount]->Init();
+		m_apScene2d[nCount]->Init();
 	}
 	//サイズの初期設定
-	m_pScene2d[TEXTURE_WORMHOLE]->SetSize(WORMHOLE_SIZE);
+	m_apScene2d[TEXTURE_WORMHOLE]->SetSize(WORMHOLE_SIZE);
 	//色の初期設定
-	m_pScene2d[TEXTURE_WORMHOLE]->SetColor(WORMHOLE_COLOR);
+	m_apScene2d[TEXTURE_WORMHOLE]->SetColor(WORMHOLE_COLOR);
 	//サイズの初期設定
-	m_pScene2d[TEXTURE_WORMHOLE_EFFECT]->SetSize(WORMHOLE_EFFECT_SIZE);
+	m_apScene2d[TEXTURE_WORMHOLE_EFFECT]->SetSize(WORMHOLE_EFFECT_SIZE);
 	//色の初期設定
-	m_pScene2d[TEXTURE_WORMHOLE_EFFECT]->SetColor(WORMHOLE_EFFECT_COLOR);
+	m_apScene2d[TEXTURE_WORMHOLE_EFFECT]->SetColor(WORMHOLE_EFFECT_COLOR);
+	//テクスチャの最大数分回す
 	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
 		//テクスチャの設定
-		m_pScene2d[nCount]->SetTexture(aTexture);
+		m_apScene2d[nCount]->SetTexture(aTexture);
 		//テクスチャの割り当て
-		m_pScene2d[nCount]->BindTexture(m_pTexture[nCount]);
+		m_apScene2d[nCount]->BindTexture(m_apTexture[nCount]);
 	}
-	//サウンドの停止
-	pSound->StopSound();
+	//もしサウンドがNULLじゃない場合
+	if (pSound != NULL)
+	{
+		//サウンドの停止
+		pSound->StopSound();
+	}
 	return S_OK;
 }
 
@@ -175,52 +195,57 @@ void CWormhole::Scale(void)
 {
 	D3DXVECTOR3 Rotation;	//回転
 	float fScale;			//拡縮
+	//テクスチャの最大数分回す
 	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
-		//回転
-		Rotation = m_pScene2d[nCount]->GetRotation();
-		//拡縮
-		fScale = m_pScene2d[nCount]->GetScale();
+		//回転を取得する
+		Rotation = m_apScene2d[nCount]->GetRotation();
+		//拡縮を取得する
+		fScale = m_apScene2d[nCount]->GetScale();
 	}
 	//回転処理
 	Rotation.z -= D3DX_PI * 0.01f;
+	//もし回転が円周率を越えたら
 	if (Rotation.z >= D3DX_PI)
 	{
+		//回転を代入する
 		Rotation.z += D3DX_PI * 2.0f;
 	}
-	if (fScale <= 2.0f && m_bSpawn == false)
+	//もし拡縮が最大になりかつスポーンしていない場合
+	if (fScale <= MAX_SCALE && m_bSpawn == false)
 	{
 		//拡大する
 		fScale += ADD_SCALE;
 	}
 	else
 	{
-		//もしスポーンが偽だったら
+		//もしスポーンしていなかったら
 		if (m_bSpawn == false)
 		{
 			//スポーン処理関数呼び出し
 			Spawn();
 		}
 	}
-	//もしスポーンが新だったら
+	//もしスポーンしたら
 	if (m_bSpawn == true)
 	{
 		//縮小する
 		fScale -= SUB_SCALE;
 		//拡大率が0以下になったら
-		if (fScale <= 0.0f)
+		if (fScale <= MINIMUM_SCALE)
 		{
 			//終了処理関数呼び出し
 			Uninit();
 			return;
 		}
 	}
+	//テクスチャの最大数分回す
 	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
 		//回転の設定
-		m_pScene2d[nCount]->SetRotation(Rotation);
+		m_apScene2d[nCount]->SetRotation(Rotation);
 		//拡縮の設定
-		m_pScene2d[nCount]->SetScale(fScale);
+		m_apScene2d[nCount]->SetScale(fScale);
 	}
 }
 
@@ -232,7 +257,7 @@ void CWormhole::Spawn(void)
 	//スポーンを真にする
 	m_bSpawn = true;
 	//位置を取得
-   	D3DXVECTOR3 Position = m_pScene2d[TEXTURE_WORMHOLE]->GetPosition();	//位置
+	D3DXVECTOR3 Position = m_apScene2d[TEXTURE_WORMHOLE]->GetPosition();
 	//ドラゴンの生成処理関数呼び出し
 	CGameMode::SetDragon(CEnemyDragon::Create(Position));
 }

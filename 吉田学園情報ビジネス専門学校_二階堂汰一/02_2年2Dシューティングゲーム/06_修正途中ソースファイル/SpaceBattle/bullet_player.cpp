@@ -30,6 +30,7 @@
 #define COLOR (D3DXCOLOR(1.0f,0.0f,1.0f,1.0f))
 #define LIFE (175)
 #define EFFECT_LIFE (7)
+#define MINIMUM_LIFE (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -39,7 +40,7 @@ LPDIRECT3DTEXTURE9 CBulletPlayer::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletPlayer::CBulletPlayer(int nPriority) : CBullet(nPriority)
+CBulletPlayer::CBulletPlayer()
 {
 }
 
@@ -55,9 +56,10 @@ CBulletPlayer::~CBulletPlayer()
 //=============================================================================
 HRESULT CBulletPlayer::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -70,10 +72,12 @@ HRESULT CBulletPlayer::TextureLoad(void)
 //=============================================================================
 void CBulletPlayer::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -83,10 +87,19 @@ void CBulletPlayer::TextureUnload(void)
 //=============================================================================
 CBulletPlayer * CBulletPlayer::Create(D3DXVECTOR3 Position,D3DXVECTOR3 Speed)
 {
-	CBulletPlayer * pBulletPlayer;
-	pBulletPlayer = new CBulletPlayer;
+	//プレイヤーの弾のポインタ
+	CBulletPlayer * pBulletPlayer = NULL;
+	//もしプレイヤーの弾がNULLの場合
+	if (pBulletPlayer == NULL)
+	{
+		//プレイヤーの弾のメモリ確保
+		pBulletPlayer = new CBulletPlayer;
+	}
+	//初期化処理関数呼び出し
 	pBulletPlayer->Init();
+	//位置を設定する
 	pBulletPlayer->SetPosition(Position);
+	//移動量を設定する
 	pBulletPlayer->SetMove(Speed);
 	return pBulletPlayer;
 }
@@ -137,18 +150,16 @@ void CBulletPlayer::Update(void)
 {
 	//移動量の取得
 	D3DXVECTOR3 Move = GetMove();
-
 	//エフェクトの生成
 	CEffect::Create(GetPosition(), GetSize(), GetColor(), EFFECT_LIFE);
 	//移動量を設定する
 	SetMove(Move);
-
 	//弾の更新処理関数呼び出し
 	CBullet::Update();
 	//衝突判定処理関数呼び出し
 	Collision();
 	//もしライフが0になったら
-	if (GetLife() <= 0)
+	if (GetLife() <= MINIMUM_LIFE)
 	{
 		//初期化処理関数呼び出し
 		Uninit();
@@ -180,34 +191,38 @@ void CBulletPlayer::Death(void)
 //=============================================================================
 void CBulletPlayer::Collision(void)
 {
+	//シーンの総数分回す
 	for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
 	{
 		//シーンの取得
-		CScene * pScene = GetScene(4, nCountScene);
+		CScene * pScene = GetScene(PRIORITY_ENEMY, nCountScene);
+		//もしシーンがNULLじゃない場合
 		if (pScene != NULL)
 		{
 			//オブジェタイプの取得
-			OBJTYPE objType;
-			objType = pScene->GetObjType();
-			
+			OBJTYPE ObjType = pScene->GetObjType();
 			//もしオブジェクトタイプが敵だったら
-			if (objType == OBJTYPE_ENEMY)
+			if (ObjType == OBJTYPE_ENEMY)
 			{
+				//敵のポインタ取得
 				CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
+				//もし敵のポインタがNULLじゃない場合
 				if (pEnemy != NULL)
 				{
-					D3DXVECTOR3 TargetPosition = pEnemy->GetPosition();
-					D3DXVECTOR3 TargetSize = pEnemy->GetSize();
-					//敵との衝突
-					if (GetPosition().x + GetSize().x / 2 > TargetPosition.x - (TargetSize.x / 2) &&
-						GetPosition().x - GetSize().x / 2 < TargetPosition.x + (TargetSize.x / 2) &&
-						GetPosition().y + GetSize().y / 2 > TargetPosition.y - (TargetSize.y / 2) &&
-						GetPosition().y - GetSize().y / 2 < TargetPosition.y + (TargetSize.y / 2))
+					//敵の位置を取得
+					D3DXVECTOR3 EnemyPosition = pEnemy->GetPosition();
+					//敵のサイズを取得
+					D3DXVECTOR3 EnemySize = pEnemy->GetSize();
+					//敵との衝突判定
+					if (GetPosition().x + GetSize().x / 2 > EnemyPosition.x - (EnemySize.x / 2) &&
+						GetPosition().x - GetSize().x / 2 < EnemyPosition.x + (EnemySize.x / 2) &&
+						GetPosition().y + GetSize().y / 2 > EnemyPosition.y - (EnemySize.y / 2) &&
+						GetPosition().y - GetSize().y / 2 < EnemyPosition.y + (EnemySize.y / 2))
 					{
 						//敵のヒット処理関数呼び出し
 						pEnemy->Hit();
-						//死亡処理関数呼び出し
-						SetLife(0);
+						//ライフを0にする
+						SetLife(MINIMUM_LIFE);
 						return;
 					}
 				}

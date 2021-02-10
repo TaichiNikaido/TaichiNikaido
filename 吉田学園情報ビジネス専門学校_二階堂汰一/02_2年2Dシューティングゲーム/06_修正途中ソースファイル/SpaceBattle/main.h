@@ -22,6 +22,7 @@
 #define SCREEN_HEIGHT	(1080)
 #define FIELD_WIDTH		(1520)
 #define FIELD_HEIGHT	(1080)
+#define FIELD_HEIGHT_MIN (0)
 #define FIELD_WIDTH_MIN (400)
 #define FVF_VERTEX_2D	(D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 #define FVF_VERTEX_3D	(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX1)
@@ -29,6 +30,11 @@
 #define MAX_POLYGON		(256)
 #define NUM_POLYGON		(2)
 #define NUM_VERTEX		(4)
+#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))
+#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))
+#define INITIAL_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
+#define REMAINDER (0)
+
 //*****************************************************************************
 // ライブラリファイルのリンク
 //*****************************************************************************

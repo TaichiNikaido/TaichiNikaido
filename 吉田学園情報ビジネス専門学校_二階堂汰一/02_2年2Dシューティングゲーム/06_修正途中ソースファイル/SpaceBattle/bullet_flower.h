@@ -43,7 +43,7 @@ public:
 		COLOR_NUMBER_WHITE,
 		COLOR_NUMBER_MAX
 	}COLOR_NUMBER;
-	CBulletFlower(int nPriority = 3);
+	CBulletFlower();
 	~CBulletFlower();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

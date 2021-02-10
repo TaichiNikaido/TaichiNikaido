@@ -30,7 +30,7 @@
 class CEnemyEyeNormal :public CEnemy
 {
 public:
-	CEnemyEyeNormal(int nPriority = DEFAULT_PRIORITY);
+	CEnemyEyeNormal();
 	~CEnemyEyeNormal();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
@@ -46,11 +46,11 @@ private:
 	void Stop(void);
 	void Stay(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	D3DXVECTOR3 m_StopPosition;	//敵が止まる場所
-	int m_nShotCount;			//発射する数
-	int m_nCountBullet;			//弾の発射間隔
-	int m_nStayTime;
-	float m_fAngleRot;			//向き
-	float m_fBulletAngle;		//発射方向
+	D3DXVECTOR3 m_StopPosition;				//停止位置
+	int m_nShotCount;						//発射する数
+	int m_nCountBullet;						//弾の発射間隔
+	int m_nStayTime;						//滞在時間
+	float m_fTargetAngle;					//目標までの角度
+	float m_fBulletAngle;					//発射角度
 };
 #endif

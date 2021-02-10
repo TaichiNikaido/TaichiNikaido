@@ -8,21 +8,19 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
-#include "mode_game.h"
 #include "renderer.h"
 #include "scene2d.h"
-#include "item.h"
+#include "mode_game.h"
 #include "player.h"
+#include "item.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SPEED (D3DXVECTOR3(0.0f,4.0f,0.0f))
-#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
+#define MOVE (D3DXVECTOR3(0.0f,4.0f,0.0f))		//移動量
+#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))	//サイズ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -31,10 +29,10 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CItem::CItem(int nPriority)
+CItem::CItem(int nPriority) : CScene2d(nPriority)
 {
-	m_Move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//移動量
-	m_bCollision = false;					//衝突判定
+	m_Move = INITIAL_MOVE;	//移動量
+	m_bCollision = false;	//衝突判定
 }
 
 //=============================================================================
@@ -52,7 +50,7 @@ HRESULT CItem::Init(void)
 	//2Dシーン管理初期化処理関数呼び出し
 	CScene2d::Init();
 	//移動量の初期設定
-	m_Move = SPEED;
+	m_Move = MOVE;
 	//サイズの初期設定
 	SetSize(SIZE);
 	return S_OK;
@@ -100,17 +98,28 @@ void CItem::Draw(void)
 //=============================================================================
 void CItem::Collision(void)
 {
+	//位置を取得
+	D3DXVECTOR3 Position = GetPosition();
+	//サイズを取得
+	D3DXVECTOR3 Size = GetSize();
 	//プレイヤーの取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
-
-	//プレイヤーとの衝突
-	if (GetPosition().x + GetSize().x / 2 > pPlayer->GetPosition().x - (pPlayer->GetSize().x / 2) &&
-		GetPosition().x - GetSize().x / 2 < pPlayer->GetPosition().x + (pPlayer->GetSize().x / 2) &&
-		GetPosition().y + GetSize().y / 2 > pPlayer->GetPosition().y - (pPlayer->GetSize().y / 2) &&
-		GetPosition().y - GetSize().y / 2 < pPlayer->GetPosition().y + (pPlayer->GetSize().y / 2))
+	//もしプレイヤーがNULLじゃない場合
+	if (pPlayer != NULL)
 	{
-		//衝突判定を真にする
-		m_bCollision = true;
+		//プレイヤーの位置を取得する
+		D3DXVECTOR3 PlayerPosition = GetPosition();
+		//プレイヤーのサイズを取得する
+		D3DXVECTOR3 PlayerSize = GetSize();
+		//プレイヤーとの衝突
+		if (Position.x + Size.x / 2 > PlayerPosition.x - (PlayerSize.x / 2) &&
+			Position.x - Size.x / 2 < PlayerPosition.x + (PlayerSize.x / 2) &&
+			Position.y + Size.y / 2 > PlayerPosition.y - (PlayerSize.y / 2) &&
+			Position.y - Size.y / 2 < PlayerPosition.y + (PlayerSize.y / 2))
+		{
+			//衝突判定を真にする
+			m_bCollision = true;
+		}
 	}
 }
 
@@ -119,11 +128,13 @@ void CItem::Collision(void)
 //=============================================================================
 void CItem::MovableRange(void)
 {
+	//位置を取得
+	D3DXVECTOR3 Position = GetPosition();
 	//もし画面外に行ったら
-	if (GetPosition().y < 0 ||
-		GetPosition().y > FIELD_HEIGHT ||
-		GetPosition().x < FIELD_WIDTH_MIN ||
-		GetPosition().x > FIELD_WIDTH)
+	if (Position.y < FIELD_HEIGHT_MIN ||
+		Position.y > FIELD_HEIGHT ||
+		Position.x < FIELD_WIDTH_MIN ||
+		Position.x > FIELD_WIDTH)
 	{
 		//終了処理関数呼び出し
 		Uninit();

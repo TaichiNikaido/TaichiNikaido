@@ -25,6 +25,11 @@
 //*****************************************************************************
 #define TEXTURE ("Data/Texture/explosion.png")
 #define SIZE (D3DXVECTOR3(500.0f,500.0f,0.0f))
+#define MINIMUM_COUNTER__ANIME (0)
+#define MINIMUM_PATTERN_ANIME (0)
+#define ANIMATION_VALUE (0.125f)
+#define MAX_COUNTER_ANIME (4)
+#define MAX_PATTERN_ANIME (8)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -34,10 +39,10 @@ LPDIRECT3DTEXTURE9 CExplosionBomb::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CExplosionBomb::CExplosionBomb(int nPriority) : CExplosion(nPriority)
+CExplosionBomb::CExplosionBomb()
 {
-	m_nCounterAnime = 0;	//アニメカウンタ
-	m_nPatternAnime = 0;	//アニメパターン
+	m_nCounterAnime = MINIMUM_COUNTER__ANIME;	//アニメカウンタ
+	m_nPatternAnime = MINIMUM_PATTERN_ANIME;	//アニメパターン
 }
 
 //=============================================================================
@@ -52,9 +57,10 @@ CExplosionBomb::~CExplosionBomb()
 //=============================================================================
 HRESULT CExplosionBomb::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -67,10 +73,12 @@ HRESULT CExplosionBomb::TextureLoad(void)
 //=============================================================================
 void CExplosionBomb::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -80,11 +88,19 @@ void CExplosionBomb::TextureUnload(void)
 //=============================================================================
 CExplosionBomb * CExplosionBomb::Create(D3DXVECTOR3 Position)
 {
-	CExplosionBomb * pExolosionBomb;
-	pExolosionBomb = new CExplosionBomb;
-	pExolosionBomb->Init();
-	pExolosionBomb->SetPosition(Position);
-	return pExolosionBomb;
+	//爆弾の爆破のポインタ
+	CExplosionBomb * pExplosionBomb = NULL;
+	//もし爆弾の爆発のポインタがNULLの場合
+	if (pExplosionBomb == NULL)
+	{
+		//爆弾の爆発のメモリ確保
+		pExplosionBomb = new CExplosionBomb;
+	}
+	//初期化処理関数呼び出し
+	pExplosionBomb->Init();
+	//位置を設定する
+	pExplosionBomb->SetPosition(Position);
+	return pExplosionBomb;
 }
 
 //=============================================================================
@@ -94,10 +110,10 @@ HRESULT CExplosionBomb::Init(void)
 {
 	//テクスチャのUV座標の設定
 	D3DXVECTOR2 aTexture[NUM_VERTEX];
-	aTexture[0] = D3DXVECTOR2(0.125f * m_nPatternAnime, 0.0f);
-	aTexture[1] = D3DXVECTOR2(0.125f * m_nPatternAnime + 0.125f, 0.0f);
-	aTexture[2] = D3DXVECTOR2(0.125f * m_nPatternAnime, 1.0f);
-	aTexture[3] = D3DXVECTOR2(0.125f * m_nPatternAnime + 0.125f, 1.0f);
+	aTexture[0] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime, 0.0f);
+	aTexture[1] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 0.0f);
+	aTexture[2] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime, 1.0f);
+	aTexture[3] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 1.0f);
 	//爆発の初期化処理関数呼び出し
 	CExplosion::Init();
 	//サイズの初期設定
@@ -149,27 +165,27 @@ void CExplosionBomb::Animation(void)
 	//カウントインクリメント
 	m_nCounterAnime++;
 	//カウントが4以上になった場合
-	if (m_nCounterAnime > 4)
+	if (m_nCounterAnime > MAX_COUNTER_ANIME)
 	{
 		//カウントを0にする
-		m_nCounterAnime = 0;
+		m_nCounterAnime = MINIMUM_COUNTER__ANIME;
 
 		//パターンのインクリメント
 		m_nPatternAnime++;
 		//パターンが8になった場合
-		if (m_nPatternAnime > 8)
+		if (m_nPatternAnime > MAX_PATTERN_ANIME)
 		{
-			//終了
+			//終了処理関数呼び出し
 			Uninit();
 			return;
 		}
 	}
 	//テクスチャのUV座標の設定
 	D3DXVECTOR2 aTexture[NUM_VERTEX];
-	aTexture[0] = D3DXVECTOR2(0.125f * m_nPatternAnime, 0.0f);
-	aTexture[1] = D3DXVECTOR2(0.125f * m_nPatternAnime + 0.125f, 0.0f);
-	aTexture[2] = D3DXVECTOR2(0.125f * m_nPatternAnime, 1.0f);
-	aTexture[3] = D3DXVECTOR2(0.125f * m_nPatternAnime + 0.125f, 1.0f);
+	aTexture[0] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime, 0.0f);
+	aTexture[1] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 0.0f);
+	aTexture[2] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime, 1.0f);
+	aTexture[3] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 1.0f);
 	//テクスチャの設定
 	SetTexture(aTexture);
 }
@@ -179,49 +195,62 @@ void CExplosionBomb::Animation(void)
 //=============================================================================
 void CExplosionBomb::Collision(void)
 {
-	for (int nCountPriority = 3; nCountPriority < 5; nCountPriority++)
+	//弾のプライオリティから敵のプライオリティまで回す
+	for (int nCountPriority = PRIORITY_BULLET; nCountPriority <= PRIORITY_ENEMY; nCountPriority++)
 	{
+		//シーンの総数分回す
 		for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
 		{
 			//シーンの取得
 			CScene * pScene = GetScene(nCountPriority, nCountScene);
+			//もしシーンがNULLじゃない場合
 			if (pScene != NULL)
 			{
 				//オブジェタイプの取得
-				OBJTYPE objType;
-				objType = pScene->GetObjType();
-
-				//もしオブジェクトタイプが敵だったら
-				if (objType == OBJTYPE_ENEMY)
+				OBJTYPE ObjType = pScene->GetObjType();
+				//もしオブジェクトタイプがNULLじゃない場合
+				if (ObjType != NULL)
 				{
-					CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
-					if (pEnemy != NULL)
+					//もしオブジェクトタイプが敵だったら
+					if (ObjType == OBJTYPE_ENEMY)
 					{
-						D3DXVECTOR3 TargetPosition = pEnemy->GetPosition();
-						D3DXVECTOR3 TargetSize = pEnemy->GetSize();
-						//敵との衝突
-						if (GetPosition().x + GetSize().x / 2 > TargetPosition.x - (TargetSize.x / 2) &&
-							GetPosition().x - GetSize().x / 2 < TargetPosition.x + (TargetSize.x / 2) &&
-							GetPosition().y + GetSize().y / 2 > TargetPosition.y - (TargetSize.y / 2) &&
-							GetPosition().y - GetSize().y / 2 < TargetPosition.y + (TargetSize.y / 2))
+						//敵のポインタ
+						CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
+						//もし敵のポインタがNULLじゃない場合
+						if (pEnemy != NULL)
 						{
-							//敵のヒット処理関数呼び出し
-							pEnemy->Hit();
+							//敵の位置を取得する
+							D3DXVECTOR3 EnemyPosition = pEnemy->GetPosition();
+							//敵のサイズを取得する
+							D3DXVECTOR3 EnemySize = pEnemy->GetSize();
+							//敵との衝突判定
+							if (GetPosition().x + GetSize().x / 2 > EnemyPosition.x - (EnemySize.x / 2) &&
+								GetPosition().x - GetSize().x / 2 < EnemyPosition.x + (EnemySize.x / 2) &&
+								GetPosition().y + GetSize().y / 2 > EnemyPosition.y - (EnemySize.y / 2) &&
+								GetPosition().y - GetSize().y / 2 < EnemyPosition.y + (EnemySize.y / 2))
+							{
+								//敵のヒット処理関数呼び出し
+								pEnemy->Hit();
+							}
 						}
 					}
 				}
+				//弾のポインタ
 				CBullet * pBullet = dynamic_cast<CBullet*> (pScene);
+				//もし弾のポインタがNULLじゃない場合
 				if (pBullet != NULL)
 				{
-					D3DXVECTOR3 TargetPosition = pBullet->GetPosition();
-					D3DXVECTOR3 TargetSize = pBullet->GetSize();
+					//弾の位置を取得する
+					D3DXVECTOR3 BulletPosition = pBullet->GetPosition();
+					//弾のサイズを取得する
+					D3DXVECTOR3 BulletSize = pBullet->GetSize();
 					//敵との衝突
-					if (GetPosition().x + GetSize().x / 2 > TargetPosition.x - (TargetSize.x / 2) &&
-						GetPosition().x - GetSize().x / 2 < TargetPosition.x + (TargetSize.x / 2) &&
-						GetPosition().y + GetSize().y / 2 > TargetPosition.y - (TargetSize.y / 2) &&
-						GetPosition().y - GetSize().y / 2 < TargetPosition.y + (TargetSize.y / 2))
+					if (GetPosition().x + GetSize().x / 2 > BulletPosition.x - (BulletSize.x / 2) &&
+						GetPosition().x - GetSize().x / 2 < BulletPosition.x + (BulletSize.x / 2) &&
+						GetPosition().y + GetSize().y / 2 > BulletPosition.y - (BulletSize.y / 2) &&
+						GetPosition().y - GetSize().y / 2 < BulletPosition.y + (BulletSize.y / 2))
 					{
-						//弾の消去
+						//弾の初期化処理関数呼び出し
 						pBullet->Uninit();
 					}
 				}

@@ -37,7 +37,7 @@ public:
 		STATE_MOVE,
 		STATE_MAX
 	}STATE;
-	CEnemy(int nPriority = DEFAULT_PRIORITY);
+	CEnemy(int nPriority = PRIORITY_ENEMY);
 	~CEnemy();
 	HRESULT Init(void);
 	void Uninit(void);

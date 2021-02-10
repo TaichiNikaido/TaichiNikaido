@@ -30,7 +30,7 @@
 class CEnemyFlower :public CEnemy
 {
 public:
-	CEnemyFlower(int nPriority = DEFAULT_PRIORITY);
+	CEnemyFlower();
 	~CEnemyFlower();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
@@ -50,8 +50,8 @@ private:
 	D3DXVECTOR3 m_StopPosition;				//止まる位置
 	int m_nCounterAnime;					//アニメカウンタ
 	int m_nPatternAnime;					//アニメパターン
-	int m_nBulletTime;						//弾の発射間隔
+	int m_nShotTime;						//弾を発射するまでの時間
 	int m_nColorCount;						//色カウント
-	int m_nStayTime;
+	int m_nStayTime;						//滞在時間
 };
 #endif

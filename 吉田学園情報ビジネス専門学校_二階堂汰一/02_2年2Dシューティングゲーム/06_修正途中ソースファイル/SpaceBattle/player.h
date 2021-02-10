@@ -12,14 +12,15 @@
 //*****************************************************************************
 #include "scene2d.h"
 #include "name.h"
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define PLAYER_POS  (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 180, 0.0f))
-#define PLAYER_SIZE (D3DXVECTOR3(65.0f,65.0f,0.0f))
-#define PLAYER_SPEED (5.0f)
-#define PLAYER_MAX_BOMB (5)
-#define PLAYER_MAX_LIFE (5)
+#define PLAYER_POS  (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 180, 0.0f))	//プレイヤーの位置
+#define PLAYER_SIZE (D3DXVECTOR3(65.0f,65.0f,0.0f))								//プレイヤーのサイズ													
+#define PLAYER_MAX_BOMB (5)														//プレイヤーの最大ボム数
+#define PLAYER_MAX_LIFE (5)														//プレイヤーの最大ライフ
+
 //*****************************************************************************
 // 前方宣言
 //*****************************************************************************
@@ -38,28 +39,28 @@ public:
 	typedef enum
 	{
 		STATE_NONE = -1,
-		STATE_DEATH,
-		STATE_INVINCIBLE,
+		STATE_DEATH,		//死亡
+		STATE_INVINCIBLE,	//無敵
 		STATE_MAX
-	}STATE;
+	}STATE;		//状態
 	typedef enum
 	{
 		INPUT_NONE = -1,
-		INPUT_UP,
-		INPUT_DOWN,
-		INPUT_LEFT,
-		INPUT_RIGHT,
-		INPUT_BOMB,
-		INPUT_SHOT,
+		INPUT_UP,		//上方向
+		INPUT_DOWN,		//下方向
+		INPUT_LEFT,		//左方向
+		INPUT_RIGHT,	//右方向
+		INPUT_BOMB,		//ボム発射
+		INPUT_SHOT,		//弾発射
 		INPUT_MAX
-	}INPUT;
+	}INPUT;		//入力状態
 	typedef enum
 	{
 		ATTACK_NONE = -1,
-		ATTACK_SHOT,
-		ATTACK_BOMB,
+		ATTACK_SHOT,	//弾発射
+		ATTACK_BOMB,	//ボム発射
 		ATTACK_MAX
-	}ATTACK;
+	}ATTACK;	//攻撃状態
 	typedef enum
 	{
 		LEVEL_NONE = -1,
@@ -67,8 +68,8 @@ public:
 		LEVEL_2,
 		LEVEL_3,
 		LEVEL_MAX
-	}LEVEL;
-	CPlayer(int nPriority = 4);
+	}LEVEL;		//レベル
+	CPlayer(int nPriority = PRIORITY_PLAYER);
 	~CPlayer();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
@@ -96,16 +97,17 @@ private:
 	void Death(void);
 	void Invincible(void);
 	void Respawn(void);
-	D3DXVECTOR3 MovableRange(D3DXVECTOR3 Position);
+	D3DXVECTOR3 MovableRange(void);
 	void Replay(void);
+	void DeleteAllBullet(void);
 	void TimeCount(void);
 	void DataSave(void);
 	void InputDataSave(void);
 	void InputDataLoad(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	D3DXVECTOR3 m_Move;						//移動量
 	static  char m_aPlayerName[MAX_NAME];	//名前
 	static bool m_bReplay;					//リプレイなのか
+	D3DXVECTOR3 m_Move;						//移動量
 	int m_nLife;							//体力
 	int m_nBomb;							//爆弾の所持数
 	int m_nUseBomb;							//爆弾の使用回数
@@ -115,8 +117,7 @@ private:
 	int m_nLevel;							//レベル
 	int m_nDeathTime;						//死亡時間
 	int m_nInvincibleTime;					//無敵時間
-	int m_nBulletinterval;					//発射間隔
-	int m_nCount;							//カウント
+	int m_nBulletInterval;					//発射間隔
 	float m_fSpeed;							//速さ
 	char m_aInputData[15000][INPUT_MAX];	//入力情報
 	STATE m_State;							//状態
@@ -252,7 +253,7 @@ private:
 //	float m_fSpeed;							//速さ
 //	int m_nOwn;								//自機の数
 //	int m_nLevel;							//プレイヤーレベル
-//	int m_nCountBullet;						//弾のカウント
+//	int m_nShotTime;						//弾のカウント
 //	int m_nBomb;							//爆弾の数
 //	int m_nCount;							//カウント
 //	int m_nDeathCount;						//死亡時間

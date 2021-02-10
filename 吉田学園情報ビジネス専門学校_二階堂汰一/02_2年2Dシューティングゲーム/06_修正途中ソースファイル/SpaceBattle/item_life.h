@@ -30,7 +30,7 @@
 class CItemLife :public CItem
 {
 public:
-	CItemLife(int nPriority = DEFAULT_PRIORITY);
+	CItemLife();
 	~CItemLife();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

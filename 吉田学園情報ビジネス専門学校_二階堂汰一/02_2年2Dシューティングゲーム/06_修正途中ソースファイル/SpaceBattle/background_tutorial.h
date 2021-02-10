@@ -30,7 +30,7 @@
 class CBackgroundTutorial :public CBackground
 {
 public:
-	CBackgroundTutorial(int nPriority = 1);
+	CBackgroundTutorial();
 	~CBackgroundTutorial();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

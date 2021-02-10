@@ -30,7 +30,7 @@
 class CItemBomb :public CItem
 {
 public:
-	CItemBomb(int nPriority = DEFAULT_PRIORITY);
+	CItemBomb();
 	~CItemBomb();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

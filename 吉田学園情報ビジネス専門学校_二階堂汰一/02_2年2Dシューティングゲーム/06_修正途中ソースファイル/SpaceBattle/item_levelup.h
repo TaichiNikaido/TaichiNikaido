@@ -30,7 +30,7 @@
 class CItemLevelUP :public CItem
 {
 public:
-	CItemLevelUP(int nPriority = DEFAULT_PRIORITY);
+	CItemLevelUP();
 	~CItemLevelUP();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

@@ -31,7 +31,7 @@ class CWarning;
 class CBulletFireball :public CBulletEnemy
 {
 public:
-	CBulletFireball(int nPriority = 3);
+	CBulletFireball();
 	~CBulletFireball();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

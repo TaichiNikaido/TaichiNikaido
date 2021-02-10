@@ -25,16 +25,17 @@
 #define SIZE (D3DXVECTOR3(10.0f,10.0f,0.0f))
 #define LIFE (500)
 #define EFFECT_LIFE (7)
+#define MINIMUM_LIFE (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CBulletN_Way::m_pTexture = NULL;	//テクスチャへのポインタ
+LPDIRECT3DTEXTURE9 CBulletN_Way::m_pTexture = NULL;		//テクスチャへのポインタ
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletN_Way::CBulletN_Way(int nPriority) : CBulletEnemy(nPriority)
+CBulletN_Way::CBulletN_Way()
 {
 }
 
@@ -50,9 +51,10 @@ CBulletN_Way::~CBulletN_Way()
 //=============================================================================
 HRESULT CBulletN_Way::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -65,10 +67,12 @@ HRESULT CBulletN_Way::TextureLoad(void)
 //=============================================================================
 void CBulletN_Way::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -78,10 +82,19 @@ void CBulletN_Way::TextureUnload(void)
 //=============================================================================
 CBulletN_Way * CBulletN_Way::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed)
 {
-	CBulletN_Way * pBulletN_Way;
-	pBulletN_Way = new CBulletN_Way;
+	//n_way弾のポインタ
+	CBulletN_Way * pBulletN_Way = NULL;
+	//もしn_way弾のポインタがNULLの場合
+	if (pBulletN_Way == NULL)
+	{
+		//n_way弾のメモリ確保
+		pBulletN_Way = new CBulletN_Way;
+	}
+	//初期化処理関数呼び出し
 	pBulletN_Way->Init();
+	//位置を設定する
 	pBulletN_Way->SetPosition(Position);
+	//移動量を設定する
 	pBulletN_Way->SetMove(Speed);
 	return pBulletN_Way;
 }
@@ -129,7 +142,7 @@ void CBulletN_Way::Update(void)
 	//エフェクトの生成
 	CEffect::Create(GetPosition(), GetSize(), GetColor(), EFFECT_LIFE);
 	//もしライフが0になったら
-	if (GetLife() <= 0)
+	if (GetLife() <= MINIMUM_LIFE)
 	{
 		//死亡処理関数呼び出し
 		Death();

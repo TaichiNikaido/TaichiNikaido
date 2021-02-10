@@ -162,9 +162,6 @@
     <ClCompile Include="enemy_flower.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="enemy_spider.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="kyoboard.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
@@ -284,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="flame.cpp">
       <Filter>ソース ファイル\Scene2d</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_spider.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

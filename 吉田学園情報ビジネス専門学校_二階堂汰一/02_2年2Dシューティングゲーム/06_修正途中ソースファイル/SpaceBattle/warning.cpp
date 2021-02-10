@@ -25,6 +25,11 @@
 #define SIZE (D3DXVECTOR3(920.0f,270.0f,0.0f))
 #define RED_COLOR (D3DXCOLOR(1.0f,0.0f,0.0f,1.0f))
 #define YELLOW_COLOR (D3DXCOLOR(1.0f,1.0f,0.0f,1.0f))
+#define MINIMUM_COLOR_CHANGE_TIME (0)
+#define MINIMUM_COLOR_CHANGE_COUNT (0)
+#define INIT_POSITION (D3DXVECTOR3(DragonPosition.x, PlayerPosition.y, 0.0f))
+#define COLOR_CHANGE_TIME (10)
+#define COLOR_CHANGE_COUNT (2)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -36,8 +41,8 @@ LPDIRECT3DTEXTURE9 CWarning::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 CWarning::CWarning()
 {
-	m_nColorChangeTime = 0;					//色を変更する時間
-	m_nColorChangeCount = 0;				//色を変更するカウント
+	m_nColorChangeTime = MINIMUM_COLOR_CHANGE_TIME;					//色を変更する時間
+	m_nColorChangeCount = MINIMUM_COLOR_CHANGE_COUNT;				//色を変更するカウント
 }
 
 //=============================================================================
@@ -52,9 +57,10 @@ CWarning::~CWarning()
 //=============================================================================
 HRESULT CWarning::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -67,10 +73,12 @@ HRESULT CWarning::TextureLoad(void)
 //=============================================================================
 void CWarning::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -80,8 +88,15 @@ void CWarning::TextureUnload(void)
 //=============================================================================
 CWarning * CWarning::Create(void)
 {
-	CWarning * pWarning;
-	pWarning = new CWarning;
+	//警告のポインタ
+	CWarning * pWarning = NULL;
+	//もし警告のポインタがNULLの場合
+	if (pWarning == NULL)
+	{
+		//警告のメモリ確保
+		pWarning = new CWarning;
+	}
+	//初期化処理関数呼び出し
 	pWarning->Init();
 	return pWarning;
 }
@@ -108,7 +123,7 @@ HRESULT CWarning::Init()
 	//2Dシーン初期化処理関数呼び出し
 	CScene2d::Init();
 	//位置の初期設定
-	SetPosition(D3DXVECTOR3(DragonPosition.x, PlayerPosition.y, 0.0f));
+	SetPosition(INIT_POSITION);
 	//サイズの初期設定
 	SetSize(SIZE);
 	//テクスチャの設定
@@ -177,9 +192,11 @@ void CWarning::Position(void)
 //=============================================================================
 void CWarning::ColorChange(void)
 {
-	if (m_nColorChangeTime % 10 == 0)
+	//もし色変更時間になったら
+	if (m_nColorChangeTime % COLOR_CHANGE_TIME == REMAINDER)
 	{
-		if (m_nColorChangeCount % 2 == 0)
+		//色をカウントに合わせて変更する
+		if (m_nColorChangeCount % COLOR_CHANGE_COUNT == REMAINDER)
 		{
 			//色を設定する
 			SetColor(YELLOW_COLOR);

@@ -33,7 +33,7 @@ class CUIBombTexture;
 class CBombUI :public CScene
 {
 public:
-	CBombUI(int nPriority = 5);
+	CBombUI(int nPriority = PRIORITY_UI);
 	~CBombUI();
 	static CBombUI * Create(void);
 	HRESULT Init(void);

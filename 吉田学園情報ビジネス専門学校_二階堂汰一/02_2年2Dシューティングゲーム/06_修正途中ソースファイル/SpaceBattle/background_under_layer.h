@@ -30,7 +30,7 @@
 class CBackgroundUnderLayer :public CBackground
 {
 public:
-	CBackgroundUnderLayer(int nPriority = 1);
+	CBackgroundUnderLayer();
 	~CBackgroundUnderLayer();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);

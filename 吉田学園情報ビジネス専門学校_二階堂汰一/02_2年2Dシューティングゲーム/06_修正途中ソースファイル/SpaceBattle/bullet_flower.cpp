@@ -27,6 +27,10 @@
 #define SIZE (D3DXVECTOR3(40.0f,40.0f,0.0f))
 #define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
 #define LIFE (1500)
+#define MINIMUM_TIME (0)
+#define ANIMATION_VALUE (0.1428f)
+#define MINIMUM_LIFE (0)
+#define MAX_TIME (80)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -36,10 +40,10 @@ LPDIRECT3DTEXTURE9 CBulletFlower::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletFlower::CBulletFlower(int nPriority) : CBulletEnemy(nPriority)
+CBulletFlower::CBulletFlower()
 {
 	m_ColorNumber = COLOR_NUMBER_NONE;	//色の番号
-	m_nTime = 0;						//時間
+	m_nTime = MINIMUM_TIME;				//時間
 }
 
 //=============================================================================
@@ -54,9 +58,10 @@ CBulletFlower::~CBulletFlower()
 //=============================================================================
 HRESULT CBulletFlower::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -69,10 +74,12 @@ HRESULT CBulletFlower::TextureLoad(void)
 //=============================================================================
 void CBulletFlower::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -82,11 +89,21 @@ void CBulletFlower::TextureUnload(void)
 //=============================================================================
 CBulletFlower * CBulletFlower::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed, COLOR_NUMBER nColor)
 {
-	CBulletFlower * pBulletFlower;
-	pBulletFlower = new CBulletFlower;
+	//花弾のポインタ
+	CBulletFlower * pBulletFlower = NULL;
+	//もし花弾のポインタがNULLの場合
+	if (pBulletFlower == NULL)
+	{
+		//花弾のメモリ確保
+		pBulletFlower = new CBulletFlower;
+	}
+	//位置を設定する
 	pBulletFlower->SetPosition(Position);
+	//移動量を設定する
 	pBulletFlower->SetMove(Speed);
+	//色の番号を設定する
 	pBulletFlower->m_ColorNumber = nColor;
+	//初期化処理関数呼び出し
 	pBulletFlower->Init();
 	return pBulletFlower;
 }
@@ -98,10 +115,10 @@ HRESULT CBulletFlower::Init(void)
 {
 	//テクスチャのUV座標の設定
 	D3DXVECTOR2 aTexture[NUM_VERTEX];
-	aTexture[0] = D3DXVECTOR2(m_ColorNumber * 0.1428f, 0.0f);
-	aTexture[1] = D3DXVECTOR2(m_ColorNumber * 0.1428f + 0.1428f, 0.0f);
-	aTexture[2] = D3DXVECTOR2(m_ColorNumber * 0.1428f, 1.0f);
-	aTexture[3] = D3DXVECTOR2(m_ColorNumber * 0.1428f + 0.1428f, 1.0f);
+	aTexture[0] = D3DXVECTOR2(m_ColorNumber * ANIMATION_VALUE, 0.0f);
+	aTexture[1] = D3DXVECTOR2(m_ColorNumber * ANIMATION_VALUE + ANIMATION_VALUE, 0.0f);
+	aTexture[2] = D3DXVECTOR2(m_ColorNumber * ANIMATION_VALUE, 1.0f);
+	aTexture[3] = D3DXVECTOR2(m_ColorNumber * ANIMATION_VALUE + ANIMATION_VALUE, 1.0f);
 	//敵の弾の初期化処理関数呼び出し
 	CBulletEnemy::Init();
 	//サイズの設定
@@ -131,13 +148,14 @@ void CBulletFlower::Uninit(void)
 //=============================================================================
 void CBulletFlower::Update(void)
 {
+	//敵の弾の更新処理関数呼び出し
 	CBulletEnemy::Update();
 	//移動処理関数呼び出し
 	Move();
 	//色選択処理関数呼び出し
 	ColorSelect();
 	//もしライフが0になったら
-	if (GetLife() <= 0)
+	if (GetLife() <= MINIMUM_LIFE)
 	{
 		//死亡処理関数呼び出し
 		Death();
@@ -166,15 +184,18 @@ void CBulletFlower::Move(void)
 	D3DXVECTOR3 Move = GetMove();
 	//プレイヤーを取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もしプレイヤーがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
-		if (m_nTime == 80)
+		if (m_nTime == MAX_TIME)
 		{
 			//プレイヤーの位置を取得
 			D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
 			//プレイヤーまでの距離を求める
 			D3DXVECTOR3 TargetDistance = D3DXVECTOR3(PlayerPosition.x - Position.x, PlayerPosition.y - Position.y, 0.0f);
+			//向きを設定する
 			Rotaion.y = float(atan2(TargetDistance.y, TargetDistance.x));
+			//移動量を代入
 			Move = D3DXVECTOR3(cosf(Rotaion.y) * 5.5f, sinf(Rotaion.y) * 5.5f, 0.0f);
 		}
 		//タイムを進める
@@ -195,10 +216,10 @@ void CBulletFlower::ColorSelect(void)
 {
 	//テクスチャのUV座標の設定
 	D3DXVECTOR2 aTexture[NUM_VERTEX];
-	aTexture[0] = D3DXVECTOR2(m_ColorNumber * 0.1428f, 0.0f);
-	aTexture[1] = D3DXVECTOR2(m_ColorNumber * 0.1428f + 0.1428f, 0.0f);
-	aTexture[2] = D3DXVECTOR2(m_ColorNumber * 0.1428f, 1.0f);
-	aTexture[3] = D3DXVECTOR2(m_ColorNumber * 0.1428f + 0.1428f, 1.0f);
+	aTexture[0] = D3DXVECTOR2(m_ColorNumber * ANIMATION_VALUE, 0.0f);
+	aTexture[1] = D3DXVECTOR2(m_ColorNumber * ANIMATION_VALUE + ANIMATION_VALUE, 0.0f);
+	aTexture[2] = D3DXVECTOR2(m_ColorNumber * ANIMATION_VALUE, 1.0f);
+	aTexture[3] = D3DXVECTOR2(m_ColorNumber * ANIMATION_VALUE + ANIMATION_VALUE, 1.0f);
 	//テクスチャの設定
 	SetTexture(aTexture);
 }

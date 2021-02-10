@@ -30,7 +30,7 @@
 class CEnemyEyeHard :public CEnemy
 {
 public:
-	CEnemyEyeHard(int nPriority = DEFAULT_PRIORITY);
+	CEnemyEyeHard();
 	~CEnemyEyeHard();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
@@ -46,9 +46,9 @@ private:
 	void Stop(void);
 	void Stay(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	D3DXVECTOR3 m_StopPosition;	//敵が止まる場所
-	float m_fAngleRot;	//向き
-	int m_nCountBullet;	//弾の発射間隔
-	int m_nStayTime;
+	D3DXVECTOR3 m_StopPosition;				//停止位置
+	float m_fTargetAngle;					//目標までの角度
+	int m_nShotTime;						//弾を発射するまでの時間
+	int m_nStayTime;						//滞在時間
 };
 #endif

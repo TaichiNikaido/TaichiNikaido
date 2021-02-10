@@ -55,7 +55,7 @@ private:
 	D3DXVECTOR3				m_aVtxPosition[NUM_VERTEX];	//頂点座標
 	D3DXVECTOR2				m_aTexture[NUM_VERTEX];		//テクスチャのUV座標
 	D3DXCOLOR	 			m_Color;					//カラー
-	float					m_fScale;					//縮尺
+	float					m_fScale;					//拡縮
 	float					m_fAngle;					//角度
 	float					m_fLength;					//長さ
 };

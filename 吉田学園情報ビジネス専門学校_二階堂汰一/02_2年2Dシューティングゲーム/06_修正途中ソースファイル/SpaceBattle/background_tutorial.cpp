@@ -35,7 +35,7 @@ LPDIRECT3DTEXTURE9 CBackgroundTutorial::m_apTexture[TEXTURE_MAX] = {};	//ƒeƒNƒXƒ
 //=============================================================================
 // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
 //=============================================================================
-CBackgroundTutorial::CBackgroundTutorial(int nPriority) : CBackground(nPriority)
+CBackgroundTutorial::CBackgroundTutorial()
 {
 }
 

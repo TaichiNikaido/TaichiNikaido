@@ -8,7 +8,6 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <cmath>
 #include "main.h"
 #include "manager.h"
 #include "mode_game.h"
@@ -19,8 +18,11 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define POSITION (D3DXVECTOR3(450.0f,80.0f,0.0f))
-#define SIZE (D3DXVECTOR3(45.0f,45.0f,0.0f))
+#define POSITION (D3DXVECTOR3(450.0f,80.0f,0.0f))	//位置
+#define SIZE (D3DXVECTOR3(45.0f,45.0f,0.0f))		//サイズ
+#define SHOW_ALPHA (255)							//アルファ値最大
+#define HIDE_ALPHA (100)							//アルファ値半分
+#define MINIMUM_BOMB_TEXTURE (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -31,7 +33,7 @@
 //=============================================================================
 CBombUI::CBombUI(int nPriority) : CScene(nPriority)
 {
-	memset(m_apBombTexture, 0, sizeof(m_apBombTexture));
+	memset(m_apBombTexture, MINIMUM_BOMB_TEXTURE, sizeof(m_apBombTexture));	//テクスチャのポインタ
 }
 
 //=============================================================================
@@ -42,71 +44,89 @@ CBombUI::~CBombUI()
 }
 
 //=============================================================================
-// 生成
+// 生成処理関数
 //=============================================================================
 CBombUI * CBombUI::Create(void)
 {
-	CBombUI * pBombUI;
-	pBombUI = new CBombUI;
-	pBombUI->Init();
+	//爆弾のUIのポインタ
+	CBombUI * pBombUI = NULL;
+	//爆弾のUIのポインタがNULLの場合
+	if (pBombUI == NULL)
+	{
+		//爆弾のUIのメモリ確保
+		pBombUI = new CBombUI;
+	}
+	//爆弾のUIのポインタがNULLじゃない場合
+	if (pBombUI != NULL)
+	{
+		//爆弾のUIの初期化処理関数呼び出し
+		pBombUI->Init();
+	}
 	return pBombUI;
 }
 
 //=============================================================================
-// 初期化関数
+// 初期化処理関数
 //=============================================================================
 HRESULT CBombUI::Init(void)
 {
-	//UI用爆弾テクスチャ生成
+	//プレイヤーの最大所持爆弾数分回す
 	for (int nCount = 0; nCount < PLAYER_MAX_BOMB; nCount++)
 	{
+		//UI用爆弾テクスチャ生成
 		m_apBombTexture[nCount] = CUIBombTexture::Create(D3DXVECTOR3(POSITION.x + (SIZE.x * nCount), POSITION.y, 0.0f), SIZE);
 	}
 	return S_OK;
 }
 
 //=============================================================================
-// 終了関数
+// 終了処理関数
 //=============================================================================
 void CBombUI::Uninit(void)
 {
+	//破棄処理関数呼び出し
 	Release();
 }
 
 //=============================================================================
-// 更新関数
+// 更新処理関数
 //=============================================================================
 void CBombUI::Update(void)
 {
 }
 
 //=============================================================================
-// 描画関数
+// 描画処理関数
 //=============================================================================
 void CBombUI::Draw(void)
 {
+	//プレイヤーの最大所持爆弾数分回す
 	for (int nCount = 0; nCount < PLAYER_MAX_BOMB; nCount++)
 	{
+		//UI用爆弾テクスチャの描画処理関数呼び出し
 		m_apBombTexture[nCount]->Draw();
 	}
 }
 
 //=============================================================================
-// セット関数
+// 設定処理関数
 //=============================================================================
 void CBombUI::SetBomb(int nBomb)
 {
-	//もし爆弾のUIが最大数以下だった時
+	//もし爆弾のUIがプレイヤーの最大ボム所持数以下だった時
 	if (nBomb <= PLAYER_MAX_BOMB)
 	{
+		//プレイヤーの最大ボム所持数分回す
 		for (int nCount = 0; nCount < PLAYER_MAX_BOMB; nCount++)
 		{
-			m_apBombTexture[nCount]->SetBombTexture(100);
+			//UI用爆弾テクスチャ設定処理関数呼び出し
+			m_apBombTexture[nCount]->SetBombTexture(HIDE_ALPHA);
 		}
-
+		//プレイヤーのボム所持数分回す
 		for (int nCount = 0; nCount < nBomb; nCount++)
 		{
-			m_apBombTexture[nCount]->SetBombTexture(255);
+			//UI用爆弾テクスチャ設定処理関数呼び出し
+			m_apBombTexture[nCount]->SetBombTexture(SHOW_ALPHA);
 		}
 	}
 }

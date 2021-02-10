@@ -33,7 +33,7 @@ LPDIRECT3DTEXTURE9 CBackgroundMiddleLayer::m_pTexture = NULL;	//テクスチャへのポ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBackgroundMiddleLayer::CBackgroundMiddleLayer(int nPriority) : CBackground(nPriority)
+CBackgroundMiddleLayer::CBackgroundMiddleLayer()
 {
 }
 

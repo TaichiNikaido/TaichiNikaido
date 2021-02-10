@@ -30,7 +30,7 @@
 class CExplosion :public CScene2d
 {
 public:
-	CExplosion(int nPriority = DEFAULT_PRIORITY);
+	CExplosion(int nPriority = PRIORITY_EXPLOSION);
 	~CExplosion();
 	HRESULT Init(void);
 	void Uninit(void);

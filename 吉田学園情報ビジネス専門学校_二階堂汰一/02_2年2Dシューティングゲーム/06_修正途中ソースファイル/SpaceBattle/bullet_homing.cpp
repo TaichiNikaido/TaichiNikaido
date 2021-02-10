@@ -29,6 +29,8 @@
 #define LIFE (150)
 #define SPEED (5.0f)
 #define EFFECT_LIFE (7)
+#define MINIMUM_LIFE (0)
+#define MINIMUM_SPEED (0)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -38,7 +40,7 @@ LPDIRECT3DTEXTURE9 CBulletHoming::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CBulletHoming::CBulletHoming(int nPriority) : CBulletEnemy(nPriority)
+CBulletHoming::CBulletHoming()
 {
 }
 
@@ -54,9 +56,10 @@ CBulletHoming::~CBulletHoming()
 //=============================================================================
 HRESULT CBulletHoming::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -69,10 +72,12 @@ HRESULT CBulletHoming::TextureLoad(void)
 //=============================================================================
 void CBulletHoming::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -82,9 +87,17 @@ void CBulletHoming::TextureUnload(void)
 //=============================================================================
 CBulletHoming * CBulletHoming::Create(D3DXVECTOR3 Position)
 {
-	CBulletHoming * pBulletHoming;
-	pBulletHoming = new CBulletHoming;
+	//ホーミング弾のポインタ
+	CBulletHoming * pBulletHoming = NULL;
+	//もしホーミング弾がNULLの場合
+	if (pBulletHoming == NULL)
+	{
+		//ホーミング弾のメモリ確保
+		pBulletHoming = new CBulletHoming;
+	}
+	//初期化処理関数呼び出し
 	pBulletHoming->Init();
+	//位置を設定する
 	pBulletHoming->SetPosition(Position);
 	return pBulletHoming;
 }
@@ -136,7 +149,7 @@ void CBulletHoming::Update(void)
 	//エフェクトの生成
 	CEffect::Create(GetPosition(), GetSize(), GetColor(), EFFECT_LIFE);
 	//もしライフが0になったら
-	if (GetLife() <= 0)
+	if (GetLife() <= MINIMUM_LIFE)
 	{
 		//死亡処理関数呼び出し
 		Death();
@@ -157,26 +170,30 @@ void CBulletHoming::Draw(void)
 //=============================================================================
 void CBulletHoming::Homing(void)
 {
+	//位置を取得
+	D3DXVECTOR3 Position = GetPosition();
+	//移動量を取得
+	D3DXVECTOR3 Move = GetMove();
 	//プレイヤー取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もしプレイヤーがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
 		//目標の位置を取得
-		D3DXVECTOR3 TargetPosition = pPlayer->GetPosition();
-		//位置を取得
-		D3DXVECTOR3 Position = GetPosition();
-		//移動量を取得
-		D3DXVECTOR3 Move = GetMove();
+		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
 		//目標との距離
-		float m_fDistance = float(sqrt((TargetPosition.x - Position.x) * (TargetPosition.x - Position.x) + (TargetPosition.y - Position.y) * (TargetPosition.y - Position.y)));
+		float m_fDistance = float(sqrt((PlayerPosition.x - Position.x) * (PlayerPosition.x - Position.x) + (PlayerPosition.y - Position.y) * (PlayerPosition.y - Position.y)));
+		//もし目標の距離なら
 		if (m_fDistance)
 		{
-			Move.x = ((TargetPosition.x - GetPosition().x) / m_fDistance * SPEED);
-			Move.y = ((TargetPosition.y - GetPosition().y) / m_fDistance * SPEED);
+			//移動量を設定する
+			Move.x = ((PlayerPosition.x - GetPosition().x) / m_fDistance * SPEED);
+			Move.y = ((PlayerPosition.y - GetPosition().y) / m_fDistance * SPEED);
 		}
 		else
 		{
-			Move.x = 0;
+			//移動量を代入する
+			Move.x = MINIMUM_SPEED;
 			Move.y = SPEED;
 		}
 		//移動量を設定する

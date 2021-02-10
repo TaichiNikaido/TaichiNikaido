@@ -50,8 +50,8 @@ private:
 	}TEXTURE;
 	void Scale(void);
 	void Spawn(void);
-	static LPDIRECT3DTEXTURE9 m_pTexture[TEXTURE_MAX];	//テクスチャへのポインタ
-	CScene2d * m_pScene2d[TEXTURE_MAX];					//シーン2Dへのポインタ
-	bool m_bSpawn;										//スポーンの真偽
+	static LPDIRECT3DTEXTURE9 m_apTexture[TEXTURE_MAX];	//テクスチャへのポインタ
+	CScene2d * m_apScene2d[TEXTURE_MAX];				//シーン2Dへのポインタ
+	bool m_bSpawn;										//スポーンしたか
 };
 #endif

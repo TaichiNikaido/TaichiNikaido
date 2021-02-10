@@ -30,7 +30,7 @@
 class CBackgroundMiddleLayer :public CBackground
 {
 public:
-	CBackgroundMiddleLayer(int nPriority = 1);
+	CBackgroundMiddleLayer();
 	~CBackgroundMiddleLayer();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
