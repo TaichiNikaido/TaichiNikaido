@@ -25,11 +25,11 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Bullet/bullet_bomb.png")
-#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
-#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
-#define LIFE (50)
-#define MINIMUM_LIFE (0)
+#define TEXTURE ("Data/Texture/Bullet/bullet_bomb.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))			//サイズ
+#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))			//色
+#define MINIMUM_LIFE (0)								//体力の最小値
+#define LIFE (50)										//体力
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -94,12 +94,17 @@ CBulletBomb * CBulletBomb::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed)
 		//爆弾のメモリ確保
 		pBulletBomb = new CBulletBomb;
 	}
-	//初期化処理関数呼び出し
-	pBulletBomb->Init();
-	//位置を設定する
-	pBulletBomb->SetPosition(Position);
-	//移動量を設定する
-	pBulletBomb->SetMove(Speed);
+	//もし爆弾のポインタがNULLじゃない場合
+	if (pBulletBomb != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBulletBomb->Init();
+		//位置を設定する
+		pBulletBomb->SetPosition(Position);
+		//移動量を設定する
+		pBulletBomb->SetMove(Speed);
+	}
+	//爆弾のポインタを返す
 	return pBulletBomb;
 }
 
@@ -118,8 +123,12 @@ HRESULT CBulletBomb::Init(void)
 	CSound * pSound = CManager::GetSound();
 	//弾の初期化関数呼び出し
 	CBullet::Init();
-	//ショット音の再生
-	pSound->PlaySound(CSound::SOUND_LABEL_SE_SHOT);
+	//もしサウンドがNULLじゃない場合
+	if (pSound != NULL)
+	{
+		//ショット音の再生
+		pSound->PlaySound(CSound::SOUND_LABEL_SE_SHOT);
+	}
 	//サイズの初期設定
 	SetSize(SIZE);
 	//色の初期設定

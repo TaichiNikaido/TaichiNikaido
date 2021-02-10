@@ -29,6 +29,7 @@
 #include "explosion_death.h"
 #include "bullet_player.h"
 #include "bullet_bomb.h"
+#include "bullet_enemy.h"
 #include "player.h"
 #include "enemy_dragon.h"
 #include "bullet.h"
@@ -731,7 +732,7 @@ void CPlayer::DeleteAllBullet(void)
 		if (pScene != NULL)
 		{
 			//弾のポインタ
-			CBullet * pBullet = dynamic_cast<CBullet*> (pScene);
+			CBulletEnemy * pBullet = dynamic_cast<CBulletEnemy*> (pScene);
 			//弾のポインタがNULLじゃない場合
 			if (pBullet != NULL)
 			{

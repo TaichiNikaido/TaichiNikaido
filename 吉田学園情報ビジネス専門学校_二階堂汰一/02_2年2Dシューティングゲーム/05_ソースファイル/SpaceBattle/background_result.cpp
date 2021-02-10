@@ -21,9 +21,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Background/background_result.png")
-#define SIZE (D3DXVECTOR3(1920.0f,1080.0f,0.0f))
-#define FLAME (0)
+#define TEXTURE ("Data/Texture/Background/background_result.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(1920.0f,1080.0f,0.0f))					//サイズ
+#define FLAME (0)													//フレーム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -88,10 +88,14 @@ CBackgroundResult * CBackgroundResult::Create(D3DXVECTOR3 Position)
 		//リザルト背景のメモリ確保
 		pBackgroundResult = new CBackgroundResult;
 	}
-	//初期化処理関数呼び出し
-	pBackgroundResult->Init();
-	//位置を設定する
-	pBackgroundResult->SetPosition(Position);
+	//もしリザルト背景のポインタがNULLじゃない場合
+	if (pBackgroundResult != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBackgroundResult->Init();
+		//位置を設定する
+		pBackgroundResult->SetPosition(Position);
+	}
 	return pBackgroundResult;
 }
 

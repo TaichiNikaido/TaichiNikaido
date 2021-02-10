@@ -31,8 +31,10 @@
 #define NUM_POLYGON		(2)
 #define NUM_VERTEX		(4)
 #define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))
+#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))
 #define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))
 #define INITIAL_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
+#define INITIAL_ROTATION (D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 #define REMAINDER (0)
 
 //*****************************************************************************

@@ -26,31 +26,31 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Enemy/flower.png")
-#define SIZE (D3DXVECTOR3(100.0f,100.0f,0.0f))
-#define LIFE (13)
-#define SCORE (50000)
-#define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
-#define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))
-#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))
-#define STAY_TIME (500)
-#define BULLET_MOVE (D3DXVECTOR3(cosf(D3DXToRadian(nCount * (360 / 20)))*3.5f, sinf(D3DXToRadian(nCount * (360 / 20)))*3.5f, 0.0f))
-#define RATE_MOVE (0.03f)
-#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f, 0.0f, 0.0f))
-#define MINIMUM_COUNTER_ANIME (0)
-#define MINIMUM_PATTERN_ANIME (0)
-#define MINIMUM_SHOT_TIME (0)
-#define MINIMUM_COLOR_COUNT (0)
-#define MINIMUM_STAY_TIME (0)
-#define ANIMATION_VALUE (0.250f)
-#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 6) + 100))
-#define MINIMUM_LIFE (0)
-#define SHOT_TIME (50)
-#define SHOT_COOL_TIME (100)
-#define INTERVAL_BULLET (20)
-#define MAX_ANIMATION (16)
-#define MINIMUM_ANIMATION (0)
-#define SHOT_VALUE (20)
+#define TEXTURE ("Data/Texture/Enemy/flower.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(100.0f,100.0f,0.0f))		//サイズ
+#define MINIMUM_LIFE (0)							//体力の最小値
+#define LIFE (13)									//体力
+#define SCORE (50000)								//スコア
+#define MOVE (D3DXVECTOR3(0.0f,5.0f,0.0f))			//移動量		
+#define RETURN_MOVE (D3DXVECTOR3(0.0f,-10.0f,0.0f))	//戻る移動量
+#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))	//停止位置
+#define STAY_TIME (500)								//滞在時間
+#define BULLET_MOVE (D3DXVECTOR3(cosf(D3DXToRadian(nCount * (360 / 20)))*3.5f, sinf(D3DXToRadian(nCount * (360 / 20)))*3.5f, 0.0f))	//弾の移動量
+#define RATE_MOVE (0.03f)							//移動量
+#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f, 0.0f, 0.0f))	//停止位置の最小値
+#define MINIMUM_COUNTER_ANIME (0)					//カウンターアニメの最小値
+#define MINIMUM_PATTERN_ANIME (0)					//パターンアニメの最小値
+#define MINIMUM_SHOT_TIME (0)						//発射時間の最小値
+#define MINIMUM_COLOR_COUNT (0)						//色の最小カウント
+#define MINIMUM_STAY_TIME (0)						//滞在最小時間
+#define ANIMATION_VALUE (0.250f)					//アニメーションの値
+#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 6) + 100))	//停止位置
+#define SHOT_TIME (50)								//停止時間
+#define SHOT_COOL_TIME (100)						//弾の色の時間
+#define INTERVAL_BULLET (20)						//弾の間隔
+#define MINIMUM_ANIMATION (0)						//アニメーションの最小値
+#define MAX_ANIMATION (16)							//アニメーションの最大値
+#define SHOT_VALUE (20)								//発射回数
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -115,16 +115,20 @@ CEnemyFlower * CEnemyFlower::Create(D3DXVECTOR3 Position)
 {
 	//花の敵のポインタ
 	CEnemyFlower * pEnemyFlower = NULL;
-	//もし花の敵のポインタがNULLだった場合
+	//もし花の敵のポインタがNULLの場合
 	if (pEnemyFlower == NULL)
 	{
 		//花の敵のメモリ確保
 		pEnemyFlower = new CEnemyFlower;
 	}
-	//位置を設定する
-	pEnemyFlower->SetPosition(Position);
-	//初期化処理関数呼び出し
-	pEnemyFlower->Init();
+	//もし花の敵のポインタがNULLじゃない場合
+	if (pEnemyFlower != NULL)
+	{
+		//位置を設定する
+		pEnemyFlower->SetPosition(Position);
+		//初期化処理関数呼び出し
+		pEnemyFlower->Init();
+	}
 	return pEnemyFlower;
 }
 
@@ -146,7 +150,7 @@ HRESULT CEnemyFlower::Init(void)
 	//体力の初期設定
 	SetLife(LIFE);
 	//移動量の初期設定
-	SetMove(SPEED);
+	SetMove(MOVE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
@@ -284,7 +288,7 @@ void CEnemyFlower::Stay(void)
 		//状態を移動にする
 		SetState(STATE_MOVE);
 		//移動量を設定する
-		SetMove(RETURN_SPEED);
+		SetMove(RETURN_MOVE);
 	}
 }
 

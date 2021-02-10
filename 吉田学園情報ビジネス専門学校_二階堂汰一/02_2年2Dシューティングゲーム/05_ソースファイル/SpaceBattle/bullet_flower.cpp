@@ -23,14 +23,14 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Bullet/bullet_flower.png")
-#define SIZE (D3DXVECTOR3(40.0f,40.0f,0.0f))
-#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
-#define LIFE (1500)
-#define MINIMUM_TIME (0)
-#define ANIMATION_VALUE (0.1428f)
-#define MINIMUM_LIFE (0)
-#define MAX_TIME (80)
+#define TEXTURE ("Data/Texture/Bullet/bullet_flower.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(40.0f,40.0f,0.0f))				//サイズ
+#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))				//色
+#define LIFE (1500)											//体力
+#define MINIMUM_TIME (0)									//時間の最小値
+#define MAX_TIME (80)										//時間の最大値
+#define MINIMUM_LIFE (0)									//体力の最小値
+#define ANIMATION_VALUE (0.1428f)							//アニメーションの値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -97,14 +97,19 @@ CBulletFlower * CBulletFlower::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed, C
 		//花弾のメモリ確保
 		pBulletFlower = new CBulletFlower;
 	}
-	//位置を設定する
-	pBulletFlower->SetPosition(Position);
-	//移動量を設定する
-	pBulletFlower->SetMove(Speed);
-	//色の番号を設定する
-	pBulletFlower->m_ColorNumber = nColor;
-	//初期化処理関数呼び出し
-	pBulletFlower->Init();
+	//もし花弾のポインタがNULLじゃない場合
+	if (pBulletFlower != NULL)
+	{
+		//位置を設定する
+		pBulletFlower->SetPosition(Position);
+		//移動量を設定する
+		pBulletFlower->SetMove(Speed);
+		//色の番号を設定する
+		pBulletFlower->m_ColorNumber = nColor;
+		//初期化処理関数呼び出し
+		pBulletFlower->Init();
+	}
+	//もし花弾のポインタを返す
 	return pBulletFlower;
 }
 

@@ -23,14 +23,14 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Bullet/bullet.png")
-#define SIZE (D3DXVECTOR3(10.0f,10.0f,0.0f))
-#define COLOR (D3DXCOLOR(1.0f,0.0f,0.0f,1.0f))
-#define LIFE (150)
-#define SPEED (5.0f)
-#define EFFECT_LIFE (7)
-#define MINIMUM_LIFE (0)
-#define MINIMUM_SPEED (0)
+#define TEXTURE ("Data/Texture/Bullet/bullet.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(10.0f,10.0f,0.0f))		//サイズ
+#define COLOR (D3DXCOLOR(1.0f,0.0f,0.0f,1.0f))		//色
+#define MINIMUM_LIFE (0)							//体力の最小値
+#define LIFE (150)									//体力
+#define MINIMUM_MOVE (0)							//移動量の最小値
+#define MOVE (5.0f)									//移動量
+#define EFFECT_LIFE (7)								//エフェクトライフ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -95,10 +95,14 @@ CBulletHoming * CBulletHoming::Create(D3DXVECTOR3 Position)
 		//ホーミング弾のメモリ確保
 		pBulletHoming = new CBulletHoming;
 	}
-	//初期化処理関数呼び出し
-	pBulletHoming->Init();
-	//位置を設定する
-	pBulletHoming->SetPosition(Position);
+	//もしホーミング弾がNULLじゃない場合
+	if (pBulletHoming != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBulletHoming->Init();
+		//位置を設定する
+		pBulletHoming->SetPosition(Position);
+	}
 	return pBulletHoming;
 }
 
@@ -187,14 +191,14 @@ void CBulletHoming::Homing(void)
 		if (m_fDistance)
 		{
 			//移動量を設定する
-			Move.x = ((PlayerPosition.x - GetPosition().x) / m_fDistance * SPEED);
-			Move.y = ((PlayerPosition.y - GetPosition().y) / m_fDistance * SPEED);
+			Move.x = ((PlayerPosition.x - GetPosition().x) / m_fDistance * MOVE);
+			Move.y = ((PlayerPosition.y - GetPosition().y) / m_fDistance * MOVE);
 		}
 		else
 		{
 			//移動量を代入する
-			Move.x = MINIMUM_SPEED;
-			Move.y = SPEED;
+			Move.x = MINIMUM_MOVE;
+			Move.y = MOVE;
 		}
 		//移動量を設定する
 		SetMove(Move);

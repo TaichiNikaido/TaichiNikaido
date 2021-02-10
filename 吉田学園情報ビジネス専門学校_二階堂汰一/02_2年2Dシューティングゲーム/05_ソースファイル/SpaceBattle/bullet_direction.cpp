@@ -21,12 +21,12 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Bullet/bullet.png")
-#define SIZE (D3DXVECTOR3(10.0f,10.0f,0.0f))
-#define COLOR (D3DXCOLOR(0.0f,1.0f,0.0f,1.0f))
-#define LIFE (1000)
-#define EFFECT_LIFE (7)
-#define MINIMUM_LIFE (0)
+#define TEXTURE ("Data/Texture/Bullet/bullet.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(10.0f,10.0f,0.0f))		//サイズ
+#define COLOR (D3DXCOLOR(0.0f,1.0f,0.0f,1.0f))		//色
+#define MINIMUM_LIFE (0)							//体力の最小値
+#define LIFE (1000)									//体力
+#define EFFECT_LIFE (7)								//エフェクトの体力
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -91,12 +91,17 @@ CBulletDirection * CBulletDirection::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Sp
 		//方向弾のメモリ確保
 		pBulletDirection = new CBulletDirection;
 	}
-	//初期化処理関数呼び出し
-	pBulletDirection->Init();
-	//位置を設定する
-	pBulletDirection->SetPosition(Position);
-	//移動量を設定する
-	pBulletDirection->SetMove(Speed);
+	//もし方向弾のポインタがNULLじゃない場合
+	if (pBulletDirection != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBulletDirection->Init();
+		//位置を設定する
+		pBulletDirection->SetPosition(Position);
+		//移動量を設定する
+		pBulletDirection->SetMove(Speed);
+	}
+	//方向弾のポインタ
 	return pBulletDirection;
 }
 

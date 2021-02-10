@@ -21,9 +21,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Background/background_under_layer.png")
-#define SIZE (D3DXVECTOR3(1120.0f,1080.0f,0.0f))
-#define FLAME (3)
+#define TEXTURE ("Data/Texture/Background/background_under_layer.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(1120.0f,1080.0f,0.0f))						//サイズ
+#define FLAME (3)														//フレーム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -89,7 +89,7 @@ CBackgroundUnderLayer * CBackgroundUnderLayer::Create(D3DXVECTOR3 Position)
 		pBackgroundUnderLayer = new CBackgroundUnderLayer;
 	}
 	//もし下層背景のポインタがNULLじゃない場合
-	if (pBackgroundUnderLayer == NULL)
+	if (pBackgroundUnderLayer != NULL)
 	{
 		//初期化処理関数呼び出し
 		pBackgroundUnderLayer->Init();

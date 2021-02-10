@@ -21,13 +21,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/explosion.png")
-#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
-#define MINIMUM_COUNTER__ANIME (0)
-#define MINIMUM_PATTERN_ANIME (0)
-#define ANIMATION_VALUE (0.125f)
-#define MAX_COUNTER_ANIME (4)
-#define MAX_PATTERN_ANIME (8)
+#define TEXTURE ("Data/Texture/explosion.png")	  //テクスチャ
+#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))	  //サイズ
+#define MINIMUM_COUNTER__ANIME (0)				  //アニメーション最小カウンタ
+#define MINIMUM_PATTERN_ANIME (0)				  //アニメーション最小パターン
+#define ANIMATION_VALUE (0.125f)				  //アニメーションの値
+#define MAX_COUNTER_ANIME (4)					  //アニメーション最大カウンタ
+#define MAX_PATTERN_ANIME (8)					  //アニメーション最大パターン
 
 //*****************************************************************************
 // 静的メンバ変数の初期化

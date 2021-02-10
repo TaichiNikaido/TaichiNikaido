@@ -22,10 +22,10 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define KEYBOARD_GUID_TEXTURE ("Data/Texture/Background/background_keyboard_guid.png")
-#define JOYSTICK_GUID_TEXTURE ("Data/Texture/Background/background_joystick_guid.png")
-#define SIZE (D3DXVECTOR3(1920.0f,1080.0f,0.0f))
-#define FLAME (0)
+#define KEYBOARD_GUID_TEXTURE ("Data/Texture/Background/background_keyboard_guid.png")	//テクスチャ
+#define JOYSTICK_GUID_TEXTURE ("Data/Texture/Background/background_joystick_guid.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(1920.0f,1080.0f,0.0f))										//サイズ
+#define FLAME (0)																		//フレーム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化

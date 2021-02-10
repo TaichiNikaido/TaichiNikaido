@@ -27,11 +27,11 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Enemy/bombhead.png")
-#define SIZE (D3DXVECTOR3(100.0f,150.0f,0.0f))
-#define LIFE (12)
-#define SPEED (D3DXVECTOR3(5.0f,0.0f,0.0f))
-#define SCORE (10000)
+#define TEXTURE ("Data/Texture/Enemy/bombhead.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(100.0f,150.0f,0.0f))		//サイズ
+#define LIFE (12)									//体力
+#define MOVE (D3DXVECTOR3(5.0f,0.0f,0.0f))			//移動量		
+#define SCORE (10000)								//スコア
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -121,7 +121,7 @@ HRESULT CEnemyBombHead::Init(void)
 	//体力の初期設定
 	SetLife(LIFE);
 	//移動量の初期設定
-	SetMove(SPEED);
+	SetMove(MOVE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
@@ -147,9 +147,10 @@ void CEnemyBombHead::Update(void)
 {
 	if (m_bCreateBody == true)
 	{
-		if (m_nCreateCount % 10 == 0)
+		m_nCreateCount++;
+		if (m_nCreateCount % 15 == 0)
 		{
-			m_pBombBody[m_nCreateBodyCount] = CEnemyBombBody::Create(m_InitPos,this);
+			m_pBombBody[m_nCreateBodyCount] = CEnemyBombBody::Create(m_InitPos, this);
 			m_nCreateBodyCount++;
 
 			if (m_nCreateBodyCount >= MAX_BOMB_BODY)
@@ -157,37 +158,37 @@ void CEnemyBombHead::Update(void)
 				m_bCreateBody = false;
 			}
 		}
-		m_nCreateCount++;
 	}
-	else
+	m_fRd += m_fRdScale;
+	if (m_fRd >= 360.0f)//一周したらリセット
 	{
-		m_fRd += m_fRdScale;
-		if (m_fRd >= 360.0f)//一周したらリセット
-		{
-			m_fRd = 0;
-		}
-		//移動量のセット
-		SetMove(D3DXVECTOR3(GetMove().x, float(5 * sin(m_fRd)), GetMove().z));
-		//画面端についたら逆方向に
-		if (GetPosition().x < FIELD_WIDTH_MIN + 10.0f)
-		{
-			SetMove(D3DXVECTOR3(GetMove().x * -1.0f, GetMove().y, GetMove().z));
-			m_fRdScale = m_fRdScale * -1.0f;
-		}
-		if (GetPosition().x > FIELD_WIDTH - 10.0f)
-		{
-			SetMove(D3DXVECTOR3(GetMove().x * -1.0f, GetMove().y, GetMove().z));
-			m_fRdScale = m_fRdScale * -1.0f;
-		}
-		//進行方向に向きを合わせる
-		SetRotation(D3DXVECTOR3(GetRotation().x, GetRotation().y, atan2f((GetPosition().x + GetMove().x) - GetPosition().x, (GetPosition().y + GetMove().y) - GetPosition().y)));
-		//敵の更新処理関数呼び出し
-		CEnemy::Update();
-		//もしライフが0になったら
-		if (GetLife() <= 0)
+		m_fRd = 0;
+	}
+	//移動量のセット
+	SetMove(D3DXVECTOR3(GetMove().x, float(5 * sin(m_fRd)), GetMove().z));
+	//画面端についたら逆方向に
+	if (GetPosition().x < FIELD_WIDTH_MIN + 10.0f)
+	{
+		SetMove(D3DXVECTOR3(GetMove().x * -1.0f, GetMove().y, GetMove().z));
+		m_fRdScale = m_fRdScale * -1.0f;
+	}
+	if (GetPosition().x > FIELD_WIDTH - 10.0f)
+	{
+		SetMove(D3DXVECTOR3(GetMove().x * -1.0f, GetMove().y, GetMove().z));
+		m_fRdScale = m_fRdScale * -1.0f;
+	}
+	//進行方向に向きを合わせる
+	SetRotation(D3DXVECTOR3(GetRotation().x, GetRotation().y, atan2f((GetPosition().x + GetMove().x) - GetPosition().x, (GetPosition().y + GetMove().y) - GetPosition().y)));
+	//敵の更新処理関数呼び出し
+	CEnemy::Update();
+	//もしライフが0になったら
+	if (GetLife() <= 0)
+	{
+		if (m_bDeath == false)
 		{
 			//死亡処理関数呼び出し
 			Death();
+			return;
 		}
 	}
 }
@@ -217,7 +218,8 @@ void CEnemyBombHead::DeathAll(void)
 				m_pBombBody[nCount]->Uninit();
 			}
 		}
-		Death();
+		//終了処理関数呼び出し
+		Uninit();
 	}
 }
 
@@ -242,8 +244,5 @@ void CEnemyBombHead::Death(void)
 			pPlayer->AddScore(SCORE);
 			DeathAll();
 			m_bDeath = true;
-			m_bDeathAll = true;
 		}
-		//終了処理関数呼び出し
-		Uninit();
 }

@@ -25,27 +25,27 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Enemy/eye_normal.png")
-#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
-#define LIFE (3)
-#define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
-#define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))
-#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f, 0.0f, 0.0f))
-#define MAX_COUT_SHOT (4)
-#define MINIMUM_COUNT_SHOT (0)
-#define MINIMUM_COUNT_BULLET (0)
-#define SHOT_COUNT_BULLET (10)
-#define SHOT_COUNT_COOL_TIME_BULLET (150)
-#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))
-#define SCORE (10000)
-#define MINIMUM_STAY_TIME (0)
-#define STAY_TIME (500)
-#define BULLET_SPEED (7.0f)
-#define RATE_MOVE (0.03f)
-#define MINIMUM_TARGET_ANGLE (0.0f)
-#define MINIMUM_BULLET_ANGLE (0.0f)
-#define MINIMUM_LIFE (0)
-#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 2) + 100))
+#define TEXTURE ("Data/Texture/Enemy/eye_normal.png")				//テクスチャ
+#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))						//サイズ
+#define MINIMUM_LIFE (0)											//体力の最小値
+#define LIFE (3)													//体力
+#define MOVE (D3DXVECTOR3(0.0f,5.0f,0.0f))							//移動量
+#define RETURN_MOVE (D3DXVECTOR3(0.0f,-10.0f,0.0f))					//戻る移動量
+#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f, 0.0f, 0.0f))		//停止位置の初期値
+#define MAX_COUNT_SHOT (4)											//最大発射数						
+#define MINIMUM_COUNT_SHOT (0)										//最小発射数
+#define MINIMUM_COUNT_BULLET (0)									//弾の最小発射間隔			
+#define SHOT_COUNT_BULLET (10)										//弾の発射間隔			
+#define SHOT_COUNT_COOL_TIME_BULLET (150)							//弾発射後のクールタイム
+#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))	//停止位置
+#define SCORE (10000)												//スコア
+#define MINIMUM_STAY_TIME (0)										//滞在最小時間
+#define STAY_TIME (500)												//滞在時間
+#define BULLET_SPEED (7.0f)											//弾の速度
+#define RATE_MOVE (0.03f)											//移動量
+#define MINIMUM_TARGET_ANGLE (0.0f)									//目標までの最小角度
+#define MINIMUM_BULLET_ANGLE (0.0f)									//弾の最小角度
+#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 2) + 100))	//停止位置
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -116,10 +116,14 @@ CEnemyEyeNormal * CEnemyEyeNormal::Create(D3DXVECTOR3 Position)
 		//目玉の敵(ノーマル)のメモリ確保
 		pEnemyEyeNormal = new CEnemyEyeNormal;
 	}
-	//位置を取得する
-	pEnemyEyeNormal->SetPosition(Position);
-	//初期化処理関数呼び出し
-	pEnemyEyeNormal->Init();
+	//目玉の敵(ノーマル)のポインタがNULLじゃない場合
+	if (pEnemyEyeNormal != NULL)
+	{
+		//位置を取得する
+		pEnemyEyeNormal->SetPosition(Position);
+		//初期化処理関数呼び出し
+		pEnemyEyeNormal->Init();
+	}
 	return pEnemyEyeNormal;
 }
 
@@ -141,7 +145,7 @@ HRESULT CEnemyEyeNormal::Init(void)
 	//体力の初期設定
 	SetLife(LIFE);
 	//移動量の初期設定
-	SetMove(SPEED);
+	SetMove(MOVE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
@@ -218,7 +222,7 @@ void CEnemyEyeNormal::Attack(void)
 		if (pPlayer->GetState() != CPlayer::STATE_DEATH)
 		{
 			//もし発射した弾の数が4以下だったら
-			if (m_nShotCount < MAX_COUT_SHOT)
+			if (m_nShotCount < MAX_COUNT_SHOT)
 			{
 				if (m_nShotCount <= MINIMUM_COUNT_SHOT)
 				{
@@ -333,6 +337,6 @@ void CEnemyEyeNormal::Stay(void)
 		//状態を移動中
 		SetState(STATE_MOVE);
 		//移動量を設定する
-		SetMove(RETURN_SPEED);
+		SetMove(RETURN_MOVE);
 	}
 }

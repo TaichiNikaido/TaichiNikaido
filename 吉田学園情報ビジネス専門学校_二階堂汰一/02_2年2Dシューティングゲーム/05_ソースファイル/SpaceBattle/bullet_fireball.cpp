@@ -27,13 +27,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Bullet/bullet_fireball.png")
-#define SIZE (D3DXVECTOR3(35.0f,35.0f,0.0f))
-#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
-#define SPEED (D3DXVECTOR3(0.0f,3.0f,0.0f))
-#define ADD_SCALE (0.1f)
-#define EFFECT_LIFE (7)
-#define MAX_SCALE (4.0f)
+#define TEXTURE ("Data/Texture/Bullet/bullet_fireball.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(35.0f,35.0f,0.0f))				//サイズ
+#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))				//色
+#define MOVE (D3DXVECTOR3(0.0f,3.0f,0.0f))					//移動量
+#define EFFECT_LIFE (7)										//エフェクトの体力
+#define ADD_SCALE (0.1f)									//加算する加算量
+#define MAX_SCALE (4.0f)									//最大の加算量
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -98,10 +98,15 @@ CBulletFireball * CBulletFireball::Create(D3DXVECTOR3 Position)
 		//火球のメモリ確保
 		pFireBall = new CBulletFireball;
 	}
-	//初期化処理関数呼び出し
-	pFireBall->Init();
-	//位置を設定する
-	pFireBall->SetPosition(Position);
+	//もし火球のポインタがNULLじゃない場合
+	if (pFireBall != NULL)
+	{
+		//初期化処理関数呼び出し
+		pFireBall->Init();
+		//位置を設定する
+		pFireBall->SetPosition(Position);
+	}
+	//火球のポインタを返す
 	return pFireBall;
 }
 
@@ -187,7 +192,7 @@ void CBulletFireball::Charge(void)
 		else
 		{
 			//移動量を設定
-			SetMove(SPEED);
+			SetMove(MOVE);
 		}
 	}
 }

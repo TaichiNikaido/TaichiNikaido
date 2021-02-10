@@ -17,7 +17,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-
+#define INITIAL_SCALE (1.0f)
+#define INITIAL_ANGLE (0.0f)
+#define INITIAL_LENGTH (0.0f)
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
@@ -29,15 +31,15 @@ CScene2d::CScene2d(int nPriority) : CScene(nPriority)
 {
 	m_pTexture = NULL;										//テクスチャへのポインタ
 	m_pVtxBuff = NULL;										//頂点バッファへのポインタ
-	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//座標
-	m_Size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);					//サイズ
-	m_Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);			//カラー
-	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//回転
+	m_Position = INITIAL_POSITION;							//座標
+	m_Size = INITIAL_SIZE;									//サイズ
+	m_Color = INITIAL_COLOR;								//カラー
+	m_Rotation = INITIAL_ROTATION;							//回転
 	memset(m_aVtxPosition, NULL, sizeof(m_aVtxPosition));	//頂点座標
 	memset(m_aTexture, NULL, sizeof(m_aTexture));			//テクスチャのUV座標
-	m_fScale = 1.0f;										//縮尺
-	m_fAngle = 0.0f;										//角度
-	m_fLength = 0.0f;										//長さ
+	m_fScale = INITIAL_SCALE;								//縮尺
+	m_fAngle = INITIAL_ANGLE;								//角度
+	m_fLength = INITIAL_LENGTH;								//長さ
 }
 
 //=============================================================================

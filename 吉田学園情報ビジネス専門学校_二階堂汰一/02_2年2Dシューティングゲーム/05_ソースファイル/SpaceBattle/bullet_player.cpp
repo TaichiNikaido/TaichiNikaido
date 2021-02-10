@@ -25,12 +25,12 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Bullet/Bullet.png")
-#define SIZE (D3DXVECTOR3(10.0f,10.0f,0.0f))
-#define COLOR (D3DXCOLOR(1.0f,0.0f,1.0f,1.0f))
-#define LIFE (175)
-#define EFFECT_LIFE (7)
-#define MINIMUM_LIFE (0)
+#define TEXTURE ("Data/Texture/Bullet/Bullet.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(10.0f,10.0f,0.0f))		//サイズ
+#define COLOR (D3DXCOLOR(1.0f,0.0f,1.0f,1.0f))		//色
+#define MINIMUM_LIFE (0)							//体力の最小値
+#define LIFE (175)									//体力
+#define EFFECT_LIFE (7)								//エフェクトの体力
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -95,12 +95,16 @@ CBulletPlayer * CBulletPlayer::Create(D3DXVECTOR3 Position,D3DXVECTOR3 Speed)
 		//プレイヤーの弾のメモリ確保
 		pBulletPlayer = new CBulletPlayer;
 	}
-	//初期化処理関数呼び出し
-	pBulletPlayer->Init();
-	//位置を設定する
-	pBulletPlayer->SetPosition(Position);
-	//移動量を設定する
-	pBulletPlayer->SetMove(Speed);
+	//もしプレイヤーの弾がNULLじゃない場合
+	if (pBulletPlayer != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBulletPlayer->Init();
+		//位置を設定する
+		pBulletPlayer->SetPosition(Position);
+		//移動量を設定する
+		pBulletPlayer->SetMove(Speed);
+	}
 	return pBulletPlayer;
 }
 
@@ -191,39 +195,42 @@ void CBulletPlayer::Death(void)
 //=============================================================================
 void CBulletPlayer::Collision(void)
 {
-	//シーンの総数分回す
-	for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
+	for (int nCountPriority = 1; nCountPriority < PRIORITY_ENEMY + 1; nCountPriority++)
 	{
-		//シーンの取得
-		CScene * pScene = GetScene(PRIORITY_ENEMY, nCountScene);
-		//もしシーンがNULLじゃない場合
-		if (pScene != NULL)
+		//シーンの総数分回す
+		for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
 		{
-			//オブジェタイプの取得
-			OBJTYPE ObjType = pScene->GetObjType();
-			//もしオブジェクトタイプが敵だったら
-			if (ObjType == OBJTYPE_ENEMY)
+			//シーンの取得
+			CScene * pScene = GetScene(nCountPriority, nCountScene);
+			//もしシーンがNULLじゃない場合
+			if (pScene != NULL)
 			{
-				//敵のポインタ取得
-				CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
-				//もし敵のポインタがNULLじゃない場合
-				if (pEnemy != NULL)
+				//オブジェタイプの取得
+				OBJTYPE ObjType = pScene->GetObjType();
+				//もしオブジェクトタイプが敵だったら
+				if (ObjType == OBJTYPE_ENEMY)
 				{
-					//敵の位置を取得
-					D3DXVECTOR3 EnemyPosition = pEnemy->GetPosition();
-					//敵のサイズを取得
-					D3DXVECTOR3 EnemySize = pEnemy->GetSize();
-					//敵との衝突判定
-					if (GetPosition().x + GetSize().x / 2 > EnemyPosition.x - (EnemySize.x / 2) &&
-						GetPosition().x - GetSize().x / 2 < EnemyPosition.x + (EnemySize.x / 2) &&
-						GetPosition().y + GetSize().y / 2 > EnemyPosition.y - (EnemySize.y / 2) &&
-						GetPosition().y - GetSize().y / 2 < EnemyPosition.y + (EnemySize.y / 2))
+					//敵のポインタ取得
+					CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
+					//もし敵のポインタがNULLじゃない場合
+					if (pEnemy != NULL)
 					{
-						//敵のヒット処理関数呼び出し
-						pEnemy->Hit();
-						//ライフを0にする
-						SetLife(MINIMUM_LIFE);
-						return;
+						//敵の位置を取得
+						D3DXVECTOR3 EnemyPosition = pEnemy->GetPosition();
+						//敵のサイズを取得
+						D3DXVECTOR3 EnemySize = pEnemy->GetSize();
+						//敵との衝突判定
+						if (GetPosition().x + GetSize().x / 2 > EnemyPosition.x - (EnemySize.x / 2) &&
+							GetPosition().x - GetSize().x / 2 < EnemyPosition.x + (EnemySize.x / 2) &&
+							GetPosition().y + GetSize().y / 2 > EnemyPosition.y - (EnemySize.y / 2) &&
+							GetPosition().y - GetSize().y / 2 < EnemyPosition.y + (EnemySize.y / 2))
+						{
+							//敵のヒット処理関数呼び出し
+							pEnemy->Hit();
+							//ライフを0にする
+							SetLife(MINIMUM_LIFE);
+							return;
+						}
 					}
 				}
 			}

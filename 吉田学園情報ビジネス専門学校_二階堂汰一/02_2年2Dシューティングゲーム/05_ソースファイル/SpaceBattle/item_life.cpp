@@ -20,6 +20,7 @@
 // マクロ定義
 //*****************************************************************************
 #define TEXTURE ("Data/Texture/Item/Life.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(30.0f,30.0f,0.0f))	//サイズ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -110,6 +111,8 @@ HRESULT CItemLife::Init(void)
 	CSound * pSound = CManager::GetSound();
 	//アイテムの初期化処理関数呼び出し
 	CItem::Init();
+	//サイズの初期設定
+	SetSize(SIZE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て

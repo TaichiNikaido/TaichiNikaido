@@ -27,11 +27,11 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Enemy/bombbody.png")
-#define SIZE (D3DXVECTOR3(100.0f,150.0f,0.0f))
-#define LIFE (12)
-#define SPEED (D3DXVECTOR3(5.0f,0.0f,0.0f))
-#define SCORE (10000)
+#define TEXTURE ("Data/Texture/Enemy/bombbody.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(100.0f,150.0f,0.0f))		//サイズ
+#define LIFE (12)									//体力
+#define MOVE (D3DXVECTOR3(5.0f,0.0f,0.0f))			//移動量		
+#define SCORE (10000)								//スコア
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -41,7 +41,7 @@ LPDIRECT3DTEXTURE9 CEnemyBombBody::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CEnemyBombBody::CEnemyBombBody()
+CEnemyBombBody::CEnemyBombBody(int nPriority) : CEnemy(nPriority)
 {
 	m_fRd = 0.0f;
 	m_fRdScale = 0.1f;
@@ -67,7 +67,6 @@ HRESULT CEnemyBombBody::TextureLoad(void)
 {
 	CRenderer *pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -119,7 +118,7 @@ HRESULT CEnemyBombBody::Init(void)
 	//体力の初期設定
 	SetLife(LIFE);
 	//移動量の初期設定
-	SetMove(SPEED);
+	SetMove(MOVE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て

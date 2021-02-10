@@ -26,28 +26,27 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Enemy/spider.png")
-#define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
-#define RATE_MOVE (0.03f)
-#define SIZE (D3DXVECTOR3(150.0f,150.0f,0.0f))
-#define LIFE (12)
-#define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))
-#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))
-#define STAY_TIME (500)
-#define SHOT_SPEED (D3DXVECTOR3(cosf(D3DXToRadian(nCount * (360 / 30) + 40.0f))*5.5f, sinf(D3DXToRadian(nCount * (360 / 30) + 40.0f))*5.5f, 0.0f))
-#define SHOT_TIME (50)
-#define SHOT_INTERVAL (20)
-#define SCORE (100000)
-#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f, 0.0f, 0.0f))
-#define INITIAL_SHOT_TIME (0)
-#define MINIMUM_COUNTER_ANIME (0)
-#define MINIMUM_PATTERN_ANIME (0)
-#define MINIMUM_STAY_TIME (0)
-#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 6) + 100))
-#define ANIMATION_VALUE (0.500f)
-#define MAX_COUNTER_ANIMATION (16)
-#define MINIMUM_COUNTER_ANIMATION (0)
-#define MAX_BULLET (9)
+#define TEXTURE ("Data/Texture/Enemy/spider.png")				//テクスチャ
+#define MOVE (D3DXVECTOR3(0.0f,5.0f,0.0f))						//移動量
+#define RATE_MOVE (0.03f)										//移動量
+#define SIZE (D3DXVECTOR3(150.0f,150.0f,0.0f))					//サイズ
+#define LIFE (12)												//体力
+#define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))			//戻る移動量
+#define STOP_MOVE (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))	//停止
+#define STAY_TIME (500)											//滞在時間
+#define BULLET_SPEED (D3DXVECTOR3(cosf(D3DXToRadian(nCount * (360 / 30) + 40.0f))*5.5f, sinf(D3DXToRadian(nCount * (360 / 30) + 40.0f))*5.5f, 0.0f))	//弾の移動量
+#define SHOT_TIME (50)											//発射時間
+#define SHOT_INTERVAL (20)										//発射間隔
+#define SCORE (100000)											//スコア
+#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f, 0.0f, 0.0f))	//停止位置の最小値
+#define INITIAL_SHOT_TIME (0)									//発射最小時間
+#define MINIMUM_COUNTER_ANIME (0)								//アニメーション最小カウンタ
+#define MINIMUM_PATTERN_ANIME (0)								//アニメーション最小パターン
+#define MINIMUM_STAY_TIME (0)									//滞在最小時間
+#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 6) + 100))//停止位置
+#define ANIMATION_VALUE (0.500f)								//アニメーションの値
+#define MAX_COUNTER_ANIMATION (16)								//アニメーション最大カウンタ
+#define MAX_BULLET (9)											//弾の最大数
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -117,10 +116,14 @@ CEnemySpider * CEnemySpider::Create(D3DXVECTOR3 Position)
 		//蜘蛛の敵のメモリ確保
 		pEnemySpider = new CEnemySpider;
 	}
-	//位置を設定する
-	pEnemySpider->SetPosition(Position);
-	//初期化処理関数呼び出し
-	pEnemySpider->Init();
+	//蜘蛛の敵のポインタがNULLじゃない場合
+	if (pEnemySpider != NULL)
+	{
+		//位置を設定する
+		pEnemySpider->SetPosition(Position);
+		//初期化処理関数呼び出し
+		pEnemySpider->Init();
+	}
 	return pEnemySpider;
 }
 
@@ -142,7 +145,7 @@ HRESULT CEnemySpider::Init(void)
 	//体力の初期設定
 	SetLife(LIFE);
 	//移動量の初期設定
-	SetMove(SPEED);
+	SetMove(MOVE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
@@ -226,7 +229,7 @@ void CEnemySpider::Attack(void)
 					for (int nCount = 0; nCount < MAX_BULLET; nCount++)
 					{
 						//n_way弾の生成
-						CBulletN_Way::Create(D3DXVECTOR3(Position.x, Position.y + Size.y / 4, 0.0f), SHOT_SPEED);
+						CBulletN_Way::Create(D3DXVECTOR3(Position.x, Position.y + Size.y / 4, 0.0f), BULLET_SPEED);
 					}
 				}
 			}
@@ -247,7 +250,7 @@ void CEnemySpider::Stop(void)
 	if (Position.y >= m_StopPosition.y)
 	{
 		//移動量を設定する
-		SetMove(STOP);
+		SetMove(STOP_MOVE);
 		//状態を無にする
 		SetState(STATE_NONE);
 	}
@@ -315,7 +318,7 @@ void CEnemySpider::Animation(void)
 	if (m_nCounterAnime > MAX_COUNTER_ANIMATION)
 	{
 		//カウントを0にする
-		m_nCounterAnime = MINIMUM_COUNTER_ANIMATION;
+		m_nCounterAnime = MINIMUM_COUNTER_ANIME;
 		//パターンのインクリメント
 		m_nPatternAnime++;
 	}

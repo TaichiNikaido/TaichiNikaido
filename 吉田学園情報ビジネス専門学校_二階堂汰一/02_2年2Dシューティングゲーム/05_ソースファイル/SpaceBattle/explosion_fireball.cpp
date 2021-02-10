@@ -24,14 +24,14 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/explosion.png")
-#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
-#define ATTACK (1)
-#define MINIMUM_COUNTER__ANIME (0)
-#define MINIMUM_PATTERN_ANIME (0)
-#define ANIMATION_VALUE (0.125f)
-#define MAX_COUNTER_ANIMATION (4)
-#define MAX_PATTERN_ANIMATION (8)
+#define TEXTURE ("Data/Texture/explosion.png")	//テクスチャ
+#define COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))	//色
+#define ATTACK (1)								//攻撃力
+#define MINIMUM_COUNTER_ANIME (0)				//アニメーション最小カウンタ
+#define MINIMUM_PATTERN_ANIME (0)				//アニメーションパターンアニメ
+#define ANIMATION_VALUE (0.125f)				//アニメーションの値
+#define MAX_COUNTER_ANIMATION (4)				//アニメーション最大カウンタ
+#define MAX_PATTERN_ANIMATION (8)				//アニメーション最大パターン
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -43,7 +43,7 @@ LPDIRECT3DTEXTURE9 CExplosionFireball::m_pTexture = NULL;	//テクスチャへのポイン
 //=============================================================================
 CExplosionFireball::CExplosionFireball()
 {
-	m_nCounterAnime = MINIMUM_COUNTER__ANIME;	//アニメカウンタ
+	m_nCounterAnime = MINIMUM_COUNTER_ANIME;	//アニメカウンタ
 	m_nPatternAnime = MINIMUM_PATTERN_ANIME;	//アニメパターン
 }
 
@@ -179,7 +179,7 @@ void CExplosionFireball::Animation(void)
 	if (m_nCounterAnime > MAX_COUNTER_ANIMATION)
 	{
 		//カウントを0にする
-		m_nCounterAnime = MINIMUM_COUNTER__ANIME;
+		m_nCounterAnime = MINIMUM_COUNTER_ANIME;
 		//パターンのインクリメント
 		m_nPatternAnime++;
 		//パターンが8になった場合

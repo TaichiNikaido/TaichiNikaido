@@ -23,23 +23,23 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Enemy/dragon.png")
-#define SIZE (D3DXVECTOR3(600.0f,600.0f,0.0f))
-#define INITIAL_TARGET_DISTANCE (D3DXVECTOR3(0.0f,0.0f,0.0f))
-#define LIFE (300)
-#define SCALE (0.1f)
-#define ADD_SCALE (0.01f)
-#define SCORE (100000)
-#define INITIAL_PATTERN_ANIME (0)
-#define INITIAL_COUNTER_ANIME (0)
-#define MINIMUM_LIFE (0)
-#define MINIMUM_BULLET_TIME (0)
-#define MINIMUM_CHARGE_TIME (0)
-#define MAX_SCALE (1.0f)
-#define MAX_ANIME_COUNT (24)
-#define MAX_PATTERN_ANIME (4)
-#define SHOT_TIME (400)
-#define ANIMATION_VALUE (0.1666f)
+#define TEXTURE ("Data/Texture/Enemy/dragon.png")				//テクスチャ
+#define SIZE (D3DXVECTOR3(600.0f,600.0f,0.0f))					//サイズ
+#define INITIAL_TARGET_DISTANCE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//目標までの距離
+#define MINIMUM_LIFE (0)										//体力の最少値
+#define LIFE (300)												//体力
+#define MINIMUM_SCALE (0.1f)									//最小の拡大値
+#define MAX_SCALE (1.0f)										//最大の拡大値
+#define ADD_SCALE (0.01f)										//加算する拡大量
+#define SCORE (100000)											//スコア
+#define INITIAL_PATTERN_ANIME (0)								//パターンアニメの初期値
+#define MAX_PATTERN_ANIME (4)									//パターンアニメの最大値
+#define INITIAL_COUNTER_ANIME (0)								//カウンターアニメの初期値
+#define MAX_COUNTER_ANIME (24)									//カウンターアニメの最大値
+#define MINIMUM_BULLET_TIME (0)									//弾の発射最小時間
+#define MINIMUM_CHARGE_TIME (0)									//チャージの最小時間
+#define SHOT_TIME (400)											//弾を発射するまでの時間
+#define ANIMATION_VALUE (0.1666f)								//アニメーションの値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -104,16 +104,20 @@ CEnemyDragon * CEnemyDragon::Create(D3DXVECTOR3 Position)
 {
 	//ドラゴンのポインタ
 	CEnemyDragon * pEnemyDragon = NULL;
-	//もしドラゴンのポインタがNULLだったら
+	//もしドラゴンのポインタがNULLの場合
 	if (pEnemyDragon == NULL)
 	{
 		//ドラゴンのメモリ確保
 		pEnemyDragon = new CEnemyDragon;
 	}
-	//初期化処理関数呼び出し
-	pEnemyDragon->Init();
-	//位置設定関数呼び出し
-	pEnemyDragon->SetPosition(Position);
+	//もしドラゴンのポインタがNULLじゃない場合
+	if (pEnemyDragon != NULL)
+	{
+		//初期化処理関数呼び出し
+		pEnemyDragon->Init();
+		//位置設定関数呼び出し
+		pEnemyDragon->SetPosition(Position);
+	}
 	return pEnemyDragon;
 }
 
@@ -135,7 +139,7 @@ HRESULT CEnemyDragon::Init(void)
 	//サイズの初期設定
 	SetSize(SIZE);
 	//スケールの初期設定
-	SetScale(SCALE);
+	SetScale(MINIMUM_SCALE);
 	//体力の初期設定
 	SetLife(LIFE);
 	//テクスチャの設定
@@ -340,7 +344,7 @@ void CEnemyDragon::Animation(void)
 	//カウントインクリメント
 	m_nCounterAnime++;
 	//アニメカウントが最大になった場合
-	if (m_nCounterAnime > MAX_ANIME_COUNT)
+	if (m_nCounterAnime > MAX_COUNTER_ANIME)
 	{
 		//カウントを0にする
 		m_nCounterAnime = INITIAL_COUNTER_ANIME;

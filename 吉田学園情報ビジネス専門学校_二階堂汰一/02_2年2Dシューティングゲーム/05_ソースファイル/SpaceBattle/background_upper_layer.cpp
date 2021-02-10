@@ -21,9 +21,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Background/background_upper_layer.png")
-#define SIZE (D3DXVECTOR3(1120.0f,1080.0f,0.0f))
-#define FLAME (5)
+#define TEXTURE ("Data/Texture/Background/background_upper_layer.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(1120.0f,1080.0f,0.0f))						//サイズ
+#define FLAME (5)														//フレーム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化

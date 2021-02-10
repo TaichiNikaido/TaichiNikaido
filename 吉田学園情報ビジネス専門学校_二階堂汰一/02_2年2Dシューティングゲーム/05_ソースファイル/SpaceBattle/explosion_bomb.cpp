@@ -23,13 +23,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/explosion.png")
-#define SIZE (D3DXVECTOR3(500.0f,500.0f,0.0f))
-#define MINIMUM_COUNTER__ANIME (0)
-#define MINIMUM_PATTERN_ANIME (0)
-#define ANIMATION_VALUE (0.125f)
-#define MAX_COUNTER_ANIME (4)
-#define MAX_PATTERN_ANIME (8)
+#define TEXTURE ("Data/Texture/explosion.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(500.0f,500.0f,0.0f))	//サイズ
+#define MINIMUM_COUNTER__ANIME (0)				//アニメーション最小カウンタ
+#define MINIMUM_PATTERN_ANIME (0)				//アニメーション最小パターン
+#define ANIMATION_VALUE (0.125f)				//アニメーションの値
+#define MAX_COUNTER_ANIME (4)					//アニメーション最大カウンタ
+#define MAX_PATTERN_ANIME (8)					//アニメーション最大パターン
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -196,7 +196,7 @@ void CExplosionBomb::Animation(void)
 void CExplosionBomb::Collision(void)
 {
 	//弾のプライオリティから敵のプライオリティまで回す
-	for (int nCountPriority = PRIORITY_BULLET; nCountPriority <= PRIORITY_ENEMY; nCountPriority++)
+	for (int nCountPriority = 0; nCountPriority <= PRIORITY_ENEMY + 1; nCountPriority++)
 	{
 		//シーンの総数分回す
 		for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)
@@ -206,33 +206,23 @@ void CExplosionBomb::Collision(void)
 			//もしシーンがNULLじゃない場合
 			if (pScene != NULL)
 			{
-				//オブジェタイプの取得
-				OBJTYPE ObjType = pScene->GetObjType();
-				//もしオブジェクトタイプがNULLじゃない場合
-				if (ObjType != NULL)
+				//敵のポインタ
+				CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
+				//もし敵のポインタがNULLじゃない場合
+				if (pEnemy != NULL)
 				{
-					//もしオブジェクトタイプが敵だったら
-					if (ObjType == OBJTYPE_ENEMY)
+					//敵の位置を取得する
+					D3DXVECTOR3 EnemyPosition = pEnemy->GetPosition();
+					//敵のサイズを取得する
+					D3DXVECTOR3 EnemySize = pEnemy->GetSize();
+					//敵との衝突判定
+					if (GetPosition().x + GetSize().x / 2 > EnemyPosition.x - (EnemySize.x / 2) &&
+						GetPosition().x - GetSize().x / 2 < EnemyPosition.x + (EnemySize.x / 2) &&
+						GetPosition().y + GetSize().y / 2 > EnemyPosition.y - (EnemySize.y / 2) &&
+						GetPosition().y - GetSize().y / 2 < EnemyPosition.y + (EnemySize.y / 2))
 					{
-						//敵のポインタ
-						CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
-						//もし敵のポインタがNULLじゃない場合
-						if (pEnemy != NULL)
-						{
-							//敵の位置を取得する
-							D3DXVECTOR3 EnemyPosition = pEnemy->GetPosition();
-							//敵のサイズを取得する
-							D3DXVECTOR3 EnemySize = pEnemy->GetSize();
-							//敵との衝突判定
-							if (GetPosition().x + GetSize().x / 2 > EnemyPosition.x - (EnemySize.x / 2) &&
-								GetPosition().x - GetSize().x / 2 < EnemyPosition.x + (EnemySize.x / 2) &&
-								GetPosition().y + GetSize().y / 2 > EnemyPosition.y - (EnemySize.y / 2) &&
-								GetPosition().y - GetSize().y / 2 < EnemyPosition.y + (EnemySize.y / 2))
-							{
-								//敵のヒット処理関数呼び出し
-								pEnemy->Hit();
-							}
-						}
+						//敵のヒット処理関数呼び出し
+						pEnemy->Hit();
 					}
 				}
 				//弾のポインタ

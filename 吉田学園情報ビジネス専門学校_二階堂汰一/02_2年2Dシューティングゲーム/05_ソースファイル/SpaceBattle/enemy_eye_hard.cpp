@@ -26,23 +26,23 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Enemy/eye_hard.png")
-#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))
-#define SPEED (D3DXVECTOR3(0.0f,5.0f,0.0f))
-#define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))
-#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))
-#define MINIMUM_SHOT_TIME (0)
-#define MINIMUM_STAY_TIME (0)
-#define MINIMUM_TARGET_ANGLE (0.0f)
-#define SHOT_TIME (100)
-#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y) * RATE_MOVE,GetMove().z))
-#define LIFE (3)
-#define SCORE (10000)
-#define STAY_TIME (500)
-#define RATE_MOVE (0.03f)
-#define BULLET_SPEED (7.0f)
-#define MINIMUM_LIFE (0)
-#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 2) + 100))
+#define TEXTURE ("Data/Texture/Enemy/eye_hard.png")					//テクスチャ
+#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))						//サイズ
+#define MOVE (D3DXVECTOR3(0.0f,5.0f,0.0f))							//移動量
+#define RETURN_MOVE (D3DXVECTOR3(0.0f,-10.0f,0.0f))					//戻る時の移動量
+#define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//停止する位置の初期値
+#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 2) + 100))	//停止する位置
+#define MINIMUM_SHOT_TIME (0)										//弾を撃つまでの最小時間
+#define SHOT_TIME (100)												//撃つまでの時間
+#define MINIMUM_STAY_TIME (0)										//滞在する最小時間
+#define STAY_TIME (500)												//滞在時間
+#define MINIMUM_TARGET_ANGLE (0.0f)									//目標の角度の最小値
+#define RATE_MOVE (0.03f)											//移動量
+#define STOP (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y) * RATE_MOVE,GetMove().z))	//停止位置
+#define MINIMUM_LIFE (0)											//体力の最小値
+#define LIFE (3)													//体力
+#define SCORE (10000)												//スコア								
+#define BULLET_SPEED (7.0f)											//弾の速度
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -105,15 +105,20 @@ CEnemyEyeHard * CEnemyEyeHard::Create(D3DXVECTOR3 Position)
 {
 	//目玉の敵(ハード)のポインタ
 	CEnemyEyeHard * pEnemyEyeHard = NULL;
+	//もし目玉のポインタがNULLの場合
 	if (pEnemyEyeHard == NULL)
 	{
 		//目玉の敵(ハード)のメモリ確保
 		pEnemyEyeHard = new CEnemyEyeHard;
 	}
-	//初期化処理関数呼び出し
-	pEnemyEyeHard->Init();
-	//位置を設定する
-	pEnemyEyeHard->SetPosition(Position);
+	//もし目玉のポインタがNULLじゃない場合
+	if (pEnemyEyeHard != NULL)
+	{
+		//初期化処理関数呼び出し
+		pEnemyEyeHard->Init();
+		//位置を設定する
+		pEnemyEyeHard->SetPosition(Position);
+	}
 	return pEnemyEyeHard;
 }
 
@@ -135,7 +140,7 @@ HRESULT CEnemyEyeHard::Init(void)
 	//体力の初期設定
 	SetLife(LIFE);
 	//移動量の初期設定
-	SetMove(SPEED);
+	SetMove(MOVE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
@@ -300,6 +305,6 @@ void CEnemyEyeHard::Stay(void)
 		//状態を移動中
 		SetState(STATE_MOVE);
 		//移動量を設定する
-		SetMove(RETURN_SPEED);
+		SetMove(RETURN_MOVE);
 	}
 }

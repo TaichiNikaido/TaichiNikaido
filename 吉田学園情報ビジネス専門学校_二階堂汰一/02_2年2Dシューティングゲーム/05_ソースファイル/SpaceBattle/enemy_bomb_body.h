@@ -30,7 +30,7 @@ class CEnemyBombHead;
 class CEnemyBombBody :public CEnemy
 {
 public:
-	CEnemyBombBody();
+	CEnemyBombBody(int nPriority = 1);
 	~CEnemyBombBody();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
