@@ -49,9 +49,10 @@ CBackgroundName::~CBackgroundName()
 //=============================================================================
 HRESULT CBackgroundName::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -64,10 +65,12 @@ HRESULT CBackgroundName::TextureLoad(void)
 //=============================================================================
 void CBackgroundName::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -77,10 +80,22 @@ void CBackgroundName::TextureUnload(void)
 //=============================================================================
 CBackgroundName * CBackgroundName::Create(D3DXVECTOR3 Position)
 {
-	CBackgroundName * pBackgroundName;
-	pBackgroundName = new CBackgroundName;
-	pBackgroundName->Init();
-	pBackgroundName->SetPosition(Position);
+	//名前入力背景のポインタ
+	CBackgroundName * pBackgroundName = NULL;
+	//もし名前入力背景がNULLの場合
+	if (pBackgroundName == NULL)
+	{
+		//名前入力背景のメモリ確保
+		pBackgroundName = new CBackgroundName;
+	}
+	//もし名前入力背景がNULLじゃない場合
+	if (pBackgroundName != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBackgroundName->Init();
+		//位置を設定する
+		pBackgroundName->SetPosition(Position);
+	}
 	return pBackgroundName;
 }
 

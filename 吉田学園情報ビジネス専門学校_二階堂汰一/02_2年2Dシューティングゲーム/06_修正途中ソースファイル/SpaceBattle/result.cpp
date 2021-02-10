@@ -34,7 +34,7 @@
 //=============================================================================
 CResult::CResult()
 {
-	memset(&m_PlayerData, NULL, sizeof(m_PlayerData));
+	memset(&m_PlayerData, NULL, sizeof(m_PlayerData));	//プレイヤーデータ
 }
 
 //=============================================================================
@@ -49,9 +49,20 @@ CResult::~CResult()
 //=============================================================================
 CResult * CResult::Create()
 {
-	CResult * pResult;
-	pResult = new CResult;
-	pResult->Init();
+	//リザルトのポインタ
+	CResult * pResult = NULL;
+	//もしリザルトのポインタがNUMMの場合
+	if (pResult == NULL)
+	{
+		//リザルトのメモリ確保
+		pResult = new CResult;
+	}
+	//もしリザルトがNULLじゃない場合
+	if (pResult != NULL)
+	{
+		//初期化処理関数呼び出し
+		pResult->Init();
+	}
 	return pResult;
 }
 
@@ -91,15 +102,27 @@ void CResult::Draw(void)
 //=============================================================================
 void CResult::DataLoad(void)
 {
-	FILE *pFile;
-	pFile = fopen("data/TEXT/PlayerData.txt", "r"); //ファイルの読み込み
+	//ファイルのポインタ
+	FILE * pFile = NULL;
+	//もしファイルのポインタがNULLの場合
+	if(pFile == NULL)
+	{
+		//ファイルの読み込み
+		pFile = fopen("data/TEXT/PlayerData.txt", "r");
+	}
+	//もしファイルがNULLじゃない場合
 	if (pFile != NULL)
 	{
-		fscanf(pFile, "%s", &m_PlayerData.aName);		//名前入力
-		fscanf(pFile, "%d", &m_PlayerData.nDeath);		//死んだ回数
-		fscanf(pFile, "%d", &m_PlayerData.nContinue);	//コンティニューした回数
-		fscanf(pFile, "%d", &m_PlayerData.nBomb);		//使用したボムの個数
-		fscanf(pFile, "%d", &m_PlayerData.nScore);		//スコア
+		//プレイヤーの名前読み込み
+		fscanf(pFile, "%s", &m_PlayerData.aName);
+		//プレイヤーの死亡回数読み込み
+		fscanf(pFile, "%d", &m_PlayerData.nDeath);
+		//プレイヤーのコンティニュー数読み込み
+		fscanf(pFile, "%d", &m_PlayerData.nContinue);
+		//プレイヤーの爆弾の使用回数読み込み
+		fscanf(pFile, "%d", &m_PlayerData.nBomb);
+		//プレイヤーのスコア読み込み
+		fscanf(pFile, "%d", &m_PlayerData.nScore);
 		//ファイルを閉じる
 		fclose(pFile);
 	}

@@ -51,9 +51,10 @@ CBackgroundTutorial::~CBackgroundTutorial()
 //=============================================================================
 HRESULT CBackgroundTutorial::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,			// デバイスへのポインタ
 		KEYBOARD_GUID_TEXTURE,					// ファイルの名前
@@ -70,12 +71,15 @@ HRESULT CBackgroundTutorial::TextureLoad(void)
 //=============================================================================
 void CBackgroundTutorial::TextureUnload(void)
 {
+	//テクスチャの最大数分回す
 	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
-		// テクスチャの破棄
+		//もしテクスチャがNULLじゃない場合
 		if (m_apTexture[nCount] != NULL)
 		{
+			//テクスチャの破棄処理関数呼び出し
 			m_apTexture[nCount]->Release();
+			//テクスチャをNULLにする
 			m_apTexture[nCount] = NULL;
 		}
 	}
@@ -86,10 +90,22 @@ void CBackgroundTutorial::TextureUnload(void)
 //=============================================================================
 CBackgroundTutorial * CBackgroundTutorial::Create(D3DXVECTOR3 Position)
 {
-	CBackgroundTutorial * pBackgroundTutorial;
-	pBackgroundTutorial = new CBackgroundTutorial;
-	pBackgroundTutorial->Init();
-	pBackgroundTutorial->SetPosition(Position);
+	//チュートリアル背景のポインタ
+	CBackgroundTutorial * pBackgroundTutorial = NULL;
+	//もしチュートリアル背景のポインタがNULLの場合
+	if (pBackgroundTutorial == NULL)
+	{
+		//チュートリアル背景のメモリ確保
+		pBackgroundTutorial = new CBackgroundTutorial;
+	}
+	//もしチュートリアル背景のポインタがNULLじゃない場合
+	if (pBackgroundTutorial != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBackgroundTutorial->Init();
+		//位置を設定する
+		pBackgroundTutorial->SetPosition(Position);
+	}
 	return pBackgroundTutorial;
 }
 

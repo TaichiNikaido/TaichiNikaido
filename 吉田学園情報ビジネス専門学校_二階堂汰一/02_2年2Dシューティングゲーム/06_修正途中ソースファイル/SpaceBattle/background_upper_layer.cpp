@@ -49,9 +49,10 @@ CBackgroundUpperLayer::~CBackgroundUpperLayer()
 //=============================================================================
 HRESULT CBackgroundUpperLayer::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -64,10 +65,12 @@ HRESULT CBackgroundUpperLayer::TextureLoad(void)
 //=============================================================================
 void CBackgroundUpperLayer::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -77,10 +80,22 @@ void CBackgroundUpperLayer::TextureUnload(void)
 //=============================================================================
 CBackgroundUpperLayer * CBackgroundUpperLayer::Create(D3DXVECTOR3 Position)
 {
-	CBackgroundUpperLayer * pBackgroundUpperLayer;
-	pBackgroundUpperLayer = new CBackgroundUpperLayer;
-	pBackgroundUpperLayer->Init();
-	pBackgroundUpperLayer->SetPosition(Position);
+	//上層背景のポインタ
+	CBackgroundUpperLayer * pBackgroundUpperLayer = NULL;
+	//もし上層背景のポインタがNULLの場合
+	if (pBackgroundUpperLayer == NULL)
+	{
+		//もし上層背景のメモリを確保
+		pBackgroundUpperLayer = new CBackgroundUpperLayer;
+	}
+	//もし上層背景のポインタがNULLじゃない場合
+	if (pBackgroundUpperLayer != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBackgroundUpperLayer->Init();
+		//位置を設定する
+		pBackgroundUpperLayer->SetPosition(Position);
+	}
 	return pBackgroundUpperLayer;
 }
 

@@ -49,9 +49,10 @@ CBackgroundRanking::~CBackgroundRanking()
 //=============================================================================
 HRESULT CBackgroundRanking::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -64,10 +65,12 @@ HRESULT CBackgroundRanking::TextureLoad(void)
 //=============================================================================
 void CBackgroundRanking::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -77,10 +80,22 @@ void CBackgroundRanking::TextureUnload(void)
 //=============================================================================
 CBackgroundRanking * CBackgroundRanking::Create(D3DXVECTOR3 Position)
 {
-	CBackgroundRanking * pbackgeroundRanking;
-	pbackgeroundRanking = new CBackgroundRanking;
-	pbackgeroundRanking->Init();
-	pbackgeroundRanking->SetPosition(Position);
+	//ランキング背景のポインタ
+	CBackgroundRanking * pbackgeroundRanking = NULL;
+	//もしランキング背景がNULLの場合
+	if (pbackgeroundRanking == NULL)
+	{
+		//ランキング背景のメモリを確保する
+		pbackgeroundRanking = new CBackgroundRanking;
+	}
+	//もしランキング背景がNULLじゃない場合
+	if (pbackgeroundRanking != NULL)
+	{
+		//初期化処理関数呼び出し
+		pbackgeroundRanking->Init();
+		//位置を設定する
+		pbackgeroundRanking->SetPosition(Position);
+	}
 	return pbackgeroundRanking;
 }
 

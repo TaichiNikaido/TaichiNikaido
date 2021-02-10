@@ -40,8 +40,8 @@ public:
 private:
 	LPD3DXFONT				m_pFont;
 	RECT                    m_Rect[4];
-	int                     posX;
-	int                     posY;
+	int                     m_nPosX;
+	int                     m_nPosY;
 	static char             m_str[256];
 	static bool             m_IsDraw;
 };

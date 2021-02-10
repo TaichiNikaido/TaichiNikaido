@@ -49,9 +49,10 @@ CBackgroundMiddleLayer::~CBackgroundMiddleLayer()
 //=============================================================================
 HRESULT CBackgroundMiddleLayer::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -64,10 +65,12 @@ HRESULT CBackgroundMiddleLayer::TextureLoad(void)
 //=============================================================================
 void CBackgroundMiddleLayer::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -77,10 +80,22 @@ void CBackgroundMiddleLayer::TextureUnload(void)
 //=============================================================================
 CBackgroundMiddleLayer * CBackgroundMiddleLayer::Create(D3DXVECTOR3 Position)
 {
-	CBackgroundMiddleLayer * pBackgroundMiddleLayer;
-	pBackgroundMiddleLayer = new CBackgroundMiddleLayer;
-	pBackgroundMiddleLayer->Init();
-	pBackgroundMiddleLayer->SetPosition(Position);
+	//中層背景のポインタ
+	CBackgroundMiddleLayer * pBackgroundMiddleLayer = NULL;
+	//もし中層背景のポインタがNULLの場合
+	if (pBackgroundMiddleLayer == NULL)
+	{
+		//中層背景のメモリ確保
+		pBackgroundMiddleLayer = new CBackgroundMiddleLayer;
+	}
+	//もし中層背景のポインタがNULLじゃない場合
+	if (pBackgroundMiddleLayer != NULL)
+	{
+		//初期化処理関数呼び出し
+		pBackgroundMiddleLayer->Init();
+		//位置を設定する
+		pBackgroundMiddleLayer->SetPosition(Position);
+	}
 	return pBackgroundMiddleLayer;
 }
 

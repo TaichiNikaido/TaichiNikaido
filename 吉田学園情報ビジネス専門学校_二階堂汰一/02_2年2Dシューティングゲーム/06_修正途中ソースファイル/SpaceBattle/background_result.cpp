@@ -49,9 +49,10 @@ CBackgroundResult::~CBackgroundResult()
 //=============================================================================
 HRESULT CBackgroundResult::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -64,10 +65,12 @@ HRESULT CBackgroundResult::TextureLoad(void)
 //=============================================================================
 void CBackgroundResult::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -77,9 +80,17 @@ void CBackgroundResult::TextureUnload(void)
 //=============================================================================
 CBackgroundResult * CBackgroundResult::Create(D3DXVECTOR3 Position)
 {
-	CBackgroundResult * pBackgroundResult;
-	pBackgroundResult = new CBackgroundResult;
+	//リザルト背景のポインタ
+	CBackgroundResult * pBackgroundResult = NULL;
+	//もしリザルト背景のポインタがNULLの場合
+	if (pBackgroundResult == NULL)
+	{
+		//リザルト背景のメモリ確保
+		pBackgroundResult = new CBackgroundResult;
+	}
+	//初期化処理関数呼び出し
 	pBackgroundResult->Init();
+	//位置を設定する
 	pBackgroundResult->SetPosition(Position);
 	return pBackgroundResult;
 }

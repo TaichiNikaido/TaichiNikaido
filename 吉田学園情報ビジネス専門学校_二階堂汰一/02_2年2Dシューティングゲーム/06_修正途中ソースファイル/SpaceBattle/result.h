@@ -43,6 +43,6 @@ public:
 	void DataLoad(void);
 	PLAYER_DATA GetPlayerData(void) { return m_PlayerData; }
 private:
-	PLAYER_DATA m_PlayerData;
+	PLAYER_DATA m_PlayerData;	//プレイヤーデータ
 };
 #endif
