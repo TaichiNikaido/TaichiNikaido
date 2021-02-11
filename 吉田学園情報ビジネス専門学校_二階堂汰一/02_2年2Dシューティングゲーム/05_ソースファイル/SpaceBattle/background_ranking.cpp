@@ -21,9 +21,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/Background/background_ranking.png")
-#define SIZE (D3DXVECTOR3(1920.0f,1080.0f,0.0f))
-#define FLAME (0)
+#define TEXTURE ("Data/Texture/Background/background_ranking.png")	//テクスチャ
+#define SIZE (D3DXVECTOR3(1920.0f,1080.0f,0.0f))					//サイズ
+#define FLAME (0)													//フレーム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -96,6 +96,7 @@ CBackgroundRanking * CBackgroundRanking::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pbackgeroundRanking->SetPosition(Position);
 	}
+	//ランキング背景を返す
 	return pbackgeroundRanking;
 }
 

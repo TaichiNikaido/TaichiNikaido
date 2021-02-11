@@ -19,10 +19,10 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define POSITION (D3DXVECTOR3(450.0f,30.0f,0.0f))
-#define SIZE (D3DXVECTOR3(45.0f,45.0f,0.0f))
-#define SHOW_ALPHA (255)
-#define HIDE_ALPHA (0)
+#define POSITION (D3DXVECTOR3(450.0f,30.0f,0.0f))	//位置
+#define SIZE (D3DXVECTOR3(45.0f,45.0f,0.0f))		//サイズ
+#define SHOW_ALPHA (255)							//アルファ値
+#define HIDE_ALPHA (0)								//アルファ値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -56,8 +56,13 @@ CLifeUI * CLifeUI::Create(void)
 		//体力のUIのメモリ確保
 		pLifeUI = new CLifeUI;
 	}
-	//初期化処理関数呼び出し
-	pLifeUI->Init();
+	//もし体力のUIのポインタがNULLじゃない場合
+	if (pLifeUI != NULL)
+	{
+		//初期化処理関数呼び出し
+		pLifeUI->Init();
+	}
+	//体力のUIのポインタを返す
 	return pLifeUI;
 }
 

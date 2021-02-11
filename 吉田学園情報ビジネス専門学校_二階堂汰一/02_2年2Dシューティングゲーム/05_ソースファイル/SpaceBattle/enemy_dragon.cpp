@@ -55,6 +55,7 @@ CEnemyDragon::CEnemyDragon()
 	m_nCounterAnime = INITIAL_COUNTER_ANIME;		//カウンターアニメ
 	m_nBulletTime = MINIMUM_BULLET_TIME;			//弾の発射までの時間
 	m_TargetDistance = INITIAL_TARGET_DISTANCE;		//目標までの距離
+	m_TargetPPos = INITIAL_TARGET_DISTANCE;		//目標までの距離
 	m_bCharge = false;								//チャージしてるか
 	m_pBulletFireBall = NULL;						//火球
 }
@@ -118,6 +119,7 @@ CEnemyDragon * CEnemyDragon::Create(D3DXVECTOR3 Position)
 		//位置設定関数呼び出し
 		pEnemyDragon->SetPosition(Position);
 	}
+	//ドラゴンのポインタを返す
 	return pEnemyDragon;
 }
 
@@ -240,40 +242,40 @@ void CEnemyDragon::AI(void)
 			if (GetScale() >= MAX_SCALE)
 			{
 				//目標距離に近づいたら目標を再設定する
-				if (Position.x >= PlayerPosition.x - PlayerSize.x / 2 &&
-					Position.x < PlayerPosition.x + PlayerSize.x / 2 &&
-					Position.y >= PlayerPosition.y - PlayerSize.y / 2 &&
-					Position.y < PlayerPosition.y + PlayerSize.y / 2)
+				if (Position.x >= m_TargetPPos.x - PlayerSize.x / 2 &&
+					Position.x < m_TargetPPos.x + PlayerSize.x / 2 &&
+					Position.y >= m_TargetPPos.y - PlayerSize.y / 2 &&
+					Position.y < m_TargetPPos.y + PlayerSize.y / 2)
 				{
 					//ランダムシード値
 					int nRandSeed = rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500);
 					srand((unsigned int)nRandSeed);
-					PlayerPosition.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
-					PlayerPosition.y = (float)(rand() % 300 + 200);
+					m_TargetPPos.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
+					m_TargetPPos.y = (float)(rand() % 300 + 200);
 				}
 				else
 				{
-					m_TargetDistance = D3DXVECTOR3(PlayerPosition.x - Position.x, PlayerPosition.y - Position.y, 0.0f);//目標までの距離を算出
+					m_TargetDistance = D3DXVECTOR3(m_TargetPPos.x - Position.x, m_TargetPPos.y - Position.y, 0.0f);//目標までの距離を算出
 					SetRotation(D3DXVECTOR3(Position.x, atan2f(m_TargetDistance.y, m_TargetDistance.x), Position.z));
-					SetMove(D3DXVECTOR3(cosf(Position.y)*2.5f, sinf(Position.y)*2.5f, 0.0f));
+					SetMove(D3DXVECTOR3(cosf(GetRotation().y)*2.5f, sinf(GetRotation().y)*2.5f, 0.0f));
 				}
 				if (Position.x > FIELD_WIDTH - 200)
 				{
 					//ランダムシード値
 					int nRandSeed = rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500);
 					srand((unsigned int)nRandSeed);
-					PlayerPosition.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
-					PlayerPosition.y = (float)(rand() % 300 + 200);
-					PlayerPosition.x += -600.0f;
+					m_TargetPPos.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
+					m_TargetPPos.y = (float)(rand() % 300 + 200);
+					m_TargetPPos.x += -600.0f;
 				}
 				if (Position.x < FIELD_WIDTH_MIN + 200)
 				{
 					//ランダムシード値
 					int nRandSeed = rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500);
 					srand((unsigned int)nRandSeed);
-					PlayerPosition.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
-					PlayerPosition.y = (float)(rand() % 300 + 200);
-					PlayerPosition.x += 200.0f;
+					m_TargetPPos.x = (float)(rand() % (FIELD_WIDTH - 500) + (FIELD_WIDTH_MIN + 500));//目標距離の決定
+					m_TargetPPos.y = (float)(rand() % 300 + 200);
+					m_TargetPPos.x += 200.0f;
 				}
 			}
 		}
@@ -306,12 +308,6 @@ void CEnemyDragon::Attack(void)
 			}
 		}
 	}
-	//もしチャージが完了したら
-	if (m_bCharge == true)
-	{
-		//チャージを終わらせる
-		m_bCharge = false;
-	}
 	//バレットの発射間隔を進める
 	m_nBulletTime++;
 }
@@ -323,6 +319,12 @@ void CEnemyDragon::Death(void)
 {
 	//プレイヤーを取得する
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もし火球のポインタがNULLじゃない場合
+	if (m_pBulletFireBall != NULL)
+	{
+		//火球を殺す
+		m_pBulletFireBall->Death();
+	}
 	//もしプレイヤーのポインタがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
@@ -367,4 +369,11 @@ void CEnemyDragon::Animation(void)
 	aTexture[3] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 1.0f);
 	//テクスチャの設定
 	SetTexture(aTexture);
+}
+//=============================================================================
+// 火球を取得
+//=============================================================================
+CBulletFireball * CEnemyDragon::GetBulletFireBall(void)
+{
+	return m_pBulletFireBall;
 }

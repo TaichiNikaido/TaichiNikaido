@@ -40,9 +40,9 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	void Death(void);
 private:
 	void Charge(void);
-	void Death(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 };
 #endif

@@ -104,14 +104,19 @@ CWormhole * CWormhole::Create(D3DXVECTOR3 Position)
 		//ワームホールのメモリ確保
 		pWormhole = new CWormhole;
 	}
-	//初期化処理関数呼び出し
-	pWormhole->Init();
-	//テクスチャの最大数分回す
-	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
+	//もしワームホールがNULLじゃない場合
+	if (pWormhole != NULL)
 	{
-		//位置を設定する
-		pWormhole->m_apScene2d[nCount]->SetPosition(Position);
+		//初期化処理関数呼び出し
+		pWormhole->Init();
+		//テクスチャの最大数分回す
+		for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
+		{
+			//位置を設定する
+			pWormhole->m_apScene2d[nCount]->SetPosition(Position);
+		}
 	}
+	//ワームホールのポインタを返す
 	return pWormhole;
 }
 

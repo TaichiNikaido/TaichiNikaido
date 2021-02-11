@@ -107,6 +107,7 @@ CButton * CButton::Create(D3DXVECTOR3 Positon, BUTTON Button)
 		//初期化処理関数呼び出し
 		pButton->Init(Button);
 	}
+	//ボタンのポインタを返す
 	return pButton;
 }
 

@@ -17,7 +17,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/UI/ui_number.png")
+#define TEXTURE ("Data/Texture/UI/ui_number.png")	//テクスチャ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -85,12 +85,17 @@ CUINumberTexture * CUINumberTexture::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Si
 		//番号のテクスチャのメモリ確保
 		pUINumberTexture = new CUINumberTexture;
 	}
-	//位置を設定する
-	pUINumberTexture->SetPostion(Position);
-	//サイズを取得する
-	pUINumberTexture->SetSize(Size);
-	//初期化処理関数呼び出し
-	pUINumberTexture->Init();
+	//もし番号のテクスチャのポインタがNULLじゃない場合
+	if (pUINumberTexture != NULL)
+	{
+		//位置を設定する
+		pUINumberTexture->SetPostion(Position);
+		//サイズを取得する
+		pUINumberTexture->SetSize(Size);
+		//初期化処理関数呼び出し
+		pUINumberTexture->Init();
+	}
+	//番号のテクスチャのポインタを返す
 	return pUINumberTexture;
 }
 

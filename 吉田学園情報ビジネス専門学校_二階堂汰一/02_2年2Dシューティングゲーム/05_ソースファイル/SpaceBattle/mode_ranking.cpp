@@ -44,9 +44,21 @@ CRankingMode::~CRankingMode()
 //=============================================================================
 CRankingMode * CRankingMode::Create()
 {
-	CRankingMode * pRankingMode;
-	pRankingMode = new CRankingMode;
-	pRankingMode->Init();
+	//ランキングモードのポインタ
+	CRankingMode * pRankingMode = NULL;
+	//もしランキングモードのポインタがNULLの場合
+	if (pRankingMode == NULL)
+	{
+		//ランキングモードのメモリ確保
+		pRankingMode = new CRankingMode;
+	}
+	//もしランキングモードのポインタがNULLじゃない場合
+	if (pRankingMode != NULL)
+	{
+		//ランキングモードの初期化処理関数呼び出し
+		pRankingMode->Init();
+	}
+	//ランキングモードのポインタを返す
 	return pRankingMode;
 }
 

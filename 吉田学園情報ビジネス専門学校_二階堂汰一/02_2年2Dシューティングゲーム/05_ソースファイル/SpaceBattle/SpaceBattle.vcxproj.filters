@@ -79,17 +79,14 @@
     <Filter Include="ヘッダー ファイル\Scene2d">
       <UniqueIdentifier>{86448ced-3520-4800-a083-e8b8d6adc33e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{5f9acb24-e393-434c-a5eb-ecf66499327c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{71ccd44f-f80f-4165-bab1-f7d74fdef0d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="name.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="result.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ranking.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="bullet.cpp">
       <Filter>ソース ファイル\Bullet</Filter>
     </ClCompile>
@@ -267,9 +264,6 @@
     <ClCompile Include="tcp_client.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="text.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="button.cpp">
       <Filter>ソース ファイル\Scene2d</Filter>
     </ClCompile>
@@ -285,20 +279,20 @@
     <ClCompile Include="enemy_spider.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="name.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="name.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="text.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="result.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ranking.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="background.h">
       <Filter>ヘッダー ファイル\Background</Filter>
     </ClInclude>
@@ -490,6 +484,18 @@
     </ClInclude>
     <ClInclude Include="flame.h">
       <Filter>ヘッダー ファイル\Scene2d</Filter>
+    </ClInclude>
+    <ClInclude Include="name.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ranking.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

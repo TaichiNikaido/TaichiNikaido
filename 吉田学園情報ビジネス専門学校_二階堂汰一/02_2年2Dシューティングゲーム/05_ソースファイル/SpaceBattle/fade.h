@@ -51,6 +51,6 @@ private:
 	D3DXVECTOR3 m_Size;
 	FADE m_fade;
 	CManager::MODE m_ModeNext;
-	D3DXCOLOR m_colorFade;
+	D3DXCOLOR m_ColorFade;
 };
 #endif

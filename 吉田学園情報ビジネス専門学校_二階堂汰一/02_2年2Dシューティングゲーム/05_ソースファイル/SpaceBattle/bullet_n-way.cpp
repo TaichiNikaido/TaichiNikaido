@@ -100,6 +100,7 @@ CBulletN_Way * CBulletN_Way::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed)
 		//ˆÚ“®—Ê‚ðÝ’è‚·‚é
 		pBulletN_Way->SetMove(Speed);
 	}
+	//n_way’e‚Ìƒ|ƒCƒ“ƒ^‚ð•Ô‚·
 	return pBulletN_Way;
 }
 

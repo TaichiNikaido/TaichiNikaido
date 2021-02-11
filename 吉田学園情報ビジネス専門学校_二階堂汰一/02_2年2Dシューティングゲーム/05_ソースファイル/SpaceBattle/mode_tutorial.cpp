@@ -43,9 +43,21 @@ CTutorialMode::~CTutorialMode()
 //=============================================================================
 CTutorialMode * CTutorialMode::Create()
 {
-	CTutorialMode * pTutorialMode;
-	pTutorialMode = new CTutorialMode;
-	pTutorialMode->Init();
+	//チュートリアルモードのポインタ
+	CTutorialMode * pTutorialMode = NULL;
+	//もしチュートリアルモードがNULLの場合
+	if (pTutorialMode == NULL)
+	{
+		//チュートリアルモードのメモリ確保
+		pTutorialMode = new CTutorialMode;
+	}
+	//もしチュートリアルモードがNULLじゃない場合
+	if (pTutorialMode != NULL)
+	{
+		//初期化処理関数呼び出し
+		pTutorialMode->Init();
+	}
+	//チュートリアルモードのポインタ
 	return pTutorialMode;
 }
 

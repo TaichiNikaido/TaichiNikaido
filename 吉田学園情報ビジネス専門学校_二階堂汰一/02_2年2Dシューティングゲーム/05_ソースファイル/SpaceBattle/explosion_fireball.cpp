@@ -98,10 +98,15 @@ CExplosionFireball * CExplosionFireball::Create(D3DXVECTOR3 Position)
 		//火球の爆発のメモリ確保
 		pExolosionFireball = new CExplosionFireball;
 	}
-	//初期化処理関数呼び出し
-	pExolosionFireball->Init();
-	//位置を設定する
-	pExolosionFireball->SetPosition(Position);
+	//火球の爆発のポインタがNULLじゃない場合
+	if (pExolosionFireball != NULL)
+	{
+		//初期化処理関数呼び出し
+		pExolosionFireball->Init();
+		//位置を設定する
+		pExolosionFireball->SetPosition(Position);
+	}
+	//火球の爆発のポインタを返す
 	return pExolosionFireball;
 }
 

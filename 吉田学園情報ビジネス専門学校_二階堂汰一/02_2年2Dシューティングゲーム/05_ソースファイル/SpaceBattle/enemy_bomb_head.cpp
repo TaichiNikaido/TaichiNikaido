@@ -29,9 +29,15 @@
 //*****************************************************************************
 #define TEXTURE ("Data/Texture/Enemy/bombhead.png")	//テクスチャ
 #define SIZE (D3DXVECTOR3(100.0f,150.0f,0.0f))		//サイズ
+#define MINIMUM_LIFE (0)							//体力の最小値
 #define LIFE (12)									//体力
 #define MOVE (D3DXVECTOR3(5.0f,0.0f,0.0f))			//移動量		
 #define SCORE (10000)								//スコア
+#define MINIMUM_RADIAN (0.0f)						//ラジアンの最小値
+#define MINIMUM_ADD_RADIAN (0.1f);					//ラジアンの加算量
+#define MINIMUM_CREATE_TIME (0)						//生成される間隔の時間最小値
+#define CREATE_TIME (15)							//生成される間隔の時間
+#define MINIMUM_CREATE_BODY_COUNT (0)				//生成した体の数の最小値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -43,17 +49,17 @@ LPDIRECT3DTEXTURE9 CEnemyBombHead::m_pTexture = NULL;	//テクスチャへのポインタ
 //=============================================================================
 CEnemyBombHead::CEnemyBombHead()
 {
-	m_fRd = 0.0f;
-	m_fRdScale = 0.1f;
-	memset(m_pBombBody, NULL, sizeof(m_pBombBody));
-	m_bCreateBody = true;
-	m_nCreateCount = 0;
-	m_nCreateBodyCount = 0;
-	m_InitPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_nBombLife = LIFE;
-	m_bDeath = false;
-	m_bDeathAll = false;
-}
+	memset(m_pBombBody, NULL, sizeof(m_pBombBody));		//爆弾敵の体のポインタ
+	m_InitialPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//初期位置		
+	m_nCreateTime = MINIMUM_CREATE_TIME;				//生成する時間	
+	m_nCreateBodyCount = MINIMUM_CREATE_BODY_COUNT;		//生成した体の数		
+	m_nBombLife = LIFE;									//全体の体力					
+	m_fRadian = MINIMUM_RADIAN;							//ラジアン		
+	m_fAddRadian = MINIMUM_ADD_RADIAN;					//ラジアンの加算量		
+	m_bCreateBody = true;								//体を生成したか		
+	m_bDeath = false;									//死んだか		
+	m_bDeathAll = false;								//全て死んだか		
+}															
 
 //=============================================================================
 // デストラクタ
@@ -67,9 +73,10 @@ CEnemyBombHead::~CEnemyBombHead()
 //=============================================================================
 HRESULT CEnemyBombHead::TextureLoad(void)
 {
+	//レンダラーの取得
 	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-
 	// テクスチャの生成
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
 		TEXTURE,						// ファイルの名前
@@ -82,10 +89,12 @@ HRESULT CEnemyBombHead::TextureLoad(void)
 //=============================================================================
 void CEnemyBombHead::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャがNULLじゃない場合
 	if (m_pTexture != NULL)
 	{
+		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
+		//テクスチャをNULLにする
 		m_pTexture = NULL;
 	}
 }
@@ -95,11 +104,25 @@ void CEnemyBombHead::TextureUnload(void)
 //=============================================================================
 CEnemyBombHead * CEnemyBombHead::Create(D3DXVECTOR3 Position)
 {
-	CEnemyBombHead * pEnemyBombHead;
-	pEnemyBombHead = new CEnemyBombHead;
-	pEnemyBombHead->SetPosition(Position);
-	pEnemyBombHead->m_InitPos = Position;
-	pEnemyBombHead->Init();
+	//爆弾敵の頭のポインタ
+	CEnemyBombHead * pEnemyBombHead = NULL;
+	//爆弾敵の頭のポインタがNULLの場合
+	if (pEnemyBombHead == NULL)
+	{
+		//爆弾敵の頭のメモリ確保
+		pEnemyBombHead = new CEnemyBombHead;
+	}
+	//爆弾敵の頭のポインタがNULLじゃない場合
+	if (pEnemyBombHead != NULL)
+	{
+		//位置を設定する
+		pEnemyBombHead->SetPosition(Position);
+		//初期位置を設定する
+		pEnemyBombHead->m_InitialPosition = Position;
+		//初期化処理関数呼び出し
+		pEnemyBombHead->Init();
+	}
+	//爆弾敵の頭のポインタを返す
 	return pEnemyBombHead;
 }
 
@@ -145,45 +168,60 @@ void CEnemyBombHead::Uninit(void)
 //=============================================================================
 void CEnemyBombHead::Update(void)
 {
+	//もし体が生成されたら
 	if (m_bCreateBody == true)
 	{
-		m_nCreateCount++;
-		if (m_nCreateCount % 15 == 0)
+		//生成数を加算るう
+		m_nCreateTime++;
+		//もし生成される時間になったら
+		if (m_nCreateTime % CREATE_TIME == REMAINDER)
 		{
-			m_pBombBody[m_nCreateBodyCount] = CEnemyBombBody::Create(m_InitPos, this);
+			//体を生成する
+			m_pBombBody[m_nCreateBodyCount] = CEnemyBombBody::Create(m_InitialPosition, this);
+			//体の生成数を加算する
 			m_nCreateBodyCount++;
-
+			//もし体の生成数が最大数になったら
 			if (m_nCreateBodyCount >= MAX_BOMB_BODY)
 			{
+				//体の生成をやめる
 				m_bCreateBody = false;
 			}
 		}
 	}
-	m_fRd += m_fRdScale;
-	if (m_fRd >= 360.0f)//一周したらリセット
+	//ラジアンを加算する
+	m_fRadian += m_fAddRadian;
+	//もし一周したら
+	if (m_fRadian >= 360.0f)
 	{
-		m_fRd = 0;
+		//ラジアンを0にする
+		m_fRadian = MINIMUM_RADIAN;
 	}
 	//移動量のセット
-	SetMove(D3DXVECTOR3(GetMove().x, float(5 * sin(m_fRd)), GetMove().z));
+	SetMove(D3DXVECTOR3(GetMove().x, float(5 * sin(m_fRadian)), GetMove().z));
 	//画面端についたら逆方向に
 	if (GetPosition().x < FIELD_WIDTH_MIN + 10.0f)
 	{
+		//移動量を設定する
 		SetMove(D3DXVECTOR3(GetMove().x * -1.0f, GetMove().y, GetMove().z));
-		m_fRdScale = m_fRdScale * -1.0f;
+		//ラジアンを反転させる
+		m_fAddRadian = m_fAddRadian * -1.0f;
 	}
+	//画面端についたら逆方向に
 	if (GetPosition().x > FIELD_WIDTH - 10.0f)
 	{
+		//移動量を設定する
 		SetMove(D3DXVECTOR3(GetMove().x * -1.0f, GetMove().y, GetMove().z));
-		m_fRdScale = m_fRdScale * -1.0f;
+		//ラジアンを反転させる
+		m_fAddRadian = m_fAddRadian * -1.0f;
 	}
 	//進行方向に向きを合わせる
 	SetRotation(D3DXVECTOR3(GetRotation().x, GetRotation().y, atan2f((GetPosition().x + GetMove().x) - GetPosition().x, (GetPosition().y + GetMove().y) - GetPosition().y)));
 	//敵の更新処理関数呼び出し
 	CEnemy::Update();
 	//もしライフが0になったら
-	if (GetLife() <= 0)
+	if (GetLife() <= MINIMUM_LIFE)
 	{
+		//もし死んでいなかったら
 		if (m_bDeath == false)
 		{
 			//死亡処理関数呼び出し
@@ -202,19 +240,24 @@ void CEnemyBombHead::Draw(void)
 	CEnemy::Draw();
 }
 //=============================================================================
-// 死亡処理関数
+// 全体死亡処理関数
 //=============================================================================
 void CEnemyBombHead::DeathAll(void)
 {
+	//もし死んでなくかつ全部死んでなかったら
 	if (m_bDeathAll == false && m_bDeath == false)
 	{
+		//全部殺す
 		m_bDeathAll = true;
+		//体の最大数分回す
 		for (int nCount = 0; nCount < MAX_BOMB_BODY; nCount++)
 		{
+			//もし爆弾敵の体のポインタがNULLじゃない場合
 			if (m_pBombBody[nCount] != NULL)
 			{
 				//爆発エフェクトの生成
 				CExplosionDeath::Create(m_pBombBody[nCount]->GetPosition());
+				//爆弾敵の体の終了処理関数呼び出し
 				m_pBombBody[nCount]->Uninit();
 			}
 		}
@@ -236,13 +279,19 @@ void CEnemyBombHead::Death(void)
 		{
 			//爆発エフェクトの生成
 			CExplosionDeath::Create(GetPosition());
-			//爆発音の再生
-			pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+			//もしサウンドがNULLじゃない場合
+			if (pSound != NULL)
+			{
+				//爆発音の再生
+				pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+			}
 			//爆弾アイテムの生成
 			CItemBomb::Create(GetPosition());
 			//プレイヤーのスコアを加算する
 			pPlayer->AddScore(SCORE);
+			//全体死亡処理関数呼び出し
 			DeathAll();
+			//殺す
 			m_bDeath = true;
 		}
 }

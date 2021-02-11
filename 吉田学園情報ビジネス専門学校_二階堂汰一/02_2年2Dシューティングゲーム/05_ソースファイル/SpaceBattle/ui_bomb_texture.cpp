@@ -19,7 +19,7 @@
 // マクロ定義
 //*****************************************************************************
 #define TEXTURE ("Data/Texture/UI/ui_bomb.png")		//テクスチャ
-#define MINIMUM_PATTERN_ANIME (0)
+#define MINIMUM_PATTERN_ANIME (0)					//パターンアニメの最小値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -96,6 +96,7 @@ CUIBombTexture * CUIBombTexture::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Size)
 		//初期化処理関数呼び出し
 		pUIBombTexture->Init();
 	}
+	//UI用爆弾テクスチャのポインタを返す
 	return pUIBombTexture;
 }
 

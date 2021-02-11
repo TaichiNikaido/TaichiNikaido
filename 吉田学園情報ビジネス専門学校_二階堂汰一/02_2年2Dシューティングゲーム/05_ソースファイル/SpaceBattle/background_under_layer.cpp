@@ -96,6 +96,7 @@ CBackgroundUnderLayer * CBackgroundUnderLayer::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pBackgroundUnderLayer->SetPosition(Position);
 	}
+	//下層背景のポインタを返す
 	return pBackgroundUnderLayer;
 }
 

@@ -119,6 +119,7 @@ CEnemyEyeHard * CEnemyEyeHard::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pEnemyEyeHard->SetPosition(Position);
 	}
+	//目玉の敵(ハード)のポインタを返す
 	return pEnemyEyeHard;
 }
 
@@ -238,8 +239,12 @@ void CEnemyEyeHard::Death(void)
 	{
 		//爆発エフェクトの生成
 		CExplosionDeath::Create(GetPosition());
-		//爆発音の再生
-		pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+		//もしサウンドがNULLじゃない場合
+		if (pSound != NULL)
+		{
+			//爆発音の再生
+			pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+		}
 		//プレイヤーのスコアを加算する
 		pPlayer->AddScore(SCORE);
 	}

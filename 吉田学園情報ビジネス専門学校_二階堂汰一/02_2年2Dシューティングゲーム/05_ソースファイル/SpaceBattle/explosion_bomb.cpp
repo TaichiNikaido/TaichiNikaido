@@ -96,10 +96,15 @@ CExplosionBomb * CExplosionBomb::Create(D3DXVECTOR3 Position)
 		//爆弾の爆発のメモリ確保
 		pExplosionBomb = new CExplosionBomb;
 	}
-	//初期化処理関数呼び出し
-	pExplosionBomb->Init();
-	//位置を設定する
-	pExplosionBomb->SetPosition(Position);
+	//もし爆弾の爆発のポインタがNULLじゃない場合
+	if (pExplosionBomb != NULL)
+	{
+		//初期化処理関数呼び出し
+		pExplosionBomb->Init();
+		//位置を設定する
+		pExplosionBomb->SetPosition(Position);
+	}
+	//爆弾の爆破のポインタを返す
 	return pExplosionBomb;
 }
 

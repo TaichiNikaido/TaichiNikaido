@@ -101,7 +101,7 @@ CBulletDirection * CBulletDirection::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Sp
 		//移動量を設定する
 		pBulletDirection->SetMove(Speed);
 	}
-	//方向弾のポインタ
+	//方向弾のポインタを返す
 	return pBulletDirection;
 }
 

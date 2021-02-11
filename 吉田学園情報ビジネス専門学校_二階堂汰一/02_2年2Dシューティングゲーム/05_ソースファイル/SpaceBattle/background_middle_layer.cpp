@@ -96,6 +96,7 @@ CBackgroundMiddleLayer * CBackgroundMiddleLayer::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pBackgroundMiddleLayer->SetPosition(Position);
 	}
+	//中層背景のポインタを返す
 	return pBackgroundMiddleLayer;
 }
 

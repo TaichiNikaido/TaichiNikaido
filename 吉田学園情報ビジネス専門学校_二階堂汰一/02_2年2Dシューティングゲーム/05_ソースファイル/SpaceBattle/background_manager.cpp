@@ -16,6 +16,9 @@
 //*****************************************************************************
 // É}ÉNÉçíËã`
 //*****************************************************************************
+#define BACKGROUND_UNDER_LAYR_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f))		//â∫ëwîwåiÇÃà íu
+#define BACKGROUND_MIDDLE_LAYER_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f))	//íÜëwîwåiÇÃà íu
+#define BACKGROUND_UPPER_LAYER_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f))	//è„ëwîwåiÇÃà íu
 
 //*****************************************************************************
 // ê√ìIÉÅÉìÉoïœêîÇÃèâä˙âª
@@ -40,9 +43,21 @@ CBackgroundManager::~CBackgroundManager()
 //=============================================================================
 CBackgroundManager * CBackgroundManager::Create()
 {
-	CBackgroundManager * pBackgroundManager;
-	pBackgroundManager = new CBackgroundManager;
-	pBackgroundManager->Init();
+	//îwåiä«óùÇÃÉ|ÉCÉìÉ^
+	CBackgroundManager * pBackgroundManager = NULL;
+	//Ç‡Çµîwåiä«óùÇÃÉ|ÉCÉìÉ^Ç™NULLÇÃèÍçá
+	if (pBackgroundManager == NULL)
+	{
+		//îwåiä«óùÇÃÉÅÉÇÉäämï€
+		pBackgroundManager = new CBackgroundManager;
+	}
+	//Ç‡Çµîwåiä«óùÇÃÉ|ÉCÉìÉ^Ç™NULLÇ∂Ç·Ç»Ç¢èÍçá
+	if (pBackgroundManager != NULL)
+	{
+		//îwåiä«óùÇÃèâä˙âªèàóùä÷êîåƒÇ—èoÇµ
+		pBackgroundManager->Init();
+	}
+	//îwåiä«óùÇÃÉ|ÉCÉìÉ^Çï‘Ç∑
 	return pBackgroundManager;
 }
 
@@ -52,9 +67,9 @@ CBackgroundManager * CBackgroundManager::Create()
 void CBackgroundManager::Init(void)
 {
 	//â∫ëwîwåiÇÃê∂ê¨
-	CBackgroundUnderLayer::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	CBackgroundUnderLayer::Create(BACKGROUND_UNDER_LAYR_POSITION);
 	//íÜëwîwåiÇÃê∂ê¨
-	CBackgroundMiddleLayer::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	CBackgroundMiddleLayer::Create(BACKGROUND_MIDDLE_LAYER_POSITION);
 	//è„ëwîwåiÇÃê∂ê¨
-	CBackgroundUpperLayer::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	CBackgroundUpperLayer::Create(BACKGROUND_UPPER_LAYER_POSITION);
 }

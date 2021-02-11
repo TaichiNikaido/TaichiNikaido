@@ -124,6 +124,7 @@ CEnemyEyeNormal * CEnemyEyeNormal::Create(D3DXVECTOR3 Position)
 		//初期化処理関数呼び出し
 		pEnemyEyeNormal->Init();
 	}
+	//目玉の敵(ノーマル)のポインタを返す
 	return pEnemyEyeNormal;
 }
 
@@ -270,8 +271,12 @@ void CEnemyEyeNormal::Death(void)
 	{
 		//爆発エフェクトの生成
 		CExplosionDeath::Create(GetPosition());
-		//爆発音の再生
-		pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+		//もしサウンドがNULLじゃない場合
+		if (pSound != NULL)
+		{
+			//爆発音の再生
+			pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+		}
 		//プレイヤーのスコアを加算する
 		pPlayer->AddScore(SCORE);
 	}

@@ -94,10 +94,15 @@ CExplosionDeath * CExplosionDeath::Create(D3DXVECTOR3 Position)
 		//死亡時の爆発のメモリ確保
 		pExplosionDeath = new CExplosionDeath;
 	}
-	//初期化処理関数呼び出し
-	pExplosionDeath->Init();
-	//位置を設定する
-	pExplosionDeath->SetPosition(Position);
+	//もし死亡時の爆発のポインタがNULLじゃない場合
+	if (pExplosionDeath != NULL)
+	{
+		//初期化処理関数呼び出し
+		pExplosionDeath->Init();
+		//位置を設定する
+		pExplosionDeath->SetPosition(Position);
+	}
+	//死亡時の爆発のポインタを返す
 	return pExplosionDeath;
 }
 

@@ -28,7 +28,7 @@
 //=============================================================================
 CNameMode::CNameMode()
 {
-	m_pName = NULL;
+	m_pName = NULL;		//名前入力のポインタ
 }
 
 //=============================================================================
@@ -43,9 +43,21 @@ CNameMode::~CNameMode()
 //=============================================================================
 CNameMode * CNameMode::Create()
 {
-	CNameMode * pNameMode;
-	pNameMode = new CNameMode;
-	pNameMode->Init();
+	//名前入力モードのポインタ
+	CNameMode * pNameMode = NULL;
+	//名前入力モードのポインタがNULLの場合
+	if (pNameMode == NULL)
+	{
+		//名前入力モードのメモリ確保
+		pNameMode = new CNameMode;
+	}
+	//名前入力モードのポインタがNULLじゃない場合
+	if (pNameMode != NULL)
+	{
+		//名前入力モードの初期化処理関数呼び出し
+		pNameMode->Init();
+	}
+	//名前入力モードのポインタを返す
 	return pNameMode;
 }
 

@@ -96,6 +96,7 @@ CBackgroundUpperLayer * CBackgroundUpperLayer::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pBackgroundUpperLayer->SetPosition(Position);
 	}
+	//上層背景のポインタを返す
 	return pBackgroundUpperLayer;
 }
 

@@ -30,6 +30,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+#define MINIMUM_FLAME_COUNT (0)	//フレームの数の最小値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -46,7 +47,7 @@ CWarning * CGameMode::m_pWarning = NULL;	//危険地帯へのポインタ
 //=============================================================================
 CGameMode::CGameMode()
 {
-	m_nFlameCount = 0;	//フレーム数
+	m_nFlameCount = MINIMUM_FLAME_COUNT;	//フレーム数
 }
 
 //=============================================================================
@@ -61,9 +62,21 @@ CGameMode::~CGameMode()
 //=============================================================================
 CGameMode * CGameMode::Create()
 {
-	CGameMode * pGameMode;
-	pGameMode = new CGameMode;
-	pGameMode->Init();
+	//ゲームモードのポインタ
+	CGameMode * pGameMode = NULL;
+	//ゲームモードのポインタをNULLだった場合
+	if (pGameMode == NULL)
+	{
+		//ゲームモードのメモリ確保
+		pGameMode = new CGameMode;
+	}
+	//ゲームモードのポインタをNULLじゃない場合
+	if (pGameMode != NULL)
+	{
+		//ゲームモードの初期化関数呼び出し
+		pGameMode->Init();
+	}
+	//ゲームモードのポインタを返す
 	return pGameMode;
 }
 
@@ -229,7 +242,7 @@ void CGameMode::UpdateCreateAll(void)
 			CEnemyEyeHard::Create(D3DXVECTOR3(FIELD_WIDTH_MIN * 1.5f + 100.0f + 400.0f * nCount, 0.0f, 0.0f));
 		}
 	}
-	if (m_nFlameCount == 4200)
+	if (m_nFlameCount == 0)
 	{
 		CWormhole::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, FIELD_HEIGHT / 4, 0.0f));
 	}

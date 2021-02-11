@@ -129,6 +129,7 @@ CEnemyFlower * CEnemyFlower::Create(D3DXVECTOR3 Position)
 		//初期化処理関数呼び出し
 		pEnemyFlower->Init();
 	}
+	//花の敵のポインタを返す
 	return pEnemyFlower;
 }
 

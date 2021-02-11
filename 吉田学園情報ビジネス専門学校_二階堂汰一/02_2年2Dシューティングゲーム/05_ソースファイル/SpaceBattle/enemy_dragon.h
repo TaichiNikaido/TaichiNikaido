@@ -41,7 +41,7 @@ public:
 	void Update(void);
 	void Draw(void);
 	void SetbCharge(bool bCharge) { m_bCharge = bCharge; }
-	CBulletFireball * GetBulletFireBall(void) { return m_pBulletFireBall; }
+	CBulletFireball * GetBulletFireBall(void);
 private:
 	void Scale(void);
 	void AI(void);
@@ -50,6 +50,7 @@ private:
 	void Animation(void);
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 	D3DXVECTOR3 m_TargetDistance;			//目標までの距離
+	D3DXVECTOR3 m_TargetPPos;			//目標
 	int m_nPatternAnime;					//パターンアニメ
 	int m_nCounterAnime;					//カウンターアニメ
 	int m_nBulletTime;						//弾の発射までの時間

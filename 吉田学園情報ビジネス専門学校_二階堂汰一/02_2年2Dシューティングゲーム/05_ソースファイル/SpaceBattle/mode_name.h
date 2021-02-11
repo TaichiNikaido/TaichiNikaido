@@ -40,6 +40,6 @@ public:
 	void Draw(void);
 private:
 	void CreateAll(void);
-	CName * m_pName;
+	CName * m_pName;	//名前入力のポインタ
 };
 #endif

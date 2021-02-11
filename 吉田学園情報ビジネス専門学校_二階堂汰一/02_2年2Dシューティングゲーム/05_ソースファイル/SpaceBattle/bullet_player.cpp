@@ -105,6 +105,7 @@ CBulletPlayer * CBulletPlayer::Create(D3DXVECTOR3 Position,D3DXVECTOR3 Speed)
 		//移動量を設定する
 		pBulletPlayer->SetMove(Speed);
 	}
+	//プレイヤーのポインタの弾を返す
 	return pBulletPlayer;
 }
 
@@ -123,8 +124,12 @@ HRESULT CBulletPlayer::Init(void)
 	CSound * pSound = CManager::GetSound();
 	//弾の初期化関数呼び出し
 	CBullet::Init();
-	//ショット音の再生
-	pSound->PlaySound(CSound::SOUND_LABEL_SE_SHOT);
+	//もしサウンドがNULLじゃない場合
+	if (pSound != NULL)
+	{
+		//ショット音の再生
+		pSound->PlaySound(CSound::SOUND_LABEL_SE_SHOT);
+	}
 	//サイズの初期設定
 	SetSize(SIZE);
 	//色の初期設定
@@ -195,7 +200,8 @@ void CBulletPlayer::Death(void)
 //=============================================================================
 void CBulletPlayer::Collision(void)
 {
-	for (int nCountPriority = 1; nCountPriority < PRIORITY_ENEMY + 1; nCountPriority++)
+	//敵のプライオリティ分回す
+	for (int nCountPriority = PRIORITY_BULLET; nCountPriority <= PRIORITY_ENEMY; nCountPriority++)
 	{
 		//シーンの総数分回す
 		for (int nCountScene = 0; nCountScene < GetNumAll(); nCountScene++)

@@ -96,6 +96,7 @@ CBackgroundName * CBackgroundName::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pBackgroundName->SetPosition(Position);
 	}
+	//名前入力背景のポインタを返す
 	return pBackgroundName;
 }
 

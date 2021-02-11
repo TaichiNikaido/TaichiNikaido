@@ -30,6 +30,7 @@
 #define MOVE (D3DXVECTOR3(0.0f,5.0f,0.0f))						//移動量
 #define RATE_MOVE (0.03f)										//移動量
 #define SIZE (D3DXVECTOR3(150.0f,150.0f,0.0f))					//サイズ
+#define MINIMUM_LIFE (0)										//体力の最小値
 #define LIFE (12)												//体力
 #define RETURN_SPEED (D3DXVECTOR3(0.0f,-10.0f,0.0f))			//戻る移動量
 #define STOP_MOVE (D3DXVECTOR3(GetMove().x,GetMove().y + (0.0f - GetMove().y)*RATE_MOVE,GetMove().z))	//停止
@@ -124,6 +125,7 @@ CEnemySpider * CEnemySpider::Create(D3DXVECTOR3 Position)
 		//初期化処理関数呼び出し
 		pEnemySpider->Init();
 	}
+	//蜘蛛の敵のポインタを返す
 	return pEnemySpider;
 }
 
@@ -184,7 +186,7 @@ void CEnemySpider::Update(void)
 	//滞在処理関数呼び出し
 	Stay();
 	//もしライフが0になったら
-	if (GetLife() <= 0)
+	if (GetLife() <= MINIMUM_LIFE)
 	{
 		//死亡処理関数呼び出し
 		Death();
@@ -286,8 +288,12 @@ void CEnemySpider::Death(void)
 	{
 		//爆発エフェクトの生成
 		CExplosionDeath::Create(GetPosition());
-		//爆発音の再生
-		pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+		//もしサウンドがNULLじゃない場合
+		if (pSound != NULL)
+		{
+			//爆発音の再生
+			pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+		}
 		//プレイヤーのスコアを加算する
 		pPlayer->AddScore(SCORE);
 	}

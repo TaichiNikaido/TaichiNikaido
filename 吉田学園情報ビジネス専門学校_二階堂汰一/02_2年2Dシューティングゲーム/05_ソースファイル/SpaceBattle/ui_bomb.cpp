@@ -22,7 +22,7 @@
 #define SIZE (D3DXVECTOR3(45.0f,45.0f,0.0f))		//サイズ
 #define SHOW_ALPHA (255)							//アルファ値最大
 #define HIDE_ALPHA (100)							//アルファ値半分
-#define MINIMUM_BOMB_TEXTURE (0)
+#define MINIMUM_BOMB_TEXTURE (0)					//爆弾テクスチャの最小数
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -62,6 +62,7 @@ CBombUI * CBombUI::Create(void)
 		//爆弾のUIの初期化処理関数呼び出し
 		pBombUI->Init();
 	}
+	//爆弾のUIのポインタを返す
 	return pBombUI;
 }
 

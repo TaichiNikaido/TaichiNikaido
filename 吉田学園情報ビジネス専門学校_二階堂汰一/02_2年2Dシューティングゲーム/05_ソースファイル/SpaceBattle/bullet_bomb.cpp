@@ -119,16 +119,8 @@ HRESULT CBulletBomb::Init(void)
 	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
 	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
 	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
-	//サウンドの取得
-	CSound * pSound = CManager::GetSound();
 	//弾の初期化関数呼び出し
 	CBullet::Init();
-	//もしサウンドがNULLじゃない場合
-	if (pSound != NULL)
-	{
-		//ショット音の再生
-		pSound->PlaySound(CSound::SOUND_LABEL_SE_SHOT);
-	}
 	//サイズの初期設定
 	SetSize(SIZE);
 	//色の初期設定
@@ -188,8 +180,12 @@ void CBulletBomb::Death(void)
 	CSound * pSound = CManager::GetSound();
 	//爆発の生成
 	CExplosionBomb::Create(GetPosition());
-	//爆発音の再生
-	pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+	//もしサウンドがNULLじゃない場合
+	if (pSound != NULL)
+	{
+		//爆発音の再生
+		pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+	}
 	//終了処理関数呼び出し
 	Uninit();
 	return;

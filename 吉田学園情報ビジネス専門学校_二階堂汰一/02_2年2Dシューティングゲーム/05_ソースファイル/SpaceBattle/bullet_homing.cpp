@@ -103,6 +103,7 @@ CBulletHoming * CBulletHoming::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pBulletHoming->SetPosition(Position);
 	}
+	//ホーミング弾のポインタを返す
 	return pBulletHoming;
 }
 

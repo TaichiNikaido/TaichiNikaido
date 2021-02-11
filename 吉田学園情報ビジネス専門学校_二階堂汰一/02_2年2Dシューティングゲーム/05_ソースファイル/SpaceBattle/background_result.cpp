@@ -96,6 +96,7 @@ CBackgroundResult * CBackgroundResult::Create(D3DXVECTOR3 Position)
 		//ˆÊ’u‚ğİ’è‚·‚é
 		pBackgroundResult->SetPosition(Position);
 	}
+	//ƒŠƒUƒ‹ƒg‚Ì”wŒi‚ğ•Ô‚·
 	return pBackgroundResult;
 }
 

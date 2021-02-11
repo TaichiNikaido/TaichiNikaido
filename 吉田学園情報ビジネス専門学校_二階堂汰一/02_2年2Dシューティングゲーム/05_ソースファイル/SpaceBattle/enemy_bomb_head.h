@@ -42,16 +42,16 @@ public:
 	void DeathAll(void);
 private:
 	void Death(void);
-	CEnemyBombBody * m_pBombBody[MAX_BOMB_BODY];
-	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	float m_fRd;//ラジアン
-	float m_fRdScale;//加算量
-	bool m_bCreateBody;
-	int m_nCreateCount;
-	int m_nCreateBodyCount;
-	D3DXVECTOR3 m_InitPos;
-	int m_nBombLife;
-	bool m_bDeath;
-	bool m_bDeathAll;
+	static LPDIRECT3DTEXTURE9 m_pTexture;			//テクスチャへのポインタ
+	CEnemyBombBody * m_pBombBody[MAX_BOMB_BODY];	//爆弾敵の体のポインタ
+	D3DXVECTOR3 m_InitialPosition;					//初期位置
+	int m_nCreateTime;								//生成する時間
+	int m_nCreateBodyCount;							//生成した体の数
+	int m_nBombLife;								//全体の体力					
+	float m_fRadian;								//ラジアン
+	float m_fAddRadian;								//ラジアンの加算量
+	bool m_bCreateBody;								//体を生成したか
+	bool m_bDeath;									//死んだか
+	bool m_bDeathAll;								//全て死んだか
 };
 #endif

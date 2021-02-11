@@ -106,6 +106,7 @@ CBackgroundTutorial * CBackgroundTutorial::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pBackgroundTutorial->SetPosition(Position);
 	}
+	//チュートリアル背景のポインタを返す
 	return pBackgroundTutorial;
 }
 

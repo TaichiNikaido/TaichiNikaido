@@ -18,7 +18,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE ("Data/Texture/UI/ui_life.png")
+#define TEXTURE ("Data/Texture/UI/ui_life.png")	//テクスチャ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -87,12 +87,17 @@ CUILifeTexture * CUILifeTexture::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Size)
 		//体力テクスチャのメモリ確保
 		pUILifeTexture = new CUILifeTexture;
 	}
-	//位置を設定する
-	pUILifeTexture->SetPosition(Position);
-	//サイズを設定する
-	pUILifeTexture->SetSize(Size);
-	//初期化処理関数呼び出し
-	pUILifeTexture->Init();
+	//もし体力テクスチャのポインタがNULLじゃない場合
+	if (pUILifeTexture != NULL)
+	{
+		//位置を設定する
+		pUILifeTexture->SetPosition(Position);
+		//サイズを設定する
+		pUILifeTexture->SetSize(Size);
+		//初期化処理関数呼び出し
+		pUILifeTexture->Init();
+	}
+	//体力テクスチャのポインタを返す
 	return pUILifeTexture;
 }
 

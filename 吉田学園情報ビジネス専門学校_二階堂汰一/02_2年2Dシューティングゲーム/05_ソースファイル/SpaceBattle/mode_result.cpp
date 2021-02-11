@@ -44,9 +44,21 @@ CResultMode::~CResultMode()
 //=============================================================================
 CResultMode * CResultMode::Create()
 {
-	CResultMode * pResultMode;
-	pResultMode = new CResultMode;
-	pResultMode->Init();
+	//リザルトモードのポインタ
+	CResultMode * pResultMode = NULL;
+	//もしリザルトモードのポインタがNULLの場合
+	if (pResultMode == NULL)
+	{
+		//リザルトモードのメモリ確保
+		pResultMode = new CResultMode;
+	}
+	//もしリザルトモードのポインタがNULLじゃない場合
+	if (pResultMode != NULL)
+	{
+		//リザルトモードの初期化処理関数呼び出し
+		pResultMode->Init();
+	}
+	//リザルトモードのポインタを返す
 	return pResultMode;
 }
 

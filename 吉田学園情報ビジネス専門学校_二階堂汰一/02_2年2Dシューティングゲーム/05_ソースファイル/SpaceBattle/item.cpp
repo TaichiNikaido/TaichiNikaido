@@ -108,9 +108,9 @@ void CItem::Collision(void)
 	if (pPlayer != NULL)
 	{
 		//プレイヤーの位置を取得する
-		D3DXVECTOR3 PlayerPosition = GetPosition();
+		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
 		//プレイヤーのサイズを取得する
-		D3DXVECTOR3 PlayerSize = GetSize();
+		D3DXVECTOR3 PlayerSize = pPlayer->GetSize();
 		//プレイヤーとの衝突
 		if (Position.x + Size.x / 2 > PlayerPosition.x - (PlayerSize.x / 2) &&
 			Position.x - Size.x / 2 < PlayerPosition.x + (PlayerSize.x / 2) &&

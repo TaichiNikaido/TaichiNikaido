@@ -52,9 +52,21 @@ CTitleMode::~CTitleMode()
 //=============================================================================
 CTitleMode * CTitleMode::Create()
 {
-	CTitleMode * pTitleMode;
-	pTitleMode = new CTitleMode;
-	pTitleMode->Init();
+	//タイトルモードのポインタ
+	CTitleMode * pTitleMode = NULL;
+	//もしタイトルモードのポインタがNULLの場合
+	if (pTitleMode == NULL)
+	{
+		//タイトルモードのメモリ確保
+		pTitleMode = new CTitleMode;
+	}
+	//もしタイトルモードのポインタがNULLじゃない場合
+	if (pTitleMode != NULL)
+	{
+		//初期化処理関数呼び出し
+		pTitleMode->Init();
+	}
+	//タイトルモードのポインタを返す	
 	return pTitleMode;
 }
 

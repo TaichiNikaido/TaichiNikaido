@@ -88,8 +88,13 @@ CEffect * CEffect::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Size, D3DXCOLOR Colo
 		//エフェクトのメモリ確保
 		pEffect = new CEffect;
 	}
-	//初期化処理関数呼び出し
-	pEffect->Init(Position, Size, Color, nLife);
+	//もしエフェクトのポインタがNULLじゃない場合
+	if (pEffect != NULL)
+	{
+		//初期化処理関数呼び出し
+		pEffect->Init(Position, Size, Color, nLife);
+	}
+	//エフェクトのポインタを返す
 	return pEffect;
 }
 

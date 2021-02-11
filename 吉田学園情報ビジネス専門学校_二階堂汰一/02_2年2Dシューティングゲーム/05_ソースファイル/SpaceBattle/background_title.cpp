@@ -96,6 +96,7 @@ CBackgroundTitle * CBackgroundTitle::Create(D3DXVECTOR3 Position)
 		//位置を設定する
 		pBackgroundTitle->SetPosition(Position);
 	}
+	//タイトル背景のポインタを返す
 	return pBackgroundTitle;
 }
 

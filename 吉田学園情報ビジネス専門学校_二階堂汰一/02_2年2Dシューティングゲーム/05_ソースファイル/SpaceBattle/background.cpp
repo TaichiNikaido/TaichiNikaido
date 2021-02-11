@@ -20,7 +20,10 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MOVE (0.001f)
+#define MOVE (0.001f)				//移動量
+#define MINIMUM_PATTERN_ANIME (0)	//パターンアニメの最小値
+#define MINIMUM_COUNTER_ANIME (0)	//カウンターアニメの最小値
+#define MINIMUM_FLAME (0)			//フレームの最小値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -31,9 +34,9 @@
 //=============================================================================
 CBackground::CBackground(int nPriority) : CScene2d(nPriority)
 {
-	m_nPatternAnime = 0;	//パターンアニメ
-	m_nCountAnime = 0;		//カウントアニメ
-	m_nFlame = 0;			//切り替えるフレーム
+	m_nPatternAnime = MINIMUM_PATTERN_ANIME;	//パターンアニメ
+	m_nCountAnime = MINIMUM_COUNTER_ANIME;		//カウントアニメ
+	m_nFlame = MINIMUM_FLAME;					//切り替えるフレーム
 }
 
 //=============================================================================
@@ -70,15 +73,15 @@ void CBackground::Update(void)
 	//2Dシーンの更新処理関数呼び出し
 	CScene2d::Update();
 	//もしフレームが0より上だったら
-	if (m_nFlame > 0)
+	if (m_nFlame > MINIMUM_FLAME)
 	{
 		//指定フレームごとにパターンアニメを更新する
-		if (m_nCountAnime % m_nFlame == 0)
+		if (m_nCountAnime % m_nFlame == REMAINDER)
 		{
 			//パターンアニメを加算する
 			m_nPatternAnime++;
 			//カウントアニメを0にする
-			m_nCountAnime = 0;
+			m_nCountAnime = MINIMUM_COUNTER_ANIME;
 		}
 	}
 	//テクスチャのUV座標の設定

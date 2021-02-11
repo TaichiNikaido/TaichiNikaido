@@ -44,9 +44,9 @@ public:
 	void Update(void);
 	void Draw(void);
 	void Hit(void);
-	void SetMove(D3DXVECTOR3 Move);
-	void SetLife(int nLife);
-	void SetState(STATE State);
+	void SetMove(D3DXVECTOR3 Move) { m_Move = Move; }
+	void SetLife(int nLife) { m_nLife = nLife; }
+	void SetState(STATE State) { m_State = State; }
 	D3DXVECTOR3 GetMove(void) { return m_Move; }
 	int GetLife(void) { return m_nLife; }
 	STATE GetState(void) { return m_State; }

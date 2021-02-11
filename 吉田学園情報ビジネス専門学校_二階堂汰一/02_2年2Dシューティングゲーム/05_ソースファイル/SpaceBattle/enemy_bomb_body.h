@@ -41,10 +41,10 @@ public:
 	void Draw(void);
 	void Death(void);
 private:
-	CEnemyBombHead * m_pBombHead;
+	CEnemyBombHead * m_pBombHead;			//爆弾の敵の頭のポインタ
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
-	float m_fRd;//ラジアン
-	float m_fRdScale;//加算量
-	bool m_bDeath;
+	float m_fRadian;						//ラジアン
+	float m_fAddRadian;						//ラジアンの加算量
+	bool m_bDeath;							//死んだかどうか
 };
 #endif

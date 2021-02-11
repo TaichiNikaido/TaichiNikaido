@@ -191,6 +191,8 @@ void CBulletFireball::Charge(void)
 		}
 		else
 		{
+			//ドラゴンのチャージを完了にする
+			pEnemyDragon->SetbCharge(false);
 			//移動量を設定
 			SetMove(MOVE);
 		}

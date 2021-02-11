@@ -96,8 +96,13 @@ CWarning * CWarning::Create(void)
 		//警告のメモリ確保
 		pWarning = new CWarning;
 	}
-	//初期化処理関数呼び出し
-	pWarning->Init();
+	//もし警告のポインタがNULLじゃない場合
+	if (pWarning != NULL)
+	{
+		//初期化処理関数呼び出し
+		pWarning->Init();
+	}
+	//警告のポインタを返す
 	return pWarning;
 }
 
@@ -147,12 +152,12 @@ void CWarning::Uninit()
 //=============================================================================
 void CWarning::Update()
 {
-	//2Dシーン更新処理関数呼び出し
-	CScene2d::Update();
 	//位置設定処理関数呼び出し
 	Position();
 	//色変更処理関数呼び出し
 	ColorChange();
+	//2Dシーン更新処理関数呼び出し
+	CScene2d::Update();
 }
 
 //=============================================================================

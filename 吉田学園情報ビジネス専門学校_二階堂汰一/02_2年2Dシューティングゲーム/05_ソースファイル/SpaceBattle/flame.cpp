@@ -83,10 +83,15 @@ CFlame * CFlame::Create(D3DXVECTOR3 Position)
 		//フレームのメモリ確保
 		pFlame = new CFlame;
 	}
-	//初期化処理関数呼び出し
-	pFlame->Init();
-	//位置を設定する
-	pFlame->SetPosition(Position);
+	//もしフレームのポインタがNULLじゃない場合
+	if (pFlame != NULL)
+	{
+		//初期化処理関数呼び出し
+		pFlame->Init();
+		//位置を設定する
+		pFlame->SetPosition(Position);
+	}
+	//フレームのポインタを返す
 	return pFlame;
 }
 

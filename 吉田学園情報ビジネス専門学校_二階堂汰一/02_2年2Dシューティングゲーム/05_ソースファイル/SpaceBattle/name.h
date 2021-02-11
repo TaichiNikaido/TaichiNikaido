@@ -56,9 +56,7 @@ private:
 		IsCount Down;
 		IsCount Right;
 		IsCount Left;
-	}IsPress;//推されてるか？
-	void Input(void);
-	void SetLetter(void);
+	}IsPress;
 	static LPDIRECT3DTEXTURE9 m_apTexture[MAX_NAME_TEXTURE];	//テクスチャ
 	static Letter m_aLetter[MAX_COLUMN][COLUMN_MAXNUMBER];
 	D3DXVECTOR3 m_pos;											//位置

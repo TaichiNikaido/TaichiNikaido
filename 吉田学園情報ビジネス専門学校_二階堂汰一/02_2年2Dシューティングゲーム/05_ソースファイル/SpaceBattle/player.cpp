@@ -44,15 +44,15 @@
 #define INVINCIBLE_COLOR_CHANGE (2)								//色変更
 #define INITIAL_BOMB (3)										//初期ボム数
 #define INITIAL_LIFE (3)										//初期自機数
-#define MINIMUM_LIFE (0)											//体力の最小値
-#define MINIMUM_SPEED (0.0f)										//移動速度の最小値
-#define MINIMUM_BOMB (0)											//ボムの最小値
-#define MINIMUM_SCORE (0)											//スコアの最小値
+#define MINIMUM_LIFE (0)										//体力の最小値
+#define MINIMUM_SPEED (0.0f)									//移動速度の最小値
+#define MINIMUM_BOMB (0)										//ボムの最小値
+#define MINIMUM_SCORE (0)										//スコアの最小値
 #define MINIMUM_DEATH_COUNT (0)									//死亡数の最小値
-#define MINIMUM_DEATH_TIME (0)										//死亡時間の最小値
+#define MINIMUM_DEATH_TIME (0)									//死亡時間の最小値
 #define MINIMUM_INVINCIBLE_TIME (0)								//無敵時間の最小値
 #define MINIMUM_BULLET_INTERVAL (0)								//弾の発射間隔の最小値
-#define MINIMUM_CONTINUE_COUNT (0)									//コンティニューの最小値
+#define MINIMUM_CONTINUE_COUNT (0)								//コンティニューの最小値
 #define BOMB_COST (1000)										//ボム使用時のスコア減算値
 #define DEATH_COST (1000)										//死亡時のスコア減算値
 #define DEATH_ADD_SCORE (1)										//死亡時のスコア加算地							
@@ -82,15 +82,15 @@ CPlayer::CPlayer(int nPriority) : CScene2d(nPriority)
 	m_Move = INITIAL_MOVE;								//移動量
 	m_nLife = MINIMUM_LIFE;								//体力
 	m_nBomb = MINIMUM_BOMB;								//爆弾の所持数
-	m_nUseBomb = MINIMUM_BOMB;								//爆弾の使用回数
-	m_nDeathCount = MINIMUM_DEATH_COUNT;					//死亡数
-	m_nContinue = MINIMUM_CONTINUE_COUNT;					//コンティニュー数
-	m_nScore = MINIMUM_SCORE;								//スコア
+	m_nUseBomb = MINIMUM_BOMB;							//爆弾の使用回数
+	m_nDeathCount = MINIMUM_DEATH_COUNT;				//死亡数
+	m_nContinue = MINIMUM_CONTINUE_COUNT;				//コンティニュー数
+	m_nScore = MINIMUM_SCORE;							//スコア
 	m_nLevel = LEVEL_NONE;								//レベル
-	m_nDeathTime = MINIMUM_DEATH_TIME;						//死亡時間
-	m_nInvincibleTime = MINIMUM_INVINCIBLE_TIME;			//無敵時間
-	m_nBulletInterval = MINIMUM_BULLET_INTERVAL;			//発射間隔
-	m_fSpeed = MINIMUM_SPEED;								//速さ
+	m_nDeathTime = MINIMUM_DEATH_TIME;					//死亡時間
+	m_nInvincibleTime = MINIMUM_INVINCIBLE_TIME;		//無敵時間
+	m_nBulletInterval = MINIMUM_BULLET_INTERVAL;		//発射間隔
+	m_fSpeed = MINIMUM_SPEED;							//速さ
 	memset(m_aInputData, NULL, sizeof(m_aInputData));	//入力情報
 	m_State = STATE_NONE;								//状態
 	m_Input = INPUT_NONE;								//入力キー情報
@@ -158,6 +158,7 @@ CPlayer * CPlayer::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Size)
 		//プレイヤーのサイズを設定する
 		pPlayer->SetSize(Size);
 	}
+	//プレイヤーのポインタを返す
 	return pPlayer;
 }
 
@@ -564,8 +565,12 @@ void CPlayer::Death(void)
 	m_State = STATE_DEATH;
 	//爆発エフェクトの生成
 	CExplosionDeath::Create(GetPosition());
-	//爆発音の再生
-	pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+	//サウンドがNULLじゃない場合
+	if (pSound != NULL)
+	{
+		//爆発音の再生
+		pSound->PlaySound(CSound::SOUND_LABEL_SE_EXPLOSION);
+	}
 	//スコアを減算する
 	SubScore(DEATH_COST);
 	//スコアを加算する
@@ -637,10 +642,10 @@ D3DXVECTOR3 CPlayer::MovableRange()
 		Position.y = Size.y / 2;
 	}
 	//もしプレイヤーが下画面外に行ったら
-	if (Position.y + Size.y > FIELD_HEIGHT)
+	if (Position.y + Size.y / 2 > FIELD_HEIGHT)
 	{
 		//位置が画面外に移動しないように制御する
-		Position.y = FIELD_HEIGHT - Size.y;
+		Position.y = FIELD_HEIGHT - Size.y / 2;
 	}
 	//もしプレイヤーが左画面外に行ったら
 	if (Position.x - Size.y / 2 < FIELD_WIDTH_MIN)
@@ -769,8 +774,6 @@ void CPlayer::TimeCount(void)
 	case STATE_INVINCIBLE:
 		//無敵時間を加算する
 		m_nInvincibleTime++;
-		//弾全消去
-		DeleteAllBullet();
 		//無状態に移行する
 		if (m_nInvincibleTime >= INVINCIBLE_TIME)
 		{
