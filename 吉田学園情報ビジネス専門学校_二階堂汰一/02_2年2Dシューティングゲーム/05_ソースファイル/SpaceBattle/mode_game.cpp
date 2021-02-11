@@ -242,7 +242,7 @@ void CGameMode::UpdateCreateAll(void)
 			CEnemyEyeHard::Create(D3DXVECTOR3(FIELD_WIDTH_MIN * 1.5f + 100.0f + 400.0f * nCount, 0.0f, 0.0f));
 		}
 	}
-	if (m_nFlameCount == 0)
+	if (m_nFlameCount == 4200)
 	{
 		CWormhole::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, FIELD_HEIGHT / 4, 0.0f));
 	}
