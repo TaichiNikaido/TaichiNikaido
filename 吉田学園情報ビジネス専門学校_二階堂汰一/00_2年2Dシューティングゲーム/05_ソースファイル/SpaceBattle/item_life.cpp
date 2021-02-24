@@ -83,14 +83,14 @@ CItemLife * CItemLife::Create(D3DXVECTOR3 Position)
 	{
 		//体力付与アイテムのメモリ確保
 		pItemLife = new CItemLife;
-	}
-	//もし体力付与アイテムのポインタがNULLじゃない場合
-	if (pItemLife != NULL)
-	{
-		//位置を設定する
-		pItemLife->SetPosition(Position);
-		//初期化処理関数呼び出し
-		pItemLife->Init();
+		//もし体力付与アイテムのポインタがNULLじゃない場合
+		if (pItemLife != NULL)
+		{
+			//位置を設定する
+			pItemLife->SetPosition(Position);
+			//初期化処理関数呼び出し
+			pItemLife->Init();
+		}
 	}
 	//体力付与アイテムのポインタを返す
 	return pItemLife;

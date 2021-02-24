@@ -44,7 +44,7 @@
 #define MINIMUM_COLOR_COUNT (0)						//色の最小カウント
 #define MINIMUM_STAY_TIME (0)						//滞在最小時間
 #define ANIMATION_VALUE (0.250f)					//アニメーションの値
-#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 6) + 100))	//停止位置
+#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 8)))	//停止位置
 #define SHOT_TIME (50)								//停止時間
 #define SHOT_COOL_TIME (100)						//弾の色の時間
 #define INTERVAL_BULLET (20)						//弾の間隔
@@ -120,14 +120,14 @@ CEnemyFlower * CEnemyFlower::Create(D3DXVECTOR3 Position)
 	{
 		//花の敵のメモリ確保
 		pEnemyFlower = new CEnemyFlower;
-	}
-	//もし花の敵のポインタがNULLじゃない場合
-	if (pEnemyFlower != NULL)
-	{
-		//位置を設定する
-		pEnemyFlower->SetPosition(Position);
-		//初期化処理関数呼び出し
-		pEnemyFlower->Init();
+		//もし花の敵のポインタがNULLじゃない場合
+		if (pEnemyFlower != NULL)
+		{
+			//位置を設定する
+			pEnemyFlower->SetPosition(Position);
+			//初期化処理関数呼び出し
+			pEnemyFlower->Init();
+		}
 	}
 	//花の敵のポインタを返す
 	return pEnemyFlower;
@@ -306,7 +306,7 @@ void CEnemyFlower::Death(void)
 	if (pPlayer != NULL)
 	{
 		//爆発エフェクトの生成
-		CExplosionDeath::Create(GetPosition());
+		CExplosionDeath::Create(GetPosition(), EXPLOSION_SIZE);
 		//もしサウンドがNULLじゃない場合
 		if (pSound != NULL)
 		{

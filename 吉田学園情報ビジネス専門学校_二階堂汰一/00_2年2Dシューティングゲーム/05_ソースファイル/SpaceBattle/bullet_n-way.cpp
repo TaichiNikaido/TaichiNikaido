@@ -89,16 +89,16 @@ CBulletN_Way * CBulletN_Way::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed)
 	{
 		//n_way弾のメモリ確保
 		pBulletN_Way = new CBulletN_Way;
-	}
-	//もしn_way弾のポインタがNULLじゃない場合
-	if (pBulletN_Way != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBulletN_Way->Init();
-		//位置を設定する
-		pBulletN_Way->SetPosition(Position);
-		//移動量を設定する
-		pBulletN_Way->SetMove(Speed);
+		//もしn_way弾のポインタがNULLじゃない場合
+		if (pBulletN_Way != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBulletN_Way->Init();
+			//位置を設定する
+			pBulletN_Way->SetPosition(Position);
+			//移動量を設定する
+			pBulletN_Way->SetMove(Speed);
+		}
 	}
 	//n_way弾のポインタを返す
 	return pBulletN_Way;

@@ -23,6 +23,7 @@
 #include "keyboard.h"
 #include "joystick.h"
 #include "player.h"
+#include "camera.h"
 #include "weapon_sword.h"
 #include "weapon_shield.h"
 #include "enemy_dragon.h"
@@ -36,6 +37,7 @@
 #define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))						//初期サイズ
 #define INITIAL_COLLISIION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//初期当たり判定用サイズ
 #define INITIAL_ROTATION (D3DXVECTOR3(0.0f,D3DXToRadian(0.0f),0.0f))	//初期回転
+#define INITIAL_DIRECTION_DEST (D3DXVECTOR3(0.0f,0.0f,0.0f))			//目標の向きの初期値
 #define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))						//初期移動量
 #define INITIAL_LIFE (0)												//初期体力
 #define MINIMUM_LIFE (0)												//体力の最小値
@@ -58,9 +60,11 @@ D3DXMATERIAL * CPlayer::m_pMaterial = NULL;					//マテリアル
 CPlayer::CPlayer()
 {
 	m_Position = INITIAL_POSITION;									//位置
+	m_PositionOld = INITIAL_POSITION;								//前の位置
 	m_Size = INITIAL_SIZE;											//サイズ
 	m_CollisionSize = INITIAL_COLLISIION_SIZE;						//当たり判定用サイズ
 	m_Rotation = INITIAL_ROTATION;									//回転
+	m_DirectionDest = INITIAL_DIRECTION_DEST;						//
 	m_Move = INITIAL_MOVE;											//移動量
 	m_nLife = INITIAL_LIFE;											//体力
 	memset(m_nAttack, INITIAL_ATTACK, sizeof(m_nAttack));			//攻撃力
@@ -234,6 +238,8 @@ void CPlayer::Uninit(void)
 //=============================================================================
 void CPlayer::Update(void)
 {
+	//過去の位置を保存する
+	m_PositionOld = m_Position;
 	//もしモーションのポインタがNULLの場合
 	if (m_pMotion != NULL)
 	{
@@ -378,37 +384,53 @@ void CPlayer::Move(void)
 		//速度を歩行速度にする
 		m_fSpeed = m_fWalkSpeed;
 	}
-	//もし死亡状態じゃないとき
-	if (m_State != STATE_DEATH)
+	//カメラの取得
+	CCamera * pCamera = CGameMode::GetCamera();
+	//もしカメラのポインタがNULLじゃない場合
+	if (pCamera != NULL)
 	{
-		switch (m_Input)
+		//カメラの回転を取得
+		D3DXVECTOR3 CameraRotation = pCamera->GetRotation();
+		//もし死亡状態じゃないとき
+		if (m_State != STATE_DEATH)
 		{
-			//もし入力情報が上の時
-		case INPUT_UP:
-			m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(0.0f), 0.0f));
-			//Y軸の上方向に移動量を加算
-			m_Move.z = cosf(D3DX_PI) * m_fSpeed;
-			break;
-			//もし入力情報が下の時
-		case INPUT_DOWN:
-			m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f));
-			//Y軸の下方向に移動量を加算
-			m_Move.z = cosf(D3DX_PI) * -m_fSpeed;
-			break;
-			//もし入力情報が左の時
-		case INPUT_LEFT:
-			m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(270), 0.0f));
-			//X軸の左方向に移動量を加算
-			m_Move.x = cosf(D3DX_PI) * -m_fSpeed;
-			break;
-			//もし入力情報が右の時
-		case INPUT_RIGHT:
-			m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(90.0f), 0.0f));
-			//X軸の右方向に移動量を加算
-			m_Move.x = cosf(D3DX_PI) * m_fSpeed;
-			break;
-		default:
-			break;
+			switch (m_Input)
+			{
+				//もし入力情報が上の時
+			case INPUT_UP:
+				//m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(0.0f), 0.0f));
+				//Z軸の上方向に移動量を加算
+				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
+				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
+				//m_Move.z = cosf(D3DX_PI) * m_fSpeed;
+				break;
+				//もし入力情報が下の時
+			case INPUT_DOWN:
+				//m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f));
+				//Z軸の下方向に移動量を加算
+				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
+				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
+				//m_Move.z = cosf(D3DX_PI) * -m_fSpeed;
+				break;
+				//もし入力情報が左の時
+			case INPUT_LEFT:
+				//m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(270), 0.0f));
+				//X軸の左方向に移動量を加算
+				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
+				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
+				//m_Move.x = cosf(D3DX_PI) * -m_fSpeed;
+				break;
+				//もし入力情報が右の時
+			case INPUT_RIGHT:
+				//m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(90.0f), 0.0f));
+				//X軸の右方向に移動量を加算
+				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
+				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
+				//m_Move.x = cosf(D3DX_PI) * m_fSpeed;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
@@ -603,7 +625,6 @@ void CPlayer::DataLoad(void)
 						{
 							//回転情報の読み込み
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Rotation.x, &m_Rotation.y, &m_Rotation	.z);
-								;
 						}
 						//現在のテキストがMOVEだったら
 						if (strcmp(aCurrentText, "MOVE") == 0)

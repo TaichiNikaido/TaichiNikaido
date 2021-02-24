@@ -146,7 +146,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="CollisionBlock.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemy_dragon.cpp" />
     <ClCompile Include="enemy_skeleton.cpp" />
@@ -168,7 +170,10 @@
     <ClCompile Include="motion.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object_corpse.cpp" />
-    <ClCompile Include="object_house.cpp" />
+    <ClCompile Include="object_fence.cpp" />
+    <ClCompile Include="object_fountain.cpp" />
+    <ClCompile Include="object_stone_house.cpp" />
+    <ClCompile Include="object_wood_house.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon3d.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -176,12 +181,20 @@
     <ClCompile Include="scene2d.cpp" />
     <ClCompile Include="scene3d.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="stage.cpp" />
+    <ClCompile Include="ui_dragon_life.cpp" />
+    <ClCompile Include="ui_gauge.cpp" />
+    <ClCompile Include="ui_gauge_flame.cpp" />
+    <ClCompile Include="ui_village_icon.cpp" />
+    <ClCompile Include="ui_village_life.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="weapon_shield.cpp" />
     <ClCompile Include="weapon_sword.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="billboard.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="CollisionBlock.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemy_dragon.h" />
     <ClInclude Include="enemy_skeleton.h" />
@@ -203,13 +216,22 @@
     <ClInclude Include="motion.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object_corpse.h" />
-    <ClInclude Include="object_house.h" />
+    <ClInclude Include="object_fence.h" />
+    <ClInclude Include="object_fountain.h" />
+    <ClInclude Include="object_stone_house.h" />
+    <ClInclude Include="object_wood_house.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon3d.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene2d.h" />
     <ClInclude Include="scene3d.h" />
+    <ClInclude Include="stage.h" />
+    <ClInclude Include="ui_dragon_life.h" />
+    <ClInclude Include="ui_gauge.h" />
+    <ClInclude Include="ui_gauge_flame.h" />
+    <ClInclude Include="ui_village_icon.h" />
+    <ClInclude Include="ui_village_life.h" />
     <ClInclude Include="weapon_shield.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="weapon.h" />

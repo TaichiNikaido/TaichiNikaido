@@ -50,9 +50,11 @@ public:
 	}MOTION;	//モーション情報
 	typedef enum
 	{
-		MOTION_IDLE = 0,	//アイドルモーション
-		MOTION_DASH,		//走りモーション
-		MOTION_MAX			//モーションの最大
+		MOTION_IDLE = 0,		//アイドルモーション
+		MOTION_DASH,			//走りモーション
+		MOTION_DRAGON_ATTACK1,	//ドラゴンの攻撃1
+		MOTION_DRAGON_ATTACK2,	//ドラゴンの攻撃2
+		MOTION_MAX				//モーションの最大
 	}MOTION_STATE;	//モーション状態
 	CMotion();
 	~CMotion();

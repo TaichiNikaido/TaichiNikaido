@@ -83,14 +83,14 @@ CItemBomb * CItemBomb::Create(D3DXVECTOR3 Position)
 	{
 		//爆弾付与アイテムのメモリ確保
 		pItemBomb = new CItemBomb;
-	}
-	//爆弾付与アイテムのポインタがNULLじゃない場合
-	if (pItemBomb != NULL)
-	{
-		//位置を設定する
-		pItemBomb->SetPosition(Position);
-		//初期化処理関数呼び出し
-		pItemBomb->Init();
+		//爆弾付与アイテムのポインタがNULLじゃない場合
+		if (pItemBomb != NULL)
+		{
+			//位置を設定する
+			pItemBomb->SetPosition(Position);
+			//初期化処理関数呼び出し
+			pItemBomb->Init();
+		}
 	}
 	//爆弾付与アイテムのポインタを返す
 	return pItemBomb;

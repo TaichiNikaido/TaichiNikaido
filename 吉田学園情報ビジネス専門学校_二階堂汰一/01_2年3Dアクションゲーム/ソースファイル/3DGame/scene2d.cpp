@@ -114,12 +114,15 @@ HRESULT CScene2d::Init(void)
 //=============================================================================
 void CScene2d::Uninit(void)
 {
-	// 頂点バッファの破棄
+	//もし頂点バッファのポインタがNULLじゃない場合
 	if (m_pVtxBuff != NULL)
 	{
+		//頂点バッファの破棄
 		m_pVtxBuff->Release();
+		//頂点バッファのポインタをNULLにする
 		m_pVtxBuff = NULL;
 	}
+	//破棄処理関数呼び出し
 	Release();
 }
 

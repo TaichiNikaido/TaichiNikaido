@@ -51,12 +51,12 @@ CRankingMode * CRankingMode::Create()
 	{
 		//ランキングモードのメモリ確保
 		pRankingMode = new CRankingMode;
-	}
-	//もしランキングモードのポインタがNULLじゃない場合
-	if (pRankingMode != NULL)
-	{
-		//ランキングモードの初期化処理関数呼び出し
-		pRankingMode->Init();
+		//もしランキングモードのポインタがNULLじゃない場合
+		if (pRankingMode != NULL)
+		{
+			//ランキングモードの初期化処理関数呼び出し
+			pRankingMode->Init();
+		}
 	}
 	//ランキングモードのポインタを返す
 	return pRankingMode;

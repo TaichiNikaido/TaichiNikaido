@@ -24,7 +24,7 @@
 // マクロ定義
 //*****************************************************************************
 #define SCRIPT_PASS ("Data/Script/Floor/Data.txt")	//プレイヤーデータのスクリプトのパス
-//#define TEXTURE_PASS ()
+#define TEXTURE_PASS ("Data/Texture/ground.jpg")	
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -50,14 +50,14 @@ CFloor::~CFloor()
 //=============================================================================
 HRESULT CFloor::TextureLoad(void)
 {
-	////レンダラーの取得
-	//CRenderer *pRenderer = CManager::GetRenderer();
-	////デバイスの取得
-	//LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	//// テクスチャの生成
-	//D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-	//	TEXTURE_PASS,						// ファイルの名前
-	//	&m_pTexture);					// 読み込むメモリー
+	//レンダラーの取得
+	CRenderer *pRenderer = CManager::GetRenderer();
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+	// テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
+		TEXTURE_PASS,					// ファイルの名前
+		&m_pTexture);					// 読み込むメモリー
 	return S_OK;
 }
 
@@ -88,12 +88,12 @@ CFloor * CFloor::Create()
 	{
 		//床のメモリ確保
 		pFloor = new CFloor;
-	}
-	//床のポインタがNULLじゃない場合
-	if (pFloor != NULL)
-	{
-		//床の初期化処理関数呼び出し
-		pFloor->Init();
+		//床のポインタがNULLじゃない場合
+		if (pFloor != NULL)
+		{
+			//床の初期化処理関数呼び出し
+			pFloor->Init();
+		}
 	}
 	//床のポインタを返す
 	return pFloor;
@@ -104,10 +104,22 @@ CFloor * CFloor::Create()
 //=============================================================================
 HRESULT CFloor::Init(void)
 {
-	//ポリゴン3Dの初期化処理関数呼び出し
-	CPolygon3d::Init();
+	//テクスチャのUV座標の設定
+	D3DXVECTOR2 aTexture[NUM_VERTEX];
+	aTexture[0] = D3DXVECTOR2(0.0f, 0.0f);
+	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
+	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
+	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
 	//データ読み込み関数呼び出し
 	DataLoad();
+	
+	//テクスチャの設定
+	SetTexture(aTexture);
+	//テクスチャの割り当て
+	BindTexture(m_pTexture);
+
+	//ポリゴン3Dの初期化処理関数呼び出し
+	CPolygon3d::Init();//ポリゴン3Dの初期化処理関数呼び出し
 	return S_OK;
 }
 

@@ -28,6 +28,16 @@
 #include "enemy_skeleton.h"
 #include "weapon_sword.h"
 #include "weapon_shield.h"
+#include "enemy_dragon.h"
+#include "object_wood_house.h"
+#include "object_stone_house.h"
+#include "object_fountain.h"
+#include "object_fence.h"
+#include "object_corpse.h"
+#include "ui_village_icon.h"
+#include "ui_gauge_flame.h"
+#include "ui_gauge.h"
+#include "floor.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -244,6 +254,26 @@ void CManager::LoadAll(void)
 	CSword::ModelLoad();
 	//盾のモデル読み込み
 	CShield::ModelLoad();
+	//ドラゴンモデル読み込み
+	CDragon::ModelLoad();
+	//木造の家モデル読み込み
+	CWoodHouse::ModelLoad();
+	//石造の家モデル読み込み
+	CStoneHouse::ModelLoad();
+	//噴水のモデル読み込み
+	CFountain::ModelLoad();
+	//フェンスのモデル読み込み
+	CFence::ModelLoad();
+	//屍のモデル読み込み
+	CCorpse::ModelLoad();
+	//村のアイコンのテクスチャ読み込み
+	CVillageIcon::TextureLoad();
+	//ゲージフレームのテクスチャ読み込み
+	CGaugeFlame::TextureLoad();
+	//ゲージのテクスチャ読み込み
+	CGauge::TextureLoad();
+	//地面のテクスチャ読み恋
+	CFloor::TextureLoad();
 }
 
 //=============================================================================
@@ -259,6 +289,26 @@ void CManager::UnloadAll(void)
 	CSword::ModelUnload();
 	//盾のモデル破棄
 	CShield::ModelUnload();
+	//ドラゴンモデル破棄
+	CDragon::ModelUnload();
+	//木造の家モデル破棄
+	CWoodHouse::ModelUnload();
+	//石造の家モデル破棄
+	CStoneHouse::ModelUnload();
+	//噴水のモデル破棄
+	CFountain::ModelUnload();
+	//フェンスのモデル破棄
+	CFence::ModelUnload();
+	//屍のモデル破棄
+	CCorpse::ModelUnload();
+	//村のアイコンのテクスチャ破棄
+	CVillageIcon::TextureUnload();
+	//ゲージフレームのテクスチャ破棄
+	CGaugeFlame::TextureUnload();
+	//ゲージのテクスチャ破棄
+	CGauge::TextureUnload();
+	//地面のテクスチャ破棄
+	CFloor::TextureUnload();
 }
 
 //=============================================================================

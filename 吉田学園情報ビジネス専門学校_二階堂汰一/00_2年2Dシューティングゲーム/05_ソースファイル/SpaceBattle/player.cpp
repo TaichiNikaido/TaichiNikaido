@@ -33,6 +33,7 @@
 #include "player.h"
 #include "enemy_dragon.h"
 #include "bullet.h"
+#include "continue_logo.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -147,16 +148,16 @@ CPlayer * CPlayer::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Size)
 	{
 		//プレイヤーのメモリ確保
 		pPlayer = new CPlayer;
-	}
-	//プレイヤーがNULLではない場合
-	if (pPlayer != NULL)
-	{
-		//プレイヤーの初期化処理関数呼び出し
-		pPlayer->Init();
-		//プレイヤーの位置を設定する
-		pPlayer->SetPosition(Position);
-		//プレイヤーのサイズを設定する
-		pPlayer->SetSize(Size);
+		//プレイヤーがNULLではない場合
+		if (pPlayer != NULL)
+		{
+			//プレイヤーの初期化処理関数呼び出し
+			pPlayer->Init();
+			//プレイヤーの位置を設定する
+			pPlayer->SetPosition(Position);
+			//プレイヤーのサイズを設定する
+			pPlayer->SetSize(Size);
+		}
 	}
 	//プレイヤーのポインタを返す
 	return pPlayer;
@@ -301,6 +302,7 @@ void CPlayer::SubLife(int nValue)
 		//もし体力が0になったら
 		if (m_nLife <= MINIMUM_LIFE)
 		{
+			CContinueLogo::Create(D3DXVECTOR3(1340.0f, 1040.0f, 0.0f));
 			//コンティニュー数を加算する
 			m_nContinue++;
 			//ライフを初期設定する
@@ -564,7 +566,7 @@ void CPlayer::Death(void)
 	//死亡状態にする
 	m_State = STATE_DEATH;
 	//爆発エフェクトの生成
-	CExplosionDeath::Create(GetPosition());
+	CExplosionDeath::Create(GetPosition(), EXPLOSION_SIZE);
 	//サウンドがNULLじゃない場合
 	if (pSound != NULL)
 	{

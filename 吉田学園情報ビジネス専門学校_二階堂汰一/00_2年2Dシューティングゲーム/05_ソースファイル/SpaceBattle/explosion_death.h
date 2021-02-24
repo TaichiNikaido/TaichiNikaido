@@ -15,6 +15,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
+#define EXPLOSION_SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))	  //サイズ
 
 //*****************************************************************************
 // 前方宣言
@@ -34,7 +35,7 @@ public:
 	~CExplosionDeath();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
-	static CExplosionDeath * Create(D3DXVECTOR3 Position);
+	static CExplosionDeath * Create(D3DXVECTOR3 Position,D3DXVECTOR3 Siz);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);

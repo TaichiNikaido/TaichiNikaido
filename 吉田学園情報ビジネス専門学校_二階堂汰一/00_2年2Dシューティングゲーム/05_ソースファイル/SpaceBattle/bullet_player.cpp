@@ -94,16 +94,16 @@ CBulletPlayer * CBulletPlayer::Create(D3DXVECTOR3 Position,D3DXVECTOR3 Speed)
 	{
 		//プレイヤーの弾のメモリ確保
 		pBulletPlayer = new CBulletPlayer;
-	}
-	//もしプレイヤーの弾がNULLじゃない場合
-	if (pBulletPlayer != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBulletPlayer->Init();
-		//位置を設定する
-		pBulletPlayer->SetPosition(Position);
-		//移動量を設定する
-		pBulletPlayer->SetMove(Speed);
+		//もしプレイヤーの弾がNULLじゃない場合
+		if (pBulletPlayer != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBulletPlayer->Init();
+			//位置を設定する
+			pBulletPlayer->SetPosition(Position);
+			//移動量を設定する
+			pBulletPlayer->SetMove(Speed);
+		}
 	}
 	//プレイヤーのポインタの弾を返す
 	return pBulletPlayer;

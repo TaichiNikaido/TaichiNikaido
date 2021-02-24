@@ -163,6 +163,7 @@
     <ClCompile Include="bullet_homing.cpp" />
     <ClCompile Include="bullet_n-way.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="continue_logo.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="bullet_enemy.cpp" />
@@ -177,9 +178,11 @@
     <ClCompile Include="explosion.cpp" />
     <ClCompile Include="explosion_bomb.cpp" />
     <ClCompile Include="explosion_death.cpp" />
+    <ClCompile Include="explosion_dragon.cpp" />
     <ClCompile Include="explosion_fireball.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="flame.cpp" />
+    <ClCompile Include="gameclear_logo.cpp" />
     <ClCompile Include="mode_game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="item.cpp" />
@@ -233,6 +236,7 @@
     <ClInclude Include="bullet_homing.h" />
     <ClInclude Include="bullet_n-way.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="continue_logo.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="bullet_enemy.h" />
@@ -247,9 +251,11 @@
     <ClInclude Include="explosion.h" />
     <ClInclude Include="explosion_bomb.h" />
     <ClInclude Include="explosion_death.h" />
+    <ClInclude Include="explosion_dragon.h" />
     <ClInclude Include="explosion_fireball.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="flame.h" />
+    <ClInclude Include="gameclear_logo.h" />
     <ClInclude Include="mode_game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="item.h" />

@@ -93,16 +93,16 @@ CBulletBomb * CBulletBomb::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed)
 	{
 		//爆弾のメモリ確保
 		pBulletBomb = new CBulletBomb;
-	}
-	//もし爆弾のポインタがNULLじゃない場合
-	if (pBulletBomb != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBulletBomb->Init();
-		//位置を設定する
-		pBulletBomb->SetPosition(Position);
-		//移動量を設定する
-		pBulletBomb->SetMove(Speed);
+		//もし爆弾のポインタがNULLじゃない場合
+		if (pBulletBomb != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBulletBomb->Init();
+			//位置を設定する
+			pBulletBomb->SetPosition(Position);
+			//移動量を設定する
+			pBulletBomb->SetMove(Speed);
+		}
 	}
 	//爆弾のポインタを返す
 	return pBulletBomb;

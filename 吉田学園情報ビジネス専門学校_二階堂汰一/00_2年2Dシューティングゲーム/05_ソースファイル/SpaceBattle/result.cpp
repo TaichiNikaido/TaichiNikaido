@@ -56,12 +56,12 @@ CResult * CResult::Create()
 	{
 		//リザルトのメモリ確保
 		pResult = new CResult;
-	}
-	//もしリザルトがNULLじゃない場合
-	if (pResult != NULL)
-	{
-		//初期化処理関数呼び出し
-		pResult->Init();
+		//もしリザルトがNULLじゃない場合
+		if (pResult != NULL)
+		{
+			//初期化処理関数呼び出し
+			pResult->Init();
+		}
 	}
 	return pResult;
 }

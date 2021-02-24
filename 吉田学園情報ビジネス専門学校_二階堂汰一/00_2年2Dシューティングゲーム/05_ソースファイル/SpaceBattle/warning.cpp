@@ -95,12 +95,12 @@ CWarning * CWarning::Create(void)
 	{
 		//警告のメモリ確保
 		pWarning = new CWarning;
-	}
-	//もし警告のポインタがNULLじゃない場合
-	if (pWarning != NULL)
-	{
-		//初期化処理関数呼び出し
-		pWarning->Init();
+		//もし警告のポインタがNULLじゃない場合
+		if (pWarning != NULL)
+		{
+			//初期化処理関数呼び出し
+			pWarning->Init();
+		}
 	}
 	//警告のポインタを返す
 	return pWarning;
@@ -152,12 +152,12 @@ void CWarning::Uninit()
 //=============================================================================
 void CWarning::Update()
 {
+	//2Dシーン更新処理関数呼び出し
+	CScene2d::Update();
 	//位置設定処理関数呼び出し
 	Position();
 	//色変更処理関数呼び出し
 	ColorChange();
-	//2Dシーン更新処理関数呼び出し
-	CScene2d::Update();
 }
 
 //=============================================================================
@@ -177,11 +177,11 @@ void CWarning::Position(void)
 	//プレイヤーを取得
 	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//ドラゴンを取得
-	CEnemyDragon * pDragon = CGameMode::GetDragon();
+	CBulletFireball * pBulletFireBall = CGameMode::GetBulletFireBall();
 	//プレイヤーの位置を取得
 	D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
 	//火球の位置を取得
-	D3DXVECTOR3 FireBallPosition = pDragon->GetBulletFireBall()->GetPosition();
+	D3DXVECTOR3 FireBallPosition = pBulletFireBall->GetPosition();
 	//位置を取得
 	D3DXVECTOR3 Position = GetPosition();
 	//X座標をドラゴンのX座標に合わせる

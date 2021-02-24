@@ -98,20 +98,20 @@ CEnemyBombBody * CEnemyBombBody::Create(D3DXVECTOR3 Position, CEnemyBombHead * p
 	//爆弾敵の体のポインタ
 	CEnemyBombBody * pEnemyBombBody = NULL;
 	//もし爆弾敵の体のポインタがNULLの場合
-	if(pEnemyBombBody == NULL)
+	if (pEnemyBombBody == NULL)
 	{
 		//爆弾敵の体のメモリ確保
 		pEnemyBombBody = new CEnemyBombBody;
-	}
-	//もし爆弾敵の体のポインタがNULLじゃない場合
-	if (pEnemyBombBody != NULL)
-	{
-		//位置を設定す
-		pEnemyBombBody->SetPosition(Position);
-		//爆弾敵の頭のポインタ
-		pEnemyBombBody->m_pBombHead = pHead;
-		//初期化処理関数呼び出し
-		pEnemyBombBody->Init();
+		//もし爆弾敵の体のポインタがNULLじゃない場合
+		if (pEnemyBombBody != NULL)
+		{
+			//位置を設定す
+			pEnemyBombBody->SetPosition(Position);
+			//爆弾敵の頭のポインタ
+			pEnemyBombBody->m_pBombHead = pHead;
+			//初期化処理関数呼び出し
+			pEnemyBombBody->Init();
+		}
 	}
 	//爆弾敵の体のポインタを返す
 	return pEnemyBombBody;
@@ -220,7 +220,7 @@ void CEnemyBombBody::Death(void)
 		if (pPlayer != NULL)
 		{
 			//爆発エフェクトの生成
-			CExplosionDeath::Create(GetPosition());
+			CExplosionDeath::Create(GetPosition(), EXPLOSION_SIZE);
 			//もしサウンドがNULLじゃない場合
 			if (pSound != NULL)
 			{

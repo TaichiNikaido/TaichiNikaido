@@ -45,6 +45,7 @@ private:
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャへのポインタ
 	int m_nCounterAnime;					//アニメカウンタ
 	int m_nPatternAnime;					//アニメパターン
+	bool m_bCollision;						//衝突判定が行われたか
 };
 #endif
 

@@ -23,6 +23,7 @@ class CLight;
 class CCamera;
 class CPlayer;
 class CDragon;
+class CStage;
 
 //*****************************************************************************
 // クラス定義
@@ -37,14 +38,17 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	static CCamera * GetCamera(void) { return m_pCamera; }
 	static CPlayer * GetPlayer(void) { return m_pPlayer; }
 	static CDragon * GetDragon(void) { return m_pDragon; }
+	static CStage * GetStage(void) { return m_pStage; }
 private:
 	void InitCreateAll(void);
 	void UpdateCreateAll(void);
+	static CCamera * m_pCamera;	//カメラのポインタ
 	static CPlayer * m_pPlayer;	//プレイヤーのポインタ
 	static CDragon * m_pDragon;	//ドラゴンのポインタ
-	CLight * m_pLight;		//ライトのポインタ
-	CCamera * m_pCamera;	//カメラのポインタ
+	static CStage * m_pStage;	//ステージのポインタ
+	CLight * m_pLight;			//ライトのポインタ
 };
 #endif

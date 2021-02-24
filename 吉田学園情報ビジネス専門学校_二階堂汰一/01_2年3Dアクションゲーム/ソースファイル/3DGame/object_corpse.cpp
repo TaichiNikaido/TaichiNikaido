@@ -23,8 +23,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MODEL_PASS ("Data/Model/Weapon/Shield.x")				//モデルスクリプトのパス
-#define SCRIPT_PASS ("Data/Script/Object/House/Data.txt")		//家のスクリプトのパス
+#define MODEL_PASS ("Data/Model/CorpseSW.x")					//モデルスクリプトのパス
+#define SCRIPT_PASS ("Data/Script/Corpse/Data.txt")				//家のスクリプトのパス
 #define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//位置の初期値
 #define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//サイズの初期値
 #define INITIAL_COLLISION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//衝突判定用サイズの初期値
@@ -134,7 +134,7 @@ void CCorpse::ModelUnload(void)
 //=============================================================================
 // 生成処理関数
 //=============================================================================
-CCorpse * CCorpse::Create()
+CCorpse * CCorpse::Create(D3DXVECTOR3 Position,D3DXVECTOR3 Rotation)
 {
 	//屍のポインタ
 	CCorpse * pCorpse = NULL;
@@ -147,6 +147,10 @@ CCorpse * CCorpse::Create()
 	//屍のポインタがNULLではない場合
 	if (pCorpse != NULL)
 	{
+		//屍の位置を設定する
+		pCorpse->SetPosition(Position);
+		//屍の回転を設定する
+		pCorpse->SetRotation(Rotation);
 		//屍の初期化処理関数呼び出し
 		pCorpse->Init();
 	}
@@ -200,10 +204,8 @@ void CCorpse::Draw(void)
 //=============================================================================
 void CCorpse::DataLoad(void)
 {
-	D3DXVECTOR3 Position = INITIAL_POSITION;				//位置
 	D3DXVECTOR3 Size = INITIAL_SIZE;						//サイズ
 	D3DXVECTOR3 CollisionSize = INITIAL_COLLISION_SIZE;		//衝突判定用サイズ
-	D3DXVECTOR3 Rotation = INITIAL_ROTATION;				//回転
 	int nLife = INITIAL_LIFE;								//体力
 	char aReadText[MAX_TEXT];								//読み込んだテキスト
 	char aCurrentText[MAX_TEXT];							//現在のテキスト
@@ -250,14 +252,6 @@ void CCorpse::DataLoad(void)
 						fgets(aReadText, sizeof(aReadText), pFile);
 						//読み込んだテキストを現在のテキストに格納
 						sscanf(aReadText, "%s", &aCurrentText);
-						//現在のテキストがPOSだったら
-						if (strcmp(aCurrentText, "POS") == 0)
-						{
-							//位置情報の読み込み
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Position.x, &Position.y, &Position.z);
-							//位置を設定する
-							SetPosition(Position);
-						}
 						//現在のテキストがSIZEだったら
 						if (strcmp(aCurrentText, "SIZE") == 0)
 						{
@@ -273,24 +267,6 @@ void CCorpse::DataLoad(void)
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &CollisionSize.x, &CollisionSize.y, &CollisionSize.z);
 							//衝突判定用サイズの設定
 							SetCollisionSize(CollisionSize);
-						}
-						//現在のテキストがROTだったら
-						if (strcmp(aCurrentText, "ROT") == 0)
-						{
-							//回転情報の読み込み
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Rotation.x, &Rotation.y, &Rotation.z);
-							//回転の設定
-							SetRotation(D3DXVECTOR3(D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.z)));
-						}
-						//現在のテキストがLIFEだったら
-						if (strcmp(aCurrentText, "LIFE") == 0)
-						{
-							//体力情報の読み込み
-							sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &nLife);
-							//体力の設定
-							SetLife(nLife);
-							//全体の体力の加算
-							AddAllLife(nLife);
 						}
 					}
 				}

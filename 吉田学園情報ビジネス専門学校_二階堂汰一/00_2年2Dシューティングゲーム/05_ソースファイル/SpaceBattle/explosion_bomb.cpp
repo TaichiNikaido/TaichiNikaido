@@ -95,14 +95,14 @@ CExplosionBomb * CExplosionBomb::Create(D3DXVECTOR3 Position)
 	{
 		//爆弾の爆発のメモリ確保
 		pExplosionBomb = new CExplosionBomb;
-	}
-	//もし爆弾の爆発のポインタがNULLじゃない場合
-	if (pExplosionBomb != NULL)
-	{
-		//初期化処理関数呼び出し
-		pExplosionBomb->Init();
-		//位置を設定する
-		pExplosionBomb->SetPosition(Position);
+		//もし爆弾の爆発のポインタがNULLじゃない場合
+		if (pExplosionBomb != NULL)
+		{
+			//初期化処理関数呼び出し
+			pExplosionBomb->Init();
+			//位置を設定する
+			pExplosionBomb->SetPosition(Position);
+		}
 	}
 	//爆弾の爆破のポインタを返す
 	return pExplosionBomb;
@@ -211,42 +211,46 @@ void CExplosionBomb::Collision(void)
 			//もしシーンがNULLじゃない場合
 			if (pScene != NULL)
 			{
-				//敵のポインタ
-				CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
-				//もし敵のポインタがNULLじゃない場合
-				if (pEnemy != NULL)
+				//もしオブジェクトタイプが火球じゃないとき
+				if (pScene->GetObjType() != CScene::OBJTYPE_FIRE_BALL)
 				{
-					//敵の位置を取得する
-					D3DXVECTOR3 EnemyPosition = pEnemy->GetPosition();
-					//敵のサイズを取得する
-					D3DXVECTOR3 EnemySize = pEnemy->GetSize();
-					//敵との衝突判定
-					if (GetPosition().x + GetSize().x / 2 > EnemyPosition.x - (EnemySize.x / 2) &&
-						GetPosition().x - GetSize().x / 2 < EnemyPosition.x + (EnemySize.x / 2) &&
-						GetPosition().y + GetSize().y / 2 > EnemyPosition.y - (EnemySize.y / 2) &&
-						GetPosition().y - GetSize().y / 2 < EnemyPosition.y + (EnemySize.y / 2))
+					//敵のポインタ
+					CEnemy * pEnemy = dynamic_cast<CEnemy*> (pScene);
+					//もし敵のポインタがNULLじゃない場合
+					if (pEnemy != NULL)
 					{
-						//敵のヒット処理関数呼び出し
-						pEnemy->Hit();
+						//敵の位置を取得する
+						D3DXVECTOR3 EnemyPosition = pEnemy->GetPosition();
+						//敵のサイズを取得する
+						D3DXVECTOR3 EnemySize = pEnemy->GetSize();
+						//敵との衝突判定
+						if (GetPosition().x + GetSize().x / 2 > EnemyPosition.x - (EnemySize.x / 2) &&
+							GetPosition().x - GetSize().x / 2 < EnemyPosition.x + (EnemySize.x / 2) &&
+							GetPosition().y + GetSize().y / 2 > EnemyPosition.y - (EnemySize.y / 2) &&
+							GetPosition().y - GetSize().y / 2 < EnemyPosition.y + (EnemySize.y / 2))
+						{
+							//敵のヒット処理関数呼び出し
+							pEnemy->Hit();
+						}
 					}
-				}
-				//弾のポインタ
-				CBullet * pBullet = dynamic_cast<CBullet*> (pScene);
-				//もし弾のポインタがNULLじゃない場合
-				if (pBullet != NULL)
-				{
-					//弾の位置を取得する
-					D3DXVECTOR3 BulletPosition = pBullet->GetPosition();
-					//弾のサイズを取得する
-					D3DXVECTOR3 BulletSize = pBullet->GetSize();
-					//敵との衝突
-					if (GetPosition().x + GetSize().x / 2 > BulletPosition.x - (BulletSize.x / 2) &&
-						GetPosition().x - GetSize().x / 2 < BulletPosition.x + (BulletSize.x / 2) &&
-						GetPosition().y + GetSize().y / 2 > BulletPosition.y - (BulletSize.y / 2) &&
-						GetPosition().y - GetSize().y / 2 < BulletPosition.y + (BulletSize.y / 2))
+					//弾のポインタ
+					CBullet * pBullet = dynamic_cast<CBullet*> (pScene);
+					//もし弾のポインタがNULLじゃない場合
+					if (pBullet != NULL)
 					{
-						//弾の初期化処理関数呼び出し
-						pBullet->Uninit();
+						//弾の位置を取得する
+						D3DXVECTOR3 BulletPosition = pBullet->GetPosition();
+						//弾のサイズを取得する
+						D3DXVECTOR3 BulletSize = pBullet->GetSize();
+						//敵との衝突
+						if (GetPosition().x + GetSize().x / 2 > BulletPosition.x - (BulletSize.x / 2) &&
+							GetPosition().x - GetSize().x / 2 < BulletPosition.x + (BulletSize.x / 2) &&
+							GetPosition().y + GetSize().y / 2 > BulletPosition.y - (BulletSize.y / 2) &&
+							GetPosition().y - GetSize().y / 2 < BulletPosition.y + (BulletSize.y / 2))
+						{
+							//弾の初期化処理関数呼び出し
+							pBullet->Uninit();
+						}
 					}
 				}
 			}

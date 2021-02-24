@@ -83,14 +83,14 @@ CItemLevelUP * CItemLevelUP::Create(D3DXVECTOR3 Position)
 	{
 		//レベルアップアイテムのメモリ確保
 		pItemLevelUP = new CItemLevelUP;
-	}
-	//もしレベルアップアイテムがNULLじゃない場合
-	if (pItemLevelUP != NULL)
-	{
-		//位置を設定する
-		pItemLevelUP->SetPosition(Position);
-		//初期化処理関数呼び出し
-		pItemLevelUP->Init();
+		//もしレベルアップアイテムがNULLじゃない場合
+		if (pItemLevelUP != NULL)
+		{
+			//位置を設定する
+			pItemLevelUP->SetPosition(Position);
+			//初期化処理関数呼び出し
+			pItemLevelUP->Init();
+		}
 	}
 	//レベルアップアイテムのポインタを返す
 	return pItemLevelUP;

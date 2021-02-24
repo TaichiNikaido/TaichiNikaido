@@ -33,7 +33,6 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void AddAllLife(int nLife) { m_nAllLife += nLife; }
 	void SetPosition(D3DXVECTOR3 Position) { m_Position = Position; }
 	void SetSize(D3DXVECTOR3 Size) { m_Size = Size; }
 	void SetCollisionSize(D3DXVECTOR3 CollisionSize) { m_CollisionSize = CollisionSize; }
@@ -42,15 +41,14 @@ public:
 	void SetModelData(CModel::MODEL_DATA ModelData) { m_ModelData = ModelData; }
 	D3DXVECTOR3 GetPosition(void) { return m_Position; }
 	D3DXVECTOR3 GetCollisionSize(void) { return m_CollisionSize; }
-	int GetAllLife(void) { return m_nAllLife; }
 	int GetLife(void) { return m_nLife; }
 private:
 	void SubLife(void);
+	void Collision(void);
 	D3DXVECTOR3 m_Position;				//位置
 	D3DXVECTOR3 m_Size;					//サイズ
 	D3DXVECTOR3 m_CollisionSize;		//衝突判定用サイズ
 	D3DXVECTOR3 m_Rotation;				//回転
-	int m_nAllLife;						//全体の体力
 	int m_nLife;						//体力
 	CModel * m_pModel;					//モデルのポインタ
 	CModel::MODEL_DATA m_ModelData;		//モデルデータ

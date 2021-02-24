@@ -98,14 +98,14 @@ CButton * CButton::Create(D3DXVECTOR3 Positon, BUTTON Button)
 	{
 		//ボタンのメモリ確保
 		pButton = new CButton;
-	}
-	//ボタンのポインタがNULLじゃない場合
-	if (pButton != NULL)
-	{
-		//位置を設定する
-		pButton->SetPosition(Positon);
-		//初期化処理関数呼び出し
-		pButton->Init(Button);
+		//ボタンのポインタがNULLじゃない場合
+		if (pButton != NULL)
+		{
+			//位置を設定する
+			pButton->SetPosition(Positon);
+			//初期化処理関数呼び出し
+			pButton->Init(Button);
+		}
 	}
 	//ボタンのポインタを返す
 	return pButton;

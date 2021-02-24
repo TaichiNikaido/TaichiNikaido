@@ -97,14 +97,14 @@ CBulletFireball * CBulletFireball::Create(D3DXVECTOR3 Position)
 	{
 		//火球のメモリ確保
 		pFireBall = new CBulletFireball;
-	}
-	//もし火球のポインタがNULLじゃない場合
-	if (pFireBall != NULL)
-	{
-		//初期化処理関数呼び出し
-		pFireBall->Init();
-		//位置を設定する
-		pFireBall->SetPosition(Position);
+		//もし火球のポインタがNULLじゃない場合
+		if (pFireBall != NULL)
+		{
+			//初期化処理関数呼び出し
+			pFireBall->Init();
+			//位置を設定する
+			pFireBall->SetPosition(Position);
+		}
 	}
 	//火球のポインタを返す
 	return pFireBall;
@@ -133,6 +133,8 @@ HRESULT CBulletFireball::Init(void)
 	BindTexture(m_pTexture);
 	//危険地帯の生成
 	CGameMode::SetWarning(CWarning::Create());
+	//オブジェタイプを敵にする
+	SetObjType(CScene::OBJTYPE_FIRE_BALL);
 	return S_OK;
 }
 

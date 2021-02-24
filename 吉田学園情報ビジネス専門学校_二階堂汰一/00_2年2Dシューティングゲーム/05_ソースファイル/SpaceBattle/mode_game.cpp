@@ -35,12 +35,13 @@
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-CScoreUI * CGameMode::m_pScoreUI = NULL;	//スコアのUIへのポインタ
-CBombUI * CGameMode::m_pBombUI = NULL;		//爆弾のUIへのポインタ
-CLifeUI * CGameMode::m_pLifeUI = NULL;		//体力のUIへのポインタ
-CPlayer * CGameMode::m_pPlayer = NULL;		//プレイヤーへのポインタ
-CEnemyDragon * CGameMode::m_pDragon = NULL;	//ドラゴンへのポインタ
-CWarning * CGameMode::m_pWarning = NULL;	//危険地帯へのポインタ
+CScoreUI * CGameMode::m_pScoreUI = NULL;				//スコアのUIへのポインタ
+CBombUI * CGameMode::m_pBombUI = NULL;					//爆弾のUIへのポインタ
+CLifeUI * CGameMode::m_pLifeUI = NULL;					//体力のUIへのポインタ
+CPlayer * CGameMode::m_pPlayer = NULL;					//プレイヤーへのポインタ
+CEnemyDragon * CGameMode::m_pDragon = NULL;				//ドラゴンへのポインタ
+CWarning * CGameMode::m_pWarning = NULL;				//危険地帯へのポインタ
+CBulletFireball * CGameMode::m_pBulletFireBall = NULL;	//火球のポインタ
 
 //=============================================================================
 // コンストラクタ
@@ -69,12 +70,12 @@ CGameMode * CGameMode::Create()
 	{
 		//ゲームモードのメモリ確保
 		pGameMode = new CGameMode;
-	}
-	//ゲームモードのポインタをNULLじゃない場合
-	if (pGameMode != NULL)
-	{
-		//ゲームモードの初期化関数呼び出し
-		pGameMode->Init();
+		//ゲームモードのポインタをNULLじゃない場合
+		if (pGameMode != NULL)
+		{
+			//ゲームモードの初期化関数呼び出し
+			pGameMode->Init();
+		}
 	}
 	//ゲームモードのポインタを返す
 	return pGameMode;
@@ -142,19 +143,24 @@ void CGameMode::InitCreateAll(void)
 //=============================================================================
 void CGameMode::UpdateCreateAll(void)
 {
+	//フレームカウントを進める
+	m_nFlameCount++;
+
 	if (m_nFlameCount == 50)
 	{
-		for (int nCount = 0; nCount < 4; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN * 1.5f + 200.0f * nCount, 0.0f, 0.0f));
-		}
+		CEnemyEyeNormal::Create(D3DXVECTOR3(500.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(730.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(960.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1190.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1420.0f, 0.0f, 0.0f));
 	}
 	if (m_nFlameCount == 350)
 	{
-		for (int nCount = 0; nCount < 5; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN * 1.5f + 150.0f * nCount, 0.0f, 0.0f));
-		}
+		CEnemyEyeHard::Create(D3DXVECTOR3(500.0f, 0.0f, 0.0f));
+		CEnemyEyeHard::Create(D3DXVECTOR3(1420.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(600.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(900.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1200.0f, 0.0f, 0.0f));
 	}
 	if (m_nFlameCount == 750)
 	{
@@ -162,132 +168,67 @@ void CGameMode::UpdateCreateAll(void)
 	}
 	if (m_nFlameCount == 950)
 	{
-		CEnemyBombHead::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+		CEnemyBombHead::Create(D3DXVECTOR3(600.0f, 200.0f, 0.0f));
 	}
 	if (m_nFlameCount == 1050)
 	{
-		for (int nCount = 0; nCount < 2; nCount++)
-		{
-			CEnemyEyeHard::Create(D3DXVECTOR3(FIELD_WIDTH_MIN * 1.5f + 100.0f + 400.0f * nCount, 0.0f, 0.0f));
-		}
+		CEnemyEyeNormal::Create(D3DXVECTOR3(730.0f, 0.0f, 0.0f));
+		CEnemyFlower::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1190.0f, 0.0f, 0.0f));
 	}
 	if (m_nFlameCount == 1350)
 	{
-		for (int nCount = 0; nCount < 4; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
+		CEnemyFlower::Create(D3DXVECTOR3(600.0f, 0.0f, 0.0f));
+		CEnemyFlower::Create(D3DXVECTOR3(1320.0f, 0.0f, 0.0f));
 	}
-	if (m_nFlameCount == 1550)
-	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-	}
-	if (m_nFlameCount == 1900)
-	{
-		for (int nCount = 0; nCount < 3; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 700.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-		CEnemyFlower::Create(D3DXVECTOR3(FIELD_WIDTH_MIN * 2.0f + FIELD_WIDTH / 2, 0.0f, 0.0f));
-	}
-	if (m_nFlameCount == 2200)
-	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-		CEnemyFlower::Create(D3DXVECTOR3(FIELD_WIDTH_MIN* 2.0f + 700, 0.0f, 0.0f));
-	}
-	if (m_nFlameCount == 2500)
+	if (m_nFlameCount == 1850)
 	{
 		CEnemySpider::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 0.0f, 0.0f));
 	}
-	if (m_nFlameCount == 2700)
+	if (m_nFlameCount == 2000)
 	{
-		CEnemyBombHead::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+		CEnemyBombHead::Create(D3DXVECTOR3(600.0f, 200.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(730.0f, 0.0f, 0.0f));
+		CEnemyFlower::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1190.0f, 0.0f, 0.0f));
 	}
-	if (m_nFlameCount == 2900)
+	if (m_nFlameCount == 2300)
 	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
+		CEnemyEyeNormal::Create(D3DXVECTOR3(500.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(730.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(960.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1190.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1420.0f, 0.0f, 0.0f));
+		CEnemyFlower::Create(D3DXVECTOR3(600.0f, 0.0f, 0.0f));
+		CEnemyFlower::Create(D3DXVECTOR3(1320.0f, 0.0f, 0.0f));
 	}
-	if (m_nFlameCount == 3200)
+	if (m_nFlameCount == 2800)
 	{
-		for (int nCount = 0; nCount < 3; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN* 2.0f + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-		CEnemyFlower::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 2.0f + FIELD_WIDTH / 4, 0.0f, 0.0f));
+		CWormhole::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4,0.0f));
 	}
-	if (m_nFlameCount == 3450)
+	if (m_nFlameCount == 3400)
 	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
+		CEnemyBombHead::Create(D3DXVECTOR3(600.0f, 200.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(500.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(730.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(960.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1190.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1420.0f, 0.0f, 0.0f));
 	}
-	if (m_nFlameCount == 3700)
+	if (m_nFlameCount == 3900)
 	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-		for (int nCount = 0; nCount < 2; nCount++)
-		{
-			CEnemyEyeHard::Create(D3DXVECTOR3(FIELD_WIDTH_MIN * 1.5f + 100.0f + 400.0f * nCount, 0.0f, 0.0f));
-		}
+		CEnemyEyeHard::Create(D3DXVECTOR3(500.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(730.0f, 0.0f, 0.0f));
+		CEnemyFlower::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1190.0f, 0.0f, 0.0f));
+		CEnemyEyeHard::Create(D3DXVECTOR3(1420.0f, 0.0f, 0.0f));
 	}
-	if (m_nFlameCount == 4200)
+	if (m_nFlameCount == 4300)
 	{
-		CWormhole::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, FIELD_HEIGHT / 4, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(500.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(730.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(960.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1190.0f, 0.0f, 0.0f));
+		CEnemyEyeNormal::Create(D3DXVECTOR3(1420.0f, 0.0f, 0.0f));
 	}
-	if (m_nFlameCount == 4600)
-	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-	}
-	if (m_nFlameCount == 4800)
-	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-	}
-	if (m_nFlameCount == 5000)
-	{
-		CEnemyBombHead::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	}
-	if (m_nFlameCount % 10 == 0 && m_nFlameCount > 5008 && m_nFlameCount < 5100)
-	{
-	}
-	if (m_nFlameCount == 5200)
-	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-	}
-	if (m_nFlameCount == 5500)
-	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-	}
-	if (m_nFlameCount == 6000)
-	{
-		for (int nCount = 0; nCount < 6; nCount++)
-		{
-			CEnemyEyeNormal::Create(D3DXVECTOR3(FIELD_WIDTH_MIN + 100.0f + 200.0f * nCount, 0.0f, 0.0f));
-		}
-	}
-	//フレームカウントを進める
-	m_nFlameCount++;
 }

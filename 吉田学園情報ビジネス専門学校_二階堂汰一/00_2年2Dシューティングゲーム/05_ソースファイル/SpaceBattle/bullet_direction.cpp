@@ -90,16 +90,16 @@ CBulletDirection * CBulletDirection::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Sp
 	{
 		//方向弾のメモリ確保
 		pBulletDirection = new CBulletDirection;
-	}
-	//もし方向弾のポインタがNULLじゃない場合
-	if (pBulletDirection != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBulletDirection->Init();
-		//位置を設定する
-		pBulletDirection->SetPosition(Position);
-		//移動量を設定する
-		pBulletDirection->SetMove(Speed);
+		//もし方向弾のポインタがNULLじゃない場合
+		if (pBulletDirection != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBulletDirection->Init();
+			//位置を設定する
+			pBulletDirection->SetPosition(Position);
+			//移動量を設定する
+			pBulletDirection->SetMove(Speed);
+		}
 	}
 	//方向弾のポインタを返す
 	return pBulletDirection;

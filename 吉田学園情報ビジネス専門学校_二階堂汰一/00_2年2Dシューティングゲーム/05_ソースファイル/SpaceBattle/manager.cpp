@@ -64,6 +64,8 @@
 #include "warning.h"
 #include "text.h"
 #include "flame.h"
+#include "gameclear_logo.h"
+#include "continue_logo.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -332,6 +334,10 @@ void CManager::LoadAll(void)
 	CWarning::TextureLoad();
 	//フレームテクスチャ読み込み
 	CFlame::TextureLoad();
+	//ゲームクリアロゴのテクスチャ読み込み
+	CGameClearLogo::TextureLoad();
+	//コンティニューロゴのテクスチャ読み込み
+	CContinueLogo::TextureLoad();
 }
 
 //=============================================================================
@@ -415,6 +421,10 @@ void CManager::UnloadAll(void)
 	CWarning::TextureUnload();
 	//フレームテクスチャ破棄
 	CFlame::TextureUnload();
+	//ゲームクリアロゴのテクスチャ破棄
+	CGameClearLogo::TextureUnload();
+	//コンティニューロゴのテクスチャ破棄
+	CContinueLogo::TextureUnload();
 }
 
 //=============================================================================

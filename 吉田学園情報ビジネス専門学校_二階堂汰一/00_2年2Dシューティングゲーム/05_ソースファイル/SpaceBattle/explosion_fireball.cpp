@@ -45,6 +45,7 @@ CExplosionFireball::CExplosionFireball()
 {
 	m_nCounterAnime = MINIMUM_COUNTER_ANIME;	//アニメカウンタ
 	m_nPatternAnime = MINIMUM_PATTERN_ANIME;	//アニメパターン
+	m_bCollision = false;						//衝突判定が行われたか
 }
 
 //=============================================================================
@@ -97,14 +98,14 @@ CExplosionFireball * CExplosionFireball::Create(D3DXVECTOR3 Position)
 	{
 		//火球の爆発のメモリ確保
 		pExolosionFireball = new CExplosionFireball;
-	}
-	//火球の爆発のポインタがNULLじゃない場合
-	if (pExolosionFireball != NULL)
-	{
-		//初期化処理関数呼び出し
-		pExolosionFireball->Init();
-		//位置を設定する
-		pExolosionFireball->SetPosition(Position);
+		//火球の爆発のポインタがNULLじゃない場合
+		if (pExolosionFireball != NULL)
+		{
+			//初期化処理関数呼び出し
+			pExolosionFireball->Init();
+			//位置を設定する
+			pExolosionFireball->SetPosition(Position);
+		}
 	}
 	//火球の爆発のポインタを返す
 	return pExolosionFireball;
@@ -160,8 +161,14 @@ void CExplosionFireball::Update(void)
 	CExplosion::Update();
 	//アニメーション処理関数呼び出し
 	Animation();
-	//衝突判定処理関数呼び出し
-	Collision();
+	//もし衝突判定が行われていなかったら
+	if (m_bCollision == false)
+	{
+		//衝突判定処理関数呼び出し
+		Collision();
+		//衝突判定を行う
+		m_bCollision = true;
+	}
 }
 
 //=============================================================================

@@ -31,6 +31,7 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void SetCamera(void);
+	D3DXVECTOR3 GetRotation(void) { return m_Rotation; }
 private:
 	void Input(void);
 	void DataLoad();

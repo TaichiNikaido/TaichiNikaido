@@ -19,6 +19,8 @@
 #include "enemy_dragon.h"
 #include "bullet_fireball.h"
 #include "player.h"
+#include "explosion_dragon.h"
+#include "gameclear_logo.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -27,7 +29,7 @@
 #define SIZE (D3DXVECTOR3(600.0f,600.0f,0.0f))					//サイズ
 #define INITIAL_TARGET_DISTANCE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//目標までの距離
 #define MINIMUM_LIFE (0)										//体力の最少値
-#define LIFE (300)												//体力
+#define LIFE (450)												//体力
 #define MINIMUM_SCALE (0.1f)									//最小の拡大値
 #define MAX_SCALE (1.0f)										//最大の拡大値
 #define ADD_SCALE (0.01f)										//加算する拡大量
@@ -55,9 +57,8 @@ CEnemyDragon::CEnemyDragon()
 	m_nCounterAnime = INITIAL_COUNTER_ANIME;		//カウンターアニメ
 	m_nBulletTime = MINIMUM_BULLET_TIME;			//弾の発射までの時間
 	m_TargetDistance = INITIAL_TARGET_DISTANCE;		//目標までの距離
-	m_TargetPPos = INITIAL_TARGET_DISTANCE;		//目標までの距離
+	m_TargetPPos = INITIAL_TARGET_DISTANCE;			//目標までの距離
 	m_bCharge = false;								//チャージしてるか
-	m_pBulletFireBall = NULL;						//火球
 }
 
 //=============================================================================
@@ -110,14 +111,14 @@ CEnemyDragon * CEnemyDragon::Create(D3DXVECTOR3 Position)
 	{
 		//ドラゴンのメモリ確保
 		pEnemyDragon = new CEnemyDragon;
-	}
-	//もしドラゴンのポインタがNULLじゃない場合
-	if (pEnemyDragon != NULL)
-	{
-		//初期化処理関数呼び出し
-		pEnemyDragon->Init();
-		//位置設定関数呼び出し
-		pEnemyDragon->SetPosition(Position);
+		//もしドラゴンのポインタがNULLじゃない場合
+		if (pEnemyDragon != NULL)
+		{
+			//初期化処理関数呼び出し
+			pEnemyDragon->Init();
+			//位置設定関数呼び出し
+			pEnemyDragon->SetPosition(Position);
+		}
 	}
 	//ドラゴンのポインタを返す
 	return pEnemyDragon;
@@ -304,7 +305,7 @@ void CEnemyDragon::Attack(void)
 			if (m_nBulletTime % SHOT_TIME == REMAINDER)
 			{
 				//火球の発射
-				m_pBulletFireBall = CBulletFireball::Create(D3DXVECTOR3(Position.x, Position.y + Size.y / 2, 0.0f));
+				CGameMode::SetFireBall(CBulletFireball::Create(D3DXVECTOR3(Position.x, Position.y + Size.y / 2, 0.0f)));
 			}
 		}
 	}
@@ -319,20 +320,22 @@ void CEnemyDragon::Death(void)
 {
 	//プレイヤーを取得する
 	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//火球を取得する
+	CBulletFireball * pBulletFireBall = CGameMode::GetBulletFireBall();
 	//もし火球のポインタがNULLじゃない場合
-	if (m_pBulletFireBall != NULL)
+	if (pBulletFireBall != NULL)
 	{
 		//火球を殺す
-		m_pBulletFireBall->Death();
+		pBulletFireBall->Death();
 	}
 	//もしプレイヤーのポインタがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
 		//プレイヤーのスコアを加算する
  		pPlayer->AddScore(SCORE);
-		//プレイヤーの勝利処理関数呼び出し
-		pPlayer->Clear();
 	}
+	CGameClearLogo::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	CExplosionDragon::Create();
 	//終了処理関数呼び出し
 	Uninit();
 	return;
@@ -369,11 +372,4 @@ void CEnemyDragon::Animation(void)
 	aTexture[3] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 1.0f);
 	//テクスチャの設定
 	SetTexture(aTexture);
-}
-//=============================================================================
-// 火球を取得
-//=============================================================================
-CBulletFireball * CEnemyDragon::GetBulletFireBall(void)
-{
-	return m_pBulletFireBall;
 }

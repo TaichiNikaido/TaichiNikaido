@@ -96,18 +96,18 @@ CBulletFlower * CBulletFlower::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Speed, C
 	{
 		//花弾のメモリ確保
 		pBulletFlower = new CBulletFlower;
-	}
-	//もし花弾のポインタがNULLじゃない場合
-	if (pBulletFlower != NULL)
-	{
-		//位置を設定する
-		pBulletFlower->SetPosition(Position);
-		//移動量を設定する
-		pBulletFlower->SetMove(Speed);
-		//色の番号を設定する
-		pBulletFlower->m_ColorNumber = nColor;
-		//初期化処理関数呼び出し
-		pBulletFlower->Init();
+		//もし花弾のポインタがNULLじゃない場合
+		if (pBulletFlower != NULL)
+		{
+			//位置を設定する
+			pBulletFlower->SetPosition(Position);
+			//移動量を設定する
+			pBulletFlower->SetMove(Speed);
+			//色の番号を設定する
+			pBulletFlower->m_ColorNumber = nColor;
+			//初期化処理関数呼び出し
+			pBulletFlower->Init();
+		}
 	}
 	//もし花弾のポインタを返す
 	return pBulletFlower;

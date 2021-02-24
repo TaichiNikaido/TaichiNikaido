@@ -22,7 +22,6 @@
 // マクロ定義
 //*****************************************************************************
 #define TEXTURE ("Data/Texture/explosion.png")	  //テクスチャ
-#define SIZE (D3DXVECTOR3(50.0f,50.0f,0.0f))	  //サイズ
 #define MINIMUM_COUNTER__ANIME (0)				  //アニメーション最小カウンタ
 #define MINIMUM_PATTERN_ANIME (0)				  //アニメーション最小パターン
 #define ANIMATION_VALUE (0.125f)				  //アニメーションの値
@@ -84,7 +83,7 @@ void CExplosionDeath::TextureUnload(void)
 //=============================================================================
 // 生成処理関数
 //=============================================================================
-CExplosionDeath * CExplosionDeath::Create(D3DXVECTOR3 Position)
+CExplosionDeath * CExplosionDeath::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Size)
 {
 	//死亡時の爆発のポインタ
 	CExplosionDeath * pExplosionDeath = NULL;
@@ -93,14 +92,16 @@ CExplosionDeath * CExplosionDeath::Create(D3DXVECTOR3 Position)
 	{
 		//死亡時の爆発のメモリ確保
 		pExplosionDeath = new CExplosionDeath;
-	}
-	//もし死亡時の爆発のポインタがNULLじゃない場合
-	if (pExplosionDeath != NULL)
-	{
-		//初期化処理関数呼び出し
-		pExplosionDeath->Init();
-		//位置を設定する
-		pExplosionDeath->SetPosition(Position);
+		//もし死亡時の爆発のポインタがNULLじゃない場合
+		if (pExplosionDeath != NULL)
+		{
+			//位置を設定する
+			pExplosionDeath->SetPosition(Position);
+			//サイズを設定する
+			pExplosionDeath->SetSize(Size);
+			//初期化処理関数呼び出し
+			pExplosionDeath->Init();
+		}
 	}
 	//死亡時の爆発のポインタを返す
 	return pExplosionDeath;
@@ -119,8 +120,6 @@ HRESULT CExplosionDeath::Init(void)
 	aTexture[3] = D3DXVECTOR2(ANIMATION_VALUE * m_nPatternAnime + ANIMATION_VALUE, 1.0f);
 	//爆発の初期化処理関数呼び出し
 	CExplosion::Init();
-	//サイズの初期設定
-	SetSize(SIZE);
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て

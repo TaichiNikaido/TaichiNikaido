@@ -116,14 +116,14 @@ CEnemySpider * CEnemySpider::Create(D3DXVECTOR3 Position)
 	{
 		//蜘蛛の敵のメモリ確保
 		pEnemySpider = new CEnemySpider;
-	}
-	//蜘蛛の敵のポインタがNULLじゃない場合
-	if (pEnemySpider != NULL)
-	{
-		//位置を設定する
-		pEnemySpider->SetPosition(Position);
-		//初期化処理関数呼び出し
-		pEnemySpider->Init();
+		//蜘蛛の敵のポインタがNULLじゃない場合
+		if (pEnemySpider != NULL)
+		{
+			//位置を設定する
+			pEnemySpider->SetPosition(Position);
+			//初期化処理関数呼び出し
+			pEnemySpider->Init();
+		}
 	}
 	//蜘蛛の敵のポインタを返す
 	return pEnemySpider;
@@ -287,7 +287,7 @@ void CEnemySpider::Death(void)
 	if (pPlayer != NULL)
 	{
 		//爆発エフェクトの生成
-		CExplosionDeath::Create(GetPosition());
+		CExplosionDeath::Create(GetPosition(), EXPLOSION_SIZE);
 		//もしサウンドがNULLじゃない場合
 		if (pSound != NULL)
 		{

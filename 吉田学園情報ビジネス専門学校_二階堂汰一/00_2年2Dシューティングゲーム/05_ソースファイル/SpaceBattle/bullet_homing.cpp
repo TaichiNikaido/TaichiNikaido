@@ -94,14 +94,14 @@ CBulletHoming * CBulletHoming::Create(D3DXVECTOR3 Position)
 	{
 		//ホーミング弾のメモリ確保
 		pBulletHoming = new CBulletHoming;
-	}
-	//もしホーミング弾がNULLじゃない場合
-	if (pBulletHoming != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBulletHoming->Init();
-		//位置を設定する
-		pBulletHoming->SetPosition(Position);
+		//もしホーミング弾がNULLじゃない場合
+		if (pBulletHoming != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBulletHoming->Init();
+			//位置を設定する
+			pBulletHoming->SetPosition(Position);
+		}
 	}
 	//ホーミング弾のポインタを返す
 	return pBulletHoming;

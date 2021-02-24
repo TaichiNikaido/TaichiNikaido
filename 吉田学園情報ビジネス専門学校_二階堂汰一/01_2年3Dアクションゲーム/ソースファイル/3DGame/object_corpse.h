@@ -31,7 +31,7 @@ public:
 	~CCorpse();
 	static HRESULT ModelLoad(void);
 	static void ModelUnload(void);
-	static CCorpse * Create();
+	static CCorpse * Create(D3DXVECTOR3 Position,D3DXVECTOR3 Rotation);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);

@@ -56,9 +56,13 @@ CText * CText::Create(void)
 	{
 		//テキストのメモリ確保
 		pText = new CText;
+		//もしテキストのポインタがNULLじゃない場合
+		if (pText != NULL)
+		{
+			//テキストの初期化処理関数呼び出し
+			pText->Init();
+		}
 	}
-	//テキストの初期化処理関数呼び出し
-	pText->Init();
 	return pText;
 }
 

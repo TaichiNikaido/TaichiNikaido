@@ -1,10 +1,3 @@
-﻿  enemy.cpp
-  コードを生成中...
-  スキップ中... (関連する変更は検出されませんでした)
-  player.cpp
-  mode_game.cpp
-  manager.cpp
-  enemy_skeleton.cpp
-  enemy_dragon.cpp
+﻿  player.cpp
   3DGame.vcxproj -> C:\Users\gsp025\Documents\Visual Studio 2015\Projects\3DGame\Debug\3DGame.exe
   3DGame.vcxproj -> C:\Users\gsp025\Documents\Visual Studio 2015\Projects\3DGame\Debug\3DGame.pdb (Full PDB)

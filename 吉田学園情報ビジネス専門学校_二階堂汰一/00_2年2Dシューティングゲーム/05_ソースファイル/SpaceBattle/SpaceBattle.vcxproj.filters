@@ -291,6 +291,15 @@
     <ClCompile Include="text.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
+    <ClCompile Include="explosion_dragon.cpp">
+      <Filter>ソース ファイル\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="gameclear_logo.cpp">
+      <Filter>ソース ファイル\Scene2d</Filter>
+    </ClCompile>
+    <ClCompile Include="continue_logo.cpp">
+      <Filter>ソース ファイル\Scene2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="background.h">
@@ -496,6 +505,15 @@
     </ClInclude>
     <ClInclude Include="text.h">
       <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="explosion_dragon.h">
+      <Filter>ヘッダー ファイル\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="gameclear_logo.h">
+      <Filter>ヘッダー ファイル\Scene2d</Filter>
+    </ClInclude>
+    <ClInclude Include="continue_logo.h">
+      <Filter>ヘッダー ファイル\Scene2d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

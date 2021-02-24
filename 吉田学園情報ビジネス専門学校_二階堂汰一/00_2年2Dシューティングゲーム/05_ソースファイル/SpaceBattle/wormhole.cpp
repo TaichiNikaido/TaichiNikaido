@@ -29,7 +29,7 @@
 #define WORMHOLE_EFFECT_COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,1.0f))
 #define WORMHOLE_COLOR (D3DXCOLOR(1.0f,0.0f,0.0f,1.0f))
 #define MAX_SCALE (2.0f)
-#define MINIMUM_SCALE (0.0f)
+#define MINIMUM_SCALE (0.1f)
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -103,17 +103,17 @@ CWormhole * CWormhole::Create(D3DXVECTOR3 Position)
 	{
 		//ワームホールのメモリ確保
 		pWormhole = new CWormhole;
-	}
-	//もしワームホールがNULLじゃない場合
-	if (pWormhole != NULL)
-	{
-		//初期化処理関数呼び出し
-		pWormhole->Init();
-		//テクスチャの最大数分回す
-		for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
+		//もしワームホールがNULLじゃない場合
+		if (pWormhole != NULL)
 		{
-			//位置を設定する
-			pWormhole->m_apScene2d[nCount]->SetPosition(Position);
+			//初期化処理関数呼び出し
+			pWormhole->Init();
+			//テクスチャの最大数分回す
+			for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
+			{
+				//位置を設定する
+				pWormhole->m_apScene2d[nCount]->SetPosition(Position);
+			}
 		}
 	}
 	//ワームホールのポインタを返す
@@ -156,6 +156,8 @@ HRESULT CWormhole::Init(void)
 	//テクスチャの最大数分回す
 	for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
 	{
+		//拡縮の設定
+		m_apScene2d[nCount]->SetScale(MINIMUM_SCALE);
 		//テクスチャの設定
 		m_apScene2d[nCount]->SetTexture(aTexture);
 		//テクスチャの割り当て
@@ -175,6 +177,8 @@ HRESULT CWormhole::Init(void)
 //=============================================================================
 void CWormhole::Uninit(void)
 {
+	//破棄処理関数呼び出し
+	Release();
 }
 
 //=============================================================================
@@ -239,6 +243,12 @@ void CWormhole::Scale(void)
 		//拡大率が0以下になったら
 		if (fScale <= MINIMUM_SCALE)
 		{
+			//テクスチャの最大数分回す
+			for (int nCount = 0; nCount < TEXTURE_MAX; nCount++)
+			{
+				//2Dシーン管理処理の初期化処理関数呼び出し
+				m_apScene2d[nCount]->Uninit();
+			}
 			//終了処理関数呼び出し
 			Uninit();
 			return;

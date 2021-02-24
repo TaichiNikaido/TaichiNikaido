@@ -111,16 +111,16 @@ CEnemyBombHead * CEnemyBombHead::Create(D3DXVECTOR3 Position)
 	{
 		//爆弾敵の頭のメモリ確保
 		pEnemyBombHead = new CEnemyBombHead;
-	}
-	//爆弾敵の頭のポインタがNULLじゃない場合
-	if (pEnemyBombHead != NULL)
-	{
-		//位置を設定する
-		pEnemyBombHead->SetPosition(Position);
-		//初期位置を設定する
-		pEnemyBombHead->m_InitialPosition = Position;
-		//初期化処理関数呼び出し
-		pEnemyBombHead->Init();
+		//爆弾敵の頭のポインタがNULLじゃない場合
+		if (pEnemyBombHead != NULL)
+		{
+			//位置を設定する
+			pEnemyBombHead->SetPosition(Position);
+			//初期位置を設定する
+			pEnemyBombHead->m_InitialPosition = Position;
+			//初期化処理関数呼び出し
+			pEnemyBombHead->Init();
+		}
 	}
 	//爆弾敵の頭のポインタを返す
 	return pEnemyBombHead;
@@ -256,7 +256,7 @@ void CEnemyBombHead::DeathAll(void)
 			if (m_pBombBody[nCount] != NULL)
 			{
 				//爆発エフェクトの生成
-				CExplosionDeath::Create(m_pBombBody[nCount]->GetPosition());
+				CExplosionDeath::Create(m_pBombBody[nCount]->GetPosition(), EXPLOSION_SIZE);
 				//爆弾敵の体の終了処理関数呼び出し
 				m_pBombBody[nCount]->Uninit();
 			}
@@ -278,7 +278,7 @@ void CEnemyBombHead::Death(void)
 		if (pPlayer != NULL)
 		{
 			//爆発エフェクトの生成
-			CExplosionDeath::Create(GetPosition());
+			CExplosionDeath::Create(GetPosition(), EXPLOSION_SIZE);
 			//もしサウンドがNULLじゃない場合
 			if (pSound != NULL)
 			{

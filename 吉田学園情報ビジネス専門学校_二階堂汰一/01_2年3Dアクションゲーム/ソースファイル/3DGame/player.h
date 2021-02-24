@@ -64,7 +64,12 @@ public:
 	void Draw(void);
 	void Hit(void);
 	void SubLife(void);
+	void SetPosition(D3DXVECTOR3 Position) {m_Position = Position;}
+	void SetMove(D3DXVECTOR3 Move) { m_Move = Move; }
 	D3DXVECTOR3 GetPosition(void) { return m_Position; }
+	D3DXVECTOR3 GetPositionOld(void) { return m_PositionOld; }
+	D3DXVECTOR3 GetCollisionSize(void) { return m_CollisionSize; }
+	D3DXVECTOR3 GetMove(void) { return m_Move; }
 	float GetCameraDistance(void) { return m_fCameraDistance; }
 	CModel * GetModel(int nParts) { return m_pModel[nParts]; }
 private:
@@ -78,9 +83,11 @@ private:
 	static CModel::MODEL_DATA m_ModelData[MAX_PARTS];		//モデルデータ
 	static D3DXMATERIAL * m_pMaterial;						//マテリアルのポインタ
 	D3DXVECTOR3 m_Position;									//位置
+	D3DXVECTOR3 m_PositionOld;								//前の位置
 	D3DXVECTOR3 m_Size;										//サイズ
 	D3DXVECTOR3 m_CollisionSize;							//当たり判定用サイズ
 	D3DXVECTOR3 m_Rotation;									//回転
+	D3DXVECTOR3 m_DirectionDest;							//目的の向き
 	D3DXVECTOR3 m_Move;										//移動量
 	int m_nLife;											//体力
 	int m_nAttack[ATTACK_MAX];								//攻撃力

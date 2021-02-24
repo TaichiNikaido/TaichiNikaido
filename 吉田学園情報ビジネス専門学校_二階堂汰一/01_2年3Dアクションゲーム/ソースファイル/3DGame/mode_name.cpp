@@ -48,7 +48,7 @@ CNameMode * CNameMode::Create()
 		//名前入力モードのメモリ確保
 		pNameMode = new CNameMode;
 	}
-	//名前入力モードのポインタがNULLじゃない場合
+	//もし名前入力モードのポインタがNULLじゃない場合
 	if (pNameMode != NULL)
 	{
 		//名前入力モードの初期化処理関数呼び出し

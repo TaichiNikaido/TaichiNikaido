@@ -25,8 +25,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MODEL_PASS ("Data/Script/Enemy/Skeleton/Model.txt")		//モデルスクリプトのパス
-#define SCRIPT_PASS ("Data/Script/Enemy/Skeleton/Data.txt")		//スケルトンのスクリプトのパス
+#define MODEL_PASS ("Data/Script/Enemy/Dragon/Model.txt")		//モデルスクリプトのパス
+#define SCRIPT_PASS ("Data/Script/Enemy/Dragon/Data.txt")		//スケルトンのスクリプトのパス
 #define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//位置の初期値
 #define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//サイズの初期値
 #define INITIAL_COLLISION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//衝突判定用サイズの初期値

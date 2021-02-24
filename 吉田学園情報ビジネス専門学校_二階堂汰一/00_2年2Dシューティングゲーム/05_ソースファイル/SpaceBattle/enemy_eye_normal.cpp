@@ -115,14 +115,14 @@ CEnemyEyeNormal * CEnemyEyeNormal::Create(D3DXVECTOR3 Position)
 	{
 		//目玉の敵(ノーマル)のメモリ確保
 		pEnemyEyeNormal = new CEnemyEyeNormal;
-	}
-	//目玉の敵(ノーマル)のポインタがNULLじゃない場合
-	if (pEnemyEyeNormal != NULL)
-	{
-		//位置を取得する
-		pEnemyEyeNormal->SetPosition(Position);
-		//初期化処理関数呼び出し
-		pEnemyEyeNormal->Init();
+		//目玉の敵(ノーマル)のポインタがNULLじゃない場合
+		if (pEnemyEyeNormal != NULL)
+		{
+			//位置を取得する
+			pEnemyEyeNormal->SetPosition(Position);
+			//初期化処理関数呼び出し
+			pEnemyEyeNormal->Init();
+		}
 	}
 	//目玉の敵(ノーマル)のポインタを返す
 	return pEnemyEyeNormal;
@@ -270,7 +270,7 @@ void CEnemyEyeNormal::Death(void)
 	if (pPlayer != NULL)
 	{
 		//爆発エフェクトの生成
-		CExplosionDeath::Create(GetPosition());
+		CExplosionDeath::Create(GetPosition(),EXPLOSION_SIZE);
 		//もしサウンドがNULLじゃない場合
 		if (pSound != NULL)
 		{

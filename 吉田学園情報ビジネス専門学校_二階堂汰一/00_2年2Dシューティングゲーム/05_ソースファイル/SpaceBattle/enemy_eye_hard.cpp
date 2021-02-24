@@ -31,7 +31,7 @@
 #define MOVE (D3DXVECTOR3(0.0f,5.0f,0.0f))							//移動量
 #define RETURN_MOVE (D3DXVECTOR3(0.0f,-10.0f,0.0f))					//戻る時の移動量
 #define INITIAL_STOP_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//停止する位置の初期値
-#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 2) + 100))	//停止する位置
+#define STOP_POSITION (float(rand() % (FIELD_HEIGHT / 2)))			//停止する位置
 #define MINIMUM_SHOT_TIME (0)										//弾を撃つまでの最小時間
 #define SHOT_TIME (100)												//撃つまでの時間
 #define MINIMUM_STAY_TIME (0)										//滞在する最小時間
@@ -110,14 +110,14 @@ CEnemyEyeHard * CEnemyEyeHard::Create(D3DXVECTOR3 Position)
 	{
 		//目玉の敵(ハード)のメモリ確保
 		pEnemyEyeHard = new CEnemyEyeHard;
-	}
-	//もし目玉のポインタがNULLじゃない場合
-	if (pEnemyEyeHard != NULL)
-	{
-		//初期化処理関数呼び出し
-		pEnemyEyeHard->Init();
-		//位置を設定する
-		pEnemyEyeHard->SetPosition(Position);
+		//もし目玉のポインタがNULLじゃない場合
+		if (pEnemyEyeHard != NULL)
+		{
+			//初期化処理関数呼び出し
+			pEnemyEyeHard->Init();
+			//位置を設定する
+			pEnemyEyeHard->SetPosition(Position);
+		}
 	}
 	//目玉の敵(ハード)のポインタを返す
 	return pEnemyEyeHard;
@@ -238,7 +238,7 @@ void CEnemyEyeHard::Death(void)
 	if (pPlayer != NULL)
 	{
 		//爆発エフェクトの生成
-		CExplosionDeath::Create(GetPosition());
+		CExplosionDeath::Create(GetPosition(), EXPLOSION_SIZE);
 		//もしサウンドがNULLじゃない場合
 		if (pSound != NULL)
 		{
