@@ -37,7 +37,6 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	void DataLoad(void);
 	static CModel::MODEL_DATA m_ModelData;		//モデルデータ
 	static D3DXMATERIAL * m_pMaterial;			//マテリアルのポインタ
 };

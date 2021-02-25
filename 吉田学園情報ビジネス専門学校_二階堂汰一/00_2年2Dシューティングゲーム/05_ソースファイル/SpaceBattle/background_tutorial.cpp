@@ -97,14 +97,14 @@ CBackgroundTutorial * CBackgroundTutorial::Create(D3DXVECTOR3 Position)
 	{
 		//チュートリアル背景のメモリ確保
 		pBackgroundTutorial = new CBackgroundTutorial;
-	}
-	//もしチュートリアル背景のポインタがNULLじゃない場合
-	if (pBackgroundTutorial != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBackgroundTutorial->Init();
-		//位置を設定する
-		pBackgroundTutorial->SetPosition(Position);
+		//もしチュートリアル背景のポインタがNULLじゃない場合
+		if (pBackgroundTutorial != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBackgroundTutorial->Init();
+			//位置を設定する
+			pBackgroundTutorial->SetPosition(Position);
+		}
 	}
 	//チュートリアル背景のポインタを返す
 	return pBackgroundTutorial;

@@ -217,6 +217,7 @@ void CEnemyBombBody::Death(void)
 		CPlayer * pPlayer = CGameMode::GetPlayer();
 		//サウンドの取得
 		CSound * pSound = CManager::GetSound();
+		//もしプレイヤーのポインタがNULLじゃない場合
 		if (pPlayer != NULL)
 		{
 			//爆発エフェクトの生成

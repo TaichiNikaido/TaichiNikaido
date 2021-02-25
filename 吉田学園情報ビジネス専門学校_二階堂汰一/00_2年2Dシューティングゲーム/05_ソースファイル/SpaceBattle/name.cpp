@@ -114,9 +114,21 @@ void CName::TextureUnload(void)
 //=============================================================================
 CName * CName::Create(void)
 {
-	CName * pName;
-	pName = new CName;
-	pName->Init();
+	//名前のポインタ
+	CName * pName = NULL;
+	//もし名前のポインタがNULLの場合
+	if (pName == NULL)
+	{
+		//名前のメモリ確保
+		pName = new CName;
+		//もし名前のポインタがNULLじゃない場合
+		if (pName != NULL)
+		{
+			//名前の初期化処理関数呼び出し
+			pName->Init();
+		}
+	}
+	//名前のポインタを返す
 	return pName;
 }
 

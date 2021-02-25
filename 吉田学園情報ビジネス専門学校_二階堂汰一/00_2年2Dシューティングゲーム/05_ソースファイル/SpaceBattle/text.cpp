@@ -63,6 +63,7 @@ CText * CText::Create(void)
 			pText->Init();
 		}
 	}
+	//テキストのポインタを返す
 	return pText;
 }
 

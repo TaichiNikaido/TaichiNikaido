@@ -50,12 +50,12 @@ CBackgroundManager * CBackgroundManager::Create()
 	{
 		//”wŒiŠÇ—‚Ìƒƒ‚ƒŠŠm•Û
 		pBackgroundManager = new CBackgroundManager;
-	}
-	//‚à‚µ”wŒiŠÇ—‚Ìƒ|ƒCƒ“ƒ^‚ªNULL‚¶‚á‚È‚¢ê‡
-	if (pBackgroundManager != NULL)
-	{
-		//”wŒiŠÇ—‚Ì‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
-		pBackgroundManager->Init();
+		//‚à‚µ”wŒiŠÇ—‚Ìƒ|ƒCƒ“ƒ^‚ªNULL‚¶‚á‚È‚¢ê‡
+		if (pBackgroundManager != NULL)
+		{
+			//”wŒiŠÇ—‚Ì‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
+			pBackgroundManager->Init();
+		}
 	}
 	//”wŒiŠÇ—‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
 	return pBackgroundManager;

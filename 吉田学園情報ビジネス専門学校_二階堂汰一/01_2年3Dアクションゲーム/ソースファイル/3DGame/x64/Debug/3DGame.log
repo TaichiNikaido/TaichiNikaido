@@ -1,0 +1,23 @@
+﻿  weapon_sword.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  weapon_shield.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  weapon.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_village_life.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_village_icon.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_gauge_flame.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_gauge.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  ui_dragon_life.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  stage.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  sound.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  scene3d.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\01_2年3dアクションゲーム\ソースファイル\3dgame\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  scene2d.cpp

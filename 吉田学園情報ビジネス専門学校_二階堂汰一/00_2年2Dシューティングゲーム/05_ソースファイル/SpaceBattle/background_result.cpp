@@ -87,14 +87,14 @@ CBackgroundResult * CBackgroundResult::Create(D3DXVECTOR3 Position)
 	{
 		//リザルト背景のメモリ確保
 		pBackgroundResult = new CBackgroundResult;
-	}
-	//もしリザルト背景のポインタがNULLじゃない場合
-	if (pBackgroundResult != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBackgroundResult->Init();
-		//位置を設定する
-		pBackgroundResult->SetPosition(Position);
+		//もしリザルト背景のポインタがNULLじゃない場合
+		if (pBackgroundResult != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBackgroundResult->Init();
+			//位置を設定する
+			pBackgroundResult->SetPosition(Position);
+		}
 	}
 	//リザルトの背景を返す
 	return pBackgroundResult;

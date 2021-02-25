@@ -87,14 +87,14 @@ CBackgroundRanking * CBackgroundRanking::Create(D3DXVECTOR3 Position)
 	{
 		//ランキング背景のメモリを確保する
 		pbackgeroundRanking = new CBackgroundRanking;
-	}
-	//もしランキング背景がNULLじゃない場合
-	if (pbackgeroundRanking != NULL)
-	{
-		//初期化処理関数呼び出し
-		pbackgeroundRanking->Init();
-		//位置を設定する
-		pbackgeroundRanking->SetPosition(Position);
+		//もしランキング背景がNULLじゃない場合
+		if (pbackgeroundRanking != NULL)
+		{
+			//初期化処理関数呼び出し
+			pbackgeroundRanking->Init();
+			//位置を設定する
+			pbackgeroundRanking->SetPosition(Position);
+		}
 	}
 	//ランキング背景を返す
 	return pbackgeroundRanking;

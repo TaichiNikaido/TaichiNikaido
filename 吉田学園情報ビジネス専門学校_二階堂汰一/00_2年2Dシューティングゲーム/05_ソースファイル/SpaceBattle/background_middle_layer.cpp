@@ -87,14 +87,14 @@ CBackgroundMiddleLayer * CBackgroundMiddleLayer::Create(D3DXVECTOR3 Position)
 	{
 		//’†‘w”wŒi‚Ìƒƒ‚ƒŠŠm•Û
 		pBackgroundMiddleLayer = new CBackgroundMiddleLayer;
-	}
-	//‚à‚µ’†‘w”wŒi‚Ìƒ|ƒCƒ“ƒ^‚ªNULL‚¶‚á‚È‚¢ê‡
-	if (pBackgroundMiddleLayer != NULL)
-	{
-		//‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
-		pBackgroundMiddleLayer->Init();
-		//ˆÊ’u‚ğİ’è‚·‚é
-		pBackgroundMiddleLayer->SetPosition(Position);
+		//‚à‚µ’†‘w”wŒi‚Ìƒ|ƒCƒ“ƒ^‚ªNULL‚¶‚á‚È‚¢ê‡
+		if (pBackgroundMiddleLayer != NULL)
+		{
+			//‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
+			pBackgroundMiddleLayer->Init();
+			//ˆÊ’u‚ğİ’è‚·‚é
+			pBackgroundMiddleLayer->SetPosition(Position);
+		}
 	}
 	//’†‘w”wŒi‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
 	return pBackgroundMiddleLayer;

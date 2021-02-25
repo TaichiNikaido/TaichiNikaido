@@ -98,18 +98,18 @@ CGauge * CGauge::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Size, D3DXCOLOR Color)
 	{
 		//ゲージのメモリ確保
 		pGauge = new CGauge;
-	}
-	//ゲージのポインタがNULLじゃない場合
-	if (pGauge != NULL)
-	{
-		//位置を設定する
-		pGauge->SetPosition(Position);
-		//サイズを設定する
-		pGauge->SetSize(Size);
-		//色を設定する
-		pGauge->SetColor(Color);
-		//ゲージの初期化処理関数呼び出し
-		pGauge->Init();
+		//ゲージのポインタがNULLじゃない場合
+		if (pGauge != NULL)
+		{
+			//位置を設定する
+			pGauge->SetPosition(Position);
+			//サイズを設定する
+			pGauge->SetSize(Size);
+			//色を設定する
+			pGauge->SetColor(Color);
+			//ゲージの初期化処理関数呼び出し
+			pGauge->Init();
+		}
 	}
 	//ゲージのポインタを返す
 	return pGauge;

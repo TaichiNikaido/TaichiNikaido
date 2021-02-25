@@ -87,14 +87,14 @@ CBackgroundUnderLayer * CBackgroundUnderLayer::Create(D3DXVECTOR3 Position)
 	{
 		//‰º‘w”wŒi‚Ìƒƒ‚ƒŠŠm•Û
 		pBackgroundUnderLayer = new CBackgroundUnderLayer;
-	}
-	//‚à‚µ‰º‘w”wŒi‚Ìƒ|ƒCƒ“ƒ^‚ªNULL‚¶‚á‚È‚¢ê‡
-	if (pBackgroundUnderLayer != NULL)
-	{
-		//‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
-		pBackgroundUnderLayer->Init();
-		//ˆÊ’u‚ğİ’è‚·‚é
-		pBackgroundUnderLayer->SetPosition(Position);
+		//‚à‚µ‰º‘w”wŒi‚Ìƒ|ƒCƒ“ƒ^‚ªNULL‚¶‚á‚È‚¢ê‡
+		if (pBackgroundUnderLayer != NULL)
+		{
+			//‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
+			pBackgroundUnderLayer->Init();
+			//ˆÊ’u‚ğİ’è‚·‚é
+			pBackgroundUnderLayer->SetPosition(Position);
+		}
 	}
 	//‰º‘w”wŒi‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
 	return pBackgroundUnderLayer;

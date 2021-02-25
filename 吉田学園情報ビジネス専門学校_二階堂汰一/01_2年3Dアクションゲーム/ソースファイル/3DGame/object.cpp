@@ -6,6 +6,11 @@
 //=============================================================================
 
 //*****************************************************************************
+// 警告制御
+//*****************************************************************************
+#define _CRT_SECURE_NO_WARNINGS
+
+//*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
 #include <stdio.h>
@@ -41,6 +46,7 @@ CObject::CObject()
 	m_CollisionSize = INITIAL_COLLISION_SIZE;	//衝突判定用サイズ
 	m_Rotation = INITIAL_ROTATION;				//回転
 	m_nLife = INITIAL_LIFE;						//体力
+	m_pScriptPass = NULL;						//スクリプトのパス
 	m_pModel = NULL;							//モデルのポインタ
 	m_ModelData = {};							//モデルデータ
 }
@@ -57,23 +63,25 @@ CObject::~CObject()
 //=============================================================================
 HRESULT CObject::Init(void)
 {
+	//スクリプト読み込み関数呼び出し
+	ScriptLoad();
 	//もしモデルのポインタがNULLの場合
 	if (m_pModel == NULL)
 	{
 		//モデルの生成
 		m_pModel = CModel::Create(m_ModelData);
-	}
-	//もしモデルのポインタがNULLじゃない場合
-	if (m_pModel != NULL)
-	{
-		//モデルの初期化処理関数呼び出し
-		m_pModel->Init();
-		//モデルに位置を設定する
-		m_pModel->SetPosition(m_Position);
-		//モデルにサイズを設定する
-		m_pModel->SetSize(m_Size);
-		//モデルに回転を設定する
-		m_pModel->SetRotation(m_Rotation);
+		//もしモデルのポインタがNULLじゃない場合
+		if (m_pModel != NULL)
+		{
+			//モデルの初期化処理関数呼び出し
+			m_pModel->Init();
+			//モデルに位置を設定する
+			m_pModel->SetPosition(m_Position);
+			//モデルにサイズを設定する
+			m_pModel->SetSize(m_Size);
+			//モデルに回転を設定する
+			m_pModel->SetRotation(m_Rotation);
+		}
 	}
 	return S_OK;
 }
@@ -104,7 +112,7 @@ void CObject::Update(void)
 		//モデルの更新処理関数呼び出し
 		m_pModel->Update();
 	}
-	//衝突判定の家
+	//衝突処理関数呼び出し
 	Collision();
 }
 
@@ -189,5 +197,82 @@ void CObject::Collision(void)
 				pPlayer->SetPosition(D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y,ObjectCollisionMAX.z + PlayerCollisionSize.z / 2));
 			}
 		}
+	}
+}
+
+//=============================================================================
+// スクリプト読み込み関数
+//=============================================================================
+void CObject::ScriptLoad(void)
+{
+	char aReadText[MAX_TEXT];			//読み込んだテキスト
+	char aCurrentText[MAX_TEXT];		//現在のテキスト
+	char aUnnecessaryText[MAX_TEXT];	//不必要なテキスト
+	memset(aReadText, NULL, sizeof(aReadText));
+	memset(aCurrentText, NULL, sizeof(aCurrentText));
+	memset(aUnnecessaryText, NULL, sizeof(aUnnecessaryText));
+	//ファイルのポインタ
+	FILE *pFile = NULL;
+	//もしファイルのポインタがNULLの場合
+	if (pFile == NULL)
+	{
+			//ファイルの読み込み
+		pFile = fopen(m_pScriptPass, "r");
+	}
+	//ファイルを開くことができたら
+	if (pFile != NULL)
+	{
+		//SCRIPTの文字を見つける
+		while (strcmp(aCurrentText, "SCRIPT") != 0)
+		{
+			//読み込んだテキストを格納する
+			fgets(aReadText, sizeof(aReadText), pFile);
+			//読み込んだテキストを現在のテキストに格納
+			sscanf(aReadText, "%s", &aCurrentText);
+		}
+		//現在のテキストがSCRIPTだったら
+		if (strcmp(aCurrentText, "SCRIPT") == 0)
+		{
+			//END_SCRIPTの文字が見つかるまで読む
+			while (strcmp(aCurrentText, "END_SCRIPT") != 0)
+			{
+				//読み込んだテキストを格納する
+				fgets(aReadText, sizeof(aReadText), pFile);
+				//読み込んだテキストを現在のテキストに格納
+				sscanf(aReadText, "%s", &aCurrentText);
+				//現在のテキストがPARAMETER_SETだったら
+				if (strcmp(aCurrentText, "PARAMETER_SET") == 0)
+				{
+					//END_PARAMETER_SETの文字が見つかるまで読む
+					while (strcmp(aCurrentText, "END_PARAMETER_SET") != 0)
+					{
+						//読み込んだテキストを格納する
+						fgets(aReadText, sizeof(aReadText), pFile);
+						//読み込んだテキストを現在のテキストに格納
+						sscanf(aReadText, "%s", &aCurrentText);
+						//現在のテキストがSIZEだったら
+						if (strcmp(aCurrentText, "SIZE") == 0)
+						{
+							//サイズ情報の読み込み
+							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Size.x, &m_Size.y, &m_Size.z);
+						}
+						//現在のテキストがCOLLISION_SIZEだったら
+						if (strcmp(aCurrentText, "COLLISION_SIZE") == 0)
+						{
+							//衝突判定用サイズ情報の読み込み
+							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_CollisionSize.x, &m_CollisionSize.y, &m_CollisionSize.z);
+						}
+						//現在のテキストがLIFEだったら
+						if (strcmp(aCurrentText, "LIFE") == 0)
+						{
+							//体力情報の読み込み
+							sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &m_nLife);
+						}
+					}
+				}
+			}
+		}
+		//ファイルを閉じる
+		fclose(pFile);
 	}
 }

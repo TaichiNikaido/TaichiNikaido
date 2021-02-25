@@ -6,11 +6,6 @@
 //=============================================================================
 
 //*****************************************************************************
-// 警告制御
-//*****************************************************************************
-#define _CRT_SECURE_NO_WARNINGS
-
-//*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
 #include <stdio.h>
@@ -24,7 +19,7 @@
 // マクロ定義
 //*****************************************************************************
 #define MODEL_PASS ("Data/Model/Fence.x")						//モデルスクリプトのパス
-#define SCRIPT_PASS ("Data/Script/Fence/Data.txt")				//フェンスのスクリプトのパス
+#define SCRIPT_PASS ("Data/Script/Object/FenceData.txt")		//スクリプトのパス
 #define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//サイズの初期値
 #define INITIAL_COLLISION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//衝突判定用サイズの初期値
 #define INITIAL_LIFE (0)										//体力の初期値
@@ -163,8 +158,8 @@ HRESULT CFence::Init(void)
 {
 	//モデルデータの設定
 	SetModelData(m_ModelData);
-	//データロード処理関数呼び出し
-	DataLoad();
+	//スクリプトのパスを設定
+	SetScriptPass(SCRIPT_PASS);
 	//オブジェクトの初期化処理関数呼び出し
 	CObject::Init();
 	return S_OK;
@@ -195,90 +190,4 @@ void CFence::Draw(void)
 {
 	//オブジェクトの描画処理関数呼び出し
 	CObject::Draw();
-}
-
-//=============================================================================
-// データ読み込み関数
-//=============================================================================
-void CFence::DataLoad(void)
-{
-	D3DXVECTOR3 Size = INITIAL_SIZE;						//サイズ
-	D3DXVECTOR3 CollisionSize = INITIAL_COLLISION_SIZE;		//衝突判定用サイズ
-	int nLife = INITIAL_LIFE;								//体力
-	char aReadText[MAX_TEXT];								//読み込んだテキスト
-	char aCurrentText[MAX_TEXT];							//現在のテキスト
-	char aUnnecessaryText[MAX_TEXT];						//不必要なテキスト
-	memset(aReadText, NULL, sizeof(aReadText));
-	memset(aCurrentText, NULL, sizeof(aCurrentText));
-	memset(aUnnecessaryText, NULL, sizeof(aUnnecessaryText));
-	//ファイルのポインタ
-	FILE *pFile = NULL;
-	//もしファイルのポインタがNULLの場合
-	if (pFile == NULL)
-	{
-		//ファイルの読み込み
-		pFile = fopen(SCRIPT_PASS, "r");
-	}
-	//ファイルを開くことができたら
-	if (pFile != NULL)
-	{
-		//SCRIPTの文字を見つける
-		while (strcmp(aCurrentText, "SCRIPT") != 0)
-		{
-			//読み込んだテキストを格納する
-			fgets(aReadText, sizeof(aReadText), pFile);
-			//読み込んだテキストを現在のテキストに格納
-			sscanf(aReadText, "%s", &aCurrentText);
-		}
-		//現在のテキストがSCRIPTだったら
-		if (strcmp(aCurrentText, "SCRIPT") == 0)
-		{
-			//END_SCRIPTの文字が見つかるまで読む
-			while (strcmp(aCurrentText, "END_SCRIPT") != 0)
-			{
-				//読み込んだテキストを格納する
-				fgets(aReadText, sizeof(aReadText), pFile);
-				//読み込んだテキストを現在のテキストに格納
-				sscanf(aReadText, "%s", &aCurrentText);
-				//現在のテキストがPARAMETER_SETだったら
-				if (strcmp(aCurrentText, "PARAMETER_SET") == 0)
-				{
-					//END_PARAMETER_SETの文字が見つかるまで読む
-					while (strcmp(aCurrentText, "END_PARAMETER_SET") != 0)
-					{
-						//読み込んだテキストを格納する
-						fgets(aReadText, sizeof(aReadText), pFile);
-						//読み込んだテキストを現在のテキストに格納
-						sscanf(aReadText, "%s", &aCurrentText);
-						//現在のテキストがSIZEだったら
-						if (strcmp(aCurrentText, "SIZE") == 0)
-						{
-							//サイズ情報の読み込み
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Size.x, &Size.y, &Size.z);
-							//サイズを設定する
-							SetSize(Size);
-						}
-						//現在のテキストがCOLLISION_SIZEだったら
-						if (strcmp(aCurrentText, "COLLISION_SIZE") == 0)
-						{
-							//衝突判定用サイズ情報の読み込み
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &CollisionSize.x, &CollisionSize.y, &CollisionSize.z);
-							//衝突判定用サイズの設定
-							SetCollisionSize(CollisionSize);
-						}
-						//現在のテキストがLIFEだったら
-						if (strcmp(aCurrentText, "LIFE") == 0)
-						{
-							//体力情報の読み込み
-							sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &nLife);
-							//体力の設定
-							SetLife(nLife);
-						}
-					}
-				}
-			}
-		}
-		//ファイルを閉じる
-		fclose(pFile);
-	}
 }

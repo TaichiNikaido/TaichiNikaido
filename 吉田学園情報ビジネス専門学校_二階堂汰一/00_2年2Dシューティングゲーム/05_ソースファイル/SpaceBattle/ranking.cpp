@@ -53,9 +53,21 @@ CRanking::~CRanking()
 //=============================================================================
 CRanking * CRanking::Create(void)
 {
-	CRanking * pRanking;
-	pRanking = new CRanking;
-	pRanking->Init();
+	//ランキングのポインタ
+	CRanking * pRanking = NULL;
+	//もしランキングのポインタがNULLの場合
+	if (pRanking == NULL)
+	{
+		//ランキングのメモリ確保
+		pRanking = new CRanking;
+		//もしランキングのポインタがNULLじゃない場合
+		if (pRanking != NULL)
+		{
+			//ランキングの初期化処理関数呼び出し
+			pRanking->Init();
+		}
+	}
+	//ランキングのポインタを返す
 	return pRanking;
 }
 

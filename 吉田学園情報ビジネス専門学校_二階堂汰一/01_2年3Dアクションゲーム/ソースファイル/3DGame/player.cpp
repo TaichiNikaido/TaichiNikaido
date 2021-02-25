@@ -64,7 +64,7 @@ CPlayer::CPlayer()
 	m_Size = INITIAL_SIZE;											//サイズ
 	m_CollisionSize = INITIAL_COLLISIION_SIZE;						//当たり判定用サイズ
 	m_Rotation = INITIAL_ROTATION;									//回転
-	m_DirectionDest = INITIAL_DIRECTION_DEST;						//
+	m_DirectionDest = INITIAL_DIRECTION_DEST;						//目的の向き
 	m_Move = INITIAL_MOVE;											//移動量
 	m_nLife = INITIAL_LIFE;											//体力
 	memset(m_nAttack, INITIAL_ATTACK, sizeof(m_nAttack));			//攻撃力
@@ -191,12 +191,12 @@ CPlayer * CPlayer::Create()
 	{
 		//プレイヤーのメモリ確保
 		pPlayer = new CPlayer;
-	}
-	//プレイヤーのポインタがNULLではない場合
-	if (pPlayer != NULL)
-	{
-		//プレイヤーの初期化処理関数呼び出し
-		pPlayer->Init();
+		//プレイヤーのポインタがNULLではない場合
+		if (pPlayer != NULL)
+		{
+			//プレイヤーの初期化処理関数呼び出し
+			pPlayer->Init();
+		}
 	}
 	//プレイヤーのポインタを返す
 	return pPlayer;
@@ -256,6 +256,8 @@ void CPlayer::Update(void)
 	Input();
 	//位置更新
 	m_Position += m_Move;
+	//回転更新
+	m_Rotation = m_DirectionDest;
 	//パーツの最大数分回す
 	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
 	{
@@ -396,37 +398,33 @@ void CPlayer::Move(void)
 		{
 			switch (m_Input)
 			{
-				//もし入力情報が上の時
+				//もし入力情報が上の場合
 			case INPUT_UP:
-				//m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(0.0f), 0.0f));
-				//Z軸の上方向に移動量を加算
 				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
 				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
-				//m_Move.z = cosf(D3DX_PI) * m_fSpeed;
+				//目標の向きを求める
+				m_DirectionDest.y = CameraRotation.y + D3DXToRadian(270.0f);
 				break;
-				//もし入力情報が下の時
+				//もし入力情報が下の場合
 			case INPUT_DOWN:
-				//m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(180.0f), 0.0f));
-				//Z軸の下方向に移動量を加算
 				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
 				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
-				//m_Move.z = cosf(D3DX_PI) * -m_fSpeed;
+				//目標の向きを求める
+				m_DirectionDest.y = CameraRotation.y + D3DXToRadian(90.0f);
 				break;
-				//もし入力情報が左の時
+				//もし入力情報が左の場合
 			case INPUT_LEFT:
-				//m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(270), 0.0f));
-				//X軸の左方向に移動量を加算
 				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
 				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
-				//m_Move.x = cosf(D3DX_PI) * -m_fSpeed;
+				//目標の向きを求める
+				m_DirectionDest.y = CameraRotation.y + D3DXToRadian(180.0f);
 				break;
-				//もし入力情報が右の時
+				//もし入力情報が右の場合
 			case INPUT_RIGHT:
-				//m_Rotation = (D3DXVECTOR3(0.0f, D3DXToRadian(90.0f), 0.0f));
-				//X軸の右方向に移動量を加算
 				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
 				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
-				//m_Move.x = cosf(D3DX_PI) * m_fSpeed;
+				//目標の向きを求める
+				m_DirectionDest.y = CameraRotation.y;
 				break;
 			default:
 				break;

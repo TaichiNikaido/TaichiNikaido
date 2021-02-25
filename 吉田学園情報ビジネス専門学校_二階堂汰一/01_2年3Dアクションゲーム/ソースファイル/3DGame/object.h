@@ -39,17 +39,20 @@ public:
 	void SetRotation(D3DXVECTOR3 Rotation) { m_Rotation = Rotation; }
 	void SetLife(int nLife) { m_nLife = nLife; }
 	void SetModelData(CModel::MODEL_DATA ModelData) { m_ModelData = ModelData; }
+	void SetScriptPass(const char * pScriptText) { m_pScriptPass = pScriptText; }
 	D3DXVECTOR3 GetPosition(void) { return m_Position; }
 	D3DXVECTOR3 GetCollisionSize(void) { return m_CollisionSize; }
 	int GetLife(void) { return m_nLife; }
 private:
 	void SubLife(void);
 	void Collision(void);
+	void ScriptLoad(void);
 	D3DXVECTOR3 m_Position;				//位置
 	D3DXVECTOR3 m_Size;					//サイズ
 	D3DXVECTOR3 m_CollisionSize;		//衝突判定用サイズ
 	D3DXVECTOR3 m_Rotation;				//回転
 	int m_nLife;						//体力
+	const char * m_pScriptPass;			//スクリプトテキストのパス
 	CModel * m_pModel;					//モデルのポインタ
 	CModel::MODEL_DATA m_ModelData;		//モデルデータ
 };

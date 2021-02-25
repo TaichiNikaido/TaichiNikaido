@@ -87,14 +87,14 @@ CBackgroundName * CBackgroundName::Create(D3DXVECTOR3 Position)
 	{
 		//名前入力背景のメモリ確保
 		pBackgroundName = new CBackgroundName;
-	}
-	//もし名前入力背景がNULLじゃない場合
-	if (pBackgroundName != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBackgroundName->Init();
-		//位置を設定する
-		pBackgroundName->SetPosition(Position);
+		//もし名前入力背景がNULLじゃない場合
+		if (pBackgroundName != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBackgroundName->Init();
+			//位置を設定する
+			pBackgroundName->SetPosition(Position);
+		}
 	}
 	//名前入力背景のポインタを返す
 	return pBackgroundName;

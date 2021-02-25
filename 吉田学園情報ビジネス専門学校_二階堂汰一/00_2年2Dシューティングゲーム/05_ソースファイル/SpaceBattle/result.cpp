@@ -59,7 +59,7 @@ CResult * CResult::Create()
 		//もしリザルトがNULLじゃない場合
 		if (pResult != NULL)
 		{
-			//初期化処理関数呼び出し
+			//リザルトの初期化処理関数呼び出し
 			pResult->Init();
 		}
 	}

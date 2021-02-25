@@ -31,9 +31,6 @@
     <Filter Include="ヘッダー ファイル\Input">
       <UniqueIdentifier>{5de30477-a57b-4e52-acac-79600bdf13a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Player">
-      <UniqueIdentifier>{01e65138-beb4-41f9-9aad-ce08d5de10bb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Player">
       <UniqueIdentifier>{53823e91-20e1-4f7f-8038-a15c78c26f8d}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Object">
       <UniqueIdentifier>{c300b4a7-b9af-49b6-9a4e-b18a126b5665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{01e65138-beb4-41f9-9aad-ce08d5de10bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

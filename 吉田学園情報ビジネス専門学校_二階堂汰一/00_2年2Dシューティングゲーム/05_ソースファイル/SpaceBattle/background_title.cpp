@@ -87,14 +87,14 @@ CBackgroundTitle * CBackgroundTitle::Create(D3DXVECTOR3 Position)
 	{
 		//タイトル背景のメモリ確保
 		pBackgroundTitle = new CBackgroundTitle;
-	}
-	//もしタイトル背景のポインタがNULLじゃない場合
-	if (pBackgroundTitle != NULL)
-	{
-		//初期化処理関数呼び出し
-		pBackgroundTitle->Init();
-		//位置を設定する
-		pBackgroundTitle->SetPosition(Position);
+		//もしタイトル背景のポインタがNULLじゃない場合
+		if (pBackgroundTitle != NULL)
+		{
+			//初期化処理関数呼び出し
+			pBackgroundTitle->Init();
+			//位置を設定する
+			pBackgroundTitle->SetPosition(Position);
+		}
 	}
 	//タイトル背景のポインタを返す
 	return pBackgroundTitle;
