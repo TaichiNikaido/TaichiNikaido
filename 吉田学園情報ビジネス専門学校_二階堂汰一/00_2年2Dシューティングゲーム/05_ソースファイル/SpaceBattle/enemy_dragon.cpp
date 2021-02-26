@@ -322,12 +322,6 @@ void CEnemyDragon::Death(void)
 	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//火球を取得する
 	CBulletFireball * pBulletFireBall = CGameMode::GetBulletFireBall();
-	//もし火球のポインタがNULLじゃない場合
-	if (pBulletFireBall != NULL)
-	{
-		//火球を殺す
-		pBulletFireBall->Death();
-	}
 	//もしプレイヤーのポインタがNULLじゃない場合
 	if (pPlayer != NULL)
 	{

@@ -1,16 +1,8 @@
-﻿  background_manager.cpp
-  background_middle_layer.cpp
-  background_name.cpp
-  background_ranking.cpp
-  background_result.cpp
-  background_title.cpp
-  background_tutorial.cpp
-  background_under_layer.cpp
-  background_upper_layer.cpp
+﻿  gameclear_logo.cpp
   コード生成しています。
-  16 of 804 functions ( 2.0%) were compiled, the rest were copied from previous compilation.
+  0 of 804 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    6 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
   SpaceBattle.vcxproj -> C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_2年2Dシューティングゲーム\05_ソースファイル\Release\SpaceBattle.exe
   SpaceBattle.vcxproj -> C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_2年2Dシューティングゲーム\05_ソースファイル\Release\SpaceBattle.pdb (Full PDB)
