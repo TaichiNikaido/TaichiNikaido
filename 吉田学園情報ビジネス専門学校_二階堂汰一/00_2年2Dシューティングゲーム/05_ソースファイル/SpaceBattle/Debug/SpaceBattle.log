@@ -1,18 +1,6 @@
 ﻿  text.cpp
-c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_2年2dシューティングゲーム\05_ソースファイル\spacebattle\text.cpp : fatal error C1041: プログラム データベース 'C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_2年2Dシューティングゲーム\05_ソースファイル\SpaceBattle\Debug\vc140.idb' を開けません。複数の CL.EXE が同じ .PDB ファイルに書き込む場合、/FS を使用してください。
-  result.cpp
-  ranking.cpp
-  name.cpp
   gameclear_logo.cpp
-  enemy_dragon.cpp
-  enemy_bomb_body.cpp
-  background_upper_layer.cpp
-  background_under_layer.cpp
-  background_tutorial.cpp
-  background_title.cpp
-  background_result.cpp
-  background_ranking.cpp
-  background_name.cpp
-  background_middle_layer.cpp
-  background_manager.cpp
   コードを生成中...
+cl : コマンド ライン warning D9028: 簡易リビルド時のエラーです、通常のビルドに戻します
+  SpaceBattle.vcxproj -> C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_2年2Dシューティングゲーム\05_ソースファイル\Debug\SpaceBattle.exe
+  SpaceBattle.vcxproj -> C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_2年2Dシューティングゲーム\05_ソースファイル\Debug\SpaceBattle.pdb (Full PDB)

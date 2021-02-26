@@ -15,6 +15,7 @@
 #include "gameclear_logo.h"
 #include "player.h"
 #include "enemy.h"
+#include "bullet_fireball.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -168,7 +169,7 @@ void CGameClearLogo::Update()
 			pPlayer->Clear();
 		}
 	}
-	//敵のプライオリティ分回す
+	//弾～敵のプライオリティ分回す
 	for (int nCountPriority = PRIORITY_BULLET; nCountPriority <= PRIORITY_ENEMY; nCountPriority++)
 	{
 		//シーンの総数分回す
@@ -191,6 +192,18 @@ void CGameClearLogo::Update()
 					{
 						//敵の終了処理関数呼び出し
 						pEnemy->Uninit();
+					}
+				}
+				//もしオブジェクトタイプが火球だったら
+				if (ObjType == OBJTYPE_FIRE_BALL)
+				{
+					//火球のポインタ取得
+					CBulletFireball * pBulletFireball = dynamic_cast<CBulletFireball*> (pScene);
+					//火球のポインタがNULLじゃない場合
+					if (pBulletFireball != NULL)
+					{
+						//火球の終了処理関数呼び出し
+						pBulletFireball->Uninit();
 					}
 				}
 			}
