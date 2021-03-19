@@ -136,16 +136,16 @@ CFountain * CFountain::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Rotation)
 	{
 		//噴水のメモリ確保
 		pFountain = new CFountain;
-	}
-	//噴水のポインタがNULLではない場合
-	if (pFountain != NULL)
-	{
-		//噴水の位置を設定する
-		pFountain->SetPosition(Position);
-		//噴水の回転を設定する
-		pFountain->SetRotation(Rotation);
-		//噴水の初期化処理関数呼び出し
-		pFountain->Init();
+		//噴水のポインタがNULLではない場合
+		if (pFountain != NULL)
+		{
+			//噴水の位置を設定する
+			pFountain->SetPosition(Position);
+			//噴水の回転を設定する
+			pFountain->SetRotation(Rotation);
+			//噴水の初期化処理関数呼び出し
+			pFountain->Init();
+		}
 	}
 	//噴水のポインタを返す
 	return pFountain;

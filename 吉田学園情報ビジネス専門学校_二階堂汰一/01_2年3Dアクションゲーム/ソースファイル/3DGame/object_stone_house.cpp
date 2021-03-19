@@ -136,16 +136,16 @@ CStoneHouse * CStoneHouse::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Rotation)
 	{
 		//石造の家のメモリ確保
 		pStoneHouse = new CStoneHouse;
-	}
-	//石造の家のポインタがNULLではない場合
-	if (pStoneHouse != NULL)
-	{
-		//石造の家の位置を設定する
-		pStoneHouse->SetPosition(Position);
-		//石造の家の回転を設定する
-		pStoneHouse->SetRotation(Rotation);
-		//石造の家の初期化処理関数呼び出し
-		pStoneHouse->Init();
+		//石造の家のポインタがNULLではない場合
+		if (pStoneHouse != NULL)
+		{
+			//石造の家の位置を設定する
+			pStoneHouse->SetPosition(Position);
+			//石造の家の回転を設定する
+			pStoneHouse->SetRotation(Rotation);
+			//石造の家の初期化処理関数呼び出し
+			pStoneHouse->Init();
+		}
 	}
 	//石造の家のポインタを返す
 	return pStoneHouse;

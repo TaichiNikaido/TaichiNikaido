@@ -2631,7 +2631,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\gsp025\\Desktop\\kao.png";
+    "Data\\Texture\\Player\\face.png";
    }
   }
  }

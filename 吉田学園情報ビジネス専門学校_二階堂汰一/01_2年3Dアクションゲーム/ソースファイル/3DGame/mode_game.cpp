@@ -20,9 +20,8 @@
 #include "weapon_shield.h"
 #include "enemy_skeleton.h"
 #include "enemy_dragon.h"
-#include "stage.h"
-#include "ui_village_life.h"
-#include "ui_village_icon.h"
+#include "village.h"
+#include "sparks.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -34,7 +33,7 @@
 CCamera * CGameMode::m_pCamera = NULL;	//カメラのポインタ
 CPlayer * CGameMode::m_pPlayer = NULL;	//プレイヤーのポインタ
 CDragon * CGameMode::m_pDragon = NULL;	//ドラゴンのポインタ
-CStage * CGameMode::m_pStage = NULL;	//ステージのポインタ
+CVillage * CGameMode::m_pVillage = NULL;	//村のポインタ
 
 //=============================================================================
 // コンストラクタ
@@ -63,12 +62,12 @@ CGameMode * CGameMode::Create()
 	{
 		//ゲームモードのメモリ確保
 		pGameMode = new CGameMode;
-	}
-	//もしゲームモードのポインタをNULLじゃない場合
-	if (pGameMode != NULL)
-	{
-		//ゲームモードの初期化関数呼び出し
-		pGameMode->Init();
+		//もしゲームモードのポインタをNULLじゃない場合
+		if (pGameMode != NULL)
+		{
+			//ゲームモードの初期化関数呼び出し
+			pGameMode->Init();
+		}
 	}
 	//ゲームモードのポインタを返す
 	return pGameMode;
@@ -153,7 +152,7 @@ void CGameMode::InitCreateAll(void)
 		m_pLight->Init();
 	}
 	//床の生成
-		CFloor::Create();
+	CFloor::Create();
 	//もしプレイヤーのポインタがNULLの場合
 	if (m_pPlayer == NULL)
 	{
@@ -173,13 +172,15 @@ void CGameMode::InitCreateAll(void)
 		m_pCamera->Init();
 	}
 	//スケルトンの生成
+
 	//CSkeleton::Create();
-	m_pDragon = CDragon::Create();
-	CSword::Create();
-	CShield::Create();
-	m_pStage = CStage::Create();
-	CVillageLifeUI::Create();
-	CVillageIcon::Create();
+	//m_pDragon = CDragon::Create();
+	//CSparks::Create();
+	//CSword::Create();
+	//CShield::Create();
+	//m_pStage = CStage::Create();
+	//CVillageLifeUI::Create();
+	//CVillageIcon::Create();
 }
 
 //=============================================================================

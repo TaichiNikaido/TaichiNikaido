@@ -138,16 +138,16 @@ CCorpse * CCorpse::Create(D3DXVECTOR3 Position,D3DXVECTOR3 Rotation)
 	{
 		//Žr‚Ìƒƒ‚ƒŠŠm•Û
 		pCorpse = new CCorpse;
-	}
-	//Žr‚Ìƒ|ƒCƒ“ƒ^‚ªNULL‚Å‚Í‚È‚¢ê‡
-	if (pCorpse != NULL)
-	{
-		//Žr‚ÌˆÊ’u‚ðÝ’è‚·‚é
-		pCorpse->SetPosition(Position);
-		//Žr‚Ì‰ñ“]‚ðÝ’è‚·‚é
-		pCorpse->SetRotation(Rotation);
-		//Žr‚Ì‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
-		pCorpse->Init();
+		//Žr‚Ìƒ|ƒCƒ“ƒ^‚ªNULL‚Å‚Í‚È‚¢ê‡
+		if (pCorpse != NULL)
+		{
+			//Žr‚ÌˆÊ’u‚ðÝ’è‚·‚é
+			pCorpse->SetPosition(Position);
+			//Žr‚Ì‰ñ“]‚ðÝ’è‚·‚é
+			pCorpse->SetRotation(Rotation);
+			//Žr‚Ì‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
+			pCorpse->Init();
+		}
 	}
 	//Žr‚Ìƒ|ƒCƒ“ƒ^‚ð•Ô‚·
 	return pCorpse;

@@ -136,16 +136,16 @@ CFence * CFence::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Rotation)
 	{
 		//フェンスのメモリ確保
 		pFence = new CFence;
-	}
-	//フェンスのポインタがNULLではない場合
-	if (pFence != NULL)
-	{
-		//フェンスの位置を設定する
-		pFence->SetPosition(Position);
-		//フェンスの回転を設定する
-		pFence->SetRotation(Rotation);
-		//フェンスの初期化処理関数呼び出し
-		pFence->Init();
+		//フェンスのポインタがNULLではない場合
+		if (pFence != NULL)
+		{
+			//フェンスの位置を設定する
+			pFence->SetPosition(Position);
+			//フェンスの回転を設定する
+			pFence->SetRotation(Rotation);
+			//フェンスの初期化処理関数呼び出し
+			pFence->Init();
+		}
 	}
 	//フェンスのポインタを返す
 	return pFence;

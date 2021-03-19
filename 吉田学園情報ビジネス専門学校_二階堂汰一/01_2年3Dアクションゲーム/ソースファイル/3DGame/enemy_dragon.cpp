@@ -155,12 +155,12 @@ CDragon * CDragon::Create()
 	{
 		//ドラゴンのメモリ確保
 		pDragon = new CDragon;
-	}
-	//ドラゴンのポインタがNULLではない場合
-	if (pDragon != NULL)
-	{
-		//ドラゴンの初期化処理関数呼び出し
-		pDragon->Init();
+		//ドラゴンのポインタがNULLではない場合
+		if (pDragon != NULL)
+		{
+			//ドラゴンの初期化処理関数呼び出し
+			pDragon->Init();
+		}
 	}
 	//ドラゴンのポインタを返す
 	return pDragon;

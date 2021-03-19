@@ -59,7 +59,7 @@ private:
 	int m_nLife;											//体力
 	int m_nAttack;											//攻撃力
 	const char * m_apMotionPass[MAX_PASS_LETTER];			//モーションデータのパス
-	CModel::MODEL_DATA m_aModelData[MAX_PARTS];			//モデルデータ
+	CModel::MODEL_DATA m_aModelData[MAX_PARTS];				//モデルデータ
 	CModel * m_apModel[MAX_PARTS];							//モデルのポインタ
 	CMotion * m_pMotion;									//モーションのポインタ
 };

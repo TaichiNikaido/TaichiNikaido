@@ -34,10 +34,10 @@
 #include "object_fountain.h"
 #include "object_fence.h"
 #include "object_corpse.h"
-#include "ui_village_icon.h"
-#include "ui_gauge_flame.h"
-#include "ui_gauge.h"
+#include "gauge.h"
 #include "floor.h"
+#include "button.h"
+#include "particle_texture_sparks.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -117,7 +117,7 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	//全読み込み関数呼び出し
 	LoadAll();
 	//モードの設定
-	SetMode(MODE_GAME);
+	SetMode(MODE_TITLE);
 	return S_OK;
 }
 
@@ -211,6 +211,7 @@ void CManager::SetMode(MODE Mode)
 	m_pSound->StopSound();
 	//モードを設定する
 	m_Mode = Mode;
+	//各モードの処理
 	switch (m_Mode)
 	{
 	case MODE_TITLE:
@@ -255,7 +256,7 @@ void CManager::LoadAll(void)
 	//盾のモデル読み込み
 	CShield::ModelLoad();
 	//ドラゴンモデル読み込み
-	CDragon::ModelLoad();
+	//CDragon::ModelLoad();
 	//木造の家モデル読み込み
 	CWoodHouse::ModelLoad();
 	//石造の家モデル読み込み
@@ -266,14 +267,14 @@ void CManager::LoadAll(void)
 	CFence::ModelLoad();
 	//屍のモデル読み込み
 	CCorpse::ModelLoad();
-	//村のアイコンのテクスチャ読み込み
-	CVillageIcon::TextureLoad();
-	//ゲージフレームのテクスチャ読み込み
-	CGaugeFlame::TextureLoad();
 	//ゲージのテクスチャ読み込み
 	CGauge::TextureLoad();
-	//地面のテクスチャ読み恋
+	//地面のテクスチャ読み込み
 	CFloor::TextureLoad();
+	//ボタンのテクスチャ読み込み
+	CButton::TextureLoad();
+	//火の粉のテクスチャ読み込み
+	//CSparksTexture::TextureLoad();
 }
 
 //=============================================================================
@@ -290,7 +291,7 @@ void CManager::UnloadAll(void)
 	//盾のモデル破棄
 	CShield::ModelUnload();
 	//ドラゴンモデル破棄
-	CDragon::ModelUnload();
+	//CDragon::ModelUnload();
 	//木造の家モデル破棄
 	CWoodHouse::ModelUnload();
 	//石造の家モデル破棄
@@ -301,14 +302,14 @@ void CManager::UnloadAll(void)
 	CFence::ModelUnload();
 	//屍のモデル破棄
 	CCorpse::ModelUnload();
-	//村のアイコンのテクスチャ破棄
-	CVillageIcon::TextureUnload();
-	//ゲージフレームのテクスチャ破棄
-	CGaugeFlame::TextureUnload();
 	//ゲージのテクスチャ破棄
 	CGauge::TextureUnload();
 	//地面のテクスチャ破棄
 	CFloor::TextureUnload();
+	//ボタンのテクスチャ破棄
+	CButton::TextureUnload();
+	//火の粉のテクスチャ破棄
+	//CSparksTexture::TextureUnload();
 }
 
 //=============================================================================

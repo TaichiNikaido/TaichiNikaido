@@ -36,6 +36,7 @@ public:
 	void SetRotation(D3DXVECTOR3 Rotation) { m_Rotation = Rotation; }
 	void SetSize(D3DXVECTOR3 Size) { m_Size = Size; }
 	void SetColor(D3DXCOLOR Color) { m_Color = Color; }
+	void SetMove(D3DXVECTOR3 Move) { m_Move = Move; }
 	void SetTexture(D3DXVECTOR2 aTexture[NUM_VERTEX]);
 	void BindTexture(LPDIRECT3DTEXTURE9 pTexture) { m_pTexture = pTexture; }
 	D3DXVECTOR3 GetPosition(void) { return m_Position; };
@@ -50,6 +51,7 @@ private:
 	D3DXVECTOR3 m_Rotation;					//回転
 	D3DXVECTOR3 m_Size;						//サイズ
 	D3DXCOLOR m_Color;						//カラー
+	D3DXVECTOR3 m_Move;						//移動量
 	D3DXVECTOR2	m_aTexture[NUM_VERTEX];		//テクスチャのUV座標
 };
 #endif

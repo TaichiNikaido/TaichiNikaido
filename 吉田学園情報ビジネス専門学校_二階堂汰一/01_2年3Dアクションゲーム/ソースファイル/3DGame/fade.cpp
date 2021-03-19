@@ -59,12 +59,12 @@ CFade * CFade::Create(CManager::MODE mode)
 	{
 		//フェードのメモリ確保
 		pFade = new CFade;
-	}
-	//もしフェードのポインタがNULLじゃない場合
-	if (pFade != NULL)
-	{
-		//初期化処理関数呼び出し
-		pFade->Init(mode);
+		//もしフェードのポインタがNULLじゃない場合
+		if (pFade != NULL)
+		{
+			//初期化処理関数呼び出し
+			pFade->Init(mode);
+		}
 	}
 	//フェードのポインタを返す
 	return pFade;
@@ -85,6 +85,7 @@ HRESULT CFade::Init(CManager::MODE mode)
 	m_Position = POSITION;
 	//サイズの初期設定
 	m_Size = SIZE;
+	//次のモード
 	m_ModeNext = mode;
 	m_fade = FADE_IN;
 	//頂点バッファをロック

@@ -23,10 +23,11 @@
 #define FVF_VERTEX_2D	(D3DFVF_XYZRHW|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 #define FVF_VERTEX_3D	(D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_DIFFUSE|D3DFVF_TEX1)
 #define MAX_TEXT		(1024)
+#define MAX_PASS_LETTER (128)
 #define MAX_POLYGON		(256)
 #define NUM_POLYGON		(2)
 #define NUM_VERTEX		(4)
-#define REMAINDER (0)
+#define REMAINDER		(0)
 
 //*****************************************************************************
 // ライブラリファイルのリンク

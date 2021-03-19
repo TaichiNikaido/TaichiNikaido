@@ -47,6 +47,15 @@ public:
 	}INPUT;		//入力状態
 	typedef enum
 	{
+		DIRECTION_NONE = -1,
+		DIRECTION_FRONT,	//前方
+		DIRECTION_BACK,		//後方
+		DIRECTION_LEFT,		//右
+		DIRECTION_RIGHT,	//左
+		DIRECTION_MAX
+	}DIRECITON;		//向き情報
+	typedef enum
+	{
 		ATTACK_NONE = -1,
 		ATTACK_1,
 		ATTACK_2,
@@ -70,11 +79,13 @@ public:
 	D3DXVECTOR3 GetPositionOld(void) { return m_PositionOld; }
 	D3DXVECTOR3 GetCollisionSize(void) { return m_CollisionSize; }
 	D3DXVECTOR3 GetMove(void) { return m_Move; }
+	int GetLife(void) { return m_nLife; }
 	float GetCameraDistance(void) { return m_fCameraDistance; }
 	CModel * GetModel(int nParts) { return m_pModel[nParts]; }
 private:
 	void Input(void);
 	void Move(void);
+	void Direction(void);
 	void Attack(void);
 	void Death(void);
 	void Collision(void);
@@ -96,11 +107,13 @@ private:
 	float m_fSpeed;											//速さ
 	float m_fWalkSpeed;										//歩行速度
 	float m_fDashSpeed;										//ダッシュ速度
+	float m_fDirectionValue;								//向きの値
 	float m_fCameraDistance;								//カメラとの距離
 	bool m_bDash;											//ダッシュしてるか
 	STATE m_State;											//状態
 	INPUT m_Input;											//入力情報
 	ATTACK m_Attack;										//攻撃情報
+	DIRECITON m_Direction;									//向き
 	CModel * m_pModel[MAX_PARTS];							//モデルのポインタ
 	CMotion * m_pMotion;									//モーションのポインタ
 };

@@ -155,12 +155,12 @@ CSkeleton * CSkeleton::Create()
 	{
 		//スケルトンのメモリ確保
 		pEnemySkeleton = new CSkeleton;
-	}
-	//スケルトンのポインタがNULLではない場合
-	if (pEnemySkeleton != NULL)
-	{
-		//スケルトンの初期化処理関数呼び出し
-		pEnemySkeleton->Init();
+		//スケルトンのポインタがNULLではない場合
+		if (pEnemySkeleton != NULL)
+		{
+			//スケルトンの初期化処理関数呼び出し
+			pEnemySkeleton->Init();
+		}
 	}
 	//スケルトンのポインタを返す
 	return pEnemySkeleton;

@@ -1,6 +1,37 @@
-﻿  gameclear_logo.cpp
+﻿  bullet.cpp
+  bullet_bomb.cpp
+  bullet_enemy.cpp
+  bullet_fireball.cpp
+  bullet_flower.cpp
+  bullet_homing.cpp
+  bullet_player.cpp
+  button.cpp
+  enemy.cpp
+  enemy_bomb_body.cpp
+  enemy_bomb_head.cpp
+  enemy_dragon.cpp
+  enemy_eye_hard.cpp
+  enemy_eye_normal.cpp
+  enemy_flower.cpp
+  enemy_spider.cpp
+  explosion_fireball.cpp
+  gameclear_logo.cpp
+  item.cpp
+  item_bomb.cpp
+  コンパイル中...
+  item_levelup.cpp
+  item_life.cpp
+  manager.cpp
+  mode_game.cpp
+  mode_title.cpp
+  name.cpp
+  player.cpp
+  ui_bomb.cpp
+  ui_life.cpp
+  ui_score.cpp
+  warning.cpp
   コード生成しています。
-  1 of 804 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  0 of 804 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。

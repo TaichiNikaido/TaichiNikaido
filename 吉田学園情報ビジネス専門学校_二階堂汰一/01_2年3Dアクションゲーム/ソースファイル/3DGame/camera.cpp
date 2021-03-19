@@ -24,7 +24,7 @@
 #define INITIAL_POSITION_V (D3DXVECTOR3(0.0f, 0.0f, 0.0f))	//視点の初期値
 #define INITIAL_POSITION_R (D3DXVECTOR3(0.0f,0.0f,0.0f))	//注視点の初期値
 #define INITIAL_VECTOR_U (D3DXVECTOR3(0.0f,0.0f,0.0f))		//上方向ベクトル
-#define INITIAL_ROTAION (D3DXVECTOR3(0.0f,0.0f,0.0f))		//回転の初期値
+#define INITIAL_ROTAION (D3DXVECTOR3(D3DXToRadian(0.0f),D3DXToRadian(0.0f),D3DXToRadian(0.0f)))		//回転の初期値
 #define INITIAL_DISTANCE (0.0f)								//距離の初期値
 
 //*****************************************************************************
@@ -72,7 +72,7 @@ HRESULT CCamera::Init(void)
 	//上方向ベクトルの初期設定
 	m_VectorU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	//回転方向の初期設定
-	m_Rotation = D3DXVECTOR3(0.0f, D3DXToRadian(80.0f), D3DXToRadian(80.0f));
+	m_Rotation = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(90.0f), D3DXToRadian(80.0f));
 	//視点と注視点の距離を設定
 	m_fDistance = sqrtf(powf(m_PositionV.z - m_PositionR.z, 2) + powf(m_PositionV.y - m_PositionR.y, 2));
 	return S_OK;
@@ -131,14 +131,13 @@ void CCamera::Input(void)
 	{
 		if (m_Rotation.z > D3DXToRadian(5.0f))
 		{
-			//回転のZを減算する
 			m_Rotation.z -= D3DXToRadian(1.75f);
 		}
 	}
 	//下
 	if (lpDIDevice != NULL &&js.lRz == 1000)
 	{
-		if (m_Rotation.z < D3DXToRadian(175.0f))
+		if (m_Rotation.z < D3DXToRadian(115.0f))
 		{
 			m_Rotation.z += D3DXToRadian(1.75f);
 		}
@@ -152,10 +151,6 @@ void CCamera::Input(void)
 	if (lpDIDevice != NULL &&js.lZ == 1000)
 	{
 		m_Rotation.y -= D3DXToRadian(1.75f);
-	}
-	if (pJoystick->GetJoystickPress(JS_Y))
-	{
-		DataLoad();
 	}
 }
 

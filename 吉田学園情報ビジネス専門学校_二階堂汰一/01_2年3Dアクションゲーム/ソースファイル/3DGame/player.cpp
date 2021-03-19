@@ -31,22 +31,23 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MODEL_PASS ("Data/Script/Player/Model.txt")						//モデルスクリプトのパス
-#define SCRIPT_PASS ("Data/Script/Player/Data.txt")						//プレイヤーデータのスクリプトのパス
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))					//初期位置
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))						//初期サイズ
-#define INITIAL_COLLISIION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//初期当たり判定用サイズ
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,D3DXToRadian(0.0f),0.0f))	//初期回転
-#define INITIAL_DIRECTION_DEST (D3DXVECTOR3(0.0f,0.0f,0.0f))			//目標の向きの初期値
-#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))						//初期移動量
-#define INITIAL_LIFE (0)												//初期体力
-#define MINIMUM_LIFE (0)												//体力の最小値
-#define INITIAL_ATTACK (0)												//初期攻撃力
-#define INITIAL_COOL_TIME (0)											//クールタイム
-#define INITIAL_SPEED (0.0f)											//初期速さ
-#define INITIAL_WALK_SPEED (0.0f)										//初期歩行速度
-#define INITIAL_DASH_SPEED (0.0f)										//初期ダッシュ速度
-#define INITIAL_CAMERA_DISTANCE (0.0f)									//カメラとの距離
+#define MODEL_PASS ("Data/Script/Player/Model.txt")															//モデルスクリプトのパス
+#define SCRIPT_PASS ("Data/Script/Player/Data.txt")															//プレイヤーデータのスクリプトのパス
+#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))														//初期位置
+#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))															//初期サイズ
+#define INITIAL_COLLISIION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))												//初期当たり判定用サイズ
+#define INITIAL_ROTATION (D3DXVECTOR3(D3DXToRadian(0.0f),D3DXToRadian(0.0f),D3DXToRadian(0.0f)))			//初期回転
+#define INITIAL_DIRECTION_DEST (D3DXVECTOR3(D3DXToRadian(0.0f),D3DXToRadian(0.0f),D3DXToRadian(0.0f)))		//目標の向きの初期値
+#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))															//初期移動量
+#define INITIAL_LIFE (0)																					//初期体力
+#define MINIMUM_LIFE (0)																					//体力の最小値
+#define INITIAL_ATTACK (0)																					//初期攻撃力
+#define INITIAL_COOL_TIME (0)																				//クールタイム
+#define INITIAL_SPEED (0.0f)																				//初期速さ
+#define INITIAL_WALK_SPEED (0.0f)																			//初期歩行速度
+#define INITIAL_DASH_SPEED (0.0f)																			//初期ダッシュ速度
+#define INITIAL_ADD_DIRECTION_VALUE (D3DXToRadian(0.75f))													//向きの加算値の初期値
+#define INITIAL_CAMERA_DISTANCE (0.0f)																		//カメラとの距離
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -73,11 +74,13 @@ CPlayer::CPlayer()
 	m_fSpeed = INITIAL_SPEED;										//速さ
 	m_fWalkSpeed = INITIAL_WALK_SPEED;								//歩行速度
 	m_fDashSpeed = INITIAL_DASH_SPEED;								//ダッシュ速度
+	m_fDirectionValue = INITIAL_ADD_DIRECTION_VALUE;				//向きの値
 	m_fCameraDistance = INITIAL_CAMERA_DISTANCE;					//カメラとの距離
 	m_bDash = false;												//ダッシュしてるか
 	m_State = STATE_NONE;											//状態
 	m_Input = INPUT_NONE;											//入力情報
 	m_Attack = ATTACK_NONE;											//攻撃情報
+	m_Direction = DIRECTION_FRONT;									//向き
 	memset(m_pModel, NULL, sizeof(m_pModel));						//モデルのポインタ
 	m_pMotion = NULL;												//モーションのポインタ
 }
@@ -250,14 +253,14 @@ void CPlayer::Update(void)
 	if (m_Move == INITIAL_MOVE)
 	{
 		//モーションを設定する
-		m_pMotion->SetMotion(CMotion::MOTION_IDLE);
+		m_pMotion->SetMotion(CMotion::MOTION_PLAYER_IDLE);
 	}
 	//入力処理関数呼び出し
 	Input();
+	//向き変更処理関数
+	Direction();
 	//位置更新
 	m_Position += m_Move;
-	//回転更新
-	m_Rotation = m_DirectionDest;
 	//パーツの最大数分回す
 	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
 	{
@@ -335,6 +338,8 @@ void CPlayer::Input(void)
 	{
 		//入力キー情報を上にする
 		m_Input = INPUT_UP;
+		//向きを前方にする
+		m_Direction = DIRECTION_FRONT;
 		//移動処理関数呼び出し
 		Move();
 	}
@@ -343,6 +348,8 @@ void CPlayer::Input(void)
 	{
 		//入力キー情報を下にする
 		m_Input = INPUT_DOWN;
+		//向きを後方にする
+		m_Direction = DIRECTION_BACK;
 		//移動処理関数呼び出し
 		Move();
 	}
@@ -351,6 +358,8 @@ void CPlayer::Input(void)
 	{
 		//入力キー情報を左にする
 		m_Input = INPUT_LEFT;
+		//向きを左にする
+		m_Direction = DIRECTION_LEFT;
 		//移動処理関数呼び出し
 		Move();
 	}
@@ -359,12 +368,10 @@ void CPlayer::Input(void)
 	{
 		//入力キー情報を右にする
 		m_Input = INPUT_RIGHT;
+		//向きを右にする
+		m_Direction = DIRECTION_RIGHT;
 		//移動処理関数呼び出し
 		Move();
-	}
-	if (pJoystick->GetJoystickPress(JS_Y))
-	{
-		m_Attack = ATTACK_1;
 	}
 }
 
@@ -379,12 +386,14 @@ void CPlayer::Move(void)
 		//速度をダッシュ速度にする
 		m_fSpeed = m_fDashSpeed;
 		//モーションを設定する
-		m_pMotion->SetMotion(CMotion::MOTION_DASH);
+		m_pMotion->SetMotion(CMotion::MOTION_PLAYER_DASH);
 	}
 	else
 	{
 		//速度を歩行速度にする
 		m_fSpeed = m_fWalkSpeed;
+		//モーションを設定する
+		m_pMotion->SetMotion(CMotion::MOTION_PLAYER_WALK);
 	}
 	//カメラの取得
 	CCamera * pCamera = CGameMode::GetCamera();
@@ -402,35 +411,52 @@ void CPlayer::Move(void)
 			case INPUT_UP:
 				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
 				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
-				//目標の向きを求める
-				m_DirectionDest.y = CameraRotation.y + D3DXToRadian(270.0f);
 				break;
 				//もし入力情報が下の場合
 			case INPUT_DOWN:
 				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
 				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
-				//目標の向きを求める
-				m_DirectionDest.y = CameraRotation.y + D3DXToRadian(90.0f);
 				break;
 				//もし入力情報が左の場合
 			case INPUT_LEFT:
 				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
 				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
-				//目標の向きを求める
-				m_DirectionDest.y = CameraRotation.y + D3DXToRadian(180.0f);
 				break;
 				//もし入力情報が右の場合
 			case INPUT_RIGHT:
 				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
 				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
-				//目標の向きを求める
-				m_DirectionDest.y = CameraRotation.y;
 				break;
 			default:
 				break;
 			}
 		}
 	}
+}
+
+//=============================================================================
+// 向き変更処理関数
+//=============================================================================
+void CPlayer::Direction(void)
+{
+	//各向きの処理
+	switch (m_Direction)
+	{
+	case DIRECTION_FRONT:
+		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(0.0f), D3DXToRadian(0.0f));
+		break;
+	case DIRECTION_BACK:
+		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(180.0f), D3DXToRadian(0.0f));
+		break;
+	case DIRECTION_LEFT:
+		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(-90.0f), D3DXToRadian(0.0f));
+		break;
+	case DIRECTION_RIGHT:
+		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(90.0f), D3DXToRadian(0.0f));
+		break;
+	}
+	//プレイヤーの向きを更新する
+	m_Rotation += (m_DirectionDest - m_Rotation) * 0.1f;
 }
 
 //=============================================================================
@@ -622,7 +648,7 @@ void CPlayer::DataLoad(void)
 						if (strcmp(aCurrentText, "ROT") == 0)
 						{
 							//回転情報の読み込み
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Rotation.x, &m_Rotation.y, &m_Rotation	.z);
+							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
 						}
 						//現在のテキストがMOVEだったら
 						if (strcmp(aCurrentText, "MOVE") == 0)

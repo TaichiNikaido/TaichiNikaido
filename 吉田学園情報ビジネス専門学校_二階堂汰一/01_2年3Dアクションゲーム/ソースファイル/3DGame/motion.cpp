@@ -45,8 +45,8 @@
 //=============================================================================
 CMotion::CMotion()
 {
-	m_MotionState = MOTION_IDLE;					//モーション状態
-	m_MotionOldState = MOTION_IDLE;					//古いモーション状態
+	m_MotionState = MOTION_PLAYER_IDLE;					//モーション状態
+	m_MotionOldState = MOTION_PLAYER_IDLE;					//古いモーション状態
 	m_nAddChangeFreme = INITIAL_ADD_CHANGE_FLAME;	//モーション変更時に加算するフレーム
 	m_nFrame = INITIAL_FLAME;						//フレーム数
 	m_nCurrentKey = INITIAL_CURRENT_KEY;			//現在のキー数
@@ -203,7 +203,7 @@ void CMotion::Update(void)
 				m_NumRotationDifference[nCntMotion] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			}
 			m_nCurrentKey = 0;
-			m_MotionState = MOTION_IDLE;
+			m_MotionState = MOTION_PLAYER_IDLE;
 		}
 	}
 	else

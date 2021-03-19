@@ -16,7 +16,6 @@
 // マクロ定義
 //*****************************************************************************
 #define MOTIONKEY_SET_MAX (60)	//モーションキーの最大数
-#define MAX_PASS_LETTER (128)	//パスの最大文字数
 
 //*****************************************************************************
 // 前方宣言
@@ -50,11 +49,12 @@ public:
 	}MOTION;	//モーション情報
 	typedef enum
 	{
-		MOTION_IDLE = 0,		//アイドルモーション
-		MOTION_DASH,			//走りモーション
-		MOTION_DRAGON_ATTACK1,	//ドラゴンの攻撃1
-		MOTION_DRAGON_ATTACK2,	//ドラゴンの攻撃2
-		MOTION_MAX				//モーションの最大
+		MOTION_PLAYER_IDLE = 0,		//アイドルモーション
+		MOTION_PLAYER_WALK,			//歩きモーション
+		MOTION_PLAYER_DASH,			//走りモーション
+		MOTION_DRAGON_ATTACK1,		//ドラゴンの攻撃1
+		MOTION_DRAGON_ATTACK2,		//ドラゴンの攻撃2
+		MOTION_MAX					//モーションの最大
 	}MOTION_STATE;	//モーション状態
 	CMotion();
 	~CMotion();

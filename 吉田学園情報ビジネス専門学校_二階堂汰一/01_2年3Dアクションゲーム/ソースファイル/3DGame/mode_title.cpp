@@ -14,6 +14,7 @@
 #include "keyboard.h"
 #include "joystick.h"
 #include "mode_title.h"
+#include "title_button_manager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -49,12 +50,12 @@ CTitleMode * CTitleMode::Create()
 	{
 		//タイトルモードのメモリ確保
 		pTitleMode = new CTitleMode;
-	}
-	//もしタイトルモードのポインタがNULLじゃない場合
-	if (pTitleMode != NULL)
-	{
-		//初期化処理関数呼び出し
-		pTitleMode->Init();
+		//もしタイトルモードのポインタがNULLじゃない場合
+		if (pTitleMode != NULL)
+		{
+			//初期化処理関数呼び出し
+			pTitleMode->Init();
+		}
 	}
 	//タイトルモードのポインタを返す	
 	return pTitleMode;
@@ -65,8 +66,8 @@ CTitleMode * CTitleMode::Create()
 //=============================================================================
 HRESULT CTitleMode::Init(void)
 {
-	//全生成処理関数呼び出し
-	CreateAll();
+	//初期全生成処理関数呼び出し
+	InitCreateAll();
 	return S_OK;
 }
 
@@ -82,6 +83,8 @@ void CTitleMode::Uninit(void)
 //=============================================================================
 void CTitleMode::Update(void)
 {
+	//入力処理関数呼び出し
+	Input();
 }
 
 //=============================================================================
@@ -92,8 +95,30 @@ void CTitleMode::Draw(void)
 }
 
 //=============================================================================
-// 全生成処理関数
+// 入力処理関数
 //=============================================================================
-void CTitleMode::CreateAll(void)
+void CTitleMode::Input(void)
 {
+	//キーボードの取得
+	CKeyboard * pKeyboard = CManager::GetKeyboard();
+	//ジョイスティックの取得
+	CJoystick * pJoystick = CManager::GetJoystick();
+	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
+	DIJOYSTATE js;
+	//ジョイスティックの振動取得
+	LPDIRECTINPUTEFFECT pDIEffect = CJoystick::GetEffect();
+	if (lpDIDevice != NULL)
+	{
+		lpDIDevice->Poll();
+		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
+	}
+}
+
+//=============================================================================
+// 初期全生成処理関数
+//=============================================================================
+void CTitleMode::InitCreateAll(void)
+{
+	//タイトルボタンマネージャーの生成
+	CTitleButtonManager::Create();
 }

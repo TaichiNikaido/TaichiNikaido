@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ビルボード処理 [billboard.cpp]
+// ビルボード [billboard.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -16,10 +16,11 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f));		//位置の初期値
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f));		//回転の初期値
+#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))		//位置の初期値
+#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))		//回転の初期値
 #define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//サイズの初期値
-#define INITIAL_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f));		//色の初期値
+#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//移動量の初期値
+#define INITIAL_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		//色の初期値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -36,6 +37,7 @@ CBillboard::CBillboard()
 	m_Position = INITIAL_POSITION;					//位置
 	m_Rotation = INITIAL_ROTATION;					//回転
 	m_Size = INITIAL_SIZE;							//サイズ
+	m_Move = INITIAL_MOVE;							//移動量
 	m_Color = INITIAL_COLOR;						//色
 	memset(m_aTexture, NULL, sizeof(m_aTexture));	//テクスチャのUV座標
 }
@@ -132,6 +134,8 @@ void CBillboard::Update(void)
 	pVtx[3].tex = m_aTexture[3];
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
+	//位置を更新する
+	m_Position += m_Move;
 }
 
 //=============================================================================

@@ -136,16 +136,16 @@ CWoodHouse * CWoodHouse::Create(D3DXVECTOR3 Position, D3DXVECTOR3 Rotation)
 	{
 		//木造の家のメモリ確保
 		pWoodHouse = new CWoodHouse;
-	}
-	//木造の家のポインタがNULLではない場合
-	if (pWoodHouse != NULL)
-	{
-		//木造の家の位置を設定する
-		pWoodHouse->SetPosition(Position);
-		//木造の家の回転を設定する
-		pWoodHouse->SetRotation(Rotation);
-		//木造の家の初期化処理関数呼び出し
-		pWoodHouse->Init();
+		//木造の家のポインタがNULLではない場合
+		if (pWoodHouse != NULL)
+		{
+			//木造の家の位置を設定する
+			pWoodHouse->SetPosition(Position);
+			//木造の家の回転を設定する
+			pWoodHouse->SetRotation(Rotation);
+			//木造の家の初期化処理関数呼び出し
+			pWoodHouse->Init();
+		}
 	}
 	//木造の家のポインタを返す
 	return pWoodHouse;

@@ -110,16 +110,14 @@ HRESULT CFloor::Init(void)
 	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
 	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
 	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
-	//データ読み込み関数呼び出し
-	DataLoad();
-	
+	//ポリゴン3Dの初期化処理関数呼び出し
+	CPolygon3d::Init();
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
-
-	//ポリゴン3Dの初期化処理関数呼び出し
-	CPolygon3d::Init();//ポリゴン3Dの初期化処理関数呼び出し
+	//データ読み込み関数呼び出し
+	DataLoad();
 	return S_OK;
 }
 

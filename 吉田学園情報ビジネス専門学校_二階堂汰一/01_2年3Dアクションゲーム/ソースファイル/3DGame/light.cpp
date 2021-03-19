@@ -43,7 +43,8 @@ HRESULT CLight::Init(void)
 {
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-	D3DXVECTOR3 vecDir;	//ライトの方向ベクトル
+	//ライトの方向ベクトル
+	D3DXVECTOR3 vecDir;
 	//ライトの種類を設定
 	m_Light.Type = D3DLIGHT_DIRECTIONAL;
 	//ライトの拡散光を設定

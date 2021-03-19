@@ -34,6 +34,7 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	void CreateAll(void);
+	void Input(void);
+	void InitCreateAll(void);
 };
 #endif

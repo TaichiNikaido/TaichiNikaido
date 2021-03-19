@@ -41,7 +41,7 @@ CEnemy::CEnemy()
 	m_nLife = MINIMUM_LIFE;								//体力
 	m_nAttack = MINIMUM_ATTACK;							//攻撃力
 	memset(m_apMotionPass,NULL,sizeof(m_apMotionPass));	//モーションデータのパス
-	memset(m_apModel, 0, sizeof(m_apModel));				//モデルのポインタ
+	memset(m_apModel, 0, sizeof(m_apModel));			//モデルのポインタ
 	memset(m_aModelData,NULL,sizeof(m_aModelData));		//モデルデータのポインタ
 	m_pMotion = NULL;
 }
