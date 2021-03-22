@@ -20,12 +20,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SCRIPT_PASS ("Data/Script/Camera/Data.txt")			//プレイヤーデータのスクリプトのパス
-#define INITIAL_POSITION_V (D3DXVECTOR3(0.0f, 0.0f, 0.0f))	//視点の初期値
-#define INITIAL_POSITION_R (D3DXVECTOR3(0.0f,0.0f,0.0f))	//注視点の初期値
-#define INITIAL_VECTOR_U (D3DXVECTOR3(0.0f,0.0f,0.0f))		//上方向ベクトル
-#define INITIAL_ROTAION (D3DXVECTOR3(D3DXToRadian(0.0f),D3DXToRadian(0.0f),D3DXToRadian(0.0f)))		//回転の初期値
-#define INITIAL_DISTANCE (0.0f)								//距離の初期値
+#define INITIAL_DISTANCE (0.0f)																	//距離の初期値
+#define VECTOR (D3DXVECTOR3(0.0f, 1.0f, 0.0f))													//上方向ベクトル
+#define ROTATION (D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(90.0f), D3DXToRadian(80.0f)))	//回転
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -36,10 +33,10 @@
 //=============================================================================
 CCamera::CCamera()
 {
-	m_PositionV = INITIAL_POSITION_V;	//視点の位置
-	m_PositionR = INITIAL_POSITION_R;	//注視点の位置
-	m_VectorU = INITIAL_VECTOR_U;		//上方向ベクトル
-	m_Rotation = INITIAL_ROTAION;		//回転
+	m_PositionV = INITIAL_D3DXVECTOR3;	//視点の位置
+	m_PositionR = INITIAL_D3DXVECTOR3;	//注視点の位置
+	m_VectorU = INITIAL_D3DXVECTOR3;	//上方向ベクトル
+	m_Rotation = INITIAL_ROTATION;		//回転
 	m_fDistance = INITIAL_DISTANCE;		//視点と注視点の距離
 }
 
@@ -70,9 +67,9 @@ HRESULT CCamera::Init(void)
 		m_PositionR = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z);
 	}
 	//上方向ベクトルの初期設定
-	m_VectorU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	m_VectorU = VECTOR;
 	//回転方向の初期設定
-	m_Rotation = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(90.0f), D3DXToRadian(80.0f));
+	m_Rotation = ROTATION;
 	//視点と注視点の距離を設定
 	m_fDistance = sqrtf(powf(m_PositionV.z - m_PositionR.z, 2) + powf(m_PositionV.y - m_PositionR.y, 2));
 	return S_OK;
@@ -173,11 +170,4 @@ void CCamera::SetCamera(void)
 	D3DXMatrixPerspectiveFovLH(&m_MtxProjection, D3DXToRadian(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 10.0f, 10000.0f);
 	//プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_MtxProjection);
-}
-
-//=============================================================================
-// データ読み込み関数
-//=============================================================================
-void CCamera::DataLoad()
-{
 }

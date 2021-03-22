@@ -15,6 +15,8 @@
 #include "joystick.h"
 #include "mode_title.h"
 #include "title_button_manager.h"
+#include "title_logo.h"
+#include "button_any.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -120,5 +122,7 @@ void CTitleMode::Input(void)
 void CTitleMode::InitCreateAll(void)
 {
 	//タイトルボタンマネージャーの生成
-	CTitleButtonManager::Create();
+	//CTitleButtonManager::Create();
+	CTitleLogo::Create();
+	CAnyButton::Create();
 }

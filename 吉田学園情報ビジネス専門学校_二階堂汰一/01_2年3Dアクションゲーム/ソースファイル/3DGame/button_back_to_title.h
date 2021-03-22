@@ -1,16 +1,16 @@
 //=============================================================================
 //
-// アイコン [ui_icon.h]
+// タイトルに戻るボタン [button_back_to_title.h]
 // Author : 二階堂汰一
 //
 //=============================================================================
-#ifndef _UI_ICON_H_
-#define _UI_ICON_H_
+#ifndef _BUTTON_BACK_TOT_TITLE_H_
+#define _BUTTON_BACK_TOT_TITLE_H_
 
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include "scene2d.h"
+#include "Button.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -23,28 +23,20 @@
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-class CIcon :public CScene2d
+class CBackToTitleButton :public CButton
 {
 public:
-	CIcon();
-	~CIcon();
+	CBackToTitleButton();
+	~CBackToTitleButton();
+	static HRESULT TextureLoad(void);
+	static void TextureUnload(void);
+	static CBackToTitleButton * Create(D3DXVECTOR3 Position);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void SetDataPass(const char * DataPass) { m_apDataPass[0] = DataPass; }
+	void Press(void);
 private:
-	void DataLoad(void);
-	typedef enum
-	{
-		PATTERN_NONE = -1,
-		PATTERN_1,
-		PATTERN_2,
-		PATTERN_3,
-		PATTERN_MAX
-	}ICON_PATTERN;
-	int m_nPatternAnime;							//パターンアニメ
-	float m_fAnimationValue;						//アニメーションの値
-	const char * m_apDataPass[MAX_PASS_LETTER];		//データスクリプトのパス
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャのポインタ
 };
 #endif

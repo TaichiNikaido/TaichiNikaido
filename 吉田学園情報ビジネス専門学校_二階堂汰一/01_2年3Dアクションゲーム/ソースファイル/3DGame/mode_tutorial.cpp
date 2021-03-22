@@ -14,6 +14,7 @@
 #include "keyboard.h"
 #include "joystick.h"
 #include "mode_tutorial.h"
+#include "pose_button_manager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -97,14 +98,8 @@ void CTutorialMode::Update(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-	//もしENTERかAボタンを押したとき
-	if (pKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pJoystick->GetJoystickTrigger(JS_A))
-	{
-		//サウンドの停止
-		pSound->StopSound();
-		//ランキングに移動
-		CManager::StartFade(CManager::MODE_GAME);
-	}
+	//入力処理関数呼び出し
+	Input();
 }
 
 //=============================================================================
@@ -112,6 +107,32 @@ void CTutorialMode::Update(void)
 //=============================================================================
 void CTutorialMode::Draw(void)
 {
+}
+
+//=============================================================================
+// 入力処理関数
+//=============================================================================
+void CTutorialMode::Input(void)
+{
+	//キーボードの取得
+	CKeyboard * pKeyboard = CManager::GetKeyboard();
+	//ジョイスティックの取得
+	CJoystick * pJoystick = CManager::GetJoystick();
+	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
+	DIJOYSTATE js;
+	//ジョイスティックの振動取得
+	LPDIRECTINPUTEFFECT pDIEffect = CJoystick::GetEffect();
+	if (lpDIDevice != NULL)
+	{
+		lpDIDevice->Poll();
+		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
+	}
+	//もしESCAPEキー又はジョイスティックのスタートボタンを押されたら
+	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
+	{
+		//ポーズボタンマネージャーの生成処理関数呼び出し
+		CPoseButtonManager::Create();
+	}
 }
 
 //=============================================================================

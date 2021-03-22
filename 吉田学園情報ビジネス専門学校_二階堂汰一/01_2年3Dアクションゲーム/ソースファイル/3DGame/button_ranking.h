@@ -28,6 +28,8 @@ class CRankingButton :public CButton
 public:
 	CRankingButton();
 	~CRankingButton();
+	static HRESULT TextureLoad(void);
+	static void TextureUnload(void);
 	static CRankingButton * Create(D3DXVECTOR3 Position);
 	HRESULT Init(void);
 	void Uninit(void);
@@ -35,5 +37,6 @@ public:
 	void Draw(void);
 	void Press(void);
 private:
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャのポインタ
 };
 #endif

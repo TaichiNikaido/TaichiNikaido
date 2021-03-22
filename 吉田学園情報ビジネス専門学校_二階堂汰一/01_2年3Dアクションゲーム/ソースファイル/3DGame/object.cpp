@@ -25,12 +25,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))				//位置の初期値
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))					//サイズの初期値
-#define INITIAL_COLLISION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))		//衝突判定用サイズの初期値
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))				//回転の初期値
-#define INITIAL_ALL_LIFE (0)										//全体の体力の初期値
-#define INITIAL_LIFE (0)											//体力の初期値
+#define MINIMUM_ALL_LIFE (0)	//全体の体力の初期値
+#define MINIMUM_LIFE (0)		//体力の初期値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -41,11 +37,11 @@
 //=============================================================================
 CObject::CObject()
 {
-	m_Position = INITIAL_POSITION;				//位置
-	m_Size = INITIAL_SIZE;						//サイズ
-	m_CollisionSize = INITIAL_COLLISION_SIZE;	//衝突判定用サイズ
+	m_Position = INITIAL_D3DXVECTOR3;			//位置
+	m_Size = INITIAL_D3DXVECTOR3;				//サイズ
+	m_CollisionSize = INITIAL_D3DXVECTOR3;		//衝突判定用サイズ
 	m_Rotation = INITIAL_ROTATION;				//回転
-	m_nLife = INITIAL_LIFE;						//体力
+	m_nLife = MINIMUM_LIFE;						//体力
 	m_pScriptPass = NULL;						//スクリプトのパス
 	m_pModel = NULL;							//モデルのポインタ
 	m_ModelData = {};							//モデルデータ

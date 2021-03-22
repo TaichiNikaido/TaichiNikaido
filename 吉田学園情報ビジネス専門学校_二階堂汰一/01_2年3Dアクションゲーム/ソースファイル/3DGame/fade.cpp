@@ -17,15 +17,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))						//初期位置
 #define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))		//位置
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))							//初期サイズ
 #define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))					//サイズ
-#define INITIAL_FADE_COLOR (D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f))				//フェードカラーの初期値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
+#define INITIAL_COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,0.0f))
 
 //=============================================================================
 // コンストラクタ
@@ -33,11 +31,11 @@
 CFade::CFade()
 {
 	m_pVtxBuff = NULL;					//頂点バッファ
-	m_Position = INITIAL_POSITION;		//位置
-	m_Size = INITIAL_SIZE;				//サイズ
+	m_Position = INITIAL_D3DXVECTOR3;	//位置
+	m_Size = INITIAL_D3DXVECTOR3;		//サイズ
 	m_fade = FADE_NONE;					//フェード
 	m_ModeNext = CManager::MODE_NONE;	//次のモード
-	m_ColorFade = INITIAL_FADE_COLOR;	//フェードの色
+	m_ColorFade = INITIAL_COLOR;		//フェードの色
 }
 
 //=============================================================================

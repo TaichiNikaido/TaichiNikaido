@@ -16,13 +16,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//位置の初期値
-#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//移動量の初期値
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//サイズの初期値
-#define INITIAL_COLLISION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//衝突判定用サイズの初期値
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//回転の初期値
-#define MINIMUM_LIFE (0)										//体力の最小値
-#define MINIMUM_ATTACK (0)										//攻撃力の最小値
+#define MINIMUM_LIFE (0)	//体力の最小値
+#define MINIMUM_ATTACK (0)	//攻撃力の最小値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -33,10 +28,10 @@
 //=============================================================================
 CEnemy::CEnemy()
 {
-	m_Position = INITIAL_POSITION;						//位置
-	m_Move = INITIAL_MOVE;								//移動量
-	m_Size = INITIAL_SIZE;								//サイズ
-	m_CollisionSize = INITIAL_COLLISION_SIZE;			//衝突判定用サイズ
+	m_Position = INITIAL_D3DXVECTOR3;					//位置
+	m_Move = INITIAL_D3DXVECTOR3;						//移動量
+	m_Size = INITIAL_D3DXVECTOR3;						//サイズ
+	m_CollisionSize = INITIAL_D3DXVECTOR3;				//衝突判定用サイズ
 	m_Rotation = INITIAL_ROTATION;						//回転
 	m_nLife = MINIMUM_LIFE;								//体力
 	m_nAttack = MINIMUM_ATTACK;							//攻撃力

@@ -24,9 +24,6 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))	//位置の初期値
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))		//サイズの初期値
-#define INITIAL_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))	//色の初期値
 #define MINIMUM_LIFE (0)								//体力の最小値
 
 //*****************************************************************************
@@ -38,9 +35,9 @@
 //=============================================================================
 CLifeUI::CLifeUI()
 {
-	m_Position = INITIAL_POSITION;						//位置
-	m_Size = INITIAL_SIZE;								//サイズ
-	m_Color = INITIAL_COLOR;							//色
+	m_Position = INITIAL_D3DXVECTOR3;					//位置
+	m_Size = INITIAL_D3DXVECTOR3;						//サイズ
+	m_Color = INITIAL_D3DXCOLOR;						//色
 	m_nMaxLife = MINIMUM_LIFE;							//体力の最大値
 	m_nLife = MINIMUM_LIFE;								//体力
 	memset(m_apDataPass,NULL,sizeof(m_apDataPass));		//データスクリプトのパス

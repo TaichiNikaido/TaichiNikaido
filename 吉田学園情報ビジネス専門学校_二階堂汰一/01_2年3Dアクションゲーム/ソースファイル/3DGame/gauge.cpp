@@ -24,9 +24,6 @@
 // マクロ定義
 //*****************************************************************************
 #define TEXTURE_PASS ("Data/Texture/UI/Gauge.png")		//テクスチャのパス
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))	//位置の初期値
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))		//サイズ
-#define INITIAL_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))	//色
 #define INITIAL_VALUE (0)								//値の初期値
 
 //*****************************************************************************
@@ -40,9 +37,9 @@ LPDIRECT3DTEXTURE9 CGauge::m_pTexture = NULL;	//テクスチャ
 CGauge::CGauge()
 {
 	m_pVtxBuff = NULL;					//頂点バッファのポインタ
-	m_Position = INITIAL_POSITION;		//位置
-	m_Size = INITIAL_SIZE;				//サイズ
-	m_Color = INITIAL_COLOR;			//色
+	m_Position = INITIAL_D3DXVECTOR3;	//位置
+	m_Size = INITIAL_D3DXVECTOR3;		//サイズ
+	m_Color = INITIAL_D3DXCOLOR;		//色
 	m_nMaxValue = INITIAL_VALUE;		//値の最大値
 	m_nValue = INITIAL_VALUE;			//値
 }

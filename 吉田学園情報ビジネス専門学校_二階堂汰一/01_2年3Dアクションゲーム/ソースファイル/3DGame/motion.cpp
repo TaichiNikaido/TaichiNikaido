@@ -23,18 +23,12 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_POSITON (D3DXVECTOR3(0.0f,0.0f,0.0f))				//位置の初期値
-#define INITIAL_POSITION_ORIGINAL (D3DXVECTOR3(0.0f,0.0f,0.0f))		//初期位置の初期値
-#define INITIAL_POSITION_DIFFERENCE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//位置の差分の初期値
-#define INITIAL_DIRECTION_DIFFERENCE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//向きの差分の初期値
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))				//回転の初期値
-#define INITIAL_ROTATION_DIFFERENCE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//回転の差分の初期値
-#define INITIAL_INDEX (0)											//モデル番号の初期値
-#define INITIAL_PARENTS (0)											//モデルの親番号
-#define INITIAL_NUMKEY (0)											//モーションキー数の初期値
-#define INITIAL_FLAME (0)											//フレーム数の初期値
-#define INITIAL_CURRENT_KEY (1)										//現在のキー数
-#define INITIAL_ADD_CHANGE_FLAME (1)								//モーション変更時に加算するフレーム
+#define INITIAL_INDEX (0)				//モデル番号の初期値
+#define INITIAL_PARENTS (0)				//モデルの親番号
+#define INITIAL_NUMKEY (0)				//モーションキー数の初期値
+#define INITIAL_FLAME (0)				//フレーム数の初期値
+#define INITIAL_CURRENT_KEY (1)			//現在のキー数
+#define INITIAL_ADD_CHANGE_FLAME (1)	//モーション変更時に加算するフレーム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -42,11 +36,12 @@
 
 //=============================================================================
 // コンストラクタ
+
 //=============================================================================
 CMotion::CMotion()
 {
-	m_MotionState = MOTION_PLAYER_IDLE;					//モーション状態
-	m_MotionOldState = MOTION_PLAYER_IDLE;					//古いモーション状態
+	m_MotionState = MOTION_PLAYER_IDLE;				//モーション状態
+	m_MotionOldState = MOTION_PLAYER_IDLE;			//古いモーション状態
 	m_nAddChangeFreme = INITIAL_ADD_CHANGE_FLAME;	//モーション変更時に加算するフレーム
 	m_nFrame = INITIAL_FLAME;						//フレーム数
 	m_nCurrentKey = INITIAL_CURRENT_KEY;			//現在のキー数
@@ -54,14 +49,14 @@ CMotion::CMotion()
 	//パーツの最大数分回す
 	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
 	{
-		m_ModelParent[nCount].nIndex = INITIAL_INDEX;							//モデル番号
-		m_ModelParent[nCount].nParents = INITIAL_PARENTS;						//モデルの親番号
-		m_ModelParent[nCount].Position = INITIAL_POSITON;						//位置		
-		m_ModelParent[nCount].PositionOrigin = INITIAL_POSITION_ORIGINAL;		//初期位置
-		m_ModelParent[nCount].Rotation = INITIAL_ROTATION;						//回転
-		m_NumPositionDifference[nCount] = INITIAL_POSITION_DIFFERENCE;			//位置の差分
-		m_NumDirectionDifference[nCount] = INITIAL_DIRECTION_DIFFERENCE;		//向きの差分
-		m_NumRotationDifference[nCount] = INITIAL_ROTATION_DIFFERENCE;			//回転の差分
+		m_ModelParent[nCount].nIndex = INITIAL_INDEX;					//モデル番号
+		m_ModelParent[nCount].nParents = INITIAL_PARENTS;				//モデルの親番号
+		m_ModelParent[nCount].Position = INITIAL_D3DXVECTOR3;			//位置		
+		m_ModelParent[nCount].PositionOrigin = INITIAL_D3DXVECTOR3;		//初期位置
+		m_ModelParent[nCount].Rotation = INITIAL_ROTATION;				//回転
+		m_NumPositionDifference[nCount] = INITIAL_D3DXVECTOR3;			//位置の差分
+		m_NumDirectionDifference[nCount] = INITIAL_ROTATION;			//向きの差分
+		m_NumRotationDifference[nCount] = INITIAL_ROTATION;				//回転の差分
 	}
 	//モーションの最大数分回す
 	for (int nCountMotion = 0; nCountMotion < MOTION_MAX; nCountMotion++)
@@ -75,8 +70,8 @@ CMotion::CMotion()
 			//パーツの最大数分回す
 			for (int nCountParts = 0; nCountParts < MAX_PARTS; nCountParts++)
 			{
-				m_Motion[nCountMotion].KeyInformation[nCountKey].Position[nCountParts] = INITIAL_POSITON;	//位置
-				m_Motion[nCountMotion].KeyInformation[nCountKey].Rotation[nCountParts] = INITIAL_ROTATION;	//回転
+				m_Motion[nCountMotion].KeyInformation[nCountKey].Position[nCountParts] = INITIAL_D3DXVECTOR3;	//位置
+				m_Motion[nCountMotion].KeyInformation[nCountKey].Rotation[nCountParts] = INITIAL_ROTATION;		//回転
 			}
 		}
 	}

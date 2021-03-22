@@ -18,10 +18,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))	//色の初期値
-#define INITIAL_SCALE (1.0f)							//拡縮の初期値
-#define INITIAL_ANGLE (0.0f)							//角度の初期値
-#define INITIAL_LENGTH (0.0f)							//長さの初期値
+#define INITIAL_SCALE (1.0f)	//拡縮の初期値
+#define INITIAL_ANGLE (0.0f)	//角度の初期値
+#define INITIAL_LENGTH (0.0f)	//長さの初期値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -39,7 +38,7 @@ CPolygon3d::CPolygon3d()
 	m_aTex[1] = D3DXVECTOR2(1.0f, 0.0f);
 	m_aTex[2] = D3DXVECTOR2(0.0f, 1.0f);
 	m_aTex[3] = D3DXVECTOR2(1.0f, 1.0f);
-	m_Color = INITIAL_COLOR;						//頂点カラー
+	m_Color = INITIAL_D3DXCOLOR;					//頂点カラー
 	m_fScale = INITIAL_SCALE;						//縮尺
 	m_fAngle = INITIAL_ANGLE;						//角度
 	m_fLength = INITIAL_LENGTH;						//長さ

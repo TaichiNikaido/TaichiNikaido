@@ -97,14 +97,8 @@ void CRankingMode::Update(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-	//もしENTERかAボタンを押したとき
-	if (pKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pJoystick->GetJoystickTrigger(JS_A))
-	{
-		//サウンドの停止
-		pSound->StopSound();
-		//ランキングに移動
-		CManager::StartFade(CManager::MODE_TITLE);
-	}
+	//入力処理関数呼び出し
+	Input();
 }
 
 //=============================================================================
@@ -112,6 +106,40 @@ void CRankingMode::Update(void)
 //=============================================================================
 void CRankingMode::Draw(void)
 {
+}
+
+//=============================================================================
+// 入力処理関数呼び出し
+//=============================================================================
+void CRankingMode::Input(void)
+{
+	//キーボードの取得
+	CKeyboard * pKeyboard = CManager::GetKeyboard();
+	//ジョイスティックの取得
+	CJoystick * pJoystick = CManager::GetJoystick();
+	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
+	DIJOYSTATE js;
+	//ジョイスティックの振動取得
+	LPDIRECTINPUTEFFECT pDIEffect = CJoystick::GetEffect();
+	if (lpDIDevice != NULL)
+	{
+		lpDIDevice->Poll();
+		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
+	}
+	//サウンドの取得
+	CSound * pSound = CManager::GetSound();
+	//もしESCAPEキー又はジョイスティックのBボタンを押されたら
+	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_B))
+	{
+		//もしサウンドのポインタがNULLじゃない場合
+		if (pSound != NULL)
+		{
+			//キャンセル音の再生
+			pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_CANCEL);
+		}
+		//タイトルモードに遷移する
+		CManager::StartFade(CManager::MODE_TITLE);
+	}
 }
 
 //=============================================================================

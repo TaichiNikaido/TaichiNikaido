@@ -20,9 +20,6 @@
 //*****************************************************************************
 #define MODEL_PASS ("Data/Model/Fountain.x")					//モデルスクリプトのパス
 #define SCRIPT_PASS ("Data/Script/Script/FountainData.txt")		//スクリプトのパス
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//サイズの初期値
-#define INITIAL_COLLISION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//衝突判定用サイズの初期値
-#define INITIAL_LIFE (0)										//体力の初期値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化

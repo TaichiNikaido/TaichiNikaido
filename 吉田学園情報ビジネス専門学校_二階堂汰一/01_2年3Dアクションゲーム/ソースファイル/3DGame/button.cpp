@@ -20,17 +20,13 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_PASS_BUTTON_START ("Data/Texture/Button/StartButton.png")		//スタートボタンのテクスチャパス
-#define TEXTURE_PASS_BUTTON_TUTORIAL ("Data/Texture/Button/TutorialButton.png")	//チュートリアルボタンのテクスチャパス
-#define TEXTURE_PASS_BUTTON_EXIT ("Data/Texture/Button/ExitButton.png")			//終了ボタンのテクスチャパス
-#define SELECT_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))							//選択時の色
-#define NOT_SELECT_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,0.5f))						//選択されていないときの色
-#define SIZE (D3DXVECTOR3(400.0f,70.0f,0.0f))									//サイズ
+#define SELECT_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		//選択時の色
+#define NOT_SELECT_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,0.5f))	//選択されていないときの色
+#define SIZE (D3DXVECTOR3(400.0f,70.0f,0.0f))				//サイズ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CButton::m_apTexture[BUTTON_MAX] = {};	//テクスチャのポインタ
 
 //=============================================================================
 // コンストラクタ
@@ -44,49 +40,6 @@ CButton::CButton()
 //=============================================================================
 CButton::~CButton()
 {
-}
-
-//=============================================================================
-// テクスチャ読み込み関数
-//=============================================================================
-HRESULT CButton::TextureLoad(void)
-{
-	//レンダラーの取得
-	CRenderer *pRenderer = CManager::GetRenderer();
-	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS_BUTTON_START,			// ファイルの名前
-		&m_apTexture[BUTTON_START]);	// 読み込むメモリー
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS_BUTTON_TUTORIAL,		// ファイルの名前
-		&m_apTexture[BUTTON_TUTORIAL]);	// 読み込むメモリー
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS_BUTTON_EXIT,			// ファイルの名前
-		&m_apTexture[BUTTON_EXIT]);		// 読み込むメモリー
-	return S_OK;
-}
-
-//=============================================================================
-// テクスチャ破棄関数
-//=============================================================================
-void CButton::TextureUnload(void)
-{
-	//ボタンの最大数分回す
-	for (int nCount = 0; nCount < BUTTON_MAX; nCount++)
-	{
-		// テクスチャの破棄
-		if (m_apTexture[nCount] != NULL)
-		{
-			//テクスチャの破棄処理関数呼び出し
-			m_apTexture[nCount]->Release();
-			//テクスチャをNULLにする
-			m_apTexture[nCount] = NULL;
-		}
-	}
 }
 
 //=============================================================================

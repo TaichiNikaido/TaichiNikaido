@@ -28,6 +28,9 @@
 #define NUM_POLYGON		(2)
 #define NUM_VERTEX		(4)
 #define REMAINDER		(0)
+#define INITIAL_D3DXVECTOR3 (D3DXVECTOR3(0.0f,0.0f,0.0f))
+#define INITIAL_ROTATION (D3DXVECTOR3(D3DXToRadian(0.0f),D3DXToRadian(0.0f),D3DXToRadian(0.0f)))
+#define INITIAL_D3DXCOLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))
 
 //*****************************************************************************
 // ライブラリファイルのリンク

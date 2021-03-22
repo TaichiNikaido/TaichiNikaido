@@ -16,11 +16,6 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))		//位置の初期値
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))		//回転の初期値
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//サイズの初期値
-#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//移動量の初期値
-#define INITIAL_COLOR (D3DXCOLOR(1.0f,1.0f,1.0f,1.0f))		//色の初期値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -33,12 +28,12 @@ CBillboard::CBillboard()
 {
 	m_pTexture = NULL;								//テクスチャのポインタ
 	m_pVtxBuff = NULL;								//頂点バッファへのポインタ
-	m_mtxWorld;										//行列計算用
-	m_Position = INITIAL_POSITION;					//位置
-	m_Rotation = INITIAL_ROTATION;					//回転
-	m_Size = INITIAL_SIZE;							//サイズ
-	m_Move = INITIAL_MOVE;							//移動量
-	m_Color = INITIAL_COLOR;						//色
+	memset(m_mtxWorld, 0, sizeof(m_mtxWorld));		//行列計算用
+	m_Position = INITIAL_D3DXVECTOR3;				//位置
+	m_Rotation = INITIAL_D3DXVECTOR3;				//回転
+	m_Size = INITIAL_D3DXVECTOR3;					//サイズ
+	m_Move = INITIAL_D3DXVECTOR3;					//移動量
+	m_Color = INITIAL_D3DXCOLOR;					//色
 	memset(m_aTexture, NULL, sizeof(m_aTexture));	//テクスチャのUV座標
 }
 

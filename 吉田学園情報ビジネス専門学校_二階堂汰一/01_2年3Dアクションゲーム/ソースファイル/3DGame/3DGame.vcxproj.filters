@@ -85,6 +85,18 @@
     <Filter Include="ヘッダー ファイル\ParticleTexture">
       <UniqueIdentifier>{fc0db4df-c9a0-4289-ad6f-5232617340e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Polygon2D">
+      <UniqueIdentifier>{a425997b-993e-4b2b-ab74-a250024bc491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Polygon2D">
+      <UniqueIdentifier>{2e9be410-b3a3-4acf-a58f-9055dad215ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI\Gauge">
+      <UniqueIdentifier>{77102fee-0272-4bef-900e-f4cbdb7d7c1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI\Gauge">
+      <UniqueIdentifier>{1938f749-4f34-40a5-939a-6130ce63427b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -231,21 +243,6 @@
     <ClCompile Include="ui_life_player.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
-    <ClCompile Include="gauge.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="gaugeflaame.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="gaugeflame_dragon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="gaugeflame_player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="gaugeflame_village.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="particle_texture.cpp">
       <Filter>ソース ファイル\ParticleTexture</Filter>
     </ClCompile>
@@ -254,6 +251,39 @@
     </ClCompile>
     <ClCompile Include="sparks.cpp">
       <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="button_any.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="title_logo.cpp">
+      <Filter>ソース ファイル\Polygon2D</Filter>
+    </ClCompile>
+    <ClCompile Include="gauge.cpp">
+      <Filter>ソース ファイル\UI\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="gaugeflaame.cpp">
+      <Filter>ソース ファイル\UI\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="gaugeflame_dragon.cpp">
+      <Filter>ソース ファイル\UI\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="gaugeflame_player.cpp">
+      <Filter>ソース ファイル\UI\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="gaugeflame_village.cpp">
+      <Filter>ソース ファイル\UI\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="pose_button_manager.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_quit_game.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_controller_guid.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="button_back_to_title.cpp">
+      <Filter>ソース ファイル\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,12 +416,6 @@
     <ClInclude Include="button_ranking.h">
       <Filter>ヘッダー ファイル\Button</Filter>
     </ClInclude>
-    <ClInclude Include="gauge.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="icon.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
     <ClInclude Include="village.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -407,21 +431,6 @@
     <ClInclude Include="ui_life_player.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
-    <ClInclude Include="gaugeflame.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="gaugeflame_player.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="gaugeflame_village.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="gaugeflame_dragon.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="texture_manager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="particle_texture.h">
       <Filter>ヘッダー ファイル\ParticleTexture</Filter>
     </ClInclude>
@@ -430,6 +439,39 @@
     </ClInclude>
     <ClInclude Include="sparks.h">
       <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="button_any.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="title_logo.h">
+      <Filter>ヘッダー ファイル\Polygon2D</Filter>
+    </ClInclude>
+    <ClInclude Include="gauge.h">
+      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="gaugeflame.h">
+      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="gaugeflame_dragon.h">
+      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="gaugeflame_player.h">
+      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="gaugeflame_village.h">
+      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="pose_button_manager.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_quit_game.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_controller_guid.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="button_back_to_title.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

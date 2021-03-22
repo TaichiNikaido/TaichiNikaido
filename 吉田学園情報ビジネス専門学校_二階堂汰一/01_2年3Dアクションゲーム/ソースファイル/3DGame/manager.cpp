@@ -36,7 +36,12 @@
 #include "object_corpse.h"
 #include "gauge.h"
 #include "floor.h"
-#include "button.h"
+#include "button_any.h"
+#include "button_start.h"
+#include "button_tutorial.h"
+#include "button_ranking.h"
+#include "button_exit.h"
+#include "title_logo.h"
 #include "particle_texture_sparks.h"
 
 //*****************************************************************************
@@ -207,10 +212,10 @@ void CManager::SetMode(MODE Mode)
 {
 	//シーンの全破棄処理関数呼び出し
 	CScene::ReleaseAll();
-	//サウンドを停止する
-	m_pSound->StopSound();
 	//モードを設定する
 	m_Mode = Mode;
+	//サウンドを停止する
+	m_pSound->StopSound();
 	//各モードの処理
 	switch (m_Mode)
 	{
@@ -271,8 +276,18 @@ void CManager::LoadAll(void)
 	CGauge::TextureLoad();
 	//地面のテクスチャ読み込み
 	CFloor::TextureLoad();
-	//ボタンのテクスチャ読み込み
-	CButton::TextureLoad();
+	//何らかのボタンのテクスチャ読み込み
+	CAnyButton::TextureLoad();
+	//スタートボタンのテクスチャ読み込み
+	CStartButton::TextureLoad();
+	//チュートリアルボタンのテクスチャ読み込み
+	CTutorialButton::TextureLoad();
+	//ランキングボタンのテクスチャ読み込み
+	CRankingButton::TextureLoad();
+	//終了ボタンのテクスチャ読み込み
+	CExitButton::TextureLoad();
+	//タイトルロゴのテクスチャ読み込み
+	CTitleLogo::TextureLoad();
 	//火の粉のテクスチャ読み込み
 	//CSparksTexture::TextureLoad();
 }
@@ -306,8 +321,18 @@ void CManager::UnloadAll(void)
 	CGauge::TextureUnload();
 	//地面のテクスチャ破棄
 	CFloor::TextureUnload();
-	//ボタンのテクスチャ破棄
-	CButton::TextureUnload();
+	//何らかのボタンのテクスチャ破棄
+	CAnyButton::TextureUnload();
+	//スタートボタンのテクスチャ破棄
+	CStartButton::TextureUnload();
+	//チュートリアルボタンのテクスチャ破棄
+	CTutorialButton::TextureUnload();
+	//ランキングボタンのテクスチャ破棄
+	CRankingButton::TextureUnload();
+	//終了ボタンのテクスチャ読み込み
+	CExitButton::TextureUnload();
+	//タイトルロゴのテクスチャ破棄
+	CTitleLogo::TextureUnload();
 	//火の粉のテクスチャ破棄
 	//CSparksTexture::TextureUnload();
 }

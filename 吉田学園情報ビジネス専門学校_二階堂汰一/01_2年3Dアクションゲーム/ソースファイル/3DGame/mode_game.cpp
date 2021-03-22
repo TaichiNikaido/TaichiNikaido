@@ -10,10 +10,13 @@
 //*****************************************************************************
 #include "main.h"
 #include "manager.h"
+#include "keyboard.h"
+#include "joystick.h"
 #include "sound.h"
 #include "mode_game.h"
 #include "camera.h"
 #include "light.h"
+#include "pose_button_manager.h"
 #include "floor.h"
 #include "player.h"
 #include "weapon_sword.h"
@@ -125,6 +128,8 @@ void CGameMode::Update(void)
 		//カメラの更新処理関数呼び出し
 		m_pCamera->Update();
 	}
+	//入力処理関数呼び出し
+	Input();
 }
 
 //=============================================================================
@@ -135,44 +140,70 @@ void CGameMode::Draw(void)
 }
 
 //=============================================================================
+// 入力処理関数
+//=============================================================================
+void CGameMode::Input(void)
+{
+	//キーボードの取得
+	CKeyboard * pKeyboard = CManager::GetKeyboard();
+	//ジョイスティックの取得
+	CJoystick * pJoystick = CManager::GetJoystick();
+	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
+	DIJOYSTATE js;
+	//ジョイスティックの振動取得
+	LPDIRECTINPUTEFFECT pDIEffect = CJoystick::GetEffect();
+	if (lpDIDevice != NULL)
+	{
+		lpDIDevice->Poll();
+		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
+	}
+	//もしESCAPEキー又はジョイスティックのスタートボタンを押されたら
+	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
+	{
+		//ポーズボタンマネージャーの生成処理関数呼び出し
+		CPoseButtonManager::Create();
+	}
+}
+
+//=============================================================================
 // 全初期生成処理関数
 //=============================================================================
 void CGameMode::InitCreateAll(void)
 {
-	//もしライトのポインタがNULLの場合
-	if (m_pLight == NULL)
-	{
-		//ライトのメモリ確保
-		m_pLight = new CLight;
-	}
-	//もしライトのポインタがNULLじゃない場合
-	if (m_pLight != NULL)
-	{
-		//ライトの初期化処理関数呼び出し
-		m_pLight->Init();
-	}
-	//床の生成
-	CFloor::Create();
-	//もしプレイヤーのポインタがNULLの場合
-	if (m_pPlayer == NULL)
-	{
-		//プレイヤーの生成
-		m_pPlayer = CPlayer::Create();
-	}
-	//もしカメラのポインタがNULLの場合
-	if (m_pCamera == NULL)
-	{
-		//カメラのメモリ確保
-		m_pCamera = new CCamera;
-	}
-	//もしカメラのポインタがNULLじゃない場合
-	if (m_pCamera != NULL)
-	{
-		//カメラの初期化処理関数呼び出し
-		m_pCamera->Init();
-	}
-	//スケルトンの生成
+	////もしライトのポインタがNULLの場合
+	//if (m_pLight == NULL)
+	//{
+	//	//ライトのメモリ確保
+	//	m_pLight = new CLight;
+	//}
+	////もしライトのポインタがNULLじゃない場合
+	//if (m_pLight != NULL)
+	//{
+	//	//ライトの初期化処理関数呼び出し
+	//	m_pLight->Init();
+	//}
+	////もしプレイヤーのポインタがNULLの場合
+	//if (m_pPlayer == NULL)
+	//{
+	//	//プレイヤーの生成
+	//	m_pPlayer = CPlayer::Create();
+	//}
+	////もしカメラのポインタがNULLの場合
+	//if (m_pCamera == NULL)
+	//{
+	//	//カメラのメモリ確保
+	//	m_pCamera = new CCamera;
+	//}
+	////もしカメラのポインタがNULLじゃない場合
+	//if (m_pCamera != NULL)
+	//{
+	//	//カメラの初期化処理関数呼び出し
+	//	m_pCamera->Init();
+	//}
 
+
+
+	//CFloor::Create();
 	//CSkeleton::Create();
 	//m_pDragon = CDragon::Create();
 	//CSparks::Create();

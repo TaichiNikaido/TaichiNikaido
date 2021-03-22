@@ -17,11 +17,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))		//位置の初期値
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))		//回転の初期値
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//移動量の初期値
-#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//移動量の初期値
-#define INITIAL_LIFE (0)									//体力の初期値
+#define MINIMUM_LIFE (0)	//体力の初期値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -32,11 +28,11 @@
 //=============================================================================
 CSparks::CSparks()
 {
-	m_Position = INITIAL_POSITION;		//位置
+	m_Position = INITIAL_D3DXVECTOR3;	//位置
 	m_Rotation = INITIAL_ROTATION;		//回転
-	m_Size = INITIAL_SIZE;				//サイズ
-	m_Move = INITIAL_MOVE;				//移動量
-	m_nLife = INITIAL_LIFE;				//体力
+	m_Size = INITIAL_D3DXVECTOR3;		//サイズ
+	m_Move = INITIAL_D3DXVECTOR3;		//移動量
+	m_nLife = MINIMUM_LIFE;				//体力
 }
 
 //=============================================================================
@@ -74,7 +70,7 @@ CSparks * CSparks::Create(void)
 //=============================================================================
 HRESULT CSparks::Init(void)
 {
-	CSparksTexture::Create(INITIAL_POSITION, INITIAL_ROTATION, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100);
+	CSparksTexture::Create(INITIAL_D3DXVECTOR3, INITIAL_ROTATION, D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), 100);
 	return S_OK;
 }
 

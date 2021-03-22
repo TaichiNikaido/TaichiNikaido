@@ -27,11 +27,6 @@
 //*****************************************************************************
 #define MODEL_PASS ("Data/Script/Enemy/Skeleton/Model.txt")		//モデルスクリプトのパス
 #define SCRIPT_PASS ("Data/Script/Enemy/Skeleton/Data.txt")		//スケルトンのスクリプトのパス
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//位置の初期値
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//サイズの初期値
-#define INITIAL_COLLISION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))	//衝突判定用サイズの初期値
-#define INITIAL_ROTATION (D3DXVECTOR3(0.0f,0.0f,0.0f))			//回転の初期値
-#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))				//移動量の初期値
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -214,11 +209,11 @@ void CSkeleton::Draw(void)
 //=============================================================================
 void CSkeleton::DataLoad(void)
 {
-	D3DXVECTOR3 Position = INITIAL_POSITION;				//位置
-	D3DXVECTOR3 Size = INITIAL_SIZE;						//サイズ
-	D3DXVECTOR3 CollisionSize = INITIAL_COLLISION_SIZE;		//衝突判定用サイズ
+	D3DXVECTOR3 Position = INITIAL_D3DXVECTOR3;				//位置
+	D3DXVECTOR3 Size = INITIAL_D3DXVECTOR3;					//サイズ
+	D3DXVECTOR3 CollisionSize = INITIAL_D3DXVECTOR3;		//衝突判定用サイズ
 	D3DXVECTOR3 Rotation = INITIAL_ROTATION;				//回転
-	D3DXVECTOR3 Move = INITIAL_MOVE;						//移動量
+	D3DXVECTOR3 Move = INITIAL_D3DXVECTOR3;					//移動量
 	int nLife = 0;											//体力
 	int nAttack = 0;										//攻撃力
 	char aReadText[MAX_TEXT];								//読み込んだテキスト

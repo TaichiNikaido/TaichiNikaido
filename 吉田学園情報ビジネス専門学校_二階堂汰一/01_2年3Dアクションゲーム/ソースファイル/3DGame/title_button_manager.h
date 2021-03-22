@@ -36,9 +36,21 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
+	typedef enum
+	{
+		BUTTON_NONE = -1,
+		BUTTON_START,
+		BUTTON_TUTORIAL,
+		BUTTON_RANKING,
+		BUTTON_EXIT,
+		BUTTON_MAX
+	}BUTTON;
 	void Input(void);
+	void Select(void);
+	void CancelSound(void);
 	void InitCreateAll(void);
-	CButton * m_apButton[CButton::BUTTON_MAX];	//ボタンのポインタ
-	int m_nButton;								//ボタン
+	CButton * m_apButton[BUTTON_MAX];	//ボタンのポインタ
+	int m_nButton;						//ボタン
+	int m_nInputCount;					//入力間隔
 };
 #endif

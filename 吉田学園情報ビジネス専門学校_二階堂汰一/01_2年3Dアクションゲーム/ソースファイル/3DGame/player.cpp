@@ -31,23 +31,17 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MODEL_PASS ("Data/Script/Player/Model.txt")															//モデルスクリプトのパス
-#define SCRIPT_PASS ("Data/Script/Player/Data.txt")															//プレイヤーデータのスクリプトのパス
-#define INITIAL_POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))														//初期位置
-#define INITIAL_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))															//初期サイズ
-#define INITIAL_COLLISIION_SIZE (D3DXVECTOR3(0.0f,0.0f,0.0f))												//初期当たり判定用サイズ
-#define INITIAL_ROTATION (D3DXVECTOR3(D3DXToRadian(0.0f),D3DXToRadian(0.0f),D3DXToRadian(0.0f)))			//初期回転
-#define INITIAL_DIRECTION_DEST (D3DXVECTOR3(D3DXToRadian(0.0f),D3DXToRadian(0.0f),D3DXToRadian(0.0f)))		//目標の向きの初期値
+#define MODEL_PASS ("Data/Script/PlayerModel.txt")															//モデルスクリプトのパス
+#define SCRIPT_PASS ("Data/Script/PlayerData.txt")															//プレイヤーデータのスクリプトのパス
 #define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))															//初期移動量
-#define INITIAL_LIFE (0)																					//初期体力
 #define MINIMUM_LIFE (0)																					//体力の最小値
-#define INITIAL_ATTACK (0)																					//初期攻撃力
-#define INITIAL_COOL_TIME (0)																				//クールタイム
-#define INITIAL_SPEED (0.0f)																				//初期速さ
-#define INITIAL_WALK_SPEED (0.0f)																			//初期歩行速度
-#define INITIAL_DASH_SPEED (0.0f)																			//初期ダッシュ速度
-#define INITIAL_ADD_DIRECTION_VALUE (D3DXToRadian(0.75f))													//向きの加算値の初期値
-#define INITIAL_CAMERA_DISTANCE (0.0f)																		//カメラとの距離
+#define MINIMUM_ATTACK (0)																					//初期攻撃力
+#define MINIMUM_COOL_TIME (0)																				//クールタイム
+#define MINIMUM_SPEED (0.0f)																				//初期速さ
+#define MINIMUM_WALK_SPEED (0.0f)																			//初期歩行速度
+#define MINIMUM_DASH_SPEED (0.0f)																			//初期ダッシュ速度
+#define MINIMUM_ADD_DIRECTION_VALUE (D3DXToRadian(0.75f))													//向きの加算値の初期値
+#define MINIMUM_CAMERA_DISTANCE (0.0f)																		//カメラとの距離
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -60,22 +54,22 @@ D3DXMATERIAL * CPlayer::m_pMaterial = NULL;					//マテリアル
 //=============================================================================
 CPlayer::CPlayer()
 {
-	m_Position = INITIAL_POSITION;									//位置
-	m_PositionOld = INITIAL_POSITION;								//前の位置
-	m_Size = INITIAL_SIZE;											//サイズ
-	m_CollisionSize = INITIAL_COLLISIION_SIZE;						//当たり判定用サイズ
+	m_Position = INITIAL_D3DXVECTOR3;								//位置
+	m_PositionOld = INITIAL_D3DXVECTOR3;							//前の位置
+	m_Size = INITIAL_D3DXVECTOR3;									//サイズ
+	m_CollisionSize = INITIAL_D3DXVECTOR3;							//当たり判定用サイズ
 	m_Rotation = INITIAL_ROTATION;									//回転
-	m_DirectionDest = INITIAL_DIRECTION_DEST;						//目的の向き
+	m_DirectionDest = INITIAL_D3DXVECTOR3;							//目的の向き
 	m_Move = INITIAL_MOVE;											//移動量
-	m_nLife = INITIAL_LIFE;											//体力
-	memset(m_nAttack, INITIAL_ATTACK, sizeof(m_nAttack));			//攻撃力
-	memset(m_nCoolTime, INITIAL_COOL_TIME, sizeof(m_nCoolTime));	//クールタイム
-	m_nCoolTimeCount = INITIAL_COOL_TIME;							//クールタイムカウント
-	m_fSpeed = INITIAL_SPEED;										//速さ
-	m_fWalkSpeed = INITIAL_WALK_SPEED;								//歩行速度
-	m_fDashSpeed = INITIAL_DASH_SPEED;								//ダッシュ速度
-	m_fDirectionValue = INITIAL_ADD_DIRECTION_VALUE;				//向きの値
-	m_fCameraDistance = INITIAL_CAMERA_DISTANCE;					//カメラとの距離
+	m_nLife = MINIMUM_LIFE;											//体力
+	memset(m_nAttack, MINIMUM_ATTACK, sizeof(m_nAttack));			//攻撃力
+	memset(m_nCoolTime, MINIMUM_COOL_TIME, sizeof(m_nCoolTime));	//クールタイム
+	m_nCoolTimeCount = MINIMUM_COOL_TIME;							//クールタイムカウント
+	m_fSpeed = MINIMUM_SPEED;										//速さ
+	m_fWalkSpeed = MINIMUM_WALK_SPEED;								//歩行速度
+	m_fDashSpeed = MINIMUM_DASH_SPEED;								//ダッシュ速度
+	m_fDirectionValue = MINIMUM_ADD_DIRECTION_VALUE;				//向きの値
+	m_fCameraDistance = MINIMUM_CAMERA_DISTANCE;					//カメラとの距離
 	m_bDash = false;												//ダッシュしてるか
 	m_State = STATE_NONE;											//状態
 	m_Input = INPUT_NONE;											//入力情報
@@ -626,47 +620,41 @@ void CPlayer::DataLoad(void)
 						fgets(aReadText, sizeof(aReadText), pFile);
 						//読み込んだテキストを現在のテキストに格納
 						sscanf(aReadText, "%s", &aCurrentText);
-						//現在のテキストがPOSだったら
-						if (strcmp(aCurrentText, "POS") == 0)
+						//現在のテキストがPositionだったら
+						if (strcmp(aCurrentText, "Position") == 0)
 						{
 							//位置の設定
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Position.x, &m_Position.y, &m_Position.z);
 						}
-						//現在のテキストがSIZEだったら
-						if (strcmp(aCurrentText, "SIZE") == 0)
+						//現在のテキストがSizeだったら
+						if (strcmp(aCurrentText, "Size") == 0)
 						{
 							//サイズの設定
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Size.x, &m_Size.y, &m_Size.z);
 						}
-						//現在のテキストがCOLLISION_SIZEだったら
-						if (strcmp(aCurrentText, "COLLISION_SIZE") == 0)
+						//現在のテキストがCollisionSizeだったら
+						if (strcmp(aCurrentText, "CollisionSize") == 0)
 						{
 							//サイズの設定
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_CollisionSize.x, &m_CollisionSize.y, &m_CollisionSize.z);
 						}
 						//現在のテキストがROTだったら
-						if (strcmp(aCurrentText, "ROT") == 0)
+						if (strcmp(aCurrentText, "Rotation") == 0)
 						{
 							//回転情報の読み込み
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
 						}
-						//現在のテキストがMOVEだったら
-						if (strcmp(aCurrentText, "MOVE") == 0)
+						//現在のテキストがMoveだったら
+						if (strcmp(aCurrentText, "Move") == 0)
 						{
 							//サイズの設定
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Move.x, &m_Move.y, &m_Move.z);
 						}
-						//現在のテキストがLIFEだったら
-						if (strcmp(aCurrentText, "LIFE") == 0)
+						//現在のテキストがLifeだったら
+						if (strcmp(aCurrentText, "Life") == 0)
 						{
 							//体力の設定
 							sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &m_nLife);
-						}
-						//現在のテキストがSpeedだったら
-						if (strcmp(aCurrentText, "Speed") == 0)
-						{
-							//速度の設定の設定
-							sscanf(aReadText, "%s %s %f", &aUnnecessaryText, &aUnnecessaryText, &m_fSpeed);
 						}
 						//現在のテキストがWalkSpeedだったら
 						if (strcmp(aCurrentText, "WalkSpeed") == 0)

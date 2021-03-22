@@ -43,6 +43,7 @@ public:
 	static CDragon * GetDragon(void) { return m_pDragon; }
 	static CVillage * GetVillage(void) { return m_pVillage; }
 private:
+	void Input(void);
 	void InitCreateAll(void);
 	void UpdateCreateAll(void);
 	static CCamera * m_pCamera;		//カメラのポインタ

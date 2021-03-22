@@ -148,7 +148,11 @@
   <ItemGroup>
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="button_any.cpp" />
+    <ClCompile Include="button_back_to_title.cpp" />
+    <ClCompile Include="button_controller_guid.cpp" />
     <ClCompile Include="button_exit.cpp" />
+    <ClCompile Include="button_quit_game.cpp" />
     <ClCompile Include="button_ranking.cpp" />
     <ClCompile Include="button_start.cpp" />
     <ClCompile Include="button_tutorial.cpp" />
@@ -187,6 +191,7 @@
     <ClCompile Include="particle_texture_sparks.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon3d.cpp" />
+    <ClCompile Include="pose_button_manager.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scene2d.cpp" />
@@ -194,6 +199,7 @@
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="sparks.cpp" />
     <ClCompile Include="title_button_manager.cpp" />
+    <ClCompile Include="title_logo.cpp" />
     <ClCompile Include="ui_life.cpp" />
     <ClCompile Include="ui_life_dragon.cpp" />
     <ClCompile Include="ui_life_player.cpp" />
@@ -206,7 +212,11 @@
   <ItemGroup>
     <ClInclude Include="billboard.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="button_any.h" />
+    <ClInclude Include="button_back_to_title.h" />
+    <ClInclude Include="button_controller_guid.h" />
     <ClInclude Include="button_exit.h" />
+    <ClInclude Include="button_quit_game.h" />
     <ClInclude Include="button_ranking.h" />
     <ClInclude Include="button_start.h" />
     <ClInclude Include="button_tutorial.h" />
@@ -245,14 +255,14 @@
     <ClInclude Include="particle_texture_sparks.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon3d.h" />
+    <ClInclude Include="pose_button_manager.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene2d.h" />
     <ClInclude Include="scene3d.h" />
     <ClInclude Include="sparks.h" />
-    <ClInclude Include="texture_manager.h" />
     <ClInclude Include="title_button_manager.h" />
-    <ClInclude Include="icon.h" />
+    <ClInclude Include="title_logo.h" />
     <ClInclude Include="ui_life.h" />
     <ClInclude Include="ui_life_dragon.h" />
     <ClInclude Include="ui_life_player.h" />

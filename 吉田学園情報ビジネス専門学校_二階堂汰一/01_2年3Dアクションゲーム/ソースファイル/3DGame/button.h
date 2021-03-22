@@ -26,19 +26,8 @@
 class CButton :public CScene2d
 {
 public:
-	typedef enum
-	{
-		BUTTON_NONE = -1,
-		BUTTON_START,
-		BUTTON_TUTORIAL,
-		BUTTON_RANKING,
-		BUTTON_EXIT,
-		BUTTON_MAX
-	}BUTTON;
 	CButton();
 	~CButton();
-	static HRESULT TextureLoad(void);
-	static void TextureUnload(void);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
@@ -48,6 +37,5 @@ public:
 	void SelectSound(void);
 	virtual void Press(void) = 0;
 private:
-	static LPDIRECT3DTEXTURE9 m_apTexture[BUTTON_MAX];	//テクスチャへのポインタ
 };
 #endif
