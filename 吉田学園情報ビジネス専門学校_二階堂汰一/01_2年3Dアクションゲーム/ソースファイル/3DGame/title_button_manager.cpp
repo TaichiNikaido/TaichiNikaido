@@ -8,12 +8,8 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
-#include "mode_game.h"
-#include "renderer.h"
 #include "keyboard.h"
 #include "joystick.h"
 #include "sound.h"
@@ -237,7 +233,7 @@ void CTitleButtonManager::CancelSound(void)
 {
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (pSound != NULL)
 	{
 		//キャンセル音の再生
@@ -257,5 +253,5 @@ void CTitleButtonManager::InitCreateAll(void)
 	//ランキングボタンの生成
 	m_apButton[BUTTON_RANKING] = CRankingButton::Create(RANKING_BUTTON_POSITION);
 	//終了ボタンの生成
-	m_apButton[BUTTON_EXIT] = CExitButton::Create(EXIT_BUTTON_POSITION);
+	m_apButton[BUTTON_EXIT] = CExitButton::Create(EXIT_BUTTON_POSITION,CExitButton::TEXTURE_ENGLISH);
 }

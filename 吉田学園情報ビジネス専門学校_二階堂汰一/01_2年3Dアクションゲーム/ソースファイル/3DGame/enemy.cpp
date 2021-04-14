@@ -6,11 +6,16 @@
 //=============================================================================
 
 //*****************************************************************************
+// 警告制御
+//*****************************************************************************
+#define _CRT_SECURE_NO_WARNINGS
+
+//*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
+#include <stdio.h>
+#include <stdlib.h>
 #include "main.h"
-#include "manager.h"
-#include "renderer.h"
 #include "enemy.h"
 
 //*****************************************************************************
@@ -28,17 +33,11 @@
 //=============================================================================
 CEnemy::CEnemy()
 {
-	m_Position = INITIAL_D3DXVECTOR3;					//位置
-	m_Move = INITIAL_D3DXVECTOR3;						//移動量
-	m_Size = INITIAL_D3DXVECTOR3;						//サイズ
-	m_CollisionSize = INITIAL_D3DXVECTOR3;				//衝突判定用サイズ
-	m_Rotation = INITIAL_ROTATION;						//回転
-	m_nLife = MINIMUM_LIFE;								//体力
-	m_nAttack = MINIMUM_ATTACK;							//攻撃力
-	memset(m_apMotionPass,NULL,sizeof(m_apMotionPass));	//モーションデータのパス
-	memset(m_apModel, 0, sizeof(m_apModel));			//モデルのポインタ
-	memset(m_aModelData,NULL,sizeof(m_aModelData));		//モデルデータのポインタ
-	m_pMotion = NULL;
+	m_Move = INITIAL_D3DXVECTOR3;							//移動量
+	m_CollisionSize = INITIAL_D3DXVECTOR3;					//衝突判定用サイズ
+	m_nLife = MINIMUM_LIFE;									//体力
+	m_nAttack = MINIMUM_ATTACK;								//攻撃力
+	memset(m_apScriptPass, NULL, sizeof(m_apScriptPass));	//スクリプトのパス
 }
 
 //=============================================================================
@@ -53,8 +52,10 @@ CEnemy::~CEnemy()
 //=============================================================================
 HRESULT CEnemy::Init(void)
 {
-	//モーション処理関数呼び出し
-	Motion();
+	//データ読み込み関数呼び出し
+	DataLoad();
+	//キャラクターの初期化処理関数呼び出し
+	CCharacter::Init();
 	return S_OK;
 }
 
@@ -63,18 +64,8 @@ HRESULT CEnemy::Init(void)
 //=============================================================================
 void CEnemy::Uninit(void)
 {
-	//パーツの最大数分回す
-	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-	{
-		//もしモデルのポインタがNULLじゃない場合
-		if (m_apModel[nCount] != NULL)
-		{
-			//モデルの終了処理関数呼び出し
-			m_apModel[nCount]->Uninit();
-		}
-	}
-	//破棄処理関数呼び出し
-	Release();
+	//キャラクターの終了処理関数呼び出し
+	CCharacter::Uninit();
 }
 
 //=============================================================================
@@ -82,28 +73,8 @@ void CEnemy::Uninit(void)
 //=============================================================================
 void CEnemy::Update(void)
 {
-	//位置更新
-	m_Position += m_Move;
-	//もしモーションのポインタがNULLの場合
-	if (m_pMotion != NULL)
-	{
-		//更新処理関数呼び出し
-		m_pMotion->Update();
-	}
-	//パーツの最大数分回す
-	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-	{
-		//もしモデルのポインタがNULLじゃない場合
-		if (m_apModel[nCount] != NULL)
-		{
-			//モデルの描画処理関数呼び出し
-			m_apModel[nCount]->Update();
-			// モデルのパーツごとの座標と回転を受け取る
-			m_apModel[nCount]->SetModel(m_pMotion->GetPosition(nCount), m_pMotion->GetRotation(nCount), m_Size);
-		}
-	}
-	// 座標、回転、サイズのセット
-	m_apModel[0]->SetModel(m_pMotion->GetPosition(0) + m_Position, m_pMotion->GetRotation(0) + m_Rotation, m_Size);
+	//キャラクターの更新処理関数呼び出し
+	CCharacter::Update();
 }
 
 //=============================================================================
@@ -111,30 +82,8 @@ void CEnemy::Update(void)
 //=============================================================================
 void CEnemy::Draw(void)
 {
-	//パーツの最大数分回す
-	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-	{
-		//もしモデルのポインタがNULLじゃない場合
-		if (m_apModel[nCount] != NULL)
-		{
-			//モデルの描画処理関数呼び出し
-			m_apModel[nCount]->Draw();
-		}
-	}
-}
-
-//=============================================================================
-// モデルデータセット処理関数
-//=============================================================================
-void CEnemy::SetModelData(CModel::MODEL_DATA ModelData[MAX_PARTS])
-{
-	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-	{
-		if (ModelData[nCount].pMesh != NULL)
-		{
-			m_aModelData[nCount] = ModelData[nCount];
-		}
-	}
+	//キャラクターの描画処理関数呼び出し
+	CCharacter::Draw();
 }
 
 //=============================================================================
@@ -152,60 +101,123 @@ void CEnemy::SubLife(void)
 }
 
 //=============================================================================
-// モーション処理関数
+// データ読み込み関数
 //=============================================================================
-void CEnemy::Motion(void)
+void CEnemy::DataLoad(void)
 {
-	//もしモーションのポインタがNULLの場合
-	if (m_pMotion == NULL)
+	D3DXVECTOR3 Position = INITIAL_D3DXVECTOR3;				//位置
+	D3DXVECTOR3 Size = INITIAL_D3DXVECTOR3;					//サイズ
+	D3DXVECTOR3 CollisionSize = INITIAL_D3DXVECTOR3;		//衝突判定用サイズ
+	D3DXVECTOR3 Rotation = INITIAL_ROTATION;				//回転
+	D3DXVECTOR3 Move = INITIAL_D3DXVECTOR3;					//移動量
+	int nLife = 0;											//体力
+	int nAttack = 0;										//攻撃力
+	char aReadText[MAX_TEXT];								//読み込んだテキスト
+	char aCurrentText[MAX_TEXT];							//現在のテキスト
+	char aUnnecessaryText[MAX_TEXT];						//不必要なテキスト
+	memset(aReadText, NULL, sizeof(aReadText));
+	memset(aCurrentText, NULL, sizeof(aCurrentText));
+	memset(aUnnecessaryText, NULL, sizeof(aUnnecessaryText));
+	//ファイルのポインタ
+	FILE *pFile = NULL;
+	//もしファイルのポインタがNULLの場合
+	if (pFile == NULL)
 	{
-		//モーションの生成
-		m_pMotion = CMotion::Create();
-	}
-	//もしモーションのポインタがNULLじゃない場合
-	if (m_pMotion != NULL)
-	{
-		//モーションの読み込み
-		m_pMotion->LoadMotion(m_apMotionPass[0]);
-		//モーション情報の読み込み
-		m_pMotion->LoadModelInformation(m_apMotionPass[0]);
-		//最大パーツ数分回す
-		for (int nCount = 0; nCount < MAX_PARTS; nCount++)
+		//ファイルの読み込み
+		pFile = fopen(m_apScriptPass[0], "r");
+		//ファイルを開くことができたら
+		if (pFile != NULL)
 		{
-			//もしモデルデータのメッシュがNULLじゃない場合
-			if (m_aModelData[nCount].pMesh != NULL)
+			//SCRIPTの文字を見つける
+			while (strcmp(aCurrentText, "SCRIPT") != 0)
 			{
-				//親モデルの番号受け取り
-				m_aModelData[nCount].nIndexModelParent = m_pMotion->GetParents(nCount);
-				//モデルの生成
-				m_apModel[nCount] = CModel::Create(m_aModelData[nCount]);
-				//モーションの位置を取得
-				m_pMotion->GetPosition(nCount);
-				//モーションの回転を取得
-				m_pMotion->GetRotation(nCount);
-				//モデルの割り当て
-				m_apModel[nCount]->BindModel(m_aModelData[nCount]);
-				// モデルのパーツごとの座標と回転を受け取る
-				m_apModel[nCount]->SetModel(m_pMotion->GetPosition(nCount), m_pMotion->GetRotation(nCount), m_Size);
+				//読み込んだテキストを格納する
+				fgets(aReadText, sizeof(aReadText), pFile);
+				//読み込んだテキストを現在のテキストに格納
+				sscanf(aReadText, "%s", &aCurrentText);
 			}
-		}
-		//パーツの最大数分回す
-		for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-		{
-			//もし親のモデルが存在したら
-			if (m_apModel[m_aModelData[nCount].nIndexModelParent] != NULL && m_aModelData[nCount].nIndexModelParent != -1)
+			//現在のテキストがSCRIPTだったら
+			if (strcmp(aCurrentText, "SCRIPT") == 0)
 			{
-				//もしモデルデータのメッシュがNULLじゃない場合
-				if (m_aModelData[nCount].pMesh != NULL)
+				//END_SCRIPTの文字が見つかるまで読む
+				while (strcmp(aCurrentText, "END_SCRIPT") != 0)
 				{
-					//親のモデルポインタを受け取る
-					m_aModelData[nCount].pParent = m_apModel[m_aModelData[nCount].nIndexModelParent];
-					// モデルの割り当て
-					m_apModel[nCount]->BindModel(m_aModelData[nCount]);
+					//読み込んだテキストを格納する
+					fgets(aReadText, sizeof(aReadText), pFile);
+					//読み込んだテキストを現在のテキストに格納
+					sscanf(aReadText, "%s", &aCurrentText);
+					//現在のテキストがPARAMETER_SETだったら
+					if (strcmp(aCurrentText, "PARAMETER_SET") == 0)
+					{
+						//END_PARAMETER_SETの文字が見つかるまで読む
+						while (strcmp(aCurrentText, "END_PARAMETER_SET") != 0)
+						{
+							//読み込んだテキストを格納する
+							fgets(aReadText, sizeof(aReadText), pFile);
+							//読み込んだテキストを現在のテキストに格納
+							sscanf(aReadText, "%s", &aCurrentText);
+							//現在のテキストがPositionだったら
+							if (strcmp(aCurrentText, "Position") == 0)
+							{
+								//位置情報の読み込み
+								sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Position.x, &Position.y, &Position.z);
+								//位置を設定する
+								SetPosition(Position);
+							}
+							//現在のテキストがSizeだったら
+							if (strcmp(aCurrentText, "Size") == 0)
+							{
+								//サイズ情報の読み込み
+								sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Size.x, &Size.y, &Size.z);
+								//サイズを設定する
+								SetSize(Size);
+							}
+							//現在のテキストがCollisionSizeだったら
+							if (strcmp(aCurrentText, "CollisionSize") == 0)
+							{
+								//衝突判定用サイズ情報の読み込み
+								sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &CollisionSize.x, &CollisionSize.y, &CollisionSize.z);
+								//衝突判定用サイズの設定
+								SetCollisionSize(CollisionSize);
+							}
+							//現在のテキストがRotationだったら
+							if (strcmp(aCurrentText, "Rotation") == 0)
+							{
+								//回転情報の読み込み
+								sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Rotation.x, &Rotation.y, &Rotation.z);
+								//回転を設定する
+								SetRotation(Rotation);
+							}
+							//現在のテキストがMoveだったら
+							if (strcmp(aCurrentText, "Move") == 0)
+							{
+								//移動量の読み込み
+								sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Move.x, &Move.y, &Move.z);
+								//移動量の読み込み
+								SetMove(Move);
+							}
+							//現在のテキストがLifeだったら
+							if (strcmp(aCurrentText, "Life") == 0)
+							{
+								//体力情報の読み込み
+								sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &nLife);
+								//体力の設定
+								SetLife(nLife);
+							}
+							//現在のテキストがAttackだったら
+							if (strcmp(aCurrentText, "Attack") == 0)
+							{
+								//攻撃力情報の読み込み
+								sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &nAttack);
+								//攻撃力の設定
+								SetAttack(nAttack);
+							}
+						}
+					}
 				}
 			}
+			//ファイルを閉じる
+			fclose(pFile);
 		}
-		// 座標、回転、サイズのセット
-		m_apModel[0]->SetModel(m_pMotion->GetPosition(0) + m_Position, m_pMotion->GetRotation(0) + m_Rotation, m_Size);
 	}
 }

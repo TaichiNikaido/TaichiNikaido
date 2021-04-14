@@ -8,10 +8,10 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
+#include "mode_tutorial.h"
+#include "mode_game.h"
 #include "renderer.h"
 #include "sound.h"
 #include "button_quit_game.h"
@@ -19,7 +19,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_PASS ("Data/Texture/Button/Button_Ranking.png")		//テクスチャのパス
+#define TEXTURE_PASS ("Data/Texture/Button/Button_ReturnGame.png")		//テクスチャのパス
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -49,10 +49,10 @@ HRESULT CQuitGameButton::TextureLoad(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS,					// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,	//デバイスへのポインタ
+		TEXTURE_PASS,					//ファイルの名前
+		&m_pTexture);					//読み込むメモリー
 	return S_OK;
 }
 
@@ -61,7 +61,7 @@ HRESULT CQuitGameButton::TextureLoad(void)
 //=============================================================================
 void CQuitGameButton::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャのポインタがNULLではない場合
 	if (m_pTexture != NULL)
 	{
 		//テクスチャの破棄処理関数呼び出し
@@ -148,12 +148,28 @@ void CQuitGameButton::Draw(void)
 //=============================================================================
 void CQuitGameButton::Press(void)
 {
+	//チュートリアルモードの取得
+	CTutorialMode * pTutorialMode = CManager::GetTutorialMode();
+	//ゲームモードの取得
+	CGameMode * pGameMode = CManager::GetGameMode();
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (pSound != NULL)
 	{
 		//決定音の再生
 		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
+	}
+	//もしチュートリアルモードのポインタがNULLではない場合
+	if (pTutorialMode != NULL)
+	{
+		//ポーズ未使用状態にする
+		pTutorialMode->SetbPouse(false);
+	}
+	//もしゲームモードのポインタがNULLじゃない場合
+	if (pGameMode != NULL)
+	{
+		//ポーズ未使用状態にする
+		pGameMode->SetbPouse(false);
 	}
 }

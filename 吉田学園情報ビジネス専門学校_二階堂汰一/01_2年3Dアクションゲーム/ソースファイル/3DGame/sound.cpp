@@ -21,9 +21,12 @@
 //*****************************************************************************
 CSound::PARAM CSound::m_aParam[SOUND_LABEL_MAX] =
 {
+	{ "Data/Sound/BGM/Title.wav", -1 },
+	{ "Data/Sound/BGM/Name.wav", -1 },
 	{ "Data/Sound/SE/Button_Select.wav", 0 },
 	{ "Data/Sound/SE/Button_Push.wav", 0 },
 	{ "Data/Sound/SE/Button_Cancel.wav", 0 },
+	{ "Data/Sound/SE/Dragon_Roar.wav", 0 },
 };
 
 //=============================================================================

@@ -31,7 +31,7 @@
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-CModel::MODEL_DATA CSword::m_ModelData = {};			//モデルデータのポインタ
+CModel::MODEL_DATA CSword::m_aModelData = {};			//モデルデータのポインタ
 D3DXMATERIAL * CSword::m_pMaterial = NULL;				//マテリアルのポインタ
 
 //=============================================================================
@@ -71,23 +71,23 @@ HRESULT CSword::ModelLoad(void)
 			D3DXMESH_SYSTEMMEM,
 			pDevice,
 			NULL,
-			&m_ModelData.pBuffMat,
+			&m_aModelData.pBuffMat,
 			NULL,
-			&m_ModelData.nNumMat,
-			&m_ModelData.pMesh);
+			&m_aModelData.nNumMat,
+			&m_aModelData.pMesh);
 		//もしモデルのマテリアル情報がNULLじゃない場合
-		if (m_ModelData.pBuffMat != NULL)
+		if (m_aModelData.pBuffMat != NULL)
 		{
 			//マテリアルのポインタを取得
-			m_pMaterial = (D3DXMATERIAL *)m_ModelData.pBuffMat->GetBufferPointer();
+			m_pMaterial = (D3DXMATERIAL *)m_aModelData.pBuffMat->GetBufferPointer();
 			//モデルデータ数分回す
-			for (int nCountMat = 0; nCountMat < (int)m_ModelData.nNumMat; nCountMat++)
+			for (int nCountMat = 0; nCountMat < (int)m_aModelData.nNumMat; nCountMat++)
 			{
 				//もしファイルネームがNULLじゃない場合
 				if (m_pMaterial[nCountMat].pTextureFilename != NULL)
 				{
 					//テクスチャを読み込む
-					D3DXCreateTextureFromFile(pDevice, m_pMaterial[nCountMat].pTextureFilename, &m_ModelData.pTexture[nCountMat]);
+					D3DXCreateTextureFromFile(pDevice, m_pMaterial[nCountMat].pTextureFilename, &m_aModelData.pTexture[nCountMat]);
 				}
 			}
 		}
@@ -101,28 +101,28 @@ HRESULT CSword::ModelLoad(void)
 void CSword::ModelUnload(void)
 {
 	//もしモデルデータのワールド変換行列がNULLじゃな場合
-	if (m_ModelData.mtxWorld != NULL)
+	if (m_aModelData.mtxWorld != NULL)
 	{
 		//もしモデルデータのマテリアル情報がNULLじゃな場合
-		if (m_ModelData.pBuffMat != NULL)
+		if (m_aModelData.pBuffMat != NULL)
 		{
 			//モデルデータのマテリアル情報を破棄
-			m_ModelData.pBuffMat->Release();
+			m_aModelData.pBuffMat->Release();
 		}
 		//もしモデルデータのメッシュ情報がNULLじゃな場合
-		if (m_ModelData.pMesh != NULL)
+		if (m_aModelData.pMesh != NULL)
 		{
 			//モデルデータのメッシュ情報を破棄
-			m_ModelData.pMesh->Release();
+			m_aModelData.pMesh->Release();
 		}
 		//マテリアルの最大数分回す
 		for (int nCountTexture = 0; nCountTexture < MAX_MATERIAL; nCountTexture++)
 		{
 			//もしモデルデータのテクスチャのポインタがNULLじゃな場合
-			if (m_ModelData.pTexture[nCountTexture] != NULL)
+			if (m_aModelData.pTexture[nCountTexture] != NULL)
 			{
 				//モデルデータのテクスチャのポインタを破棄
-				m_ModelData.pTexture[nCountTexture]->Release();
+				m_aModelData.pTexture[nCountTexture]->Release();
 			}
 		}
 	}
@@ -157,7 +157,7 @@ CSword * CSword::Create()
 HRESULT CSword::Init(void)
 {
 	//プレイヤーを取得する
-	CPlayer * pPlayer = CGameMode::GetPlayer();
+	CPlayer * pPlayer = CManager::GetGameMode()->GetPlayer();
 	//もしプレイヤーがNULLじゃない場合
 	if (pPlayer != NULL)
 	{
@@ -165,7 +165,7 @@ HRESULT CSword::Init(void)
 		SetParentModel(pPlayer->GetModel(6));
 	}
 		//モデルデータの設定
-		SetModelData(m_ModelData);
+		SetModelData(m_aModelData);
 		//データロード処理関数呼び出し
 		DataLoad();
 		//武器の初期化処理関数呼び出し

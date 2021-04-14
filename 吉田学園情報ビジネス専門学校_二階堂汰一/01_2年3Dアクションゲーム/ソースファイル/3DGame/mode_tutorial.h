@@ -33,8 +33,10 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	void SetbPouse(bool bPouse) { m_bPouse = bPouse; }
 private:
 	void Input(void);
 	void CreateAll(void);
+	bool m_bPouse;	//ポーズを使用してるか
 };
 #endif

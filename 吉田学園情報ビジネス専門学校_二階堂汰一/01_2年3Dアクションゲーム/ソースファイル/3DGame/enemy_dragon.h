@@ -26,6 +26,11 @@
 class CDragon : public CEnemy
 {
 public:
+	typedef enum
+	{
+		MOTION_IDLE = 0,
+		MOTION_ROAR
+	}MOTION;
 	CDragon();
 	~CDragon();
 	static HRESULT ModelLoad(void);
@@ -36,9 +41,7 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	void DataLoad(void);
 	static CModel::MODEL_DATA m_aModelData[MAX_PARTS];		//モデルデータ
-	static D3DXMATERIAL * m_pMaterial;						//マテリアルのポインタ
 
 };
 #endif

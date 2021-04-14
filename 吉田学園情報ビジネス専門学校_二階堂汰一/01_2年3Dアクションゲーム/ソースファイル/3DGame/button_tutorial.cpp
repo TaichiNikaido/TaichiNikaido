@@ -8,8 +8,6 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
@@ -19,12 +17,12 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_PASS ("Data/Texture/Button/Button_Tutorial.png")
+#define TEXTURE_PASS ("Data/Texture/Button/Button_Tutorial.png")	//テクスチャのパス
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CTutorialButton::m_pTexture;	//テクスチャのポインタ
+LPDIRECT3DTEXTURE9 CTutorialButton::m_pTexture;		//テクスチャのポインタ
 
 //=============================================================================
 // コンストラクタ
@@ -49,10 +47,10 @@ HRESULT CTutorialButton::TextureLoad(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS,					// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,	//デバイスへのポインタ
+		TEXTURE_PASS,					//ファイルの名前
+		&m_pTexture);					//読み込むメモリー
 	return S_OK;
 }
 
@@ -61,7 +59,7 @@ HRESULT CTutorialButton::TextureLoad(void)
 //=============================================================================
 void CTutorialButton::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャのポインタがNULLではない場合
 	if (m_pTexture != NULL)
 	{
 		//テクスチャの破棄処理関数呼び出し
@@ -150,7 +148,7 @@ void CTutorialButton::Press(void)
 {
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (pSound != NULL)
 	{
 		//決定音の再生

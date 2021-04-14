@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// シーン管理 [scene.cpp]
+// シーン管理処理 [scene.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -10,8 +10,6 @@
 //*****************************************************************************
 #include "main.h"
 #include "scene.h"
-#include "renderer.h"
-#include "scene2D.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -28,20 +26,23 @@ int CScene::m_nNumAll = 0;									//シーンの総数
 //=============================================================================
 CScene::CScene(int nPriority)
 {
-	m_nID = 0;
-	m_nPriority = nPriority;
-	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_nID = 0;					//現在のシーン
+	m_nPriority = nPriority;	//プライオリティー
+								//シーンの最大数分回す
 	for (int nCount = 0; nCount < MAX_SCENE; nCount++)
 	{
+		//もしシーンのポインタがNULLの場合
 		if (m_apScene[m_nPriority][nCount] == NULL)
 		{
+			//シーンの確保
 			m_apScene[m_nPriority][nCount] = this;
 			m_nID = nCount;
+			//シーンの総数を加算する
 			m_nNumAll++;
 			break;
 		}
 	}
-	m_objType = OBJTYPE_NONE;
+	m_ObjectType = OBJECT_TYPE_NONE;	//オブジェクトの種類
 }
 
 //=============================================================================
@@ -52,16 +53,20 @@ CScene::~CScene()
 }
 
 //=============================================================================
-// 全体更新関数
+// 全更新処理関数
 //=============================================================================
 void CScene::UpdateAll(void)
 {
+	//プライオリティーの最大数分回す
 	for (int nCountPriority = 0; nCountPriority < PRIORITY_MAX; nCountPriority++)
 	{
+		//シーンの最大数分回す
 		for (int nCount = 0; nCount < MAX_SCENE; nCount++)
 		{
+			//もしシーンのポンタがNULLではない場合
 			if (m_apScene[nCountPriority][nCount] != NULL)
 			{
+				//シーンの更新処理関数呼び出し
 				m_apScene[nCountPriority][nCount]->Update();
 			}
 		}
@@ -69,16 +74,20 @@ void CScene::UpdateAll(void)
 }
 
 //=============================================================================
-// 全体描画関数
+// 全描画処理関数
 //=============================================================================
 void CScene::DrawAll(void)
 {
+	//プライオリティーの最大数分回す
 	for (int nCountPriority = 0; nCountPriority < PRIORITY_MAX; nCountPriority++)
 	{
+		//シーンの最大数分回す
 		for (int nCount = 0; nCount < MAX_SCENE; nCount++)
 		{
+			//もしシーンのポンタがNULLではない場合
 			if (m_apScene[nCountPriority][nCount] != NULL)
 			{
+				//シーンの更新処理関数呼び出し
 				m_apScene[nCountPriority][nCount]->Draw();
 			}
 		}
@@ -86,17 +95,22 @@ void CScene::DrawAll(void)
 }
 
 //=============================================================================
-// 全体破棄関数
+// 全破棄処理関数
 //=============================================================================
 void CScene::ReleaseAll(void)
 {
+	//プライオリティーの最大数分回す
 	for (int nCountPriority = 0; nCountPriority < PRIORITY_MAX; nCountPriority++)
 	{
+		//シーンの最大数分回す
 		for (int nCount = 0; nCount < MAX_SCENE; nCount++)
 		{
+			//もしシーンのポンタがNULLではない場合
 			if (m_apScene[nCountPriority][nCount] != NULL)
 			{
+				//シーンの終了処理関数呼び出し
 				m_apScene[nCountPriority][nCount]->Uninit();
+				//シーンをNULLにする
 				m_apScene[nCountPriority][nCount] = NULL;
 			}
 		}
@@ -104,48 +118,20 @@ void CScene::ReleaseAll(void)
 }
 
 //=============================================================================
-// シーンの総数取得関数
-//=============================================================================
-int CScene::GetNumAll(void)
-{
-	return m_nNumAll;
-}
-
-//=============================================================================
-// 破棄関数
+// 破棄処理関数
 //=============================================================================
 void CScene::Release(void)
 {
+	//もしシーンがNULLではない場合
 	if (m_apScene[m_nPriority][m_nID] != NULL)
 	{
 		int nID = m_nID;
 		int nPriority = m_nPriority;
+		//シーンのメモリを破棄する
 		delete m_apScene[nPriority][nID];
+		//シーンをNULLにする
 		m_apScene[nPriority][nID] = NULL;
+		//シーンの総数を減算する
 		m_nNumAll--;
 	}
-}
-
-//=============================================================================
-// 種類を設定
-//=============================================================================
-void CScene::SetObjType(OBJTYPE objType)
-{
-	m_objType = objType;
-}
-
-//=============================================================================
-// 種類を取得
-//=============================================================================
-CScene::OBJTYPE CScene::GetObjType(void)
-{
-	return m_objType;
-}
-
-//=============================================================================
-// 取得
-//=============================================================================
-CScene * CScene::GetScene(int nPriority, int nCnt)
-{
-	return m_apScene[nPriority][nCnt];
 }

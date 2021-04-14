@@ -49,7 +49,7 @@ CRankingMode * CRankingMode::Create()
 	{
 		//ランキングモードのメモリ確保
 		pRankingMode = new CRankingMode;
-		//もしランキングモードのポインタがNULLじゃない場合
+		//もしランキングモードのポインタがNULLではない場合
 		if (pRankingMode != NULL)
 		{
 			//ランキングモードの初期化処理関数呼び出し
@@ -131,7 +131,7 @@ void CRankingMode::Input(void)
 	//もしESCAPEキー又はジョイスティックのBボタンを押されたら
 	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_B))
 	{
-		//もしサウンドのポインタがNULLじゃない場合
+		//もしサウンドのポインタがNULLではない場合
 		if (pSound != NULL)
 		{
 			//キャンセル音の再生

@@ -10,21 +10,18 @@
 //*****************************************************************************
 #include "main.h"
 #include "manager.h"
+#include "sound.h"
 #include "keyboard.h"
 #include "joystick.h"
-#include "sound.h"
 #include "mode_game.h"
-#include "camera.h"
 #include "light.h"
-#include "pose_button_manager.h"
+#include "camera.h"
 #include "floor.h"
 #include "player.h"
-#include "weapon_sword.h"
-#include "weapon_shield.h"
-#include "enemy_skeleton.h"
 #include "enemy_dragon.h"
-#include "village.h"
-#include "sparks.h"
+#include "pose_button_manager.h"
+#include "skybox.h"
+#include "shadow.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -33,17 +30,17 @@
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-CCamera * CGameMode::m_pCamera = NULL;	//カメラのポインタ
-CPlayer * CGameMode::m_pPlayer = NULL;	//プレイヤーのポインタ
-CDragon * CGameMode::m_pDragon = NULL;	//ドラゴンのポインタ
-CVillage * CGameMode::m_pVillage = NULL;	//村のポインタ
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CGameMode::CGameMode()
 {
+	m_pPlayer = nullptr;	//プレイヤーのポインタ
+	m_pCamera = NULL;	//カメラのポインタ
+	m_pDragon = NULL;	//ドラゴンのポインタ
 	m_pLight = NULL;	//ライトのポインタ
+	m_bPouse = false;	//ポーズを使用してるか
 }
 
 //=============================================================================
@@ -65,7 +62,7 @@ CGameMode * CGameMode::Create()
 	{
 		//ゲームモードのメモリ確保
 		pGameMode = new CGameMode;
-		//もしゲームモードのポインタをNULLじゃない場合
+		//もしゲームモードのポインタをNULLではない場合
 		if (pGameMode != NULL)
 		{
 			//ゲームモードの初期化関数呼び出し
@@ -81,8 +78,16 @@ CGameMode * CGameMode::Create()
 //=============================================================================
 HRESULT CGameMode::Init(void)
 {
-	//全初期生成処理関数呼び出し
-	InitCreateAll();
+	//サウンドの取得
+	CSound * pSound = CManager::GetSound();
+	//もしサウンドのポインタがNULLではない場合
+	if (pSound != NULL)
+	{
+		//名前入力のBGM停止 
+		pSound->StopSound(CSound::SOUND_LABEL_BGM_NAME);
+	}
+	//初期生成処理関数呼び出し
+	InitCreate();
 	return S_OK;
 }
 
@@ -91,20 +96,20 @@ HRESULT CGameMode::Init(void)
 //=============================================================================
 void CGameMode::Uninit(void)
 {
-	//もしカメラのポインタがNULLじゃない場合
+	//もしカメラのポインタがNULLではない場合
 	if (m_pCamera != NULL)
 	{
-		//カメラの初期化処理関数呼び出し
+		//カメラの終了処理関数呼び出し
 		m_pCamera->Uninit();
 		//カメラのメモリ破棄
 		delete m_pCamera;
 		//カメラのポインタをNULLにする
 		m_pCamera = NULL;
 	}
-	//もしライトのポインタがNULLじゃない場合
+	//もしライトのポインタがNULLではない場合
 	if (m_pLight != NULL)
 	{
-		//ライトの初期化処理関数呼び出し
+		//ライトの終了処理関数呼び出し
 		m_pLight->Uninit();
 		//ライトのメモリ破棄
 		delete m_pLight;
@@ -118,9 +123,9 @@ void CGameMode::Uninit(void)
 //=============================================================================
 void CGameMode::Update(void)
 {
-	//全更新生成処理関数呼び出し
-	UpdateCreateAll();
-	//もしカメラのポインタがNULLじゃない場合
+	//更新生成処理関数呼び出し
+	UpdateCreate();
+	//もしカメラのポインタがNULLではない場合
 	if (m_pCamera != NULL)
 	{
 		//カメラを設定する
@@ -157,66 +162,105 @@ void CGameMode::Input(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-	//もしESCAPEキー又はジョイスティックのスタートボタンを押されたら
+		//もしESCAPEキー又はジョイスティックのスタートボタンを押されたら
 	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
 	{
-		//ポーズボタンマネージャーの生成処理関数呼び出し
-		CPoseButtonManager::Create();
+		//もしポーズを使用していない場合
+		if (m_bPouse == false)
+		{
+			//ポーズボタンマネージャーの生成処理関数呼び出し
+			CPoseButtonManager::Create();
+		}
 	}
 }
 
 //=============================================================================
-// 全初期生成処理関数
+// 初期生成処理関数
 //=============================================================================
-void CGameMode::InitCreateAll(void)
+void CGameMode::InitCreate(void)
 {
-	////もしライトのポインタがNULLの場合
-	//if (m_pLight == NULL)
-	//{
-	//	//ライトのメモリ確保
-	//	m_pLight = new CLight;
-	//}
-	////もしライトのポインタがNULLじゃない場合
-	//if (m_pLight != NULL)
-	//{
-	//	//ライトの初期化処理関数呼び出し
-	//	m_pLight->Init();
-	//}
-	////もしプレイヤーのポインタがNULLの場合
-	//if (m_pPlayer == NULL)
-	//{
-	//	//プレイヤーの生成
-	//	m_pPlayer = CPlayer::Create();
-	//}
-	////もしカメラのポインタがNULLの場合
-	//if (m_pCamera == NULL)
-	//{
-	//	//カメラのメモリ確保
-	//	m_pCamera = new CCamera;
-	//}
-	////もしカメラのポインタがNULLじゃない場合
-	//if (m_pCamera != NULL)
-	//{
-	//	//カメラの初期化処理関数呼び出し
-	//	m_pCamera->Init();
-	//}
-
-
-
-	//CFloor::Create();
-	//CSkeleton::Create();
-	//m_pDragon = CDragon::Create();
-	//CSparks::Create();
-	//CSword::Create();
-	//CShield::Create();
-	//m_pStage = CStage::Create();
-	//CVillageLifeUI::Create();
-	//CVillageIcon::Create();
+	//全基本生成処理関数呼び出し
+	BaseCreateAll();
+	//全UI生成処理関数呼び出し
+	UICreateAll();
+	//全マップオブジェクト生成処理関数呼び出し
+	MapObjectCreateAll();
+	//全キャラクター生成処理関数呼び出し
+	CharacterCreateAll();
 }
 
 //=============================================================================
-// 全更新生成処理関数
+// 更新生成処理関数
 //=============================================================================
-void CGameMode::UpdateCreateAll(void)
+void CGameMode::UpdateCreate(void)
+{
+}
+
+//=============================================================================
+// 全基本生成処理関数
+//=============================================================================
+void CGameMode::BaseCreateAll(void)
+{
+	//もしライトのポインタがNULLの場合
+	if (m_pLight == NULL)
+	{
+		//ライトのメモリ確保
+		m_pLight = new CLight;
+		//もしライトのポインタがNULLではない場合
+		if (m_pLight != NULL)
+		{
+			//ライトの初期化処理関数呼び出し
+			m_pLight->Init();
+		}
+	}
+	//もしカメラのポインタがNULLの場合
+	if (m_pCamera == NULL)
+	{
+		//カメラのメモリ確保
+		m_pCamera = new CCamera;
+		//もしカメラのポインタがNULLではない場合
+		if (m_pCamera != NULL)
+		{
+			//カメラの初期化処理関数呼び出し
+			m_pCamera->Init();
+		}
+	}
+}
+
+//=============================================================================
+// 全マップオブジェクト生成処理関数
+//=============================================================================
+void CGameMode::MapObjectCreateAll(void)
+{
+	//スカイボックスの生成
+	CSkyBox::Create();
+	//床の生成
+	CFloor::Create();
+}
+
+//=============================================================================
+// 全キャラクター生成処理関数
+//=============================================================================
+void CGameMode::CharacterCreateAll(void)
+{
+	//もしプレイヤーのポインタがNULLの場合
+	if (m_pPlayer == NULL)
+	{
+		//プレイヤーの生成
+		m_pPlayer = CPlayer::Create();
+	}
+	//もしドラゴンのポインタがNULLの場合
+	if (m_pDragon == NULL)
+	{
+		//ドラゴンの生成
+		m_pDragon = CDragon::Create();
+	}
+	//CShadow::Create();
+}
+
+//=============================================================================
+// 全UI生成処理関数
+//=============================================================================
+void CGameMode::UICreateAll(void)
 {
 }

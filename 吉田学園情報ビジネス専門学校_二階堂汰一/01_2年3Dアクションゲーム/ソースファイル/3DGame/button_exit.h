@@ -26,17 +26,25 @@
 class CExitButton :public CButton
 {
 public:
+	typedef enum
+	{
+		TEXTURE_NONE = -1,
+		TEXTURE_ENGLISH,
+		TEXTURE_JAPANESE,
+		TEXTURE_MAX
+	}TEXTURE_TYPE;
 	CExitButton();
 	~CExitButton();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
-	static CExitButton * Create(D3DXVECTOR3 Position);
+	static CExitButton * Create(D3DXVECTOR3 Position,TEXTURE_TYPE TextureType);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
 	void Press(void);
 private:
-	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャのポインタ
+	static LPDIRECT3DTEXTURE9 m_apTexture[TEXTURE_MAX];	//テクスチャのポインタ
+	TEXTURE_TYPE m_TextureType;							//テクスチャの種類
 };
 #endif

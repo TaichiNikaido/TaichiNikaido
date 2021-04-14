@@ -8,19 +8,17 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
+#include "mode_tutorial.h"
 #include "mode_game.h"
-#include "renderer.h"
 #include "keyboard.h"
 #include "joystick.h"
-#include "sound.h"
 #include "pose_button_manager.h"
 #include "button_back_to_title.h"
 #include "button_controller_guid.h"
 #include "button_quit_game.h"
+#include "button_exit.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -80,12 +78,28 @@ CPoseButtonManager * CPoseButtonManager::Create(void)
 //=============================================================================
 HRESULT CPoseButtonManager::Init(void)
 {
+	//チュートリアルモードの取得
+	CTutorialMode * pTutorialMode = CManager::GetTutorialMode();
+	//ゲームモードの取得
+	CGameMode * pGameMode = CManager::GetGameMode();
 	//初期全性処理関数呼び出し
 	InitCreateAll();
 	//ボタンの初期設定
 	m_nButton = BUTTON_QUIT_GAME;
 	//ボタンの初期選択処理関数呼び出し
 	m_apButton[m_nButton]->SelectColor();
+	//もしチュートリアルモードのポインタがNULLじゃない場合
+	if (pTutorialMode != NULL)
+	{
+		//ポーズ使用状態にする
+		pTutorialMode->SetbPouse(true);
+	}
+	//もしゲームモードのポインタがNULLじゃない場合
+	if (pGameMode != NULL)
+	{
+		//ポーズ使用状態にする
+		pGameMode->SetbPouse(true);
+	}
 	return S_OK;
 }
 
@@ -121,6 +135,10 @@ void CPoseButtonManager::Draw(void)
 //=============================================================================
 void CPoseButtonManager::Input(void)
 {
+	//チュートリアルモードの取得
+	CTutorialMode * pTutorialMode = CManager::GetTutorialMode();
+	//ゲームモードの取得
+	CGameMode * pGameMode = CManager::GetGameMode();
 	//キーボードの取得
 	CKeyboard * pKeyboard = CManager::GetKeyboard();
 	//ジョイスティックの取得
@@ -181,6 +199,15 @@ void CPoseButtonManager::Input(void)
 	{
 		//ボタンのプレス処理関数呼び出し
 		m_apButton[m_nButton]->Press();
+		//ボタンの総数分回す
+		for (int nCount = BUTTON_QUIT_GAME; nCount < BUTTON_MAX; nCount++)
+		{
+			//各ボタンの終了処理関数呼び出し
+			m_apButton[nCount]->Uninit();
+		}
+		//終了処理関数呼び出し
+		Uninit();
+		return;
 	}
 }
 
@@ -189,14 +216,14 @@ void CPoseButtonManager::Input(void)
 //=============================================================================
 void CPoseButtonManager::Select(void)
 {
-	//もし現在のボタンがゲームに戻るボタンより下だったら
+	//もし現在のボタンが終了ボタンより下だったら
 	if (m_nButton < BUTTON_QUIT_GAME)
 	{
 		//現在のボタンをタイトルに戻るボタンにする
-		m_nButton = BUTTON_BACK_TO_TITLE;
+		m_nButton = BUTTON_EXIT;
 	}
-	//もし現在のボタンがタイトルに戻るボタンを越えたら
-	if (m_nButton > BUTTON_BACK_TO_TITLE)
+	//もし現在のボタンが終了ボタンを越えたら
+	if (m_nButton > BUTTON_EXIT)
 	{
 		//現在のボタンをゲームに戻るボタンにする
 		m_nButton = BUTTON_QUIT_GAME;
@@ -222,4 +249,6 @@ void CPoseButtonManager::InitCreateAll(void)
 	m_apButton[BUTTON_CONTROLLER_GUIDE] = CControllerGuidButton::Create(TUTORIAL_BUTTON_POSITION);
 	//タイトルボタンの生成
 	m_apButton[BUTTON_BACK_TO_TITLE] = CBackToTitleButton::Create(RANKING_BUTTON_POSITION);
+	//終了ボタンの生成
+	m_apButton[BUTTON_EXIT] = CExitButton::Create(EXIT_BUTTON_POSITION, CExitButton::TEXTURE_JAPANESE);
 }

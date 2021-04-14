@@ -34,7 +34,6 @@ public:
 	D3DXVECTOR3 GetRotation(void) { return m_Rotation; }
 private:
 	void Input(void);
-	void DataLoad();
 	D3DXVECTOR3 m_PositionV;		//視点の位置
 	D3DXVECTOR3 m_PositionR;		//注視点の位置
 	D3DXVECTOR3 m_VectorU;			//上方向ベクトル

@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// 何らかのボタン [button_any.cpp]
+// 何らかのボタン入力 [button_any.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -8,8 +8,6 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
@@ -22,8 +20,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_PASS ("Data/Texture/Button/Button_Any.png")
-#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT - SCREEN_HEIGHT / 4,0.0f))
+#define TEXTURE_PASS ("Data/Texture/Button/Button_Any.png")									//テクスチャのパス
+#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT - SCREEN_HEIGHT / 4,0.0f))		//位置
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -53,10 +51,10 @@ HRESULT CAnyButton::TextureLoad(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS,					// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,	//デバイスへのポインタ
+		TEXTURE_PASS,					//ファイルの名前
+		&m_pTexture);					//読み込むメモリー
 	return S_OK;
 }
 
@@ -65,7 +63,7 @@ HRESULT CAnyButton::TextureLoad(void)
 //=============================================================================
 void CAnyButton::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャのポインタがNULLではない場合
 	if (m_pTexture != NULL)
 	{
 		//テクスチャの破棄処理関数呼び出し
@@ -201,7 +199,7 @@ void CAnyButton::Press(void)
 	}
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (pSound != NULL)
 	{
 		//決定音の再生

@@ -15,8 +15,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MAX_PARTS (30)			//最大パーツ数
-#define MAX_MATERIAL (60)		//最大マテリアル数
+#define MAX_PARTS (32)			//最大パーツ数
+#define MAX_MATERIAL (64)		//最大マテリアル数
 
 //*****************************************************************************
 // 前方宣言
@@ -48,11 +48,11 @@ public:
 	void Draw(void);
 	void SetParentModel(CModel * pParentModel);
 	void SetModel(D3DXVECTOR3 Position, D3DXVECTOR3 Rotation, D3DXVECTOR3 Size);
-	void BindModel(MODEL_DATA ModelData) { m_ModelData = ModelData; }
+	void BindModel(MODEL_DATA ModelData) { m_aModelData = ModelData; }
 	void BindTexture(LPDIRECT3DTEXTURE9 pTexture,int nCount);
-	MODEL_DATA GetModelData(void) { return m_ModelData; }
+	MODEL_DATA GetModelData(void) { return m_aModelData; }
 private:
-	MODEL_DATA m_ModelData;			//モデルデータ
+	MODEL_DATA m_aModelData;			//モデルデータ
 	D3DXVECTOR3 m_WorldPosition;	//ワールド座標
 };
 #endif

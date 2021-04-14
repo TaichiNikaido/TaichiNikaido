@@ -62,16 +62,16 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	}
 
 	// デバイスのプレゼンテーションパラメータの設定
-	ZeroMemory(&d3dpp, sizeof(d3dpp));								// ワークをゼロクリア
-	d3dpp.BackBufferCount = 1;							// バックバッファの数
-	d3dpp.BackBufferWidth = SCREEN_WIDTH;				// ゲーム画面サイズ(幅)
-	d3dpp.BackBufferHeight = SCREEN_HEIGHT;				// ゲーム画面サイズ(高さ)
-	d3dpp.BackBufferFormat = d3ddm.Format;				// カラーモードの指定
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;		// 映像信号に同期してフリップする
+	ZeroMemory(&d3dpp, sizeof(d3dpp));							// ワークをゼロクリア
+	d3dpp.BackBufferCount = 1;									// バックバッファの数
+	d3dpp.BackBufferWidth = SCREEN_WIDTH;						// ゲーム画面サイズ(幅)
+	d3dpp.BackBufferHeight = SCREEN_HEIGHT;						// ゲーム画面サイズ(高さ)
+	d3dpp.BackBufferFormat = d3ddm.Format;						// カラーモードの指定
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;					// 映像信号に同期してフリップする
 	d3dpp.EnableAutoDepthStencil = TRUE;						// デプスバッファ（Ｚバッファ）とステンシルバッファを作成
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;					// デプスバッファとして16bitを使う
-	d3dpp.Windowed = bWindow;						// ウィンドウモード
-	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;		// リフレッシュレート
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;				// デプスバッファとして24bitを使うステンシルバッファとして8bitを使う
+	d3dpp.Windowed = bWindow;									// ウィンドウモード
+	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;	// リフレッシュレート
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;	// インターバル
 
 	// デバイスの生成
@@ -103,13 +103,11 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 			}
 		}
 	}
-
 	// レンダーステートの設定
 	m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	//m_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	// サンプラーステートの設定
 	m_pD3DDevice->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
@@ -173,7 +171,7 @@ void CRenderer::Update(void)
 void CRenderer::Draw(void)
 {
 	// バックバッファ＆Ｚバッファのクリア
-	m_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+	m_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 	//フェードの取得
 	CFade * pFade = CManager::GetFade();
 	// Direct3Dによる描画の開始

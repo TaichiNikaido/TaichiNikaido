@@ -11,7 +11,6 @@
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
-#include "mode_game.h"
 #include "fade.h"
 
 //*****************************************************************************
@@ -19,11 +18,11 @@
 //*****************************************************************************
 #define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))		//位置
 #define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))					//サイズ
+#define COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,0.0f))								//色
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-#define INITIAL_COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,0.0f))
 
 //=============================================================================
 // コンストラクタ
@@ -35,7 +34,7 @@ CFade::CFade()
 	m_Size = INITIAL_D3DXVECTOR3;		//サイズ
 	m_fade = FADE_NONE;					//フェード
 	m_ModeNext = CManager::MODE_NONE;	//次のモード
-	m_ColorFade = INITIAL_COLOR;		//フェードの色
+	m_Color = COLOR;					//フェードの色
 }
 
 //=============================================================================
@@ -57,10 +56,10 @@ CFade * CFade::Create(CManager::MODE mode)
 	{
 		//フェードのメモリ確保
 		pFade = new CFade;
-		//もしフェードのポインタがNULLじゃない場合
+		//もしフェードのポインタがNULLではない場合
 		if (pFade != NULL)
 		{
-			//初期化処理関数呼び出し
+			//フェードの初期化処理関数呼び出し
 			pFade->Init(mode);
 		}
 	}
@@ -99,10 +98,10 @@ HRESULT CFade::Init(CManager::MODE mode)
 	pVtx[2].rhw = 1.0f;
 	pVtx[3].rhw = 1.0f;
 	//頂点カラーの設定 
-	pVtx[0].col = m_ColorFade;
-	pVtx[1].col = m_ColorFade;
-	pVtx[2].col = m_ColorFade;
-	pVtx[3].col = m_ColorFade;
+	pVtx[0].col = m_Color;
+	pVtx[1].col = m_Color;
+	pVtx[2].col = m_Color;
+	pVtx[3].col = m_Color;
 	//頂点バッファのアンロック
 	m_pVtxBuff->Unlock();
 	return S_OK;
@@ -113,10 +112,12 @@ HRESULT CFade::Init(CManager::MODE mode)
 //=============================================================================
 void CFade::Uninit(void)
 {
-	// 頂点バッファの破棄
+	//もし頂点バッファのポインタがNULLではない場合
 	if (m_pVtxBuff != NULL)
 	{
+		//頂点バッファの破棄処理関数呼び出し
 		m_pVtxBuff->Release();
+		//頂点バッファのポインタをNULLにする
 		m_pVtxBuff = NULL;
 	}
 }
@@ -128,23 +129,24 @@ void CFade::Update(void)
 {
 	//頂点情報を設定
 	VERTEX_2D *pVtx;
-	//モード
+	//次のモードを取得する
 	m_ModeNext = CManager::GetMode();
-	//更新
+
 	if (m_fade != FADE_NONE)
 	{
 		//フェードイン
 		if (m_fade == FADE_IN)
 		{
 			//a値を加算
-			m_ColorFade.a += FADE_RATE;
+			m_Color.a += FADE_RATE;
 			//画面が黒くなったら
-			if (m_ColorFade.a >= 1.0f)
+			if (m_Color.a >= 1.0f)
 			{
 				//タイトルに遷移
 				CManager::SetMode(m_ModeNext);
 				//フェード終了処理
-				m_ColorFade.a = 1.0f;
+				m_Color.a = 1.0f;
+				//フェードアウトさせる
 				m_fade = FADE_OUT;
 			}
 		}
@@ -152,12 +154,12 @@ void CFade::Update(void)
 		if (m_fade == FADE_OUT)
 		{
 			//α値を減算
-			m_ColorFade.a -= FADE_RATE;
+			m_Color.a -= FADE_RATE;
 			//画面の透過
-			if (m_ColorFade.a <= 0.0f)
+			if (m_Color.a <= 0.0f)
 			{
 				//フェード処理切り替え
-				m_ColorFade.a = 0.0f;
+				m_Color.a = 0.0f;
 				//モード設定
 				m_fade = FADE_IN;
 				CManager::StopFade();
@@ -166,10 +168,10 @@ void CFade::Update(void)
 		//頂点バッファをロック
 		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 		//頂点カラーの設定 
-		pVtx[0].col = m_ColorFade;
-		pVtx[1].col = m_ColorFade;
-		pVtx[2].col = m_ColorFade;
-		pVtx[3].col = m_ColorFade;
+		pVtx[0].col = m_Color;
+		pVtx[1].col = m_Color;
+		pVtx[2].col = m_Color;
+		pVtx[3].col = m_Color;
 		//頂点バッファのアンロック
 		m_pVtxBuff->Unlock();
 	}

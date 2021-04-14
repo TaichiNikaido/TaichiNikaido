@@ -52,26 +52,10 @@ CCamera::~CCamera()
 //=============================================================================
 HRESULT CCamera::Init(void)
 {
-	//プレイヤーの取得
-	CPlayer * pPlayer = CGameMode::GetPlayer();
-	//もしプレイヤーのポインタがNULLじゃない場合
-	if (pPlayer != NULL)
-	{
-		//プレイヤーの位置を取得
-		D3DXVECTOR3 PlayerPosition = D3DXVECTOR3(pPlayer->GetModel(3)->GetModelData().mtxWorld._41, pPlayer->GetModel(3)->GetModelData().mtxWorld._42, pPlayer->GetModel(3)->GetModelData().mtxWorld._43);
-		//プレイヤーまでの距離を取得
-		float PlayerDistance = pPlayer->GetCameraDistance();
-		//視点を設定する
-		m_PositionV = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z + PlayerDistance);
-		//注視点の設定
-		m_PositionR = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z);
-	}
 	//上方向ベクトルの初期設定
 	m_VectorU = VECTOR;
 	//回転方向の初期設定
 	m_Rotation = ROTATION;
-	//視点と注視点の距離を設定
-	m_fDistance = sqrtf(powf(m_PositionV.z - m_PositionR.z, 2) + powf(m_PositionV.y - m_PositionR.y, 2));
 	return S_OK;
 }
 
@@ -87,13 +71,21 @@ void CCamera::Uninit(void)
 //=============================================================================
 void CCamera::Update(void)
 {
-	//プレイヤーの取得
-	CPlayer * pPlayer = CGameMode::GetPlayer();
-	//もしプレイヤーのポインタがNULLじゃない場合
+	//プレイヤーを取得する
+	CPlayer * pPlayer = CManager::GetGameMode()->GetPlayer();
+	//もしプレイヤーのポインタがNULLではない場合
 	if (pPlayer != NULL)
 	{
 		//プレイヤーの位置を取得
 		D3DXVECTOR3 PlayerPosition = D3DXVECTOR3(pPlayer->GetModel(3)->GetModelData().mtxWorld._41, pPlayer->GetModel(3)->GetModelData().mtxWorld._42, pPlayer->GetModel(3)->GetModelData().mtxWorld._43);
+		//プレイヤーまでの距離を取得
+		float PlayerDistance = pPlayer->GetCameraDistance();
+		//視点を設定する
+		m_PositionV = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z + PlayerDistance);
+		//注視点の設定
+		m_PositionR = D3DXVECTOR3(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z);
+		//視点と注視点の距離を設定
+		m_fDistance = sqrtf(powf(m_PositionV.z - m_PositionR.z, 2) + powf(m_PositionV.y - m_PositionR.y, 2));
 		//各カメラ座標の設定
 		m_PositionV.x = PlayerPosition.x + m_fDistance * sinf(m_Rotation.z) * cosf(m_Rotation.y);
 		m_PositionV.y = PlayerPosition.y + m_fDistance * cosf(m_Rotation.z);
@@ -123,7 +115,7 @@ void CCamera::Input(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-	//上
+	//スティックが上入力されたら
 	if (lpDIDevice != NULL &&js.lRz == -1000)
 	{
 		if (m_Rotation.z > D3DXToRadian(5.0f))
@@ -131,7 +123,7 @@ void CCamera::Input(void)
 			m_Rotation.z -= D3DXToRadian(1.75f);
 		}
 	}
-	//下
+	//スティックが下入力されたら
 	if (lpDIDevice != NULL &&js.lRz == 1000)
 	{
 		if (m_Rotation.z < D3DXToRadian(115.0f))
@@ -139,12 +131,12 @@ void CCamera::Input(void)
 			m_Rotation.z += D3DXToRadian(1.75f);
 		}
 	}
-	//左
+	//スティックが左入力されたら
 	if (lpDIDevice != NULL &&js.lZ == -1000)
 	{
 		m_Rotation.y += D3DXToRadian(1.75f);
 	}
-	//右
+	//スティックが右入力されたら
 	if (lpDIDevice != NULL &&js.lZ == 1000)
 	{
 		m_Rotation.y -= D3DXToRadian(1.75f);

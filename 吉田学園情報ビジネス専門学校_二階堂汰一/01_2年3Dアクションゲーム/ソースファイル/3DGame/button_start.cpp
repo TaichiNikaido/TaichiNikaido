@@ -8,8 +8,6 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
@@ -49,10 +47,10 @@ HRESULT CStartButton::TextureLoad(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS,					// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,	//デバイスへのポインタ
+		TEXTURE_PASS,					//ファイルの名前
+		&m_pTexture);					//読み込むメモリー
 	return S_OK;
 }
 
@@ -61,7 +59,7 @@ HRESULT CStartButton::TextureLoad(void)
 //=============================================================================
 void CStartButton::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャのポインタがNULLではない場合
 	if (m_pTexture != NULL)
 	{
 		//テクスチャの破棄処理関数呼び出し
@@ -150,12 +148,12 @@ void CStartButton::Press(void)
 {
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (pSound != NULL)
 	{
 		//決定音の再生
 		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
 	}
-	//ゲームモードに遷移する
-	CManager::StartFade(CManager::MODE_GAME);
+	//名前入力モードに遷移する
+	CManager::StartFade(CManager::MODE_NAME);
 }

@@ -8,12 +8,8 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
-#include "mode_game.h"
-#include "renderer.h"
 #include "sound.h"
 #include "button.h"
 
@@ -108,7 +104,7 @@ void CButton::SelectSound(void)
 {
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (pSound != NULL)
 	{
 		//選択音の再生

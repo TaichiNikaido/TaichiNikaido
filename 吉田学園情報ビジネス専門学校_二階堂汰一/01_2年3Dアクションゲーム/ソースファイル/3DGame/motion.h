@@ -16,6 +16,7 @@
 // マクロ定義
 //*****************************************************************************
 #define MOTIONKEY_SET_MAX (60)	//モーションキーの最大数
+#define MAX_MOTION (16)			//モーションの最大数
 
 //*****************************************************************************
 // 前方宣言
@@ -47,15 +48,6 @@ public:
 		int nNumKey;										//モーションのキー数
 		KEY_INFORMATION KeyInformation[MOTIONKEY_SET_MAX];	//モーションに含むキーセット情報
 	}MOTION;	//モーション情報
-	typedef enum
-	{
-		MOTION_PLAYER_IDLE = 0,		//アイドルモーション
-		MOTION_PLAYER_WALK,			//歩きモーション
-		MOTION_PLAYER_DASH,			//走りモーション
-		MOTION_DRAGON_ATTACK1,		//ドラゴンの攻撃1
-		MOTION_DRAGON_ATTACK2,		//ドラゴンの攻撃2
-		MOTION_MAX					//モーションの最大
-	}MOTION_STATE;	//モーション状態
 	CMotion();
 	~CMotion();
 	static CMotion * Create(void);
@@ -63,8 +55,8 @@ public:
 	void Update(void);
 	void LoadMotion(const char * cText);
 	void LoadModelInformation(const char * cText);
-	void SetMotion(MOTION_STATE MotionState) { m_MotionState = MotionState; }
-	MOTION_STATE GetMotion(void) { return m_MotionState; }
+	void SetMotion(int nMotionState) { m_nMotionState = nMotionState; }
+	int GetMotion(void) { return m_nMotionState; }
 	int GetIndex(int nCount) { return m_ModelParent[nCount].nIndex; }
 	int GetParents(int nCount) { return m_ModelParent[nCount].nParents; }
 	D3DXVECTOR3 GetPosition(int nCount) { return m_ModelParent[nCount].Position; }
@@ -78,8 +70,8 @@ private:
 	int m_nCurrentKey;									//現在のキー数
 	bool m_bChange;										//変更したか
 	MODEL m_ModelParent[MAX_PARTS];						//モデルのパーツごとの情報
-	MOTION m_Motion[MOTION_MAX];						//モーションごとの情報
-	MOTION_STATE m_MotionState;							//モーションの状態
-	MOTION_STATE m_MotionOldState;						//1フレーム前のモーションの状態
+	MOTION m_Motion[MAX_MOTION];						//モーションごとの情報
+	int m_nMotionState;									//モーションの状態
+	int m_nMotionOldState;								//1フレーム前のモーションの状態
 };
 #endif

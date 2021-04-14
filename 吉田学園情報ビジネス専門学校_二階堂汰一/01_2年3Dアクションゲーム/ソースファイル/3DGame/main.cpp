@@ -60,28 +60,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ウィンドウクラスの登録
 	RegisterClassEx(&wcex);
 
-	//===============================================================================
-	//フルスクリーン
-	//==============================================================================
-	// 指定したクライアント領域を確保するために必要なウィンドウ座標を計算
-	//AdjustWindowRect(&rect, WS_POPUP, false);
-
-	// ウィンドウの作成
-	//hWnd = CreateWindow(CLASS_NAME,
-	//	WINDOW_NAME,
-	//	WS_POPUP,
-	//	CW_USEDEFAULT,
-	//	CW_USEDEFAULT,
-	//	(rect.right - rect.left),
-	//	(rect.bottom - rect.top),
-	//	NULL,
-	//	NULL,
-	//	hInstance,
-	//	NULL);
-
-	//===============================================================================
-	//ウィンドウモード
-	//==============================================================================
 	////指定したクライアント領域を確保するために必要なウィンドウ座標を計算
 	AdjustWindowRect(&rect, WS_POPUP, false);
 
@@ -110,20 +88,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	dwExecLastTime =
 		dwFPSLastTime = timeGetTime();
 
-	//==============================================================================
-	//フルスクリーン
-	//==============================================================================
-	// ウインドウの表示
-	//ShowWindow(hWnd, SW_SHOWMAXIMIZED);
-	//UpdateWindow(hWnd);
-
-	//==============================================================================
-	//ウィンドウモード
-	//==============================================================================
 	// ウインドウの表示
 	ShowWindow(hWnd, SW_SHOWMAXIMIZED);
 	UpdateWindow(hWnd);
-	//==============================================================================
 
 	// メッセージループ
 	while (1)

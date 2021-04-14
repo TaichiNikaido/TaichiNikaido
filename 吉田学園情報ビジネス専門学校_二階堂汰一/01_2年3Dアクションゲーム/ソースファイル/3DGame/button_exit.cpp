@@ -8,8 +8,6 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
@@ -19,18 +17,20 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_PASS ("Data/Texture/Button/Button_Exit.png")
+#define TEXTURE_ENGLISH_PASS ("Data/Texture/Button/Button_English_Exit.png")	//テクスチャのパス
+#define TEXTURE_JAPANESE_PASS ("Data/Texture/Button/Button_Japanese_Exit.png")	//テクスチャのパス
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-LPDIRECT3DTEXTURE9 CExitButton::m_pTexture;	//テクスチャのポインタ
+LPDIRECT3DTEXTURE9 CExitButton::m_apTexture[TEXTURE_MAX] = {};	//テクスチャのポインタ
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CExitButton::CExitButton()
 {
+	m_TextureType = TEXTURE_NONE;	//テクスチャの種類
 }
 
 //=============================================================================
@@ -49,10 +49,14 @@ HRESULT CExitButton::TextureLoad(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS,					// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,		//デバイスへのポインタ
+		TEXTURE_ENGLISH_PASS,				//ファイルの名前
+		&m_apTexture[TEXTURE_ENGLISH]);		//読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,		//デバイスへのポインタ
+		TEXTURE_JAPANESE_PASS,				//ファイルの名前
+		&m_apTexture[TEXTURE_JAPANESE]);	//読み込むメモリー
 	return S_OK;
 }
 
@@ -61,20 +65,24 @@ HRESULT CExitButton::TextureLoad(void)
 //=============================================================================
 void CExitButton::TextureUnload(void)
 {
-	// テクスチャの破棄
-	if (m_pTexture != NULL)
+	//テクスチャの最大数分回す
+	for (int nCount = TEXTURE_ENGLISH; nCount < TEXTURE_MAX; nCount++)
 	{
-		//テクスチャの破棄処理関数呼び出し
-		m_pTexture->Release();
-		//テクスチャをNULLにする
-		m_pTexture = NULL;
+		//もしテクスチャのポインタがNULLではない場合
+		if (m_apTexture[nCount] != NULL)
+		{
+			//テクスチャの破棄処理関数呼び出し
+			m_apTexture[nCount]->Release();
+			//テクスチャをNULLにする
+			m_apTexture[nCount] = NULL;
+		}
 	}
 }
 
 //=============================================================================
 // 生成処理関数呼び出し
 //=============================================================================
-CExitButton * CExitButton::Create(D3DXVECTOR3 Position)
+CExitButton * CExitButton::Create(D3DXVECTOR3 Position, TEXTURE_TYPE TextureType)
 {
 	//終了ボタンのポインタ
 	CExitButton * pExitButton = NULL;
@@ -88,6 +96,8 @@ CExitButton * CExitButton::Create(D3DXVECTOR3 Position)
 		{
 			//終了ボタンの位置設定
 			pExitButton->SetPosition(Position);
+			//テクスチャの種類を設定
+			pExitButton->m_TextureType = TextureType;
 			//終了ボタンの初期化処理関数呼び出し
 			pExitButton->Init();
 		}
@@ -112,7 +122,7 @@ HRESULT CExitButton::Init(void)
 	//テクスチャの設定
 	SetTexture(aTexture);
 	//テクスチャの割り当て
-	BindTexture(m_pTexture);
+	BindTexture(m_apTexture[m_TextureType]);
 	return S_OK;
 }
 
@@ -150,7 +160,7 @@ void CExitButton::Press(void)
 {
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (pSound != NULL)
 	{
 		//決定音の再生

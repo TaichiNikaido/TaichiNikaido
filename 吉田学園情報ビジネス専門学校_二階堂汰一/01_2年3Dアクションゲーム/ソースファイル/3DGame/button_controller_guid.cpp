@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ゲームに戻るボタン [button_quit_game.cpp]
+// 操作説明表示ボタン [button_controller_guid.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -8,8 +8,6 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
@@ -19,7 +17,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_PASS ("Data/Texture/Button/Button_Ranking.png")		//テクスチャのパス
+#define TEXTURE_PASS ("Data/Texture/Button/Button_HowTo.png")		//テクスチャのパス
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -49,10 +47,10 @@ HRESULT CControllerGuidButton::TextureLoad(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS,					// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,	//デバイスへのポインタ
+		TEXTURE_PASS,					//ファイルの名前
+		&m_pTexture);					//読み込むメモリー
 	return S_OK;
 }
 
@@ -61,7 +59,7 @@ HRESULT CControllerGuidButton::TextureLoad(void)
 //=============================================================================
 void CControllerGuidButton::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャのポインタがNULLではない場合
 	if (m_pTexture != NULL)
 	{
 		//テクスチャの破棄処理関数呼び出し
@@ -76,23 +74,23 @@ void CControllerGuidButton::TextureUnload(void)
 //=============================================================================
 CControllerGuidButton * CControllerGuidButton::Create(D3DXVECTOR3 Position)
 {
-	//操作説明ボタンのポインタ
+	//操作説明表示ボタンのポインタ
 	CControllerGuidButton * pControllerGuidButton = NULL;
-	//操作説明ボタンポインタがNULLの場合
+	//操作説明表示ボタンポインタがNULLの場合
 	if (pControllerGuidButton == NULL)
 	{
-		//操作説明ボタンのメモリ確保
+		//操作説明表示ボタンのメモリ確保
 		pControllerGuidButton = new CControllerGuidButton;
-		//操作説明ボタンのポインタがNULLではない場合
+		//操作説明表示ボタンのポインタがNULLではない場合
 		if (pControllerGuidButton != NULL)
 		{
-			//操作説明ボタンの位置設定
+			//操作説明表示ボタンの位置設定
 			pControllerGuidButton->SetPosition(Position);
-			//操作説明ボタンの初期化処理関数呼び出し
+			//vボタンの初期化処理関数呼び出し
 			pControllerGuidButton->Init();
 		}
 	}
-	//操作説明ボタンのポインタを返す
+	//操作説明表示ボタンのポインタを返す
 	return pControllerGuidButton;
 }
 
@@ -150,7 +148,7 @@ void CControllerGuidButton::Press(void)
 {
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (pSound != NULL)
 	{
 		//決定音の再生

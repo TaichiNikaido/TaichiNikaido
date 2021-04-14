@@ -33,7 +33,7 @@
 //=============================================================================
 CModel::CModel()
 {
-	ZeroMemory(&m_ModelData, sizeof(m_ModelData));	//モデルデータの初期化
+	ZeroMemory(&m_aModelData, sizeof(m_aModelData));	//モデルデータの初期化
 }
 
 //=============================================================================
@@ -123,7 +123,7 @@ CModel * CModel::Create(MODEL_DATA modeldata)
 	if (pModel != NULL)
 	{
 		//各種情報の設定
-		pModel->m_ModelData = modeldata;
+		pModel->m_aModelData = modeldata;
 		// 初期化処理
 		pModel->Init();
 	}
@@ -144,6 +144,11 @@ HRESULT CModel::Init(void)
 //=============================================================================
 void CModel::Uninit(void)
 {
+	m_aModelData.pBuffMat = NULL;
+	m_aModelData.nNumMat = NULL;
+	m_aModelData.pMesh = NULL;
+	memset(m_aModelData.pTexture, NULL, sizeof(m_aModelData.pTexture));
+	Release();
 }
 
 //=============================================================================
@@ -164,53 +169,53 @@ void CModel::Draw(void)
 	D3DXMATERIAL * pMat;					//マテリアルのポインタ
 	D3DXMATRIX mtxParent;					//親の行列
 	//ワールド変換行列の初期化
-	D3DXMatrixIdentity(&m_ModelData.mtxWorld);
+	D3DXMatrixIdentity(&m_aModelData.mtxWorld);
 	//拡大縮小行列の生成と計算
 	D3DXMatrixScaling(&mtxScale, GetSize().x, GetSize().y, GetSize().z);
-	D3DXMatrixMultiply(&m_ModelData.mtxWorld, &m_ModelData.mtxWorld, &mtxScale);
+	D3DXMatrixMultiply(&m_aModelData.mtxWorld, &m_aModelData.mtxWorld, &mtxScale);
 	//回転行列の生成と計算
 	D3DXMatrixRotationYawPitchRoll(&mtxRot, GetRotation().y, GetRotation().x, GetRotation().z);
-	D3DXMatrixMultiply(&m_ModelData.mtxWorld, &m_ModelData.mtxWorld, &mtxRot);
+	D3DXMatrixMultiply(&m_aModelData.mtxWorld, &m_aModelData.mtxWorld, &mtxRot);
 	//平行移動行列の生成と計算
 	D3DXMatrixTranslation(&mtxTrans, GetPosition().x, GetPosition().y, GetPosition().z);
-	D3DXMatrixMultiply(&m_ModelData.mtxWorld, &m_ModelData.mtxWorld, &mtxTrans);
+	D3DXMatrixMultiply(&m_aModelData.mtxWorld, &m_aModelData.mtxWorld, &mtxTrans);
 	//もし親モデルがNULLじゃない場合
-	if (m_ModelData.pParent != NULL)
+	if (m_aModelData.pParent != NULL)
 	{
 		//親のマトリクスを設定
-		mtxParent = m_ModelData.pParent->m_ModelData.mtxWorld;
+		mtxParent = m_aModelData.pParent->m_aModelData.mtxWorld;
 		//モデルパーツに親のマトリックスを掛け合わせることで、位置や回転を親に追従させる
-		D3DXMatrixMultiply(&m_ModelData.mtxWorld, &m_ModelData.mtxWorld, &mtxParent);
+		D3DXMatrixMultiply(&m_aModelData.mtxWorld, &m_aModelData.mtxWorld, &mtxParent);
 	}
 	else
 	{
 		//トランスフームを取得
 		pDevice->GetTransform(D3DTS_WORLD2, &mtxParent);
 		//モデルパーツにマトリックスを掛け合わせることで、位置や回転を親に追従させる
-		D3DXMatrixMultiply(&m_ModelData.mtxWorld, &m_ModelData.mtxWorld, &mtxParent);
+		D3DXMatrixMultiply(&m_aModelData.mtxWorld, &m_aModelData.mtxWorld, &mtxParent);
 	}
 	//計算結果を適用
-	pDevice->SetTransform(D3DTS_WORLD, &m_ModelData.mtxWorld);
+	pDevice->SetTransform(D3DTS_WORLD, &m_aModelData.mtxWorld);
 	//もしマテリアルがNULLじゃない場合
-	if (m_ModelData.pBuffMat != NULL)
+	if (m_aModelData.pBuffMat != NULL)
 	{
 		//マテリアルのポインタを取得
-		pMat = (D3DXMATERIAL*)m_ModelData.pBuffMat->GetBufferPointer();
+		pMat = (D3DXMATERIAL*)m_aModelData.pBuffMat->GetBufferPointer();
 	}
 	//マテリアル情報の設定とマテリアルごとに描画
-	for (int nCntMat = 0; nCntMat < (int)m_ModelData.nNumMat; nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)m_aModelData.nNumMat; nCntMat++)
 	{
 		//マテリアルを設定
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 		//マテリアルのテクスチャを設定
-		pDevice->SetTexture(0, m_ModelData.pTexture[nCntMat]);
+		pDevice->SetTexture(0, m_aModelData.pTexture[nCntMat]);
 		//拡散光の設定
 		pMat[nCntMat].MatD3D.Emissive = pMat[nCntMat].MatD3D.Diffuse;
 		//メッシュがNULLじゃない場合
-		if (m_ModelData.pMesh != NULL)
+		if (m_aModelData.pMesh != NULL)
 		{
 			//メッシュを描画する
-			m_ModelData.pMesh->DrawSubset(nCntMat);
+			m_aModelData.pMesh->DrawSubset(nCntMat);
 		}
 	}
 }
@@ -221,7 +226,7 @@ void CModel::Draw(void)
 void CModel::SetParentModel(CModel * pParentModel)
 {
 	//親モデルのポインタを設定
-	m_ModelData.pParent = pParentModel;
+	m_aModelData.pParent = pParentModel;
 }
 
 //=============================================================================
@@ -243,5 +248,5 @@ void CModel::SetModel(D3DXVECTOR3 Position, D3DXVECTOR3 Rotation, D3DXVECTOR3 Si
 void CModel::BindTexture(LPDIRECT3DTEXTURE9 pTexture, int nCount)
 {
 	//テクスチャのポインタを設定する
-	m_ModelData.pTexture[nCount] = pTexture;
+	m_aModelData.pTexture[nCount] = pTexture;
 }

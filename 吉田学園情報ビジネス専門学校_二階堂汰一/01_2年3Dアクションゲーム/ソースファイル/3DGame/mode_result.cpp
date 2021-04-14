@@ -49,7 +49,7 @@ CResultMode * CResultMode::Create()
 	{
 		//リザルトモードのメモリ確保
 		pResultMode = new CResultMode;
-		//もしリザルトモードのポインタがNULLじゃない場合
+		//もしリザルトモードのポインタがNULLではない場合
 		if (pResultMode != NULL)
 		{
 			//リザルトモードの初期化処理関数呼び出し
@@ -100,8 +100,12 @@ void CResultMode::Update(void)
 	//もしENTERかAボタンを押したとき
 	if (pKeyboard->GetKeyboardTrigger(DIK_RETURN) || lpDIDevice != NULL &&pJoystick->GetJoystickTrigger(JS_A))
 	{
-		//サウンドの停止
-		pSound->StopSound();
+		//もしサウンドのポインタがNULLではない場合
+		if (pSound != NULL)
+		{
+			//サウンドの停止
+			pSound->StopSound();
+		}
 		//ランキングに移動
 		CManager::StartFade(CManager::MODE_RANKING);
 	}

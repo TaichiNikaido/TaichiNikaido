@@ -10,7 +10,7 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include "scene.h"
+#include "character.h"
 #include "model.h"
 #include "motion.h"
 
@@ -25,9 +25,15 @@
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-class CPlayer : public CScene
+class CPlayer : public CCharacter
 {
 public:
+	typedef enum
+	{
+		MOTION_IDLE = 0,
+		MOTION_WALK,	//歩行モーション
+		MOTION_DASH,	//ダッシュモーション
+	}MOTION;	//モーション
 	typedef enum
 	{
 		STATE_NONE = -1,
@@ -47,16 +53,7 @@ public:
 	}INPUT;		//入力状態
 	typedef enum
 	{
-		DIRECTION_NONE = -1,
-		DIRECTION_FRONT,	//前方
-		DIRECTION_BACK,		//後方
-		DIRECTION_LEFT,		//右
-		DIRECTION_RIGHT,	//左
-		DIRECTION_MAX
-	}DIRECITON;		//向き情報
-	typedef enum
-	{
-		ATTACK_NONE = -1,
+		ATTACK_NONE = 0,
 		ATTACK_1,
 		ATTACK_2,
 		ATTACK_3,
@@ -73,48 +70,39 @@ public:
 	void Draw(void);
 	void Hit(void);
 	void SubLife(void);
-	void SetPosition(D3DXVECTOR3 Position) {m_Position = Position;}
 	void SetMove(D3DXVECTOR3 Move) { m_Move = Move; }
-	D3DXVECTOR3 GetPosition(void) { return m_Position; }
 	D3DXVECTOR3 GetPositionOld(void) { return m_PositionOld; }
 	D3DXVECTOR3 GetCollisionSize(void) { return m_CollisionSize; }
 	D3DXVECTOR3 GetMove(void) { return m_Move; }
 	int GetLife(void) { return m_nLife; }
 	float GetCameraDistance(void) { return m_fCameraDistance; }
-	CModel * GetModel(int nParts) { return m_pModel[nParts]; }
 private:
 	void Input(void);
 	void Move(void);
-	void Direction(void);
 	void Attack(void);
 	void Death(void);
 	void Collision(void);
-	void Motion(void);
 	void DataLoad(void);
-	static CModel::MODEL_DATA m_ModelData[MAX_PARTS];		//モデルデータ
-	static D3DXMATERIAL * m_pMaterial;						//マテリアルのポインタ
-	D3DXVECTOR3 m_Position;									//位置
-	D3DXVECTOR3 m_PositionOld;								//前の位置
-	D3DXVECTOR3 m_Size;										//サイズ
-	D3DXVECTOR3 m_CollisionSize;							//当たり判定用サイズ
-	D3DXVECTOR3 m_Rotation;									//回転
-	D3DXVECTOR3 m_DirectionDest;							//目的の向き
-	D3DXVECTOR3 m_Move;										//移動量
-	int m_nLife;											//体力
-	int m_nAttack[ATTACK_MAX];								//攻撃力
-	int m_nCoolTime[ATTACK_MAX];							//クールタイム
-	int m_nCoolTimeCount;									//クールタイムカウント
-	float m_fSpeed;											//速さ
-	float m_fWalkSpeed;										//歩行速度
-	float m_fDashSpeed;										//ダッシュ速度
-	float m_fDirectionValue;								//向きの値
-	float m_fCameraDistance;								//カメラとの距離
-	bool m_bDash;											//ダッシュしてるか
-	STATE m_State;											//状態
-	INPUT m_Input;											//入力情報
-	ATTACK m_Attack;										//攻撃情報
-	DIRECITON m_Direction;									//向き
-	CModel * m_pModel[MAX_PARTS];							//モデルのポインタ
-	CMotion * m_pMotion;									//モーションのポインタ
+	void UICreate(void);
+	static CModel::MODEL_DATA m_aPlayerModelData[MAX_PARTS];	//モデル情報
+	D3DXVECTOR3 m_PositionOld;									//前の位置
+	D3DXVECTOR3 m_CollisionSize;								//当たり判定用サイズ
+	D3DXVECTOR3 m_DirectionDest;								//目的の向き
+	D3DXVECTOR3 m_Move;											//移動量
+	int m_nLife;												//体力
+	int m_nAttack;												//攻撃力
+	int m_nAttackCombo;											//攻撃コンボ
+	int m_nCoolTime;											//クールタイム
+	int m_nCoolTimeCount;										//クールタイムカウント
+	float m_fSpeed;												//速さ
+	float m_fWalkSpeed;											//歩行速度
+	float m_fDashSpeed;											//ダッシュ速度
+	float m_fDirectionValue;									//向きの値
+	float m_fCameraDistance;									//カメラとの距離
+	bool m_bDash;												//ダッシュしてるか
+	bool m_bWeapon;												//武器を使用しているか
+	bool m_bAttack;												//攻撃をしているか
+	STATE m_State;												//状態
+	INPUT m_Input;												//入力情報
 };
 #endif

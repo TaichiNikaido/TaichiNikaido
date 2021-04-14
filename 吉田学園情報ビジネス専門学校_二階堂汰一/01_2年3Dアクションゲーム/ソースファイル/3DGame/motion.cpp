@@ -29,6 +29,7 @@
 #define INITIAL_FLAME (0)				//フレーム数の初期値
 #define INITIAL_CURRENT_KEY (1)			//現在のキー数
 #define INITIAL_ADD_CHANGE_FLAME (1)	//モーション変更時に加算するフレーム
+#define MOTION_NONE (0)					//モーション無
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -36,12 +37,11 @@
 
 //=============================================================================
 // コンストラクタ
-
 //=============================================================================
 CMotion::CMotion()
 {
-	m_MotionState = MOTION_PLAYER_IDLE;				//モーション状態
-	m_MotionOldState = MOTION_PLAYER_IDLE;			//古いモーション状態
+	m_nMotionState = MOTION_NONE;					//モーション状態
+	m_nMotionOldState = MOTION_NONE;				//古いモーション状態
 	m_nAddChangeFreme = INITIAL_ADD_CHANGE_FLAME;	//モーション変更時に加算するフレーム
 	m_nFrame = INITIAL_FLAME;						//フレーム数
 	m_nCurrentKey = INITIAL_CURRENT_KEY;			//現在のキー数
@@ -59,7 +59,7 @@ CMotion::CMotion()
 		m_NumRotationDifference[nCount] = INITIAL_ROTATION;				//回転の差分
 	}
 	//モーションの最大数分回す
-	for (int nCountMotion = 0; nCountMotion < MOTION_MAX; nCountMotion++)
+	for (int nCountMotion = 0; nCountMotion < MAX_MOTION; nCountMotion++)
 	{
 		m_Motion[nCountMotion].bLoop = false;				//ループするか
 		m_Motion[nCountMotion].nNumKey = INITIAL_NUMKEY;	//モーションキー数
@@ -114,7 +114,7 @@ void CMotion::Uninit(void)
 void CMotion::Update(void)
 {
 	// モーションが1フレーム前のモーションと違ったら
-	if (m_MotionOldState != m_MotionState)
+	if (m_nMotionOldState != m_nMotionState)
 	{
 		m_nFrame = 0;
 		m_nCurrentKey = 0;
@@ -124,12 +124,12 @@ void CMotion::Update(void)
 		//フレーム開始時に、変更後の回転の値や位置の値などを設定
 		if (m_nFrame == 0)
 		{
-			m_NumPositionDifference[nCntMotion] = ((m_Motion[m_MotionState].KeyInformation[m_nCurrentKey].Position[nCntMotion] -
-				(m_ModelParent[nCntMotion].Position - m_ModelParent[nCntMotion].PositionOrigin)) / float(m_Motion[m_MotionState].KeyInformation[m_nCurrentKey].nFrame));
+			m_NumPositionDifference[nCntMotion] = ((m_Motion[m_nMotionState].KeyInformation[m_nCurrentKey].Position[nCntMotion] -
+				(m_ModelParent[nCntMotion].Position - m_ModelParent[nCntMotion].PositionOrigin)) / float(m_Motion[m_nMotionState].KeyInformation[m_nCurrentKey].nFrame));
 
-			m_NumDirectionDifference[nCntMotion] = m_Motion[m_MotionState].KeyInformation[m_nCurrentKey].Rotation[nCntMotion] - m_ModelParent[nCntMotion].Rotation;
+			m_NumDirectionDifference[nCntMotion] = m_Motion[m_nMotionState].KeyInformation[m_nCurrentKey].Rotation[nCntMotion] - m_ModelParent[nCntMotion].Rotation;
 
-			m_NumRotationDifference[nCntMotion] = (m_NumDirectionDifference[nCntMotion] / float(m_Motion[m_MotionState].KeyInformation[m_nCurrentKey].nFrame));
+			m_NumRotationDifference[nCntMotion] = (m_NumDirectionDifference[nCntMotion] / float(m_Motion[m_nMotionState].KeyInformation[m_nCurrentKey].nFrame));
 		}
 		// 変更後の回転の値や位置の値を加算
 		m_ModelParent[nCntMotion].Position += m_NumPositionDifference[nCntMotion];
@@ -169,28 +169,28 @@ void CMotion::Update(void)
 		}
 	}
 	// 現在のモーションの記録
-	m_MotionOldState = m_MotionState;
+	m_nMotionOldState = m_nMotionState;
 	// ループするとき
-	if (m_nFrame >= m_Motion[m_MotionState].KeyInformation[m_nCurrentKey].nFrame && m_Motion[m_MotionState].bLoop == 1)
+	if (m_nFrame >= m_Motion[m_nMotionState].KeyInformation[m_nCurrentKey].nFrame && m_Motion[m_nMotionState].bLoop == 1)
 	{
 		m_nFrame = 0;
 		m_bChange = false;
 		m_nCurrentKey++;
 		// キーが記録されているキーより大きくなったら
-		if (m_nCurrentKey >= m_Motion[m_MotionState].nNumKey)
+		if (m_nCurrentKey >= m_Motion[m_nMotionState].nNumKey)
 		{
 			m_nCurrentKey = 0;
 		}
 	}
 	// ループしないとき
-	else if (m_nFrame >= m_Motion[m_MotionState].KeyInformation[m_nCurrentKey].nFrame && m_Motion[m_MotionState].bLoop == 0)
+	else if (m_nFrame >= m_Motion[m_nMotionState].KeyInformation[m_nCurrentKey].nFrame && m_Motion[m_nMotionState].bLoop == 0)
 	{
 		m_nFrame = 0;
 		m_bChange = false;
 		m_nCurrentKey++;
 
 		// キーが記録されているキーより大きくなったら
-		if (m_nCurrentKey >= m_Motion[m_MotionState].nNumKey)
+		if (m_nCurrentKey >= m_Motion[m_nMotionState].nNumKey)
 		{
 			for (int nCntMotion = 0; nCntMotion < MAX_PARTS; nCntMotion++)
 			{
@@ -198,7 +198,7 @@ void CMotion::Update(void)
 				m_NumRotationDifference[nCntMotion] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			}
 			m_nCurrentKey = 0;
-			m_MotionState = MOTION_PLAYER_IDLE;
+			m_nMotionState = MOTION_NONE;
 		}
 	}
 	else

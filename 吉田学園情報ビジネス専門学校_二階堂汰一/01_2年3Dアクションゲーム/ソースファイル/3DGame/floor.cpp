@@ -23,8 +23,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SCRIPT_PASS ("Data/Script/Floor/Data.txt")	//プレイヤーデータのスクリプトのパス
-#define TEXTURE_PASS ("Data/Texture/ground.jpg")	
+#define SCRIPT_PASS ("Data/Script/FloorData.txt")	//プレイヤーデータのスクリプトのパス
+#define TEXTURE_PASS ("Data/Texture/ground.jpg")	//テクスチャのパス
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -54,10 +54,10 @@ HRESULT CFloor::TextureLoad(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS,					// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,	//デバイスへのポインタ
+		TEXTURE_PASS,					//ファイルの名前
+		&m_pTexture);					//読み込むメモリー
 	return S_OK;
 }
 
@@ -66,7 +66,7 @@ HRESULT CFloor::TextureLoad(void)
 //=============================================================================
 void CFloor::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//テクスチャの破棄
 	if (m_pTexture != NULL)
 	{
 		//テクスチャの破棄処理関数呼び出し
@@ -88,7 +88,7 @@ CFloor * CFloor::Create()
 	{
 		//床のメモリ確保
 		pFloor = new CFloor;
-		//床のポインタがNULLじゃない場合
+		//床のポインタがNULLではない場合
 		if (pFloor != NULL)
 		{
 			//床の初期化処理関数呼び出し
@@ -156,9 +156,9 @@ void CFloor::DataLoad(void)
 	D3DXVECTOR3 Position = D3DXVECTOR3(0.0f,0.0f,0.0f);		//位置
 	D3DXVECTOR3 Size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		//サイズ
 	D3DXVECTOR3 Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);	//回転
-	char aReadText[MAX_TEXT];			//読み込んだテキスト
-	char aCurrentText[MAX_TEXT];		//現在のテキスト
-	char aUnnecessaryText[MAX_TEXT];	//不必要なテキスト
+	char aReadText[MAX_TEXT];								//読み込んだテキスト
+	char aCurrentText[MAX_TEXT];							//現在のテキスト
+	char aUnnecessaryText[MAX_TEXT];						//不必要なテキスト
 	memset(aReadText, NULL, sizeof(aReadText));
 	memset(aCurrentText, NULL, sizeof(aCurrentText));
 	memset(aUnnecessaryText, NULL, sizeof(aUnnecessaryText));

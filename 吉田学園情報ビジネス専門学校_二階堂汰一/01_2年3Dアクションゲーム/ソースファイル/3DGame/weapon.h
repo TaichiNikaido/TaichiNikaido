@@ -37,7 +37,7 @@ public:
 	void SetSize(D3DXVECTOR3 Size) { m_Size = Size; }
 	void SetCollisionSize(D3DXVECTOR3 CollisionSize) { m_CollisionSize = CollisionSize; }
 	void SetRotation(D3DXVECTOR3 Rotation) { m_Rotation = Rotation; }
-	void SetModelData(CModel::MODEL_DATA ModelData) { m_ModelData = ModelData; }
+	void SetModelData(CModel::MODEL_DATA ModelData) { m_aModelData = ModelData; }
 	void SetParentModel(CModel * pParentModel) { m_pParentModel = pParentModel; }
 private:
 	void Collision(void);
@@ -47,6 +47,6 @@ private:
 	D3DXVECTOR3 m_Rotation;				//回転
 	CModel * m_pModel;					//モデルのポインタ
 	CModel * m_pParentModel;			//親モデルのポインタ
-	CModel::MODEL_DATA m_ModelData;		//モデルデータ
+	CModel::MODEL_DATA m_aModelData;		//モデルデータ
 };
 #endif

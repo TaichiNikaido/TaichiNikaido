@@ -23,7 +23,6 @@ class CLight;
 class CCamera;
 class CPlayer;
 class CDragon;
-class CVillage;
 
 //*****************************************************************************
 // クラス定義
@@ -38,18 +37,22 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	static CCamera * GetCamera(void) { return m_pCamera; }
-	static CPlayer * GetPlayer(void) { return m_pPlayer; }
-	static CDragon * GetDragon(void) { return m_pDragon; }
-	static CVillage * GetVillage(void) { return m_pVillage; }
+	void SetbPouse(bool bPouse) { m_bPouse = bPouse; }
+	CCamera * GetCamera(void) { return m_pCamera; }
+	CPlayer * GetPlayer(void) { return m_pPlayer; }
+	CDragon * GetDragon(void) { return m_pDragon; }
 private:
 	void Input(void);
-	void InitCreateAll(void);
-	void UpdateCreateAll(void);
-	static CCamera * m_pCamera;		//カメラのポインタ
-	static CPlayer * m_pPlayer;		//プレイヤーのポインタ
-	static CDragon * m_pDragon;		//ドラゴンのポインタ
-	static CVillage * m_pVillage;	//村のポインタ
-	CLight * m_pLight;				//ライトのポインタ
+	void InitCreate(void);
+	void UpdateCreate(void);
+	void BaseCreateAll(void);
+	void MapObjectCreateAll(void);
+	void CharacterCreateAll(void);
+	void UICreateAll(void);
+	CCamera * m_pCamera;		//カメラのポインタ
+	CPlayer * m_pPlayer;		//プレイヤーのポインタ
+	CDragon * m_pDragon;		//ドラゴンのポインタ
+	CLight * m_pLight;			//ライトのポインタ
+	bool m_bPouse;				//ポーズを使用してるか
 };
 #endif

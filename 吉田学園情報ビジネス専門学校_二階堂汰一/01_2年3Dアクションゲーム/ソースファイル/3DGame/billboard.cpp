@@ -86,7 +86,7 @@ HRESULT CBillboard::Init(void)
 //=============================================================================
 void CBillboard::Uninit(void)
 {
-	//もし頂点バッファのポインタがNULLじゃない場合
+	//もし頂点バッファのポインタがNULLではない場合
 	if (m_pVtxBuff != NULL)
 	{
 		//頂点バッファの破棄
@@ -162,15 +162,15 @@ void CBillboard::Draw(void)
 	m_mtxWorld._41 = 0;
 	m_mtxWorld._42 = 0;
 	m_mtxWorld._43 = 0;
-	// 向き反映
+	//向き反映
 	D3DXMatrixRotationYawPitchRoll(&mtxRotation, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRotation);
-	// 位置を反映
+	//位置を反映
 	D3DXMatrixTranslation(&mtxTrans, m_Position.x,
 		m_Position.y, m_Position.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld,
 		&mtxTrans);
-	// ワールドマトリックスの設定
+	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 	//マテリアル情報
 	ZeroMemory(&matDef, sizeof(matDef));
@@ -179,7 +179,7 @@ void CBillboard::Draw(void)
 	matDef.Ambient.b = m_Color.b;
 	matDef.Ambient.a = m_Color.a;
 	pDevice->SetMaterial(&matDef);
-	// ポリゴン描画
+	//ポリゴン描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 	//アルファテスト無効化
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);

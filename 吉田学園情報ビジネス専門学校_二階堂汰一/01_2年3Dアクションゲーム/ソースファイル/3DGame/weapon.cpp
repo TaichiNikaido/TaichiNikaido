@@ -34,7 +34,7 @@ CWeapon::CWeapon()
 	m_Rotation = INITIAL_ROTATION;				//回転
 	m_pModel = NULL;							//モデルのポインタ
 	m_pParentModel = NULL;						//親モデルのポインタ
-	m_ModelData = {};							//モデルデータ
+	m_aModelData = {};							//モデルデータ
 }
 
 //=============================================================================
@@ -53,7 +53,7 @@ HRESULT CWeapon::Init(void)
 	if (m_pModel == NULL)
 	{
 		//モデルの生成
-		m_pModel = CModel::Create(m_ModelData);
+		m_pModel = CModel::Create(m_aModelData);
 	}
 	//もしモデルのポインタがNULLじゃない場合
 	if (m_pModel != NULL)

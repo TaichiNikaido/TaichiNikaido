@@ -31,52 +31,51 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MODEL_PASS ("Data/Script/PlayerModel.txt")															//モデルスクリプトのパス
-#define SCRIPT_PASS ("Data/Script/PlayerData.txt")															//プレイヤーデータのスクリプトのパス
-#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))															//初期移動量
-#define MINIMUM_LIFE (0)																					//体力の最小値
-#define MINIMUM_ATTACK (0)																					//初期攻撃力
-#define MINIMUM_COOL_TIME (0)																				//クールタイム
-#define MINIMUM_SPEED (0.0f)																				//初期速さ
-#define MINIMUM_WALK_SPEED (0.0f)																			//初期歩行速度
-#define MINIMUM_DASH_SPEED (0.0f)																			//初期ダッシュ速度
-#define MINIMUM_ADD_DIRECTION_VALUE (D3DXToRadian(0.75f))													//向きの加算値の初期値
-#define MINIMUM_CAMERA_DISTANCE (0.0f)																		//カメラとの距離
+#define MODEL_PASS ("Data/Script/Player/PlayerModel.txt")	//モデルスクリプトのパス
+#define SCRIPT_PASS ("Data/Script/Player/PlayerData.txt")	//プレイヤーデータのスクリプトのパス
+#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//初期移動量
+#define MINIMUM_LIFE (0)									//体力の最小値
+#define MINIMUM_ATTACK (0)									//攻撃力の最小値
+#define MINIMUM_ATTACK_COMBO (0)							//攻撃コンボ数の最小値
+#define MINIMUM_COOL_TIME (0)								//クールタイム
+#define MINIMUM_SPEED (0.0f)								//初期速さ
+#define MINIMUM_WALK_SPEED (0.0f)							//初期歩行速度
+#define MINIMUM_DASH_SPEED (0.0f)							//初期ダッシュ速度
+#define MINIMUM_ADD_DIRECTION_VALUE (D3DXToRadian(0.75f))	//向きの加算値の初期値
+#define MINIMUM_CAMERA_DISTANCE (0.0f)						//カメラとの距離
+#define ATTACK1_COOL_TIME (1)								//攻撃(1)のクールタイム
+#define ATTACK2_COOL_TIME (2)								//攻撃(2)のクールタイム
+#define ATTACK3_COOL_TIME (3)								//攻撃(3)のクールタイム
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-CModel::MODEL_DATA CPlayer::m_ModelData[MAX_PARTS] = {};	//モデルデータ
-D3DXMATERIAL * CPlayer::m_pMaterial = NULL;					//マテリアル
+CModel::MODEL_DATA CPlayer::m_aPlayerModelData[MAX_PARTS] = {};	//モデル情報
 
 //=============================================================================
 // コンストラクタ
 //=============================================================================
 CPlayer::CPlayer()
 {
-	m_Position = INITIAL_D3DXVECTOR3;								//位置
-	m_PositionOld = INITIAL_D3DXVECTOR3;							//前の位置
-	m_Size = INITIAL_D3DXVECTOR3;									//サイズ
-	m_CollisionSize = INITIAL_D3DXVECTOR3;							//当たり判定用サイズ
-	m_Rotation = INITIAL_ROTATION;									//回転
-	m_DirectionDest = INITIAL_D3DXVECTOR3;							//目的の向き
-	m_Move = INITIAL_MOVE;											//移動量
-	m_nLife = MINIMUM_LIFE;											//体力
-	memset(m_nAttack, MINIMUM_ATTACK, sizeof(m_nAttack));			//攻撃力
-	memset(m_nCoolTime, MINIMUM_COOL_TIME, sizeof(m_nCoolTime));	//クールタイム
-	m_nCoolTimeCount = MINIMUM_COOL_TIME;							//クールタイムカウント
-	m_fSpeed = MINIMUM_SPEED;										//速さ
-	m_fWalkSpeed = MINIMUM_WALK_SPEED;								//歩行速度
-	m_fDashSpeed = MINIMUM_DASH_SPEED;								//ダッシュ速度
-	m_fDirectionValue = MINIMUM_ADD_DIRECTION_VALUE;				//向きの値
-	m_fCameraDistance = MINIMUM_CAMERA_DISTANCE;					//カメラとの距離
-	m_bDash = false;												//ダッシュしてるか
-	m_State = STATE_NONE;											//状態
-	m_Input = INPUT_NONE;											//入力情報
-	m_Attack = ATTACK_NONE;											//攻撃情報
-	m_Direction = DIRECTION_FRONT;									//向き
-	memset(m_pModel, NULL, sizeof(m_pModel));						//モデルのポインタ
-	m_pMotion = NULL;												//モーションのポインタ
+	m_PositionOld = INITIAL_D3DXVECTOR3;				//前の位置
+	m_CollisionSize = INITIAL_D3DXVECTOR3;				//当たり判定用サイズ
+	m_DirectionDest = INITIAL_D3DXVECTOR3;				//目的の向き
+	m_Move = INITIAL_MOVE;								//移動量
+	m_nLife = MINIMUM_LIFE;								//体力
+	m_nAttack = MINIMUM_ATTACK;							//攻撃力
+	m_nAttackCombo = MINIMUM_ATTACK_COMBO;				//攻撃コンボ
+	m_nCoolTime = MINIMUM_COOL_TIME;					//クールタイム
+	m_nCoolTimeCount = MINIMUM_COOL_TIME;				//クールタイムカウント
+	m_fSpeed = MINIMUM_SPEED;							//速さ
+	m_fWalkSpeed = MINIMUM_WALK_SPEED;					//歩行速度
+	m_fDashSpeed = MINIMUM_DASH_SPEED;					//ダッシュ速度
+	m_fDirectionValue = MINIMUM_ADD_DIRECTION_VALUE;	//向きの値
+	m_fCameraDistance = MINIMUM_CAMERA_DISTANCE;		//カメラとの距離
+	m_bDash = false;									//ダッシュしてるか
+	m_bWeapon = false;									//武器を使用してるか
+	m_bAttack = false;									//攻撃してるか
+	m_State = STATE_NONE;								//状態
+	m_Input = INPUT_NONE;								//入力情報
 }
 
 //=============================================================================
@@ -91,6 +90,8 @@ CPlayer::~CPlayer()
 //=============================================================================
 HRESULT CPlayer::ModelLoad(void)
 {
+	//マテリアルのポインタ
+	D3DXMATERIAL * pMaterial;
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
 	//パスのポインタ
@@ -112,23 +113,23 @@ HRESULT CPlayer::ModelLoad(void)
 				D3DXMESH_SYSTEMMEM,
 				pDevice,
 				NULL,
-				&m_ModelData[nCount].pBuffMat,
+				&m_aPlayerModelData[nCount].pBuffMat,
 				NULL,
-				&m_ModelData[nCount].nNumMat,
-				&m_ModelData[nCount].pMesh);
+				&m_aPlayerModelData[nCount].nNumMat,
+				&m_aPlayerModelData[nCount].pMesh);
 			//もしモデルのマテリアル情報がNULLじゃない場合
- 			if (m_ModelData[nCount].pBuffMat != NULL)
+			if (m_aPlayerModelData[nCount].pBuffMat != NULL)
 			{
 				//マテリアルのポインタを取得
-				m_pMaterial = (D3DXMATERIAL *)m_ModelData[nCount].pBuffMat->GetBufferPointer();
+				pMaterial = (D3DXMATERIAL *)m_aPlayerModelData[nCount].pBuffMat->GetBufferPointer();
 				//モデルデータ数分回す
-				for (int nCountMat = 0; nCountMat < (int)m_ModelData[nCount].nNumMat; nCountMat++)
+				for (int nCountMat = 0; nCountMat < (int)m_aPlayerModelData[nCount].nNumMat; nCountMat++)
 				{
 					//もしファイルネームがNULLじゃない場合
-					if (m_pMaterial[nCountMat].pTextureFilename != NULL)
+					if (pMaterial[nCountMat].pTextureFilename != NULL)
 					{
 						//テクスチャを読み込む
-						D3DXCreateTextureFromFile(pDevice, m_pMaterial[nCountMat].pTextureFilename, &m_ModelData[nCount].pTexture[nCountMat]);
+						D3DXCreateTextureFromFile(pDevice, pMaterial[nCountMat].pTextureFilename, &m_aPlayerModelData[nCount].pTexture[nCountMat]);
 					}
 				}
 			}
@@ -147,29 +148,29 @@ void CPlayer::ModelUnload(void)
 	//パーツの最大数分回す
 	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
 	{
-		//もしモデルデータのワールド変換行列がNULLじゃな場合
-		if (m_ModelData[nCount].mtxWorld != NULL)
+		//もしモデルデータのワールド変換行列がNULLではない場合
+		if (m_aPlayerModelData[nCount].mtxWorld != NULL)
 		{
-			//もしモデルデータのマテリアル情報がNULLじゃな場合
-			if (m_ModelData[nCount].pBuffMat != NULL)
+			//もしモデルデータのマテリアル情報がNULLではない場合
+			if (m_aPlayerModelData[nCount].pBuffMat != NULL)
 			{
 				//モデルデータのマテリアル情報を破棄
-				m_ModelData[nCount].pBuffMat->Release();
+				m_aPlayerModelData[nCount].pBuffMat->Release();
 			}
-			//もしモデルデータのメッシュ情報がNULLじゃな場合
-			if (m_ModelData[nCount].pMesh != NULL)
+			//もしモデルデータのメッシュ情報がNULLではない場合
+			if (m_aPlayerModelData[nCount].pMesh != NULL)
 			{
 				//モデルデータのメッシュ情報を破棄
-				m_ModelData[nCount].pMesh->Release();
+				m_aPlayerModelData[nCount].pMesh->Release();
 			}
 			//マテリアルの最大数分回す
 			for (int nCountTexture = 0; nCountTexture < MAX_MATERIAL; nCountTexture++)
 			{
-				//もしモデルデータのテクスチャのポインタがNULLじゃな場合
-				if (m_ModelData[nCount].pTexture[nCountTexture] != NULL)
+				//もしモデルデータのテクスチャのポインタがNULLではない場合
+				if (m_aPlayerModelData[nCount].pTexture[nCountTexture] != NULL)
 				{
 					//モデルデータのテクスチャのポインタを破棄
-					m_ModelData[nCount].pTexture[nCountTexture]->Release();
+					m_aPlayerModelData[nCount].pTexture[nCountTexture]->Release();
 				}
 			}
 		}
@@ -206,8 +207,12 @@ HRESULT CPlayer::Init(void)
 {
 	//データ読み込み関数呼び出し
 	DataLoad();
-	//モーション処理関数呼び出し
-	Motion();
+	//UI先生処理関数呼び出し
+	UICreate();
+	//モデル情報の設定
+	SetModelData(m_aPlayerModelData);
+	//キャラクターの初期化処理関数呼び出し
+	CCharacter::Init();
 	return S_OK;
 }
 
@@ -216,18 +221,8 @@ HRESULT CPlayer::Init(void)
 //=============================================================================
 void CPlayer::Uninit(void)
 {
-	//パーツの最大数分回す
-	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-	{
-		//もしモデルのポインタがNULLじゃない場合
-		if (m_pModel[nCount] != NULL)
-		{
-			//モデルの終了処理関数呼び出し
-			m_pModel[nCount]->Uninit();
-		}
-	}
-	//破棄処理関数呼び出し
-	Release();
+	//キャラクターの終了処理関数呼び出し
+	CCharacter::Uninit();
 }
 
 //=============================================================================
@@ -235,40 +230,30 @@ void CPlayer::Uninit(void)
 //=============================================================================
 void CPlayer::Update(void)
 {
+	//モーションのポインタを取得する
+	CMotion * pMotion = GetpMotion();
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPosition();
+	//キャラクターの更新処理関数呼び出し
+	CCharacter::Update();
 	//過去の位置を保存する
-	m_PositionOld = m_Position;
-	//もしモーションのポインタがNULLの場合
-	if (m_pMotion != NULL)
-	{
-		//更新処理関数呼び出し
-		m_pMotion->Update();
-	}
+	m_PositionOld = GetPosition();
 	//もし移動量が初期値の場合
 	if (m_Move == INITIAL_MOVE)
 	{
-		//モーションを設定する
-		m_pMotion->SetMotion(CMotion::MOTION_PLAYER_IDLE);
+		//もしモーションのポインタがNULLではない場合
+		if (pMotion != NULL)
+		{
+			//モーションを設定する
+			pMotion->SetMotion(MOTION_IDLE);
+		}
 	}
 	//入力処理関数呼び出し
 	Input();
-	//向き変更処理関数
-	Direction();
 	//位置更新
-	m_Position += m_Move;
-	//パーツの最大数分回す
-	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-	{
-		//もしモデルのポインタがNULLじゃない場合	
-		if (m_pModel[nCount] != NULL)
-		{
-			//モデルの更新処理関数呼び出し
-			m_pModel[nCount]->Update();
-			// モデルのパーツごとの座標と回転を受け取る
-			m_pModel[nCount]->SetModel(m_pMotion->GetPosition(nCount), m_pMotion->GetRotation(nCount), m_Size);
-		}
-	}
-	// 座標、回転、サイズのセット
-	m_pModel[0]->SetModel(m_pMotion->GetPosition(0) + m_Position, m_pMotion->GetRotation(0) + m_Rotation, m_Size);
+	Position += m_Move;
+	//位置を設定する
+	SetPosition(Position);
 	//もし体力が最小値以下になったら
 	if (m_nLife <= MINIMUM_LIFE)
 	{
@@ -282,16 +267,8 @@ void CPlayer::Update(void)
 //=============================================================================
 void CPlayer::Draw(void)
 {
-	//パーツの最大数分回す
-	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-	{
-		//もしモデルのポインタがNULLじゃない場合
-		if (m_pModel[nCount] != NULL)
-		{
-			//モデルの描画処理関数呼び出し
-			m_pModel[nCount]->Draw();
-		}
-	}
+	//キャラクターの描画処理関数呼び出し
+	CCharacter::Draw();
 }
 
 //=============================================================================
@@ -312,8 +289,6 @@ void CPlayer::Input(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-	//ゲームモードの取得
-	CGameMode * pGameMode = CManager::GetGameMode();
 	//プレイヤーが移動していないとき
 	m_Move = INITIAL_MOVE;
 	//もしダッシュキーが押されていたら
@@ -332,8 +307,6 @@ void CPlayer::Input(void)
 	{
 		//入力キー情報を上にする
 		m_Input = INPUT_UP;
-		//向きを前方にする
-		m_Direction = DIRECTION_FRONT;
 		//移動処理関数呼び出し
 		Move();
 	}
@@ -342,8 +315,6 @@ void CPlayer::Input(void)
 	{
 		//入力キー情報を下にする
 		m_Input = INPUT_DOWN;
-		//向きを後方にする
-		m_Direction = DIRECTION_BACK;
 		//移動処理関数呼び出し
 		Move();
 	}
@@ -352,8 +323,6 @@ void CPlayer::Input(void)
 	{
 		//入力キー情報を左にする
 		m_Input = INPUT_LEFT;
-		//向きを左にする
-		m_Direction = DIRECTION_LEFT;
 		//移動処理関数呼び出し
 		Move();
 	}
@@ -362,10 +331,23 @@ void CPlayer::Input(void)
 	{
 		//入力キー情報を右にする
 		m_Input = INPUT_RIGHT;
-		//向きを右にする
-		m_Direction = DIRECTION_RIGHT;
 		//移動処理関数呼び出し
 		Move();
+	}
+	//攻撃処理
+	if (pKeyboard->GetKeyboardTrigger(DIK_L) || pJoystick->GetJoystickTrigger(JS_Y))
+	{
+		//もし武器を使用していたら
+		if (m_bWeapon == true)
+		{
+			//攻撃処理関数呼び出し
+			Attack();
+		}
+		else
+		{
+			//武器を使用する
+			m_bWeapon = true;
+		}
 	}
 }
 
@@ -374,24 +356,36 @@ void CPlayer::Input(void)
 //=============================================================================
 void CPlayer::Move(void)
 {
+	//モーションのポインタを取得する
+	CMotion * pMotion = GetpMotion();
+	//回転を取得
+	D3DXVECTOR3 Rotation = GetRotation();
 	//もしダッシュしていたら
 	if (m_bDash == true)
 	{
 		//速度をダッシュ速度にする
 		m_fSpeed = m_fDashSpeed;
-		//モーションを設定する
-		m_pMotion->SetMotion(CMotion::MOTION_PLAYER_DASH);
+		//もしモーションのポインタがNULLではない場合
+		if (pMotion != NULL)
+		{
+			//モーションを設定する
+			pMotion->SetMotion(MOTION_DASH);
+		}
 	}
 	else
 	{
 		//速度を歩行速度にする
 		m_fSpeed = m_fWalkSpeed;
-		//モーションを設定する
-		m_pMotion->SetMotion(CMotion::MOTION_PLAYER_WALK);
+		//もしモーションのポインタがNULLではない場合
+		if (pMotion != NULL)
+		{
+			//モーションを設定する
+			pMotion->SetMotion(MOTION_WALK);
+		}
 	}
 	//カメラの取得
-	CCamera * pCamera = CGameMode::GetCamera();
-	//もしカメラのポインタがNULLじゃない場合
+	CCamera * pCamera = CManager::GetGameMode()->GetCamera();
+	//もしカメラのポインタがNULLではない場合
 	if (pCamera != NULL)
 	{
 		//カメラの回転を取得
@@ -424,33 +418,22 @@ void CPlayer::Move(void)
 			default:
 				break;
 			}
+			//目的の向きを設定する
+			m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), atan2f(m_Move.x, m_Move.z) + D3DXToRadian(180.0f), D3DXToRadian(0.0f));
+			while (m_DirectionDest.y - Rotation.y < D3DXToRadian(-180))
+			{
+				m_DirectionDest.y += D3DXToRadian(360);
+			}
+			while (m_DirectionDest.y - Rotation.y > D3DXToRadian(180))
+			{
+				m_DirectionDest.y -= D3DXToRadian(360);
+			}
+			//プレイヤーの向きを更新する
+			Rotation += (m_DirectionDest - Rotation) * 0.1f;
+			//回転を設定
+			SetRotation(Rotation);
 		}
 	}
-}
-
-//=============================================================================
-// 向き変更処理関数
-//=============================================================================
-void CPlayer::Direction(void)
-{
-	//各向きの処理
-	switch (m_Direction)
-	{
-	case DIRECTION_FRONT:
-		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(0.0f), D3DXToRadian(0.0f));
-		break;
-	case DIRECTION_BACK:
-		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(180.0f), D3DXToRadian(0.0f));
-		break;
-	case DIRECTION_LEFT:
-		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(-90.0f), D3DXToRadian(0.0f));
-		break;
-	case DIRECTION_RIGHT:
-		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), D3DXToRadian(90.0f), D3DXToRadian(0.0f));
-		break;
-	}
-	//プレイヤーの向きを更新する
-	m_Rotation += (m_DirectionDest - m_Rotation) * 0.1f;
 }
 
 //=============================================================================
@@ -458,16 +441,48 @@ void CPlayer::Direction(void)
 //=============================================================================
 void CPlayer::Attack(void)
 {
-	switch (m_Attack)
+	//もし攻撃状態がfalseの場合
+	if (m_bAttack == false)
+	{
+		//もし攻撃コンボが最大数より下の場合
+		if (m_nAttackCombo < ATTACK_3)
+		{
+			//攻撃コンボを加算する
+			m_nAttackCombo++;
+			//攻撃状態をtrueにする
+			m_bAttack = true;
+		}
+		else
+		{
+			//攻撃コンボを初期化する
+			m_nAttackCombo = ATTACK_NONE;
+		}
+	}
+	//各攻撃コンボの処理
+	switch (m_nAttackCombo)
 	{
 	case ATTACK_1:
+		//クールタイムの設定
+		m_nCoolTime = ATTACK1_COOL_TIME;
 		break;
 	case ATTACK_2:
+		//クールタイムの設定
+		m_nCoolTime = ATTACK2_COOL_TIME;
 		break;
 	case ATTACK_3:
+		//クールタイムの設定
+		m_nCoolTime = ATTACK3_COOL_TIME;
 		break;
 	default:
 		break;
+	}
+	//クールタイムを加算する
+	m_nCoolTimeCount++;
+	//もし現在のクールタイムが指定の時間を越えたら
+	if (m_nCoolTimeCount >= m_nCoolTime)
+	{
+		//攻撃状態をfalseにする
+		m_bAttack = false;
 	}
 }
 
@@ -499,9 +514,11 @@ void CPlayer::Death(void)
 //=============================================================================
 void CPlayer::Collision(void)
 {
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPosition();
 	//ドラゴンの取得
-	CDragon * pDragon = CGameMode::GetDragon();
-	//もしドラゴンのポインタがNULLじゃない場合
+	CDragon * pDragon = CManager::GetGameMode()->GetDragon();
+	//もしドラゴンのポインタがNULLではない場合
 	if (pDragon != NULL)
 	{
 		//ドラゴンの位置を取得
@@ -512,72 +529,16 @@ void CPlayer::Collision(void)
 }
 
 //=============================================================================
-// モーション処理関数
-//=============================================================================
-void CPlayer::Motion(void)
-{
-	//もしモーションのポインタがNULLの場合
-	if (m_pMotion == NULL)
-	{
-		//モーションの生成
-		m_pMotion = CMotion::Create();
-	}
-	//もしモーションのポインタがNULLじゃない場合
-	if (m_pMotion != NULL)
-	{
-		//モーションの読み込み
-		m_pMotion->LoadMotion(MODEL_PASS);
-		//モーション情報の読み込み
-		m_pMotion->LoadModelInformation(MODEL_PASS);
-		//最大パーツ数分回す
-		for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-		{
-			//もしモデルデータのメッシュがNULLじゃない場合
-			if (m_ModelData[nCount].pMesh != NULL)
-			{
-				//親モデルの番号受け取り
-				m_ModelData[nCount].nIndexModelParent = m_pMotion->GetParents(nCount);
-				//モデルの生成
-				m_pModel[nCount] = CModel::Create(m_ModelData[nCount]);
-				//モーションの位置を取得
-				m_pMotion->GetPosition(nCount);
-				//モーションの回転を取得
-				m_pMotion->GetRotation(nCount);
-				//モデルの割り当て
-				m_pModel[nCount]->BindModel(m_ModelData[nCount]);
-				// モデルのパーツごとの座標と回転を受け取る
-				m_pModel[nCount]->SetModel(m_pMotion->GetPosition(nCount), m_pMotion->GetRotation(nCount), m_Size);
-			}
-		}
-		//パーツの最大数分回す
-		for (int nCount = 0; nCount < MAX_PARTS; nCount++)
-		{
-			//もし親のモデルが存在したら
-			if (m_pModel[m_ModelData[nCount].nIndexModelParent] != NULL && m_ModelData[nCount].nIndexModelParent != -1)
-			{
-				//もしモデルデータのメッシュがNULLじゃない場合
-				if (m_ModelData[nCount].pMesh != NULL)
-				{
-					//親のモデルポインタを受け取る
-					m_ModelData[nCount].pParent = m_pModel[m_ModelData[nCount].nIndexModelParent];
-					// モデルの割り当て
-					m_pModel[nCount]->BindModel(m_ModelData[nCount]);
-				}
-			}
-		}
-		// 座標、回転、サイズのセット
-		m_pModel[0]->SetModel(m_pMotion->GetPosition(0) + m_Position, m_pMotion->GetRotation(0) + m_Rotation, m_Size);
-	}
-}
-
-//=============================================================================
 // データ読み込み関数
 //=============================================================================
 void CPlayer::DataLoad(void)
 {
-	char aReadText[MAX_TEXT];			//読み込んだテキスト
-	char aCurrentText[MAX_TEXT];		//現在のテキスト
-	char aUnnecessaryText[MAX_TEXT];	//不必要なテキスト
+	D3DXVECTOR3 Position = INITIAL_D3DXVECTOR3;		//位置
+	D3DXVECTOR3 Size = INITIAL_D3DXVECTOR3;			//サイズ
+	D3DXVECTOR3 Rotation = INITIAL_D3DXVECTOR3;		//回転
+	char aReadText[MAX_TEXT];						//読み込んだテキスト
+	char aCurrentText[MAX_TEXT];					//現在のテキスト
+	char aUnnecessaryText[MAX_TEXT];				//不必要なテキスト
 	memset(aReadText, NULL, sizeof(aReadText));
 	memset(aCurrentText, NULL, sizeof(aCurrentText));
 	memset(aUnnecessaryText, NULL, sizeof(aUnnecessaryText));
@@ -623,26 +584,32 @@ void CPlayer::DataLoad(void)
 						//現在のテキストがPositionだったら
 						if (strcmp(aCurrentText, "Position") == 0)
 						{
-							//位置の設定
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Position.x, &m_Position.y, &m_Position.z);
+							//位置情報読み込み
+							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Position.x, &Position.y, &Position.z);
+							//位置を設定する
+							SetPosition(Position);
 						}
 						//現在のテキストがSizeだったら
 						if (strcmp(aCurrentText, "Size") == 0)
 						{
-							//サイズの設定
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Size.x, &m_Size.y, &m_Size.z);
+							//サイズ情報読み込み
+							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Size.x, &Size.y, &Size.z);
+							//サイズを設定する
+							SetSize(Size);
 						}
 						//現在のテキストがCollisionSizeだったら
 						if (strcmp(aCurrentText, "CollisionSize") == 0)
 						{
-							//サイズの設定
+							//衝突判定用サイズの取得
 							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_CollisionSize.x, &m_CollisionSize.y, &m_CollisionSize.z);
 						}
-						//現在のテキストがROTだったら
+						//現在のテキストがRotationだったら
 						if (strcmp(aCurrentText, "Rotation") == 0)
 						{
 							//回転情報の読み込み
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_Rotation.x, &m_Rotation.y, &m_Rotation.z);
+							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &Rotation.x, &Rotation.y, &Rotation.z);
+							//回転の設定
+							SetRotation(Rotation);
 						}
 						//現在のテキストがMoveだったら
 						if (strcmp(aCurrentText, "Move") == 0)
@@ -681,4 +648,13 @@ void CPlayer::DataLoad(void)
 		//ファイルを閉じる
 		fclose(pFile);
 	}
+	//モデルのスクリプトパスを設定
+	SetModelScriptPass(MODEL_PASS);
+}
+
+//=============================================================================
+// UI生成処理関数
+//=============================================================================
+void CPlayer::UICreate(void)
+{
 }

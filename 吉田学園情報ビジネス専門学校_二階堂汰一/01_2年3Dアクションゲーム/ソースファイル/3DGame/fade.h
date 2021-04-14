@@ -42,11 +42,11 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;
-	D3DXVECTOR3 m_Position;
-	D3DXVECTOR3 m_Size;
-	FADE m_fade;
-	CManager::MODE m_ModeNext;
-	D3DXCOLOR m_ColorFade;
+	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	//頂点バッファ
+	D3DXVECTOR3 m_Position;				//位置
+	D3DXVECTOR3 m_Size;					//サイズ
+	D3DXCOLOR m_Color;					//色
+	FADE m_fade;						//フェード
+	CManager::MODE m_ModeNext;			//次のモード
 };
 #endif

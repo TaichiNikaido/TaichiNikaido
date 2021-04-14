@@ -18,10 +18,10 @@ class CRenderer;
 class CSound;
 class CKeyboard;
 class CJoystick;
-class CTitleMode;
+class CTutorialMode;
+class CGameMode;
 class CResultMode;
 class CRankingMode;
-class CGameMode;
 class CFade;
 
 //*****************************************************************************
@@ -59,6 +59,7 @@ public:
 	static CSound * GetSound(void) { return m_pSound; }
 	static CKeyboard * GetKeyboard(void) { return m_pKeyboard; }
 	static CJoystick * GetJoystick(void) { return m_pJoystick; }
+	static CTutorialMode * GetTutorialMode(void) { return m_pTutorialMode; }
 	static CGameMode * GetGameMode(void) { return m_pGameMode; }
 	static CResultMode * GetResultMode(void) { return m_pResultMode; }
 	static CRankingMode * GetRankingMode(void) { return m_pRankingMode; }
@@ -67,15 +68,16 @@ private:
 	void LoadAll(void);
 	void UnloadAll(void);
 	void DeleteAll(void);
-	static CRenderer * m_pRenderer;
-	static CSound * m_pSound;
-	static CKeyboard * m_pKeyboard;
-	static CJoystick * m_pJoystick;
-	static CGameMode * m_pGameMode;
-	static CResultMode * m_pResultMode;
-	static CRankingMode * m_pRankingMode;
-	static CFade * m_pFade;
-	static MODE m_Mode;
-	static bool m_bUseFade;
+	static CRenderer * m_pRenderer;				//レンダラーのポインタ
+	static CSound * m_pSound;					//サウンドのポインタ
+	static CKeyboard * m_pKeyboard;				//キーボードのポインタ
+	static CJoystick * m_pJoystick;				//ジョイスティックのポインタ
+	static CTutorialMode * m_pTutorialMode;		//チュートリアルモードのポインタ
+	static CGameMode * m_pGameMode;				//ゲームモードのポインタ
+	static CResultMode * m_pResultMode;			//リザルトモードのポインタ
+	static CRankingMode * m_pRankingMode;		//ランキングモードのポインタ
+	static CFade * m_pFade;						//フェードのポインタ
+	static MODE m_Mode;							//モード
+	static bool m_bUseFade;						//フェードの使用状態
 };
 #endif

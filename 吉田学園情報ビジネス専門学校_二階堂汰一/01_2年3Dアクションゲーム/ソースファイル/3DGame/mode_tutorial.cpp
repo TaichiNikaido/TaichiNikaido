@@ -10,7 +10,6 @@
 //*****************************************************************************
 #include "main.h"
 #include "manager.h"
-#include "sound.h"
 #include "keyboard.h"
 #include "joystick.h"
 #include "mode_tutorial.h"
@@ -50,7 +49,7 @@ CTutorialMode * CTutorialMode::Create()
 	{
 		//チュートリアルモードのメモリ確保
 		pTutorialMode = new CTutorialMode;
-		//もしチュートリアルモードがNULLじゃない場合
+		//もしチュートリアルモードがNULLではない場合
 		if (pTutorialMode != NULL)
 		{
 			//初期化処理関数呼び出し
@@ -83,21 +82,6 @@ void CTutorialMode::Uninit(void)
 //=============================================================================
 void CTutorialMode::Update(void)
 {
-	//キーボードの取得
-	CKeyboard *pKeyboard = CManager::GetKeyboard();
-	//サウンドの取得
-	CSound * pSound = CManager::GetSound();
-	//ジョイスティックの取得
-	CJoystick * pJoystick = CManager::GetJoystick();
-	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
-	DIJOYSTATE js;
-	//ジョイスティックの振動取得
-	LPDIRECTINPUTEFFECT pDIEffect = CJoystick::GetEffect();
-	if (lpDIDevice != NULL)
-	{
-		lpDIDevice->Poll();
-		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
-	}
 	//入力処理関数呼び出し
 	Input();
 }
@@ -130,8 +114,12 @@ void CTutorialMode::Input(void)
 	//もしESCAPEキー又はジョイスティックのスタートボタンを押されたら
 	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
 	{
-		//ポーズボタンマネージャーの生成処理関数呼び出し
-		CPoseButtonManager::Create();
+		//もしポーズを使用していない場合
+		if (m_bPouse == false)
+		{
+			//ポーズボタンマネージャーの生成処理関数呼び出し
+			CPoseButtonManager::Create();
+		}
 	}
 }
 

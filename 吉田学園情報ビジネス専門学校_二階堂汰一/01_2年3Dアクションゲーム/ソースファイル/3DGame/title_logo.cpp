@@ -8,8 +8,6 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
@@ -18,9 +16,9 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_PASS ("Data/Texture/Logo/Logo_Title.png")
-#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 - 100.0f,0.0f))
-#define SIZE (D3DXVECTOR3(1100.0f,500.0f,0.0f))
+#define TEXTURE_PASS ("Data/Texture/Logo/Logo_Title.png")							//テクスチャのパス
+#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 - 100.0f,0.0f))	//位置
+#define SIZE (D3DXVECTOR3(1100.0f,500.0f,0.0f))										//サイズ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -50,10 +48,10 @@ HRESULT CTitleLogo::TextureLoad(void)
 	CRenderer *pRenderer = CManager::GetRenderer();
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
-	// テクスチャの生成
-	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		TEXTURE_PASS,					// ファイルの名前
-		&m_pTexture);					// 読み込むメモリー
+	//テクスチャの生成
+	D3DXCreateTextureFromFile(pDevice,	//デバイスへのポインタ
+		TEXTURE_PASS,					//ファイルの名前
+		&m_pTexture);					//読み込むメモリー
 	return S_OK;
 }
 
@@ -62,12 +60,12 @@ HRESULT CTitleLogo::TextureLoad(void)
 //=============================================================================
 void CTitleLogo::TextureUnload(void)
 {
-	// テクスチャの破棄
+	//もしテクスチャのポインタがNULLではない場合
 	if (m_pTexture != NULL)
 	{
 		//テクスチャの破棄処理関数呼び出し
 		m_pTexture->Release();
-		//テクスチャをNULLにする
+		//テクスチャのポインタをNULLにする
 		m_pTexture = NULL;
 	}
 }

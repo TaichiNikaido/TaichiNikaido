@@ -18,6 +18,151 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\2DPolygon\button.cpp" />
+    <ClCompile Include="source\2DPolygon\continue_logo.cpp" />
+    <ClCompile Include="source\2DPolygon\flame.cpp" />
+    <ClCompile Include="source\2DPolygon\gameclear_logo.cpp" />
+    <ClCompile Include="source\2DPolygon\warning.cpp" />
+    <ClCompile Include="source\2DPolygon\wormhole.cpp" />
+    <ClCompile Include="source\Background\background.cpp" />
+    <ClCompile Include="source\Background\background_manager.cpp" />
+    <ClCompile Include="source\Background\background_middle_layer.cpp" />
+    <ClCompile Include="source\Background\background_name.cpp" />
+    <ClCompile Include="source\Background\background_ranking.cpp" />
+    <ClCompile Include="source\Background\background_result.cpp" />
+    <ClCompile Include="source\Background\background_title.cpp" />
+    <ClCompile Include="source\Background\background_tutorial.cpp" />
+    <ClCompile Include="source\Background\background_under_layer.cpp" />
+    <ClCompile Include="source\Background\background_upper_layer.cpp" />
+    <ClCompile Include="source\Base\fade.cpp" />
+    <ClCompile Include="source\Base\input.cpp" />
+    <ClCompile Include="source\Base\main.cpp" />
+    <ClCompile Include="source\Base\manager.cpp" />
+    <ClCompile Include="source\Base\renderer.cpp" />
+    <ClCompile Include="source\Base\scene.cpp" />
+    <ClCompile Include="source\Base\scene2d.cpp" />
+    <ClCompile Include="source\Base\sound.cpp" />
+    <ClCompile Include="source\Base\tcp_client.cpp" />
+    <ClCompile Include="source\Base\text.cpp" />
+    <ClCompile Include="source\bullet\bullet.cpp" />
+    <ClCompile Include="source\bullet\bullet_bomb.cpp" />
+    <ClCompile Include="source\bullet\bullet_direction.cpp" />
+    <ClCompile Include="source\bullet\bullet_enemy.cpp" />
+    <ClCompile Include="source\bullet\bullet_fireball.cpp" />
+    <ClCompile Include="source\bullet\bullet_flower.cpp" />
+    <ClCompile Include="source\bullet\bullet_homing.cpp" />
+    <ClCompile Include="source\bullet\bullet_n-way.cpp" />
+    <ClCompile Include="source\bullet\bullet_player.cpp" />
+    <ClCompile Include="source\Effect\effect.cpp" />
+    <ClCompile Include="source\Effect\explosion.cpp" />
+    <ClCompile Include="source\Effect\explosion_bomb.cpp" />
+    <ClCompile Include="source\Effect\explosion_death.cpp" />
+    <ClCompile Include="source\Effect\explosion_dragon.cpp" />
+    <ClCompile Include="source\Effect\explosion_fireball.cpp" />
+    <ClCompile Include="source\Enemy\enemy.cpp" />
+    <ClCompile Include="source\Enemy\enemy_bomb_body.cpp" />
+    <ClCompile Include="source\Enemy\enemy_bomb_head.cpp" />
+    <ClCompile Include="source\Enemy\enemy_dragon.cpp" />
+    <ClCompile Include="source\Enemy\enemy_eye_hard.cpp" />
+    <ClCompile Include="source\Enemy\enemy_eye_normal.cpp" />
+    <ClCompile Include="source\Enemy\enemy_flower.cpp" />
+    <ClCompile Include="source\Enemy\enemy_spider.cpp" />
+    <ClCompile Include="source\Input\joystick.cpp" />
+    <ClCompile Include="source\Input\kyoboard.cpp" />
+    <ClCompile Include="source\Item\item.cpp" />
+    <ClCompile Include="source\Item\item_bomb.cpp" />
+    <ClCompile Include="source\Item\item_levelup.cpp" />
+    <ClCompile Include="source\Item\item_life.cpp" />
+    <ClCompile Include="source\Mode\mode_game.cpp" />
+    <ClCompile Include="source\Mode\mode_name.cpp" />
+    <ClCompile Include="source\Mode\mode_ranking.cpp" />
+    <ClCompile Include="source\Mode\mode_result.cpp" />
+    <ClCompile Include="source\Mode\mode_title.cpp" />
+    <ClCompile Include="source\Mode\mode_tutorial.cpp" />
+    <ClCompile Include="source\Player\player.cpp" />
+    <ClCompile Include="source\System\name.cpp" />
+    <ClCompile Include="source\System\ranking.cpp" />
+    <ClCompile Include="source\System\result.cpp" />
+    <ClCompile Include="source\UI\ui_bomb.cpp" />
+    <ClCompile Include="source\UI\ui_bomb_texture.cpp" />
+    <ClCompile Include="source\UI\ui_life.cpp" />
+    <ClCompile Include="source\UI\ui_life_texture.cpp" />
+    <ClCompile Include="source\UI\ui_number_texture.cpp" />
+    <ClCompile Include="source\UI\ui_score.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\2DPolygon\button.h" />
+    <ClInclude Include="source\2DPolygon\continue_logo.h" />
+    <ClInclude Include="source\2DPolygon\flame.h" />
+    <ClInclude Include="source\2DPolygon\gameclear_logo.h" />
+    <ClInclude Include="source\2DPolygon\warning.h" />
+    <ClInclude Include="source\2DPolygon\wormhole.h" />
+    <ClInclude Include="source\Background\background_manager.h" />
+    <ClInclude Include="source\Background\background_middle_layer.h" />
+    <ClInclude Include="source\Background\background_name.h" />
+    <ClInclude Include="source\Background\background_ranking.h" />
+    <ClInclude Include="source\Background\background_result.h" />
+    <ClInclude Include="source\Background\background_title.h" />
+    <ClInclude Include="source\Background\background_tutorial.h" />
+    <ClInclude Include="source\Background\background_under_layer.h" />
+    <ClInclude Include="source\Background\background_upper_layer.h" />
+    <ClInclude Include="source\Base\fade.h" />
+    <ClInclude Include="source\Base\input.h" />
+    <ClInclude Include="source\Base\main.h" />
+    <ClInclude Include="source\Base\manager.h" />
+    <ClInclude Include="source\Base\renderer.h" />
+    <ClInclude Include="source\Base\scene.h" />
+    <ClInclude Include="source\Base\scene2d.h" />
+    <ClInclude Include="source\Base\sound.h" />
+    <ClInclude Include="source\Base\tcp_client.h" />
+    <ClInclude Include="source\Base\text.h" />
+    <ClInclude Include="source\bullet\bullet.h" />
+    <ClInclude Include="source\bullet\bullet_bomb.h" />
+    <ClInclude Include="source\bullet\bullet_direction.h" />
+    <ClInclude Include="source\bullet\bullet_enemy.h" />
+    <ClInclude Include="source\bullet\bullet_fireball.h" />
+    <ClInclude Include="source\bullet\bullet_flower.h" />
+    <ClInclude Include="source\bullet\bullet_homing.h" />
+    <ClInclude Include="source\bullet\bullet_n-way.h" />
+    <ClInclude Include="source\bullet\bullet_player.h" />
+    <ClInclude Include="source\Effect\effect.h" />
+    <ClInclude Include="source\Effect\explosion.h" />
+    <ClInclude Include="source\Effect\explosion_bomb.h" />
+    <ClInclude Include="source\Effect\explosion_death.h" />
+    <ClInclude Include="source\Effect\explosion_dragon.h" />
+    <ClInclude Include="source\Effect\explosion_fireball.h" />
+    <ClInclude Include="source\Enemy\enemy.h" />
+    <ClInclude Include="source\Enemy\enemy_bomb_body.h" />
+    <ClInclude Include="source\Enemy\enemy_bomb_head.h" />
+    <ClInclude Include="source\Enemy\enemy_dragon.h" />
+    <ClInclude Include="source\Enemy\enemy_eye_hard.h" />
+    <ClInclude Include="source\Enemy\enemy_eye_normal.h" />
+    <ClInclude Include="source\Enemy\enemy_flower.h" />
+    <ClInclude Include="source\Enemy\enemy_spider.h" />
+    <ClInclude Include="source\Input\joystick.h" />
+    <ClInclude Include="source\Input\keyboard.h" />
+    <ClInclude Include="source\Item\item.h" />
+    <ClInclude Include="source\Item\item_bomb.h" />
+    <ClInclude Include="source\Item\item_levelup.h" />
+    <ClInclude Include="source\Item\item_life.h" />
+    <ClInclude Include="source\Mode\mode_game.h" />
+    <ClInclude Include="source\Mode\mode_name.h" />
+    <ClInclude Include="source\Mode\mode_ranking.h" />
+    <ClInclude Include="source\Mode\mode_result.h" />
+    <ClInclude Include="source\Mode\mode_title.h" />
+    <ClInclude Include="source\Mode\mode_tutorial.h" />
+    <ClInclude Include="source\Player\player.h" />
+    <ClInclude Include="source\System\name.h" />
+    <ClInclude Include="source\System\ranking.h" />
+    <ClInclude Include="source\System\result.h" />
+    <ClInclude Include="source\UI\ui_bomb.h" />
+    <ClInclude Include="source\UI\ui_bomb_texture.h" />
+    <ClInclude Include="source\UI\ui_life.h" />
+    <ClInclude Include="source\UI\ui_life_texture.h" />
+    <ClInclude Include="source\UI\ui_number_texture.h" />
+    <ClInclude Include="source\UI\ui_score.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5AEC2D59-856C-498C-BD9B-9D1DF258909A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -71,7 +216,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_2年2Dシューティングゲーム\05_ソースファイル\SpaceBattle\Source;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -79,7 +224,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_2年2Dシューティングゲーム\05_ソースファイル\SpaceBattle\Source;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,152 +290,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="background.cpp" />
-    <ClCompile Include="background_manager.cpp" />
-    <ClCompile Include="background_middle_layer.cpp" />
-    <ClCompile Include="background_name.cpp" />
-    <ClCompile Include="background_ranking.cpp" />
-    <ClCompile Include="background_result.cpp" />
-    <ClCompile Include="background_title.cpp" />
-    <ClCompile Include="background_tutorial.cpp" />
-    <ClCompile Include="background_under_layer.cpp" />
-    <ClCompile Include="background_upper_layer.cpp" />
-    <ClCompile Include="bullet.cpp" />
-    <ClCompile Include="bullet_bomb.cpp" />
-    <ClCompile Include="bullet_direction.cpp" />
-    <ClCompile Include="bullet_flower.cpp" />
-    <ClCompile Include="bullet_homing.cpp" />
-    <ClCompile Include="bullet_n-way.cpp" />
-    <ClCompile Include="button.cpp" />
-    <ClCompile Include="continue_logo.cpp" />
-    <ClCompile Include="effect.cpp" />
-    <ClCompile Include="enemy.cpp" />
-    <ClCompile Include="bullet_enemy.cpp" />
-    <ClCompile Include="enemy_bomb_body.cpp" />
-    <ClCompile Include="enemy_bomb_head.cpp" />
-    <ClCompile Include="enemy_dragon.cpp" />
-    <ClCompile Include="enemy_eye_normal.cpp" />
-    <ClCompile Include="enemy_eye_hard.cpp" />
-    <ClCompile Include="enemy_flower.cpp" />
-    <ClCompile Include="enemy_spider.cpp" />
-    <ClCompile Include="bullet_fireball.cpp" />
-    <ClCompile Include="explosion.cpp" />
-    <ClCompile Include="explosion_bomb.cpp" />
-    <ClCompile Include="explosion_death.cpp" />
-    <ClCompile Include="explosion_dragon.cpp" />
-    <ClCompile Include="explosion_fireball.cpp" />
-    <ClCompile Include="fade.cpp" />
-    <ClCompile Include="flame.cpp" />
-    <ClCompile Include="gameclear_logo.cpp" />
-    <ClCompile Include="mode_game.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="item.cpp" />
-    <ClCompile Include="item_bomb.cpp" />
-    <ClCompile Include="item_levelup.cpp" />
-    <ClCompile Include="item_life.cpp" />
-    <ClCompile Include="joystick.cpp" />
-    <ClCompile Include="kyoboard.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="manager.cpp" />
-    <ClCompile Include="mode_name.cpp" />
-    <ClCompile Include="mode_ranking.cpp" />
-    <ClCompile Include="mode_result.cpp" />
-    <ClCompile Include="mode_title.cpp" />
-    <ClCompile Include="mode_tutorial.cpp" />
-    <ClCompile Include="name.cpp" />
-    <ClCompile Include="ranking.cpp" />
-    <ClCompile Include="result.cpp" />
-    <ClCompile Include="tcp_client.cpp" />
-    <ClCompile Include="text.cpp" />
-    <ClCompile Include="ui_bomb.cpp" />
-    <ClCompile Include="ui_bomb_texture.cpp" />
-    <ClCompile Include="ui_life.cpp" />
-    <ClCompile Include="ui_life_texture.cpp" />
-    <ClCompile Include="ui_number_texture.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="bullet_player.cpp" />
-    <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="scene.cpp" />
-    <ClCompile Include="scene2d.cpp" />
-    <ClCompile Include="sound.cpp" />
-    <ClCompile Include="ui_score.cpp" />
-    <ClCompile Include="warning.cpp" />
-    <ClCompile Include="wormhole.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="background_manager.h" />
-    <ClInclude Include="background.h" />
-    <ClInclude Include="background_middle_layer.h" />
-    <ClInclude Include="background_name.h" />
-    <ClInclude Include="background_ranking.h" />
-    <ClInclude Include="background_result.h" />
-    <ClInclude Include="background_title.h" />
-    <ClInclude Include="background_tutorial.h" />
-    <ClInclude Include="background_under_layer.h" />
-    <ClInclude Include="background_upper_layer.h" />
-    <ClInclude Include="bullet.h" />
-    <ClInclude Include="bullet_bomb.h" />
-    <ClInclude Include="bullet_direction.h" />
-    <ClInclude Include="bullet_flower.h" />
-    <ClInclude Include="bullet_homing.h" />
-    <ClInclude Include="bullet_n-way.h" />
-    <ClInclude Include="button.h" />
-    <ClInclude Include="continue_logo.h" />
-    <ClInclude Include="effect.h" />
-    <ClInclude Include="enemy.h" />
-    <ClInclude Include="bullet_enemy.h" />
-    <ClInclude Include="enemy_bomb_body.h" />
-    <ClInclude Include="enemy_bomb_head.h" />
-    <ClInclude Include="enemy_dragon.h" />
-    <ClInclude Include="enemy_eye_normal.h" />
-    <ClInclude Include="enemy_eye_hard.h" />
-    <ClInclude Include="enemy_flower.h" />
-    <ClInclude Include="enemy_spider.h" />
-    <ClInclude Include="bullet_fireball.h" />
-    <ClInclude Include="explosion.h" />
-    <ClInclude Include="explosion_bomb.h" />
-    <ClInclude Include="explosion_death.h" />
-    <ClInclude Include="explosion_dragon.h" />
-    <ClInclude Include="explosion_fireball.h" />
-    <ClInclude Include="fade.h" />
-    <ClInclude Include="flame.h" />
-    <ClInclude Include="gameclear_logo.h" />
-    <ClInclude Include="mode_game.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="item.h" />
-    <ClInclude Include="item_bomb.h" />
-    <ClInclude Include="item_levelup.h" />
-    <ClInclude Include="item_life.h" />
-    <ClInclude Include="joystick.h" />
-    <ClInclude Include="keyboard.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="manager.h" />
-    <ClInclude Include="mode_name.h" />
-    <ClInclude Include="mode_ranking.h" />
-    <ClInclude Include="mode_result.h" />
-    <ClInclude Include="mode_title.h" />
-    <ClInclude Include="mode_tutorial.h" />
-    <ClInclude Include="name.h" />
-    <ClInclude Include="ranking.h" />
-    <ClInclude Include="result.h" />
-    <ClInclude Include="tcp_client.h" />
-    <ClInclude Include="text.h" />
-    <ClInclude Include="ui_bomb.h" />
-    <ClInclude Include="ui_bomb_texture.h" />
-    <ClInclude Include="ui_life.h" />
-    <ClInclude Include="ui_life_texture.h" />
-    <ClInclude Include="ui_number_texture.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="bullet_player.h" />
-    <ClInclude Include="renderer.h" />
-    <ClInclude Include="scene.h" />
-    <ClInclude Include="scene2d.h" />
-    <ClInclude Include="sound.h" />
-    <ClInclude Include="ui_score.h" />
-    <ClInclude Include="warning.h" />
-    <ClInclude Include="wormhole.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

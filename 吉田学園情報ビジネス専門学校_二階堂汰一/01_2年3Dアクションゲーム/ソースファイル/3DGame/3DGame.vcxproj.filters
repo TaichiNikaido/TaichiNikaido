@@ -58,12 +58,6 @@
     <Filter Include="ヘッダー ファイル\Polygon3D">
       <UniqueIdentifier>{7dee6f7d-c49f-434e-843e-dce42612c2c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object">
-      <UniqueIdentifier>{51a86ab2-1c34-497d-9f35-bf01fbffb617}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Object">
-      <UniqueIdentifier>{c300b4a7-b9af-49b6-9a4e-b18a126b5665}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Player">
       <UniqueIdentifier>{01e65138-beb4-41f9-9aad-ce08d5de10bb}</UniqueIdentifier>
     </Filter>
@@ -73,29 +67,17 @@
     <Filter Include="ヘッダー ファイル\Button">
       <UniqueIdentifier>{2baedd51-35eb-40d8-a8ec-a0bbb65829a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Particle">
-      <UniqueIdentifier>{239724eb-9516-4a31-b7fd-cedc62e2739e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Particle">
-      <UniqueIdentifier>{556dbcd7-57c6-49fb-99b6-ee8309db4fe8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\ParticleTexture">
-      <UniqueIdentifier>{8511ea47-a71a-4dd3-9d26-d85a742040e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\ParticleTexture">
-      <UniqueIdentifier>{fc0db4df-c9a0-4289-ad6f-5232617340e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Polygon2D">
       <UniqueIdentifier>{a425997b-993e-4b2b-ab74-a250024bc491}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Polygon2D">
       <UniqueIdentifier>{2e9be410-b3a3-4acf-a58f-9055dad215ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\UI\Gauge">
-      <UniqueIdentifier>{77102fee-0272-4bef-900e-f4cbdb7d7c1b}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{234216b2-9015-4127-88c4-a141d90b55f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\UI\Gauge">
-      <UniqueIdentifier>{1938f749-4f34-40a5-939a-6130ce63427b}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{e874d60b-6565-4ec4-bbb8-1be6a7b024b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +129,6 @@
     <ClCompile Include="fade.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="light.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
@@ -177,9 +156,6 @@
     <ClCompile Include="floor.cpp">
       <Filter>ソース ファイル\Polygon3D</Filter>
     </ClCompile>
-    <ClCompile Include="enemy_skeleton.cpp">
-      <Filter>ソース ファイル\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="weapon_sword.cpp">
       <Filter>ソース ファイル\Weapon</Filter>
     </ClCompile>
@@ -189,26 +165,8 @@
     <ClCompile Include="enemy_dragon.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="object.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="object_corpse.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
     <ClCompile Include="billboard.cpp">
       <Filter>ソース ファイル\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="object_wood_house.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="object_stone_house.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="object_fountain.cpp">
-      <Filter>ソース ファイル\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="object_fence.cpp">
-      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="button.cpp">
       <Filter>ソース ファイル\Button</Filter>
@@ -228,50 +186,11 @@
     <ClCompile Include="button_ranking.cpp">
       <Filter>ソース ファイル\Button</Filter>
     </ClCompile>
-    <ClCompile Include="village.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_life.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_life_village.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_life_dragon.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="ui_life_player.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="particle_texture.cpp">
-      <Filter>ソース ファイル\ParticleTexture</Filter>
-    </ClCompile>
-    <ClCompile Include="particle_texture_sparks.cpp">
-      <Filter>ソース ファイル\ParticleTexture</Filter>
-    </ClCompile>
-    <ClCompile Include="sparks.cpp">
-      <Filter>ソース ファイル\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="button_any.cpp">
       <Filter>ソース ファイル\Button</Filter>
     </ClCompile>
     <ClCompile Include="title_logo.cpp">
       <Filter>ソース ファイル\Polygon2D</Filter>
-    </ClCompile>
-    <ClCompile Include="gauge.cpp">
-      <Filter>ソース ファイル\UI\Gauge</Filter>
-    </ClCompile>
-    <ClCompile Include="gaugeflaame.cpp">
-      <Filter>ソース ファイル\UI\Gauge</Filter>
-    </ClCompile>
-    <ClCompile Include="gaugeflame_dragon.cpp">
-      <Filter>ソース ファイル\UI\Gauge</Filter>
-    </ClCompile>
-    <ClCompile Include="gaugeflame_player.cpp">
-      <Filter>ソース ファイル\UI\Gauge</Filter>
-    </ClCompile>
-    <ClCompile Include="gaugeflame_village.cpp">
-      <Filter>ソース ファイル\UI\Gauge</Filter>
     </ClCompile>
     <ClCompile Include="pose_button_manager.cpp">
       <Filter>ソース ファイル\Button</Filter>
@@ -284,6 +203,30 @@
     </ClCompile>
     <ClCompile Include="button_back_to_title.cpp">
       <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="name.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="letter.cpp">
+      <Filter>ソース ファイル\Polygon2D</Filter>
+    </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="skybox.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="tcp_client.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="shadow.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -359,9 +302,6 @@
     <ClInclude Include="enemy.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="enemy_skeleton.h">
-      <Filter>ヘッダー ファイル\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="polygon3d.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
@@ -377,26 +317,8 @@
     <ClInclude Include="enemy_dragon.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="object_corpse.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
     <ClInclude Include="billboard.h">
       <Filter>ヘッダー ファイル\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="object_wood_house.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="object_stone_house.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="object_fountain.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="object_fence.h">
-      <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="button.h">
       <Filter>ヘッダー ファイル\Button</Filter>
@@ -416,50 +338,11 @@
     <ClInclude Include="button_ranking.h">
       <Filter>ヘッダー ファイル\Button</Filter>
     </ClInclude>
-    <ClInclude Include="village.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_life.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_life_village.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_life_dragon.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ui_life_player.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="particle_texture.h">
-      <Filter>ヘッダー ファイル\ParticleTexture</Filter>
-    </ClInclude>
-    <ClInclude Include="particle_texture_sparks.h">
-      <Filter>ヘッダー ファイル\ParticleTexture</Filter>
-    </ClInclude>
-    <ClInclude Include="sparks.h">
-      <Filter>ヘッダー ファイル\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="button_any.h">
       <Filter>ヘッダー ファイル\Button</Filter>
     </ClInclude>
     <ClInclude Include="title_logo.h">
       <Filter>ヘッダー ファイル\Polygon2D</Filter>
-    </ClInclude>
-    <ClInclude Include="gauge.h">
-      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
-    </ClInclude>
-    <ClInclude Include="gaugeflame.h">
-      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
-    </ClInclude>
-    <ClInclude Include="gaugeflame_dragon.h">
-      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
-    </ClInclude>
-    <ClInclude Include="gaugeflame_player.h">
-      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
-    </ClInclude>
-    <ClInclude Include="gaugeflame_village.h">
-      <Filter>ヘッダー ファイル\UI\Gauge</Filter>
     </ClInclude>
     <ClInclude Include="pose_button_manager.h">
       <Filter>ヘッダー ファイル\Button</Filter>
@@ -472,6 +355,27 @@
     </ClInclude>
     <ClInclude Include="button_back_to_title.h">
       <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="name.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="letter.h">
+      <Filter>ヘッダー ファイル\Polygon2D</Filter>
+    </ClInclude>
+    <ClInclude Include="character.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ranking.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="tcp_client.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="shadow.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

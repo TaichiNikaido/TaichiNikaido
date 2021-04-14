@@ -25,24 +25,22 @@
 #include "joystick.h"
 #include "fade.h"
 #include "player.h"
-#include "enemy_skeleton.h"
 #include "weapon_sword.h"
 #include "weapon_shield.h"
 #include "enemy_dragon.h"
-#include "object_wood_house.h"
-#include "object_stone_house.h"
-#include "object_fountain.h"
-#include "object_fence.h"
-#include "object_corpse.h"
-#include "gauge.h"
 #include "floor.h"
 #include "button_any.h"
 #include "button_start.h"
 #include "button_tutorial.h"
 #include "button_ranking.h"
 #include "button_exit.h"
+#include "button_quit_game.h"
+#include "button_controller_guid.h"
+#include "button_back_to_title.h"
 #include "title_logo.h"
-#include "particle_texture_sparks.h"
+#include "letter.h"
+#include "skybox.h"
+#include "shadow.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -51,16 +49,17 @@
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
-CRenderer * CManager::m_pRenderer = NULL;		//レンダラーへのポインタ
-CSound * CManager::m_pSound = NULL;				//サウンドへのポインタ
-CKeyboard * CManager::m_pKeyboard = NULL;		//キーボードへのポインタ
-CJoystick * CManager::m_pJoystick = NULL;		//マネージャーへのポインタ
-CGameMode * CManager::m_pGameMode = NULL;		//ゲームモードへのポインタ
-CResultMode * CManager::m_pResultMode = NULL;	//リザルトモードへのポインタ
-CRankingMode * CManager::m_pRankingMode = NULL;	//リザルトモードへのポインタ
-CFade * CManager::m_pFade = NULL;				//フェードへのポインタ
-CManager::MODE  CManager::m_Mode = MODE_NONE;	//モード
-bool CManager::m_bUseFade = false;				//フェードしてるか
+CRenderer * CManager::m_pRenderer = NULL;			//レンダラーのポインタ
+CSound * CManager::m_pSound = NULL;					//サウンドのポインタ
+CKeyboard * CManager::m_pKeyboard = NULL;			//キーボードのポインタ
+CJoystick * CManager::m_pJoystick = NULL;			//マネージャーのポインタ
+CTutorialMode * CManager::m_pTutorialMode = NULL;	//チュートリアルモードのポインタ
+CGameMode * CManager::m_pGameMode = NULL;			//ゲームモードのポインタ
+CResultMode * CManager::m_pResultMode = NULL;		//リザルトモードのポインタ
+CRankingMode * CManager::m_pRankingMode = NULL;		//ランキングモードのポインタ
+CFade * CManager::m_pFade = NULL;					//フェードへのポインタ
+CManager::MODE  CManager::m_Mode = MODE_NONE;		//モード
+bool CManager::m_bUseFade = false;					//フェードの使用状態
 
 //=============================================================================
 // コンストラクタ
@@ -86,9 +85,13 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	{
 		//レンダラーのメモリを確保
 		m_pRenderer = new  CRenderer;
+		//もしレンダラーのポインタがNULLではない場合
+		if (m_pRenderer != NULL)
+		{
+			//レンダラーの初期化処理関数呼び出し
+			m_pRenderer->Init(hWnd, TRUE);
+		}
 	}
-	//レンダラーの初期化処理関数呼び出し
-	m_pRenderer->Init(hWnd, TRUE);
 	//もしフェードのポインタがNULLの場合
 	if (m_pFade == NULL)
 	{
@@ -100,29 +103,41 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	{
 		//サウンドのメモリ確保
 		m_pSound = new CSound;
+		//もしサウンドのポインタがNULLではない場合
+		if (m_pSound != NULL)
+		{
+			//サウンドの初期化処理関数呼び出し
+			m_pSound->Init(hWnd);
+		}
 	}
-	//サウンドの初期化処理関数呼び出し
-	m_pSound->Init(hWnd);
 	//もしキーボードのポインタがNULLの場合
 	if (m_pKeyboard == NULL)
 	{
 		//キーボードのメモリ確保
 		m_pKeyboard = new CKeyboard;
+		//もしキーボードのポインタがNULLではない場合
+		if (m_pKeyboard != NULL)
+		{
+			//キーボードの初期化処理関数呼び出し
+			m_pKeyboard->Init(hInsitance, hWnd);
+		}
 	}
-	//キーボードの初期化処理関数呼び出し
-	m_pKeyboard->Init(hInsitance, hWnd);
 	//もしジョイスティックのポインタがNULLの場合
 	if (m_pJoystick == NULL)
 	{
 		//ジョイスティックのメモリ確保
 		m_pJoystick = new CJoystick;
+		//もしジョイスティックのポインタがNULLではない場合
+		if (m_pJoystick != NULL)
+		{
+			//ジョイスティックの初期化処理関数呼び出し
+			m_pJoystick->Init(hInsitance, hWnd);
+		}
 	}
-	//ジョイスティックの初期化処理関数呼び出し
-	m_pJoystick->Init(hInsitance, hWnd);
 	//全読み込み関数呼び出し
 	LoadAll();
 	//モードの設定
-	SetMode(MODE_TITLE);
+	SetMode(MODE_GAME);
 	return S_OK;
 }
 
@@ -133,8 +148,12 @@ void CManager::Uninit(void)
 {
 	//シーンの全破棄処理関数呼び出し
 	CScene::ReleaseAll();
-	//サウンドの停止
-	m_pSound->StopSound();
+	//もしサウンドのポインタがNULLではない場合
+	if (m_pSound != NULL)
+	{
+		//サウンドの停止
+		m_pSound->StopSound();
+	}
 	//全破棄関数呼び出し
 	DeleteAll();
 	//全読み込み破棄関数呼び出し
@@ -146,19 +165,19 @@ void CManager::Uninit(void)
 //=============================================================================
 void CManager::Update(void)
 {
-	//もしレンダラーのポインタがNULLじゃない場合
+	//もしレンダラーのポインタがNULLではない場合
 	if (m_pRenderer != NULL)
 	{
 		//レンダラーの更新処理関数呼び出し
 		m_pRenderer->Update();
 	}
-	//もしキーボードのポインタがNULLじゃない場合
+	//もしキーボードのポインタがNULLではない場合
 	if (m_pKeyboard != NULL)
 	{
 		//キーボードの更新処理関数呼び出し
 		m_pKeyboard->Update();
 	}
-	//もしジョイスティックのポインタがNULLじゃない場合
+	//もしジョイスティックのポインタがNULLではない場合
 	if (m_pJoystick != NULL)
 	{
 		//ジョイスティックの更新処理関数呼び出し
@@ -167,7 +186,7 @@ void CManager::Update(void)
 	//もしフェードされたら
 	if (m_bUseFade == true)
 	{
-		//もしフェードのポインタがNULLじゃない場合
+		//もしフェードのポインタがNULLではない場合
 		if (m_pFade != NULL)
 		{
 			//フェードの更新処理関数呼び出し
@@ -214,8 +233,6 @@ void CManager::SetMode(MODE Mode)
 	CScene::ReleaseAll();
 	//モードを設定する
 	m_Mode = Mode;
-	//サウンドを停止する
-	m_pSound->StopSound();
 	//各モードの処理
 	switch (m_Mode)
 	{
@@ -229,7 +246,7 @@ void CManager::SetMode(MODE Mode)
 		break;
 	case MODE_TUTORIAL:
 		//チュートリアルモードの生成処理関数呼び出し
-		CTutorialMode::Create();
+		m_pTutorialMode = CTutorialMode::Create();
 		break;
 	case MODE_GAME:
 		//ゲームモードの生成処理関数呼び出し
@@ -254,26 +271,12 @@ void CManager::LoadAll(void)
 {
 	//プレイヤーのモデル読み込み
 	CPlayer::ModelLoad();
-	//スケルトンのモデル読み込み
-	CSkeleton::ModelLoad();
 	//剣のモデル読み込み
 	CSword::ModelLoad();
 	//盾のモデル読み込み
 	CShield::ModelLoad();
 	//ドラゴンモデル読み込み
-	//CDragon::ModelLoad();
-	//木造の家モデル読み込み
-	CWoodHouse::ModelLoad();
-	//石造の家モデル読み込み
-	CStoneHouse::ModelLoad();
-	//噴水のモデル読み込み
-	CFountain::ModelLoad();
-	//フェンスのモデル読み込み
-	CFence::ModelLoad();
-	//屍のモデル読み込み
-	CCorpse::ModelLoad();
-	//ゲージのテクスチャ読み込み
-	CGauge::TextureLoad();
+	CDragon::ModelLoad();
 	//地面のテクスチャ読み込み
 	CFloor::TextureLoad();
 	//何らかのボタンのテクスチャ読み込み
@@ -286,10 +289,19 @@ void CManager::LoadAll(void)
 	CRankingButton::TextureLoad();
 	//終了ボタンのテクスチャ読み込み
 	CExitButton::TextureLoad();
+	//ゲームに戻るボタンのテクスチャ読み込み
+	CQuitGameButton::TextureLoad();
+	//操作説明ボタンのテクスチャ読み込み
+	CControllerGuidButton::TextureLoad();
+	//タイトルに戻るボタンのテクスチャ読み込み
+	CBackToTitleButton::TextureLoad();
 	//タイトルロゴのテクスチャ読み込み
 	CTitleLogo::TextureLoad();
-	//火の粉のテクスチャ読み込み
-	//CSparksTexture::TextureLoad();
+	//文字のテクスチャ読み込み
+	CLetter::TextureLoad();
+	//スカイボックスのテクスチャ読み込み
+	CSkyBox::TextureLoad();
+	CShadow::ModelLoad();
 }
 
 //=============================================================================
@@ -299,26 +311,12 @@ void CManager::UnloadAll(void)
 {
 	//プレイヤーのモデル破棄
 	CPlayer::ModelUnload();
-	//スケルトンのモデル破棄
-	CSkeleton::ModelUnload();
 	//剣のモデル破棄
 	CSword::ModelUnload();
 	//盾のモデル破棄
 	CShield::ModelUnload();
 	//ドラゴンモデル破棄
-	//CDragon::ModelUnload();
-	//木造の家モデル破棄
-	CWoodHouse::ModelUnload();
-	//石造の家モデル破棄
-	CStoneHouse::ModelUnload();
-	//噴水のモデル破棄
-	CFountain::ModelUnload();
-	//フェンスのモデル破棄
-	CFence::ModelUnload();
-	//屍のモデル破棄
-	CCorpse::ModelUnload();
-	//ゲージのテクスチャ破棄
-	CGauge::TextureUnload();
+	CDragon::ModelUnload();
 	//地面のテクスチャ破棄
 	CFloor::TextureUnload();
 	//何らかのボタンのテクスチャ破棄
@@ -329,12 +327,21 @@ void CManager::UnloadAll(void)
 	CTutorialButton::TextureUnload();
 	//ランキングボタンのテクスチャ破棄
 	CRankingButton::TextureUnload();
-	//終了ボタンのテクスチャ読み込み
+	//終了ボタンのテクスチャ破棄
 	CExitButton::TextureUnload();
+	//ゲームに戻るボタンのテクスチャ破棄
+	CQuitGameButton::TextureUnload();
+	//操作説明ボタンのテクスチャ破棄
+	CControllerGuidButton::TextureUnload();
+	//タイトルに戻るボタンのテクスチャ破棄
+	CBackToTitleButton::TextureUnload();
 	//タイトルロゴのテクスチャ破棄
 	CTitleLogo::TextureUnload();
-	//火の粉のテクスチャ破棄
-	//CSparksTexture::TextureUnload();
+	//文字のテクスチャ破棄
+	CLetter::TextureUnload();
+	//スカイボックスのテクスチャ破棄
+	CSkyBox::TextureUnload();
+	CShadow::ModelUnload();
 }
 
 //=============================================================================
@@ -342,7 +349,7 @@ void CManager::UnloadAll(void)
 //=============================================================================
 void CManager::DeleteAll(void)
 {
-	//もしジョイスティックのポインタがNULLじゃない場合
+	//もしジョイスティックのポインタがNULLではない場合
 	if (m_pJoystick != NULL)
 	{
 		//ジョイスティックの終了処理関数呼び出し
@@ -352,7 +359,7 @@ void CManager::DeleteAll(void)
 		//ジョイスティックのポインタをNULLにする
 		m_pJoystick = NULL;
 	}
-	//もしキーボードのポインタがNULLじゃない場合
+	//もしキーボードのポインタがNULLではない場合
 	if (m_pKeyboard != NULL)
 	{
 		//キーボードの終了処理関数呼び出し
@@ -362,7 +369,7 @@ void CManager::DeleteAll(void)
 		//キーボードのポインタをNULLにする
 		m_pKeyboard = NULL;
 	}
-	//もしサウンドのポインタがNULLじゃない場合
+	//もしサウンドのポインタがNULLではない場合
 	if (m_pSound != NULL)
 	{
 		//サウンドの終了処理関数呼び出し
@@ -372,7 +379,7 @@ void CManager::DeleteAll(void)
 		//サウンドのポインタをNULLにする
 		m_pSound = NULL;
 	}
-	//もしレンダラーのポインタがNULLじゃない場合
+	//もしレンダラーのポインタがNULLではない場合
 	if (m_pRenderer != NULL)
 	{
 		//レンダラーの終了処理関数呼び出し
@@ -382,7 +389,7 @@ void CManager::DeleteAll(void)
 		//レンダラーのポインタをNULLにする
 		m_pRenderer = NULL;
 	}
-	//もしフェードのポインタがNULLじゃない場合
+	//もしフェードのポインタがNULLではない場合
 	if (m_pFade != NULL)
 	{
 		//フェードの終了処理関数呼び出し

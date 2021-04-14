@@ -11,10 +11,7 @@
 #include "main.h"
 #include "manager.h"
 #include "sound.h"
-#include "keyboard.h"
-#include "joystick.h"
 #include "mode_title.h"
-#include "title_button_manager.h"
 #include "title_logo.h"
 #include "button_any.h"
 
@@ -52,7 +49,7 @@ CTitleMode * CTitleMode::Create()
 	{
 		//タイトルモードのメモリ確保
 		pTitleMode = new CTitleMode;
-		//もしタイトルモードのポインタがNULLじゃない場合
+		//もしタイトルモードのポインタがNULLではない場合
 		if (pTitleMode != NULL)
 		{
 			//初期化処理関数呼び出し
@@ -68,6 +65,16 @@ CTitleMode * CTitleMode::Create()
 //=============================================================================
 HRESULT CTitleMode::Init(void)
 {
+	//サウンドの取得
+	CSound * pSound = CManager::GetSound();
+	//もしサウンドのポインタがNULLではない場合
+	if (pSound != NULL)
+	{
+		//サウンドの停止
+		pSound->StopSound();
+		//タイトルのBGMを再生
+		pSound->PlaySoundA(CSound::SOUND_LABEL_BGM_TITLE);
+	}
 	//初期全生成処理関数呼び出し
 	InitCreateAll();
 	return S_OK;
@@ -85,8 +92,6 @@ void CTitleMode::Uninit(void)
 //=============================================================================
 void CTitleMode::Update(void)
 {
-	//入力処理関数呼び出し
-	Input();
 }
 
 //=============================================================================
@@ -97,32 +102,12 @@ void CTitleMode::Draw(void)
 }
 
 //=============================================================================
-// 入力処理関数
-//=============================================================================
-void CTitleMode::Input(void)
-{
-	//キーボードの取得
-	CKeyboard * pKeyboard = CManager::GetKeyboard();
-	//ジョイスティックの取得
-	CJoystick * pJoystick = CManager::GetJoystick();
-	LPDIRECTINPUTDEVICE8 lpDIDevice = CJoystick::GetDevice();
-	DIJOYSTATE js;
-	//ジョイスティックの振動取得
-	LPDIRECTINPUTEFFECT pDIEffect = CJoystick::GetEffect();
-	if (lpDIDevice != NULL)
-	{
-		lpDIDevice->Poll();
-		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
-	}
-}
-
-//=============================================================================
 // 初期全生成処理関数
 //=============================================================================
 void CTitleMode::InitCreateAll(void)
 {
-	//タイトルボタンマネージャーの生成
-	//CTitleButtonManager::Create();
+	//タイトルロゴの生成
 	CTitleLogo::Create();
+	//何かしらのボタン入力の生成
 	CAnyButton::Create();
 }
