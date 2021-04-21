@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Base\billboard.cpp" />
+    <ClCompile Include="Source\Base\camera.cpp" />
+    <ClCompile Include="Source\Base\fade.cpp" />
+    <ClCompile Include="Source\Base\input.cpp" />
+    <ClCompile Include="Source\Base\light.cpp" />
+    <ClCompile Include="Source\Base\main.cpp" />
+    <ClCompile Include="Source\Base\manager.cpp" />
+    <ClCompile Include="Source\Base\model.cpp" />
+    <ClCompile Include="Source\Base\motion.cpp" />
+    <ClCompile Include="Source\Base\polygon3d.cpp" />
+    <ClCompile Include="Source\Base\renderer.cpp" />
+    <ClCompile Include="Source\Base\scene.cpp" />
+    <ClCompile Include="Source\Base\scene2d.cpp" />
+    <ClCompile Include="Source\Base\scene3d.cpp" />
+    <ClCompile Include="Source\Base\sound.cpp" />
+    <ClCompile Include="Source\Base\tcp_client.cpp" />
+    <ClCompile Include="Source\Button\button.cpp" />
+    <ClCompile Include="Source\Button\button_any.cpp" />
+    <ClCompile Include="Source\Button\button_back_to_title.cpp" />
+    <ClCompile Include="Source\Button\button_controller_guid.cpp" />
+    <ClCompile Include="Source\Button\button_exit.cpp" />
+    <ClCompile Include="Source\Button\button_quit_game.cpp" />
+    <ClCompile Include="Source\Button\button_ranking.cpp" />
+    <ClCompile Include="Source\Button\button_start.cpp" />
+    <ClCompile Include="Source\Button\button_tutorial.cpp" />
+    <ClCompile Include="Source\Button\pause_button_manager.cpp" />
+    <ClCompile Include="Source\Button\title_button_manager.cpp" />
+    <ClCompile Include="Source\Character\character.cpp" />
+    <ClCompile Include="Source\Character\enemy.cpp" />
+    <ClCompile Include="Source\Character\enemy_dragon.cpp" />
+    <ClCompile Include="Source\Character\player.cpp" />
+    <ClCompile Include="Source\Input\joystick.cpp" />
+    <ClCompile Include="Source\Input\keyboard.cpp" />
+    <ClCompile Include="Source\Input\mouse.cpp" />
+    <ClCompile Include="Source\Mode\mode_game.cpp" />
+    <ClCompile Include="Source\Mode\mode_name.cpp" />
+    <ClCompile Include="Source\Mode\mode_ranking.cpp" />
+    <ClCompile Include="Source\Mode\mode_result.cpp" />
+    <ClCompile Include="Source\Mode\mode_title.cpp" />
+    <ClCompile Include="Source\Mode\mode_tutorial.cpp" />
+    <ClCompile Include="Source\polygon2d\gauge.cpp" />
+    <ClCompile Include="Source\polygon2d\gaugeflaame.cpp" />
+    <ClCompile Include="Source\polygon2d\letter.cpp" />
+    <ClCompile Include="Source\polygon2d\pouse_bg.cpp" />
+    <ClCompile Include="Source\polygon2d\title_logo.cpp" />
+    <ClCompile Include="Source\Polygon3d\floor.cpp" />
+    <ClCompile Include="Source\Polygon3d\shadow.cpp" />
+    <ClCompile Include="Source\skybox.cpp" />
+    <ClCompile Include="Source\System\name.cpp" />
+    <ClCompile Include="Source\System\ranking.cpp" />
+    <ClCompile Include="Source\UI\ui_life.cpp" />
+    <ClCompile Include="Source\UI\ui_life_dragon.cpp" />
+    <ClCompile Include="Source\UI\ui_life_player.cpp" />
+    <ClCompile Include="Source\Weapon\weapon.cpp" />
+    <ClCompile Include="Source\Weapon\weapon_shield.cpp" />
+    <ClCompile Include="Source\Weapon\weapon_sword.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Base\camera.h" />
+    <ClInclude Include="Source\Base\fade.h" />
+    <ClInclude Include="Source\Base\input.h" />
+    <ClInclude Include="Source\Base\light.h" />
+    <ClInclude Include="Source\Base\main.h" />
+    <ClInclude Include="Source\Base\manager.h" />
+    <ClInclude Include="Source\Base\model.h" />
+    <ClInclude Include="Source\Base\motion.h" />
+    <ClInclude Include="Source\Base\polygon3d.h" />
+    <ClInclude Include="Source\Base\renderer.h" />
+    <ClInclude Include="Source\Base\scene.h" />
+    <ClInclude Include="Source\Base\scene2d.h" />
+    <ClInclude Include="Source\Base\scene3d.h" />
+    <ClInclude Include="Source\Base\sound.h" />
+    <ClInclude Include="Source\Base\tcp_client.h" />
+    <ClInclude Include="Source\Button\button.h" />
+    <ClInclude Include="Source\Button\button_any.h" />
+    <ClInclude Include="Source\Button\button_back_to_title.h" />
+    <ClInclude Include="Source\Button\button_controller_guid.h" />
+    <ClInclude Include="Source\Button\button_exit.h" />
+    <ClInclude Include="Source\Button\button_quit_game.h" />
+    <ClInclude Include="Source\Button\button_ranking.h" />
+    <ClInclude Include="Source\Button\button_start.h" />
+    <ClInclude Include="Source\Button\button_tutorial.h" />
+    <ClInclude Include="Source\Button\pause_button_manager.h" />
+    <ClInclude Include="Source\Button\title_button_manager.h" />
+    <ClInclude Include="Source\Character\character.h" />
+    <ClInclude Include="Source\Character\enemy.h" />
+    <ClInclude Include="Source\Character\enemy_dragon.h" />
+    <ClInclude Include="Source\Character\player.h" />
+    <ClInclude Include="Source\Input\joystick.h" />
+    <ClInclude Include="Source\Input\keyboard.h" />
+    <ClInclude Include="Source\Input\mouse.h" />
+    <ClInclude Include="Source\Mode\mode_game.h" />
+    <ClInclude Include="Source\Mode\mode_name.h" />
+    <ClInclude Include="Source\Mode\mode_ranking.h" />
+    <ClInclude Include="Source\Mode\mode_result.h" />
+    <ClInclude Include="Source\Mode\mode_title.h" />
+    <ClInclude Include="Source\Mode\mode_tutorial.h" />
+    <ClInclude Include="Source\polygon2d\gauge.h" />
+    <ClInclude Include="Source\polygon2d\gaugeflame.h" />
+    <ClInclude Include="Source\polygon2d\letter.h" />
+    <ClInclude Include="Source\polygon2d\pouse_bg.h" />
+    <ClInclude Include="Source\polygon2d\title_logo.h" />
+    <ClInclude Include="Source\Polygon3d\floor.h" />
+    <ClInclude Include="Source\Polygon3d\shadow.h" />
+    <ClInclude Include="Source\skybox.h" />
+    <ClInclude Include="Source\System\name.h" />
+    <ClInclude Include="Source\System\ranking.h" />
+    <ClInclude Include="Source\UI\ui_life.h" />
+    <ClInclude Include="Source\UI\ui_life_dragon.h" />
+    <ClInclude Include="Source\UI\ui_life_player.h" />
+    <ClInclude Include="Source\Weapon\weapon.h" />
+    <ClInclude Include="Source\Weapon\weapon_shield.h" />
+    <ClInclude Include="Source\Weapon\weapon_sword.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CDBCE571-B61C-4A86-B1B8-4D04D21797CF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>My3DGame</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\03_2年3Dアクションゲーム%28制作途中%29\ソースファイル\3DGame\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\gsp025\Desktop\TaichiNikaido\吉田学園情報ビジネス専門学校_二階堂汰一\03_2年3Dアクションゲーム%28制作途中%29\ソースファイル\3DGame\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

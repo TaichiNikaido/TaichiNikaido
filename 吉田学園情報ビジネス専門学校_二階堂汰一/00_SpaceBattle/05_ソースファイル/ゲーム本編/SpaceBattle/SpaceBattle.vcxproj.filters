@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\2DPolygon">
+      <UniqueIdentifier>{9991d653-703c-4633-ba46-e27b51bd0fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Background">
+      <UniqueIdentifier>{b1bd4301-f94a-4896-834d-a89192e5430a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Base">
+      <UniqueIdentifier>{14680482-e156-402c-8119-b10309f0f6a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Bullet">
+      <UniqueIdentifier>{cfa6cb12-257a-49a7-a997-7050f3f79a46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Effect">
+      <UniqueIdentifier>{483790d8-c979-4643-882a-85292e164d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy">
+      <UniqueIdentifier>{d74c5cc6-19ae-46ee-8cc8-331be548489d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{42f692a7-94a7-4d51-87ae-71c05965d60f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Item">
+      <UniqueIdentifier>{796cc2ef-9ed1-4538-b45a-7805dc9a8784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mode">
+      <UniqueIdentifier>{d1438326-c4d1-4e87-a51a-bd5805ff854e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{e1330876-ab21-4373-933f-98ad84c046bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{87cbeca1-ffd3-41ae-905c-370c965bfbea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI">
+      <UniqueIdentifier>{911093e5-e0b6-45a7-8db6-6205de24a9d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\2dPolygon">
+      <UniqueIdentifier>{dd41f831-f26f-4a15-bf63-99f2212ec6ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Background">
+      <UniqueIdentifier>{5ba1a54d-04fa-475f-a2a5-b94a7ee45925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Base">
+      <UniqueIdentifier>{68853642-0c66-4aca-b894-4ee1a4003851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Bullet">
+      <UniqueIdentifier>{b3b069e3-aede-4ea2-8073-8b818b7d26b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Effect">
+      <UniqueIdentifier>{5d21962c-fa74-4744-89b0-5901e30278c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy">
+      <UniqueIdentifier>{2005fa1c-fdaa-4462-802c-c874e7540cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Input">
+      <UniqueIdentifier>{e932d6e8-b5e6-47d6-af1e-c243d3aef6c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Item">
+      <UniqueIdentifier>{c14bbb08-cc52-4a05-8e2a-e3e5ba047c40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Mode">
+      <UniqueIdentifier>{5a915a04-5a85-4c1b-81c0-e94c340a2ddf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI">
+      <UniqueIdentifier>{7dc26839-b767-4da3-bfa9-8bb8aa73a319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{e8c3a16b-dc5b-4592-9f6c-909b67598ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player">
+      <UniqueIdentifier>{1dee0658-0f34-4f1b-bd3c-8790e04e852c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Button">
+      <UniqueIdentifier>{746d465f-43e8-4cc2-abb9-3a784b8cfdda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Button">
+      <UniqueIdentifier>{bc8a3dc0-7d51-482d-b85b-9887f9dd4870}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\2DPolygon\wormhole.cpp">
+      <Filter>ソース ファイル\2DPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="source\2DPolygon\warning.cpp">
+      <Filter>ソース ファイル\2DPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="source\2DPolygon\gameclear_logo.cpp">
+      <Filter>ソース ファイル\2DPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="source\2DPolygon\flame.cpp">
+      <Filter>ソース ファイル\2DPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="source\2DPolygon\continue_logo.cpp">
+      <Filter>ソース ファイル\2DPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_manager.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_middle_layer.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_name.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_ranking.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_result.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_title.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_tutorial.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_under_layer.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Background\background_upper_layer.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\fade.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\input.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\main.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\manager.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\renderer.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\scene.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\scene2d.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\sound.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\tcp_client.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Base\text.cpp">
+      <Filter>ソース ファイル\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet_bomb.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet_direction.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet_enemy.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet_fireball.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet_flower.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet_homing.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet_n-way.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bullet\bullet_player.cpp">
+      <Filter>ソース ファイル\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\effect.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\explosion.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\explosion_bomb.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\explosion_death.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\explosion_dragon.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Effect\explosion_fireball.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy\enemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy\enemy_bomb_body.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy\enemy_bomb_head.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy\enemy_dragon.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy\enemy_eye_hard.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy\enemy_eye_normal.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy\enemy_flower.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Enemy\enemy_spider.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\joystick.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\kyoboard.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Item\item.cpp">
+      <Filter>ソース ファイル\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Item\item_bomb.cpp">
+      <Filter>ソース ファイル\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Item\item_levelup.cpp">
+      <Filter>ソース ファイル\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Item\item_life.cpp">
+      <Filter>ソース ファイル\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\mode_game.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\mode_name.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\mode_ranking.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\mode_result.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\mode_title.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Mode\mode_tutorial.cpp">
+      <Filter>ソース ファイル\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\ui_bomb.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\ui_bomb_texture.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\ui_life.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\ui_life_texture.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\ui_number_texture.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UI\ui_score.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\System\name.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="source\System\ranking.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="source\System\result.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Player\player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2DPolygon\letter.cpp">
+      <Filter>ソース ファイル\2DPolygon</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button\button.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button\button_exit.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button\button_replay.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button\button_start.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button\title_button_manager.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button\button_back_to_title.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button\button_quit_game.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\button\pause_button_manager.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Background\background_pause.cpp">
+      <Filter>ソース ファイル\Background</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\2DPolygon\continue_logo.h">
+      <Filter>ヘッダー ファイル\2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\2DPolygon\flame.h">
+      <Filter>ヘッダー ファイル\2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\2DPolygon\gameclear_logo.h">
+      <Filter>ヘッダー ファイル\2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\2DPolygon\warning.h">
+      <Filter>ヘッダー ファイル\2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\2DPolygon\wormhole.h">
+      <Filter>ヘッダー ファイル\2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_manager.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_middle_layer.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_name.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_ranking.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_result.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_title.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_tutorial.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_under_layer.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Background\background_upper_layer.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\fade.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\input.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\main.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\manager.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\renderer.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\scene.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\scene2d.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\sound.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\tcp_client.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Base\text.h">
+      <Filter>ヘッダー ファイル\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet_bomb.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet_direction.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet_enemy.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet_fireball.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet_flower.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet_homing.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet_n-way.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bullet\bullet_player.h">
+      <Filter>ヘッダー ファイル\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\effect.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\explosion.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\explosion_bomb.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\explosion_death.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\explosion_dragon.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Effect\explosion_fireball.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy\enemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy\enemy_bomb_body.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy\enemy_bomb_head.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy\enemy_dragon.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy\enemy_eye_hard.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy\enemy_eye_normal.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy\enemy_flower.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Enemy\enemy_spider.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Input\joystick.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Input\keyboard.h">
+      <Filter>ヘッダー ファイル\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Item\item.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Item\item_bomb.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Item\item_levelup.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Item\item_life.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\mode_game.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\mode_name.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\mode_ranking.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\mode_result.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\mode_title.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Mode\mode_tutorial.h">
+      <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Player\player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\System\name.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="source\System\ranking.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="source\System\result.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\ui_bomb.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\ui_bomb_texture.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\ui_life.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\ui_life_texture.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\ui_number_texture.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\UI\ui_score.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\2DPolygon\letter.h">
+      <Filter>ヘッダー ファイル\2dPolygon</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\button\button.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\button\button_exit.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\button\button_replay.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\button\button_start.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\button\title_button_manager.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\button\button_back_to_title.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\button\button_quit_game.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\button\pause_button_manager.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Background\background_pause.h">
+      <Filter>ヘッダー ファイル\Background</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
