@@ -23,11 +23,13 @@
 　弾発射	(SPACE)
 　ボム発射	(B)
 　ゲーム終了	(ESCAPE)
+  ポーズ	(P)
 　
 〇ゲームパッド(DirectInput)
 　自機の移動	(左スティック)
 　弾発射	(Aボタン)
 　ボム発射	(Bボタン)
+  ポーズ	(STARTボタン)
 
 ■  アピールポイント動画URL（Youtube）
 https://www.youtube.com/watch?v=yM8io9QbLsY

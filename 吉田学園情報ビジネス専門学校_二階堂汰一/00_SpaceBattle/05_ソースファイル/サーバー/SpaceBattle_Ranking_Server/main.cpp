@@ -140,9 +140,9 @@ void LoadFile(void)
 				fscanf(pFile, "%d", &g_aRankingData[nCount].nClearTime);
 				//名前の読み込み
 				fscanf(pFile, "%s", &g_aRankingData[nCount].aName);
-				//ファイルを閉じる
-				fclose(pFile);
 			}
+			//ファイルを閉じる
+			fclose(pFile);
 		}
 		else
 		{

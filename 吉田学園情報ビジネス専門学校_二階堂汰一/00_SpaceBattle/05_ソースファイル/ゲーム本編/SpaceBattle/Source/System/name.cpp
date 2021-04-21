@@ -401,8 +401,8 @@ void CName::Input(void)
 	//もしENTERキー又はAボタンを押されたら
 	if (pKeyboard->GetKeyboardTrigger(DIK_RETURN) || pJoystick->GetJoystickTrigger(JS_A))
 	{
-		//もし名前の文字数カウンタが最大数より下の場合
-		if (m_nNameCount < MAX_NAME)
+		//もし名前の文字数カウンタが最大数-1より下の場合(最後の文字データをNULLにするため)
+		if (m_nNameCount < MAX_NAME - 1)
 		{
 			int nIndex = 0;
 			//名前の文字を格納する
@@ -454,7 +454,7 @@ void CName::Input(void)
 			m_aName[6] = 'N';
 			m_aName[7] = NULL;
 		}
-		for (int nCount = 0; nCount < sizeof(m_aName); nCount++)
+		for (int nCount = 0; nCount < m_nNameCount; nCount++)
 		{
 			//プレイヤーに名前を設定する
 			CPlayer::SetPlayerName(nCount, m_aName[nCount]);
