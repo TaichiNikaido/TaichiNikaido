@@ -28,3 +28,6 @@
 　自機の移動	(左スティック)
 　弾発射	(Aボタン)
 　ボム発射	(Bボタン)
+
+■  アピールポイント動画URL（Youtube）
+https://www.youtube.com/watch?v=yM8io9QbLsY
