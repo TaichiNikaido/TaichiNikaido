@@ -1,0 +1,167 @@
+﻿  ui_score.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\ui\ui_score.cpp(12): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  ui_number_texture.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\ui\ui_number_texture.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  ui_life_texture.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\ui\ui_life_texture.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  ui_life.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\ui\ui_life.cpp(12): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  ui_bomb_texture.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\ui\ui_bomb_texture.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  ui_bomb.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\ui\ui_bomb.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  result.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\system\result.cpp(16): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  ranking.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\system\ranking.cpp(19): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  name.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\system\name.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  player.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\player\player.cpp(18): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  mode_tutorial.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\mode\mode_tutorial.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  mode_title.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\mode\mode_title.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  mode_result.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\mode\mode_result.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  mode_ranking.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\mode\mode_ranking.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  mode_name.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\mode\mode_name.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  mode_game.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\mode\mode_game.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  item_life.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\item\item_life.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  item_levelup.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\item\item_levelup.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  item_bomb.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\item\item_bomb.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  item.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\item\item.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  コードを生成中...
+  コンパイル中...
+  kyoboard.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\input\kyoboard.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  joystick.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\input\joystick.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  enemy_spider.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\enemy\enemy_spider.cpp(13): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  enemy_flower.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\enemy\enemy_flower.cpp(13): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  enemy_eye_normal.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\enemy\enemy_eye_normal.cpp(13): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  enemy_eye_hard.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\enemy\enemy_eye_hard.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  enemy_dragon.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\enemy\enemy_dragon.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  enemy_bomb_head.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\enemy\enemy_bomb_head.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  enemy_bomb_body.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\enemy\enemy_bomb_body.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  enemy.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\enemy\enemy.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  explosion_fireball.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\effect\explosion_fireball.cpp(13): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  explosion_dragon.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\effect\explosion_dragon.cpp(13): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  explosion_death.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\effect\explosion_death.cpp(13): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  explosion_bomb.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\effect\explosion_bomb.cpp(13): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  explosion.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\effect\explosion.cpp(13): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  effect.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\effect\effect.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  title_button_manager.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\button\title_button_manager.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  pause_button_manager.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\button\pause_button_manager.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  button_start.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\button\button_start.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  button_replay.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\button\button_replay.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  コードを生成中...
+  コンパイル中...
+  button_quit_game.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\button\button_quit_game.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  button_exit.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\button\button_exit.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  button_back_to_title.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\button\button_back_to_title.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  button.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\button\button.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet_player.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet_player.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet_n-way.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet_n-way.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet_homing.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet_homing.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet_flower.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet_flower.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet_fireball.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet_fireball.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet_enemy.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet_enemy.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet_direction.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet_direction.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet_bomb.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet_bomb.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  bullet.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\bullet\bullet.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  text.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  tcp_client.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  sound.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  scene2d.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  scene.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  renderer.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  manager.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  コードを生成中...
+  コンパイル中...
+  main.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  input.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  fade.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\base\main.h(16): fatal error C1083: include ファイルを開けません。'd3dx9.h':No such file or directory
+  background_upper_layer.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_upper_layer.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_under_layer.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_under_layer.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_tutorial.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_tutorial.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_title.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_title.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_result.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_result.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_ranking.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_ranking.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_pause.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_pause.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_name.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_name.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_middle_layer.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background_middle_layer.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  background_manager.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background.h(13): fatal error C1083: include ファイルを開けません。'Base/scene2d.h':No such file or directory
+  background.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\background\background.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  wormhole.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\2dpolygon\wormhole.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  warning.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\2dpolygon\warning.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  letter.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\2dpolygon\letter.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  gameclear_logo.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\2dpolygon\gameclear_logo.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  flame.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\2dpolygon\flame.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  continue_logo.cpp
+c:\users\gsp025\desktop\taichinikaido\吉田学園情報ビジネス専門学校_二階堂汰一\00_spacebattle\05_ソースファイル\ゲーム本編\spacebattle\source\2dpolygon\continue_logo.cpp(11): fatal error C1083: include ファイルを開けません。'Base/main.h':No such file or directory
+  コードを生成中...

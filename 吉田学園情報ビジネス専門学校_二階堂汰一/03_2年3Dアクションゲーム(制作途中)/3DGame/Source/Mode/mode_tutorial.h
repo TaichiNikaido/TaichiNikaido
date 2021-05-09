@@ -33,10 +33,10 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void SetbPouse(bool bPouse) { m_bPouse = bPouse; }
+	void SetbCreatePause(bool bPouse) { m_bCreatePause = bPouse; }
 private:
 	void Input(void);
 	void CreateAll(void);
-	bool m_bPouse;	//ポーズを使用してるか
+	bool m_bCreatePause;	//ポーズを生成してるか
 };
 #endif

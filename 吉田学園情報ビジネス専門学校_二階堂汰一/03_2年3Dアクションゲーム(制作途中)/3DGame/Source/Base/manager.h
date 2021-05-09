@@ -66,6 +66,7 @@ public:
 	static CResultMode * GetResultMode(void) { return m_pResultMode; }
 	static CRankingMode * GetRankingMode(void) { return m_pRankingMode; }
 	static CFade * GetFade(void) { return m_pFade; }
+	static bool GetIsActiveWindow(void);
 private:
 	void LoadAll(void);
 	void UnloadAll(void);
@@ -82,5 +83,6 @@ private:
 	static CFade * m_pFade;						//フェードのポインタ
 	static MODE m_Mode;							//モード
 	static bool m_bUseFade;						//フェードの使用状態
+	static HWND m_hWnd;
 };
 #endif

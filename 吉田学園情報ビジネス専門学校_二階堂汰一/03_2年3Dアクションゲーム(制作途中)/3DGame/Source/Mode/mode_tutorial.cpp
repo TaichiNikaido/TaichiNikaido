@@ -13,7 +13,7 @@
 #include "Input/keyboard.h"
 #include "Input/joystick.h"
 #include "mode_tutorial.h"
-#include "Button/pose_button_manager.h"
+#include "Button/pause_button_manager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -115,10 +115,10 @@ void CTutorialMode::Input(void)
 	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
 	{
 		//もしポーズを使用していない場合
-		if (m_bPouse == false)
+		if (m_bCreatePause == false)
 		{
 			//ポーズボタンマネージャーの生成処理関数呼び出し
-			CPoseButtonManager::Create();
+			CPauseButtonManager::Create();
 		}
 	}
 }

@@ -20,6 +20,7 @@
 //*****************************************************************************
 CScene * CScene::m_apScene[PRIORITY_MAX][MAX_SCENE] = {};	//シーンへのポインタ
 int CScene::m_nNumAll = 0;									//シーンの総数
+bool CScene::m_bPause = false;								//ポーズの使用状態
 
 //=============================================================================
 // コンストラクタ
@@ -42,6 +43,7 @@ CScene::CScene(int nPriority)
 			break;
 		}
 	}
+	m_bPause = false;	//ポーズの使用状態
 	//オブジェクトの種類
 	m_ObjectType = OBJECT_TYPE_NONE;
 }
@@ -58,17 +60,34 @@ CScene::~CScene()
 //=============================================================================
 void CScene::UpdateAll(void)
 {
-	//プライオリティーの最大数分回す
-	for (int nCountPriority = 0; nCountPriority < PRIORITY_MAX; nCountPriority++)
+	//もしポーズが使用されていない場合
+	if (m_bPause == false)
+	{
+		//プライオリティーの最大数分回す
+		for (int nCountPriority = 0; nCountPriority < PRIORITY_MAX; nCountPriority++)
+		{
+			//シーンの最大数分回す
+			for (int nCount = 0; nCount < MAX_SCENE; nCount++)
+			{
+				//もしシーンのポインタがnullptrではない場合
+				if (m_apScene[nCountPriority][nCount] != nullptr)
+				{
+					//シーンの更新処理関数呼び出し
+					m_apScene[nCountPriority][nCount]->Update();
+				}
+			}
+		}
+	}
+	else
 	{
 		//シーンの最大数分回す
 		for (int nCount = 0; nCount < MAX_SCENE; nCount++)
 		{
 			//もしシーンのポンタがnullptrではない場合
-			if (m_apScene[nCountPriority][nCount] != nullptr)
+			if (m_apScene[PRIORITY_BUTTON][nCount] != nullptr)
 			{
 				//シーンの更新処理関数呼び出し
-				m_apScene[nCountPriority][nCount]->Update();
+				m_apScene[PRIORITY_BUTTON][nCount]->Update();
 			}
 		}
 	}

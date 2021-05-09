@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// プレイヤーのライフのUI [ui_life_player.cpp]
+// プレイヤーの体力UI [ui_life_player.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -13,15 +13,12 @@
 #include "Base/renderer.h"
 #include "Mode/mode_game.h"
 #include "ui_life_player.h"
-#include "Polygon2d/gauge.h"
 #include "Character/player.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define POSITION (D3DXVECTOR3(0.0f,0.0f,0.0f))
-#define SIZE (D3DXVECTOR3(600.0f,100.0f,0.0f))
-#define COLOR (D3DXCOLOR(0.0f,1.0f,0.0f,1.0f))
+#define UI_LIFE (4)		//1つのUIの体力
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -30,7 +27,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CPlayerLifeUI::CPlayerLifeUI()
+CPlayerLifeUI::CPlayerLifeUI(int nPriority) : CScene(nPriority)
 {
 }
 
@@ -46,21 +43,21 @@ CPlayerLifeUI::~CPlayerLifeUI()
 //=============================================================================
 CPlayerLifeUI * CPlayerLifeUI::Create()
 {
-	//プレイヤーのライフのUIポインタ
+	//プレイヤーの体力UIポインタ
 	CPlayerLifeUI * pPlayerLifeUI = nullptr;
-	//プレイヤーのライフのUIポインタがnullptrの場合
+	//プレイヤーの体力UIポインタがnullptrの場合
 	if (pPlayerLifeUI == nullptr)
 	{
-		//プレイヤーのライフのUIのメモリ確保
+		//プレイヤーの体力UIのメモリ確保
 		pPlayerLifeUI = new CPlayerLifeUI;
-		//プレイヤーのライフのUIのポインタがNULLではない場合
+		//プレイヤーの体力UIのポインタがNULLではない場合
 		if (pPlayerLifeUI != nullptr)
 		{
-			//プレイヤーのライフのUIの初期化処理関数呼び出し
+			//プレイヤーの体力UIの初期化処理関数呼び出し
 			pPlayerLifeUI->Init();
 		}
 	}
-	//プレイヤーのライフのUIのポインタを返す
+	//プレイヤーの体力UIのポインタを返す
 	return pPlayerLifeUI;
 }
 
@@ -69,22 +66,21 @@ CPlayerLifeUI * CPlayerLifeUI::Create()
 //=============================================================================
 HRESULT CPlayerLifeUI::Init(void)
 {
-	//プレイヤーを取得する
-	CPlayer * pPlayer = CManager::GetGameMode()->GetPlayer();
-	//もしプレイヤーのポインタがnullptrじゃない場合
+	//プレイヤーの取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もしプレイヤーのポインタがnullptrではない場合
 	if (pPlayer != nullptr)
 	{
 		//プレイヤーの体力を取得
-		int nLife = pPlayer->GetLife();
-		//体力の最大値を設定
-		SetMaxLife(nLife);
-		//体力を設定
-		SetLife(nLife);
+		int nPlayerLife = pPlayer->GetLife();
+		//UIの生成数を求める
+		int nUICreateCount = nPlayerLife / UI_LIFE;
+		//UIの生成数分回す
+		for (int nCount = 0; nCount < nUICreateCount; nCount++)
+		{
+
+		}
 	}
-	//ゲージの生成処理関数呼び出し
-	SetGauge(CGauge::Create(POSITION, SIZE, COLOR));
-	//ライフの初期化処理関数呼び出し
-	CLifeUI::Init();
 	return S_OK;
 }
 
@@ -93,8 +89,8 @@ HRESULT CPlayerLifeUI::Init(void)
 //=============================================================================
 void CPlayerLifeUI::Uninit(void)
 {
-	//ライフのUIの終了処理関数呼び出し
-	CLifeUI::Uninit();
+	//破棄処理関数呼び出し
+	Release();
 }
 
 //=============================================================================
@@ -102,18 +98,6 @@ void CPlayerLifeUI::Uninit(void)
 //=============================================================================
 void CPlayerLifeUI::Update(void)
 {
-	//ライフのUIの更新処理関数呼び出し
-	CLifeUI::Update();
-	//プレイヤーを取得する
-	CPlayer * pPlayer = CManager::GetGameMode()->GetPlayer();
-	//もしプレイヤーのポインタがnullptrじゃない場合
-	if (pPlayer != nullptr)
-	{
-		//プレイヤーの体力を取得
-		int nLife = pPlayer->GetLife();
-		//体力を設定
-		SetLife(nLife);
-	}
 }
 
 //=============================================================================
@@ -121,6 +105,4 @@ void CPlayerLifeUI::Update(void)
 //=============================================================================
 void CPlayerLifeUI::Draw(void)
 {
-	//ライフのUIの描画処理関数呼び出し
-	CLifeUI::Draw();
 }

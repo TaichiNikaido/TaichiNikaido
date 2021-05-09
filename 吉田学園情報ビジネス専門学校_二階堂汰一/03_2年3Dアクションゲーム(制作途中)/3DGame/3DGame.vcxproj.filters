@@ -73,6 +73,12 @@
     <Filter Include="ヘッダー ファイル\UI">
       <UniqueIdentifier>{939a6b51-fba4-4dee-a5b9-61bc1eabb835}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Item">
+      <UniqueIdentifier>{5e9307c9-a458-4533-a4ea-47a6d0fc4eba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Item">
+      <UniqueIdentifier>{12ad9067-9667-43cb-8b48-6ada4f244f7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\skybox.cpp">
@@ -219,15 +225,6 @@
     <ClCompile Include="Source\Polygon3d\shadow.cpp">
       <Filter>ソース ファイル\Polygon3d</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\ui_life.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\ui_life_dragon.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\UI\ui_life_player.cpp">
-      <Filter>ソース ファイル\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\polygon2d\gauge.cpp">
       <Filter>ソース ファイル\Polygon2d</Filter>
     </ClCompile>
@@ -237,11 +234,35 @@
     <ClCompile Include="Source\Input\mouse.cpp">
       <Filter>ソース ファイル\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Source\polygon2d\pouse_bg.cpp">
-      <Filter>ソース ファイル\Polygon2d</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Button\pause_button_manager.cpp">
       <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="object_wood_box.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\ui_life_gague.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\ui_lifegauge_dragon.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\polygon2d\heart_icon.cpp">
+      <Filter>ソース ファイル\Polygon2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\ui_life_player.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Item\item.cpp">
+      <Filter>ソース ファイル\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Item\item_heal.cpp">
+      <Filter>ソース ファイル\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\polygon2d\pause_bg.cpp">
+      <Filter>ソース ファイル\Polygon2d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,15 +407,6 @@
     <ClInclude Include="Source\Mode\mode_game.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
     </ClInclude>
-    <ClInclude Include="Source\UI\ui_life.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\UI\ui_life_dragon.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\UI\ui_life_player.h">
-      <Filter>ヘッダー ファイル\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Source\polygon2d\gaugeflame.h">
       <Filter>ヘッダー ファイル\Polygon2d</Filter>
     </ClInclude>
@@ -404,11 +416,35 @@
     <ClInclude Include="Source\Input\mouse.h">
       <Filter>ヘッダー ファイル\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Source\polygon2d\pouse_bg.h">
-      <Filter>ヘッダー ファイル\Polygon2d</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Button\pause_button_manager.h">
       <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="object_wood_box.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\ui_life_gauge.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\ui_life_gauge_dragon.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\polygon2d\heart_icon.h">
+      <Filter>ヘッダー ファイル\Polygon2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UI\ui_life_player.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Item\item.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Item\item_heal.h">
+      <Filter>ヘッダー ファイル\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\polygon2d\pause_bg.h">
+      <Filter>ヘッダー ファイル\Polygon2d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

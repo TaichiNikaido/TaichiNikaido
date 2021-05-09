@@ -28,14 +28,12 @@
 #include "Weapon/weapon_sword.h"
 #include "Weapon/weapon_shield.h"
 #include "Polygon3d/shadow.h"
-#include "UI/ui_life_player.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
 #define MODEL_PASS ("Data/Script/Player/PlayerModel.txt")	//モデルスクリプトのパス
 #define SCRIPT_PASS ("Data/Script/Player/PlayerData.txt")	//プレイヤーデータのスクリプトのパス
-#define INITIAL_MOVE (D3DXVECTOR3(0.0f,0.0f,0.0f))			//初期移動量
 #define MINIMUM_LIFE (0)									//体力の最小値
 #define MINIMUM_ATTACK (0)									//攻撃力の最小値
 #define MINIMUM_ATTACK_COMBO (0)							//攻撃コンボ数の最小値
@@ -59,10 +57,8 @@ CModel::MODEL_DATA CPlayer::m_aPlayerModelData[MAX_PARTS] = {};	//モデル情報
 //=============================================================================
 CPlayer::CPlayer()
 {
-	m_PositionOld = INITIAL_D3DXVECTOR3;				//前の位置
-	m_CollisionSize = INITIAL_D3DXVECTOR3;				//当たり判定用サイズ
 	m_DirectionDest = INITIAL_D3DXVECTOR3;				//目的の向き
-	m_Move = INITIAL_MOVE;								//移動量
+	m_Move = INITIAL_D3DXVECTOR3;						//移動量
 	m_nLife = MINIMUM_LIFE;								//体力
 	m_nAttack = MINIMUM_ATTACK;							//攻撃力
 	m_nAttackCombo = MINIMUM_ATTACK_COMBO;				//攻撃コンボ
@@ -76,6 +72,7 @@ CPlayer::CPlayer()
 	m_bDash = false;									//ダッシュしてるか
 	m_bWeapon = false;									//武器を使用してるか
 	m_bAttack = false;									//攻撃してるか
+	m_bGuard = false;									//ガードしているか
 	m_State = STATE_NONE;								//状態
 	m_Input = INPUT_NONE;								//入力情報
 }
@@ -236,16 +233,17 @@ void CPlayer::Update(void)
 	D3DXVECTOR3 Position = GetPosition();
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
-	//過去の位置を保存する
-	m_PositionOld = GetPosition();
 	//もし移動量が初期値の場合
-	if (m_Move == INITIAL_MOVE)
+	if (m_Move == INITIAL_D3DXVECTOR3)
 	{
-		//もしモーションのポインタがnullptrではない場合
-		if (pMotion != nullptr)
+		if (m_bWeapon == false)
 		{
-			//モーションを設定する
-			pMotion->SetMotion(MOTION_IDLE);
+			//もしモーションのポインタがnullptrではない場合
+			if (pMotion != nullptr)
+			{
+				//モーションを設定する
+				pMotion->SetMotion(MOTION_IDLE);
+			}
 		}
 	}
 	//入力処理関数呼び出し
@@ -289,8 +287,10 @@ void CPlayer::Input(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-	//プレイヤーが移動していないとき
-	m_Move = INITIAL_MOVE;
+	//モーションのポインタを取得する
+	CMotion * pMotion = GetpMotion();
+	//移動量を0にする
+	m_Move = INITIAL_D3DXVECTOR3;
 	//もしダッシュキーが押されていたら
 	if (pKeyboard->GetKeyboardPress(DIK_LSHIFT) || pJoystick->GetJoystickPress(JS_RB))
 	{
@@ -345,9 +345,30 @@ void CPlayer::Input(void)
 		}
 		else
 		{
+			//抜刀モーションの再生
+			//
 			//武器を使用する
 			m_bWeapon = true;
 		}
+	}
+	//納刀処理
+	if (pKeyboard->GetKeyboardTrigger(DIK_I) || pJoystick->GetJoystickTrigger(JS_X))
+	{
+		//納刀モーションの再生
+		//
+		//武器の使用を止める
+		m_bWeapon = false;
+	}
+	//ガード処理
+	if (pKeyboard->GetKeyboardPress(DIK_G) || pJoystick->GetJoystickPress(JS_RT))
+	{
+		//ガード処理関数呼び出し
+		Guard();
+	}
+	else
+	{
+		//ガードを止める
+		m_bGuard = false;
 	}
 }
 
@@ -369,7 +390,7 @@ void CPlayer::Move(void)
 		if (pMotion != nullptr)
 		{
 			//モーションを設定する
-			pMotion->SetMotion(MOTION_DASH);
+			//pMotion->SetMotion(MOTION_DASH);
 		}
 	}
 	else
@@ -379,8 +400,16 @@ void CPlayer::Move(void)
 		//もしモーションのポインタがNULLではない場合
 		if (pMotion != nullptr)
 		{
-			//モーションを設定する
-			pMotion->SetMotion(MOTION_WALK);
+			if (m_bWeapon == false)
+			{
+				//モーションを設定する
+				pMotion->SetMotion(MOTION_WALK);
+			}
+			else
+			{
+				//モーションを設定する
+				pMotion->SetMotion(MOTION_WALK_WEAPON);
+			}
 		}
 	}
 	//カメラの取得
@@ -487,6 +516,27 @@ void CPlayer::Attack(void)
 }
 
 //=============================================================================
+// ガード処理関数
+//=============================================================================
+void CPlayer::Guard(void)
+{
+	//モーションのポインタを取得する
+	CMotion * pMotion = GetpMotion();
+	//もしガードをしていない場合
+	if (m_bGuard == false)
+	{
+		//もしモーションのポインタがnullptrではない場合
+		if (pMotion != nullptr)
+		{
+			//モーションを設定する
+			pMotion->SetMotion(3);
+			//ガード状態にする
+			m_bGuard = true;
+		}
+	}
+}
+
+//=============================================================================
 // ヒット処理関数
 //=============================================================================
 void CPlayer::Hit(void)
@@ -523,6 +573,13 @@ void CPlayer::Collision(void)
 {
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPosition();
+	//過去の位置を取得する
+	D3DXVECTOR3 PositionOld = GetPositionOld();
+	//サイズを取得する
+	D3DXVECTOR3 CollisionSize = GetCollisionSize();
+	//衝突判定用の箱の設定
+	D3DXVECTOR3 PlayerBoxMax = D3DXVECTOR3(CollisionSize.x / 2, CollisionSize.y / 2, CollisionSize.z / 2) + Position;
+	D3DXVECTOR3 PlayerBoxMin = D3DXVECTOR3(-CollisionSize.x / 2, -CollisionSize.y / 2, -CollisionSize.z / 2) + Position;
 	//ドラゴンの取得
 	CDragon * pDragon = CManager::GetGameMode()->GetDragon();
 	//もしドラゴンのポインタがnullptrではない場合
@@ -532,6 +589,9 @@ void CPlayer::Collision(void)
 		D3DXVECTOR3 DragonPosition = pDragon->GetPosition();
 		//ドラゴンの衝突判定用サイズの取得
 		D3DXVECTOR3 DragonCollisionSize = pDragon->GetCollisionSize();
+		//衝突判定用の箱の設定
+		D3DXVECTOR3 DragonBoxMax = D3DXVECTOR3(DragonCollisionSize.x / 2, DragonCollisionSize.y / 2, DragonCollisionSize.z / 2) + DragonPosition;
+		D3DXVECTOR3 DragonBoxMin = D3DXVECTOR3(-DragonCollisionSize.x / 2, -DragonCollisionSize.y / 2, -DragonCollisionSize.z / 2) + DragonPosition;
 	}
 }
 
@@ -540,12 +600,13 @@ void CPlayer::Collision(void)
 //=============================================================================
 void CPlayer::DataLoad(void)
 {
-	D3DXVECTOR3 Position = INITIAL_D3DXVECTOR3;		//位置
-	D3DXVECTOR3 Size = INITIAL_D3DXVECTOR3;			//サイズ
-	D3DXVECTOR3 Rotation = INITIAL_D3DXVECTOR3;		//回転
-	char aReadText[MAX_TEXT];						//読み込んだテキスト
-	char aCurrentText[MAX_TEXT];					//現在のテキスト
-	char aUnnecessaryText[MAX_TEXT];				//不必要なテキスト
+	D3DXVECTOR3 Position = INITIAL_D3DXVECTOR3;			//位置
+	D3DXVECTOR3 Size = INITIAL_D3DXVECTOR3;				//サイズ
+	D3DXVECTOR3 CollisionSize = INITIAL_D3DXVECTOR3;	//衝突判定用サイズ
+	D3DXVECTOR3 Rotation = INITIAL_D3DXVECTOR3;			//回転
+	char aReadText[MAX_TEXT];							//読み込んだテキスト
+	char aCurrentText[MAX_TEXT];						//現在のテキスト
+	char aUnnecessaryText[MAX_TEXT];					//不必要なテキスト
 	memset(aReadText, NULL, sizeof(aReadText));
 	memset(aCurrentText, NULL, sizeof(aCurrentText));
 	memset(aUnnecessaryText, NULL, sizeof(aUnnecessaryText));
@@ -608,7 +669,9 @@ void CPlayer::DataLoad(void)
 						if (strcmp(aCurrentText, "CollisionSize") == 0)
 						{
 							//衝突判定用サイズの取得
-							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &m_CollisionSize.x, &m_CollisionSize.y, &m_CollisionSize.z);
+							sscanf(aReadText, "%s %s %f %f %f", &aUnnecessaryText, &aUnnecessaryText, &CollisionSize.x, &CollisionSize.y, &CollisionSize.z);
+							//衝突判定用サイズの設定
+							SetCollisionSize(CollisionSize);
 						}
 						//現在のテキストがRotationだったら
 						if (strcmp(aCurrentText, "Rotation") == 0)
@@ -657,24 +720,4 @@ void CPlayer::DataLoad(void)
 	}
 	//モデルのスクリプトパスを設定
 	SetModelScriptPass(MODEL_PASS);
-}
-
-//=============================================================================
-// 武器生成処理関数
-//=============================================================================
-void CPlayer::WeaponCreate(void)
-{
-	////剣生成
-	//CSword::Create();
-	////盾生成
-	//CShield::Create();
-}
-
-//=============================================================================
-// UI生成処理関数
-//=============================================================================
-void CPlayer::UICreate(void)
-{
-	//プレイヤーの体力UIの生成
-	//CPlayerLifeUI::Create();
 }

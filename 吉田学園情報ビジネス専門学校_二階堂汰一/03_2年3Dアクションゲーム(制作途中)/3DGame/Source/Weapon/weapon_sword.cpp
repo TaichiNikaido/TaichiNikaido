@@ -19,6 +19,9 @@
 // マクロ定義
 //*****************************************************************************
 #define MODEL_PASS ("Data/Model/Weapon/Sword.x")	//モデルスクリプトのパス
+#define POSITION (D3DXVECTOR3(1.0f,1.0f,1.0f))		//位置
+#define ROTATION (D3DXVECTOR3(1.0f,1.0f,1.0f))		//回転
+#define SIZE (D3DXVECTOR3(1.0f,1.0f,1.0f))			//サイズ
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -135,6 +138,12 @@ CSword * CSword::Create()
 		//剣のポインタがnullptrではない場合
 		if (pSword != nullptr)
 		{
+			//位置を設定する
+			pSword->SetPosition(POSITION);
+			//回転を設定する
+			pSword->SetRotation(ROTATION);
+			//サイズを設定する
+			pSword->SetSize(SIZE);
 			//剣の初期化処理関数呼び出し
 			pSword->Init();
 		}
@@ -154,7 +163,7 @@ HRESULT CSword::Init(void)
 	if (pPlayer != nullptr)
 	{
 		//親モデルの設定
-		SetParentModel(pPlayer->GetModel(6));
+		SetParentModel(pPlayer->GetModel(9));
 	}
 	//モデルデータの設定
 	SetModelData(m_aModelData);

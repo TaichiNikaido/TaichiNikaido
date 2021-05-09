@@ -18,8 +18,11 @@
 #include "mode_game.h"
 #include "Character/player.h"
 #include "Character/enemy_dragon.h"
+#include "Weapon/weapon_sword.h"
+#include "Weapon/weapon_shield.h"
+#include "UI/ui_life_gauge_dragon.h"
 #include "Polygon3d/floor.h"
-#include "Button/pose_button_manager.h"
+#include "Button/pause_button_manager.h"
 #include "skybox.h"
 
 //*****************************************************************************
@@ -29,6 +32,8 @@
 //*****************************************************************************
 // 静的メンバ変数の初期化
 //*****************************************************************************
+CPlayer * CGameMode::m_pPlayer = nullptr;	//プレイヤーのポインタ
+CDragon * CGameMode::m_pDragon = nullptr;	//ドラゴンのポインタ
 
 //=============================================================================
 // コンストラクタ
@@ -36,10 +41,10 @@
 CGameMode::CGameMode()
 {
 	m_pPlayer = nullptr;	//プレイヤーのポインタ
-	m_pCamera = nullptr;	//カメラのポインタ
 	m_pDragon = nullptr;	//ドラゴンのポインタ
+	m_pCamera = nullptr;	//カメラのポインタ
 	m_pLight = nullptr;		//ライトのポインタ
-	m_bPouse = false;		//ポーズを使用してるか
+	m_bCreatePause = false;		//ポーズを使用してるか
 }
 
 //=============================================================================
@@ -165,10 +170,10 @@ void CGameMode::Input(void)
 	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
 	{
 		//もしポーズを使用していない場合
-		if (m_bPouse == false)
+		if (m_bCreatePause == false)
 		{
 			//ポーズボタンマネージャーの生成処理関数呼び出し
-			CPoseButtonManager::Create();
+			CPauseButtonManager::Create();
 		}
 	}
 }
@@ -180,8 +185,6 @@ void CGameMode::InitCreate(void)
 {
 	//全基本生成処理関数呼び出し
 	BaseCreateAll();
-	//全UI生成処理関数呼び出し
-	UICreateAll();
 	//全マップオブジェクト生成処理関数呼び出し
 	MapObjectCreateAll();
 	//全キャラクター生成処理関数呼び出し
@@ -247,18 +250,27 @@ void CGameMode::CharacterCreateAll(void)
 	{
 		//プレイヤーの生成
 		m_pPlayer = CPlayer::Create();
+		//もしプレイヤーのポインタがnullptrではない場合
+		if (m_pPlayer != nullptr)
+		{
+			//剣の生成
+			CSword::Create();
+			//盾の生成
+			CShield::Create();
+			//プレイヤーの体力のUI生成
+			//CPlayerLifeUI::Create();
+		}
 	}
 	//もしドラゴンのポインタがnullptrの場合
 	if (m_pDragon == nullptr)
 	{
 		//ドラゴンの生成
 		m_pDragon = CDragon::Create();
+		//もしドラゴンのポインタがnullptrではない場合
+		if (m_pDragon != nullptr)
+		{
+			//ドラゴンの体力のUI生成
+			CDragonLifeGaugeUI::Create();
+		}
 	}
-}
-
-//=============================================================================
-// 全UI生成処理関数
-//=============================================================================
-void CGameMode::UICreateAll(void)
-{
 }

@@ -32,6 +32,7 @@
 #include "Polygon3d/floor.h"
 #include "Polygon2d/title_logo.h"
 #include "Polygon2d/letter.h"
+#include "Polygon2d/heart_icon.h"
 #include "Button/button_any.h"
 #include "Button/button_start.h"
 #include "Button/button_tutorial.h"
@@ -61,6 +62,7 @@ CRankingMode * CManager::m_pRankingMode = nullptr;		//ランキングモードのポインタ
 CFade * CManager::m_pFade = nullptr;					//フェードへのポインタ
 CManager::MODE  CManager::m_Mode = MODE_NONE;			//モード
 bool CManager::m_bUseFade = false;						//フェードの使用状態
+HWND CManager::m_hWnd = nullptr;
 
 //=============================================================================
 // コンストラクタ
@@ -81,6 +83,7 @@ CManager::~CManager()
 //=============================================================================
 HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 {
+	m_hWnd = hWnd;
 	//もしレンダラーのポインタがnullptrの場合
 	if (m_pRenderer == nullptr)
 	{
@@ -150,7 +153,7 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	//全読み込み関数呼び出し
 	LoadAll();
 	//モードの設定
-	SetMode(MODE_GAME);
+	SetMode(MODE_TITLE);
 	return S_OK;
 }
 
@@ -284,6 +287,23 @@ void CManager::SetMode(MODE Mode)
 }
 
 //=============================================================================
+// ウィンドウ使用状態取得関数
+//=============================================================================
+bool CManager::GetIsActiveWindow(void)
+{
+	bool bActive = false;
+	if (GetForegroundWindow() == m_hWnd)
+	{
+		bActive = true;
+	}
+	else
+	{
+		bActive = false;
+	}
+	return bActive;
+}
+
+//=============================================================================
 // 全読み込み処理関数
 //=============================================================================
 void CManager::LoadAll(void)
@@ -318,6 +338,8 @@ void CManager::LoadAll(void)
 	CTitleLogo::TextureLoad();
 	//文字のテクスチャ読み込み
 	CLetter::TextureLoad();
+	//ハートアイコンのテクスチャ読み込み
+	CHeartIcon::TextureLoad();
 	//スカイボックスのテクスチャ読み込み
 	CSkyBox::TextureLoad();
 }
@@ -357,6 +379,8 @@ void CManager::UnloadAll(void)
 	CTitleLogo::TextureUnload();
 	//文字のテクスチャ破棄
 	CLetter::TextureUnload();
+	//ハートアイコンのテクスチャ破棄
+	CHeartIcon::TextureUnload();
 	//スカイボックスのテクスチャ破棄
 	CSkyBox::TextureUnload();
 }

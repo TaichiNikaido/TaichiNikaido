@@ -146,6 +146,8 @@ void CBackToTitleButton::Draw(void)
 //=============================================================================
 void CBackToTitleButton::Press(void)
 {
+	//ポーズの使用状態を設定する
+	SetbPause(false);
 	//サウンドの取得
 	CSound * pSound = CManager::GetSound();
 	//もしサウンドのポインタがnullptrではない場合

@@ -78,7 +78,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	pManager = new CManager;
 	pManager->Init(hInstance, hWnd, TRUE);
-
+	//マウスカーソル見えなくする
+	ShowCursor(FALSE);
 	// 分解能を設定
 	timeBeginPeriod(1);
 

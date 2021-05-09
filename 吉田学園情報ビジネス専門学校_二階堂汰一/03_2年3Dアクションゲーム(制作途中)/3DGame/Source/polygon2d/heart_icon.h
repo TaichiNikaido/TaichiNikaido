@@ -1,11 +1,11 @@
 //=============================================================================
 //
-// ポーズ背景 [pouse_bg.h]
+// ハートアイコン [heart_icon.h]
 // Author : 二階堂汰一
 //
 //=============================================================================
-#ifndef _POUSE_BG_H_
-#define _POUSE_BG_H_
+#ifndef _HEART_ICON_H_
+#define _HEART_ICON_H_
 
 //*****************************************************************************
 // ヘッダファイルのインクルード
@@ -23,16 +23,19 @@
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-class CPouseBG :public CScene2d
+class CHeartIcon :public CScene2d
 {
 public:
-	CPouseBG();
-	~CPouseBG();
-	static CPouseBG * Create(void);
+	CHeartIcon(int nPriority = PRIORITY_2DPOLYGON);
+	~CHeartIcon();
+	static HRESULT TextureLoad(void);
+	static void TextureUnload(void);
+	static CHeartIcon * Create(D3DXVECTOR3 Position);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
 private:
+	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャのポインタ
 };
 #endif

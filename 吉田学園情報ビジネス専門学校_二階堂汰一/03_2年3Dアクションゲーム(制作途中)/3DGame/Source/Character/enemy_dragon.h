@@ -49,7 +49,10 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
+	bool Visibility(void);
+	void AI(void);
+	void Death(void);
 	static CModel::MODEL_DATA m_aModelData[MAX_PARTS];	//モデルデータ
-
+	ATTACK_PATTERN m_AttackPattern;						//攻撃パターン
 };
 #endif

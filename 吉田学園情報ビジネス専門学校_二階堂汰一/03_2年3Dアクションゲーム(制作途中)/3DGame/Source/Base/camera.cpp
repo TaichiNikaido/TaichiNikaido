@@ -56,6 +56,12 @@ HRESULT CCamera::Init(void)
 	m_VectorU = VECTOR;
 	//回転方向の初期設定
 	m_Rotation = ROTATION;
+	//ウィンドウがアクティブの場合
+	if (CManager::GetIsActiveWindow() == true)
+	{
+		//マウスカーソルの位置を画面の中心に設定する
+		SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	}
 	return S_OK;
 }
 
@@ -72,7 +78,7 @@ void CCamera::Uninit(void)
 void CCamera::Update(void)
 {
 	//プレイヤーを取得する
-	CPlayer * pPlayer = CManager::GetGameMode()->GetPlayer();
+	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//もしプレイヤーのポインタがnullptrではない場合
 	if (pPlayer != nullptr)
 	{
@@ -115,6 +121,19 @@ void CCamera::Input(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
+	//マウスカーソルの位置格納用変数
+	POINT Point;
+	//マウスカーソルの位置を取得する
+	GetCursorPos(&Point);
+	//ウィンドウがアクティブの場合
+	if (CManager::GetIsActiveWindow() == true)
+	{
+		//マウスカーソルの位置を画面の中心に設定する
+		SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+		//マウスでのカメラ操作
+		m_Rotation.z += (Point.y - (SCREEN_HEIGHT / 2)) * (0.01f * 1.0f);
+		m_Rotation.y -= (Point.x - (SCREEN_WIDTH / 2)) * (0.01f * 1.0f);
+	}
 	//スティックが上入力されたら
 	if (lpDIDevice != NULL &&js.lRz == -1000)
 	{
@@ -140,6 +159,14 @@ void CCamera::Input(void)
 	if (lpDIDevice != NULL &&js.lZ == 1000)
 	{
 		m_Rotation.y -= D3DXToRadian(1.75f);
+	}
+	if (m_Rotation.z < D3DXToRadian(5.0f))
+	{
+		m_Rotation.z = D3DXToRadian(5.0f);
+	}
+	if (m_Rotation.z > D3DXToRadian(115.0f))
+	{
+		m_Rotation.z = D3DXToRadian(115.0f);
 	}
 }
 

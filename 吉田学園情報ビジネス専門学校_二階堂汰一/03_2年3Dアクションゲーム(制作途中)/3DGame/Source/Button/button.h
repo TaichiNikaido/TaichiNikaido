@@ -26,7 +26,7 @@
 class CButton :public CScene2d
 {
 public:
-	CButton();
+	CButton(int nPriority = PRIORITY_BUTTON);
 	~CButton();
 	HRESULT Init(void);
 	void Uninit(void);

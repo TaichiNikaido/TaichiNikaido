@@ -148,6 +148,8 @@ void CQuitGameButton::Draw(void)
 //=============================================================================
 void CQuitGameButton::Press(void)
 {
+	//ポーズの使用状態を設定する
+	SetbPause(false);
 	//チュートリアルモードの取得
 	CTutorialMode * pTutorialMode = CManager::GetTutorialMode();
 	//ゲームモードの取得
@@ -159,17 +161,5 @@ void CQuitGameButton::Press(void)
 	{
 		//決定音の再生
 		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
-	}
-	//もしチュートリアルモードのポインタがnullptrではない場合
-	if (pTutorialMode != nullptr)
-	{
-		//ポーズ未使用状態にする
-		pTutorialMode->SetbPouse(false);
-	}
-	//もしゲームモードのポインタがnullptrじゃない場合
-	if (pGameMode != nullptr)
-	{
-		//ポーズ未使用状態にする
-		pGameMode->SetbPouse(false);
 	}
 }

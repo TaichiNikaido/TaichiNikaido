@@ -27,7 +27,7 @@
 class CScene2d :public CScene
 {
 public:
-	CScene2d(int nPriority = DEFAULT_PRIORITY);
+	CScene2d(int nPriority = PRIORITY_BASE);
 	~CScene2d();
 	HRESULT Init(void);
 	void Uninit(void);

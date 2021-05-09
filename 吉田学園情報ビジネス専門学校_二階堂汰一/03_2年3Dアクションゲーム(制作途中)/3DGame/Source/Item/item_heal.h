@@ -1,16 +1,16 @@
 //=============================================================================
 //
-// ポーズ背景 [pouse_bg.h]
+// 体力回復アイテム [item_heal.h]
 // Author : 二階堂汰一
 //
 //=============================================================================
-#ifndef _POUSE_BG_H_
-#define _POUSE_BG_H_
+#ifndef _ITEM_HEAL_H_
+#define _ITEM_HEAL_H_
 
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include "Base/scene2d.h"
+#include "item.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -23,16 +23,17 @@
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-class CPouseBG :public CScene2d
+class CHealItem :public CItem
 {
 public:
-	CPouseBG();
-	~CPouseBG();
-	static CPouseBG * Create(void);
+	CHealItem();
+	~CHealItem();
+	static CHealItem * Create(void);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
 private:
+	void Effect();
 };
 #endif

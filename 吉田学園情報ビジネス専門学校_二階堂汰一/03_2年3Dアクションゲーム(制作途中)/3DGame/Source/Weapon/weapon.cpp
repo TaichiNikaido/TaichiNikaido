@@ -26,12 +26,9 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CWeapon::CWeapon()
+CWeapon::CWeapon(int nPriority) : CScene3d(nPriority)
 {
-	m_Position = INITIAL_D3DXVECTOR3;			//位置
-	m_Size = INITIAL_D3DXVECTOR3;				//サイズ
 	m_CollisionSize = INITIAL_D3DXVECTOR3;		//衝突判定用サイズ
-	m_Rotation = INITIAL_ROTATION;				//回転
 	m_pModel = NULL;							//モデルのポインタ
 	m_pParentModel = NULL;						//親モデルのポインタ
 	m_aModelData = {};							//モデルデータ
@@ -49,6 +46,12 @@ CWeapon::~CWeapon()
 //=============================================================================
 HRESULT CWeapon::Init(void)
 {
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPosition();
+	//回転を取得する
+	D3DXVECTOR3 Rotation = GetRotation();
+	//サイズを取得する
+	D3DXVECTOR3 Size = GetSize();
 	//もしモデルのポインタがnullptrの場合
 	if (m_pModel == nullptr)
 	{
@@ -57,14 +60,14 @@ HRESULT CWeapon::Init(void)
 		//もしモデルのポインタがNULLじゃない場合
 		if (m_pModel != nullptr)
 		{
+			//位置をモデルに設定する
+			m_pModel->SetPosition(Position);
+			//回転をモデルに設定する
+			m_pModel->SetRotation(Rotation);
+			//サイズをモデルに設定する
+			m_pModel->SetSize(Size);
 			//モデルの初期化処理関数呼び出し
 			m_pModel->Init();
-			//モデルに位置を設定する
-			m_pModel->SetPosition(m_Position);
-			//モデルにサイズを設定する
-			m_pModel->SetSize(m_Size);
-			//モデルに回転を設定する
-			m_pModel->SetRotation(m_Rotation);
 			//親モデルを設定する
 			m_pModel->SetParentModel(m_pParentModel);
 		}

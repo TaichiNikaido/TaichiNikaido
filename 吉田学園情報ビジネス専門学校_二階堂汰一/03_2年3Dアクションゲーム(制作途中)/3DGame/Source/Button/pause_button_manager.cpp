@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ポーズボタンマネージャー [pose_button_manager.cpp]
+// ポーズボタンマネージャー [pause_button_manager.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -14,12 +14,12 @@
 #include "Mode/mode_game.h"
 #include "Input/keyboard.h"
 #include "Input/joystick.h"
-#include "pose_button_manager.h"
+#include "pause_button_manager.h"
 #include "button_back_to_title.h"
 #include "button_controller_guid.h"
 #include "button_quit_game.h"
 #include "button_exit.h"
-#include "polygon2d/pouse_bg.h"
+#include "polygon2d/pause_bg.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -37,7 +37,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CPoseButtonManager::CPoseButtonManager()
+CPauseButtonManager::CPauseButtonManager(int nPriority) : CScene(nPriority)
 {
 	memset(m_apButton, NULL, sizeof(m_apButton));	//ボタンのポインタ
 	m_nButton = BUTTON_NONE;						//ボタン
@@ -48,22 +48,22 @@ CPoseButtonManager::CPoseButtonManager()
 //=============================================================================
 // デストラクタ
 //=============================================================================
-CPoseButtonManager::~CPoseButtonManager()
+CPauseButtonManager::~CPauseButtonManager()
 {
 }
 
 //=============================================================================
 // 生成処理関数呼び出し
 //=============================================================================
-CPoseButtonManager * CPoseButtonManager::Create(void)
+CPauseButtonManager * CPauseButtonManager::Create(void)
 {
 	//ポーズボタンマネージャーのポインタ
-	CPoseButtonManager * pPoseButtonManager = nullptr;
+	CPauseButtonManager * pPoseButtonManager = nullptr;
 	//ポーズボタンマネージャーポインタがnullptrの場合
 	if (pPoseButtonManager == nullptr)
 	{
 		//ポーズボタンマネージャーのメモリ確保
-		pPoseButtonManager = new CPoseButtonManager;
+		pPoseButtonManager = new CPauseButtonManager;
 		//ポーズボタンマネージャーのポインタがnullptrではない場合
 		if (pPoseButtonManager != nullptr)
 		{
@@ -78,7 +78,7 @@ CPoseButtonManager * CPoseButtonManager::Create(void)
 //=============================================================================
 // 初期化処理関数
 //=============================================================================
-HRESULT CPoseButtonManager::Init(void)
+HRESULT CPauseButtonManager::Init(void)
 {
 	//チュートリアルモードの取得
 	CTutorialMode * pTutorialMode = CManager::GetTutorialMode();
@@ -94,28 +94,46 @@ HRESULT CPoseButtonManager::Init(void)
 	if (pTutorialMode != nullptr)
 	{
 		//ポーズ使用状態にする
-		pTutorialMode->SetbPouse(true);
+		pTutorialMode->SetbCreatePause(true);
 	}
 	//もしゲームモードのポインタがnullptrじゃない場合
 	if (pGameMode != nullptr)
 	{
 		//ポーズ使用状態にする
-		pGameMode->SetbPouse(true);
+		pGameMode->SetbCreatePause(true);
 	}
 	//もしポーズ背景のポインタがnullptrの場合
 	if (m_pPouseBG == nullptr)
 	{
 		//ポーズ背景の生成
-		m_pPouseBG = CPouseBG::Create();
+		m_pPouseBG = CPauseBG::Create();
 	}
+	//ポーズの使用状態を設定する
+	SetbPause(true);
 	return S_OK;
 }
 
 //=============================================================================
 // 終了処理関数
 //=============================================================================
-void CPoseButtonManager::Uninit(void)
+void CPauseButtonManager::Uninit(void)
 {
+	//チュートリアルモードの取得
+	CTutorialMode * pTutorialMode = CManager::GetTutorialMode();
+	//ゲームモードの取得
+	CGameMode * pGameMode = CManager::GetGameMode();
+	//もしチュートリアルモードのポインタがnullptrじゃない場合
+	if (pTutorialMode != nullptr)
+	{
+		//ポーズ未生成状態にする
+		pTutorialMode->SetbCreatePause(false);
+	}
+	//もしゲームモードのポインタがnullptrじゃない場合
+	if (pGameMode != nullptr)
+	{
+		//ポーズ未生成状態にする
+		pGameMode->SetbCreatePause(false);
+	}
 	//破棄処理関数呼び出し
 	Release();
 }
@@ -123,7 +141,7 @@ void CPoseButtonManager::Uninit(void)
 //=============================================================================
 // 更新処理関数
 //=============================================================================
-void CPoseButtonManager::Update(void)
+void CPauseButtonManager::Update(void)
 {
 	//選択処理関数呼び出し
 	Select();
@@ -134,14 +152,14 @@ void CPoseButtonManager::Update(void)
 //=============================================================================
 // 描画処理関数
 //=============================================================================
-void CPoseButtonManager::Draw(void)
+void CPauseButtonManager::Draw(void)
 {
 }
 
 //=============================================================================
 // 入力処理関数
 //=============================================================================
-void CPoseButtonManager::Input(void)
+void CPauseButtonManager::Input(void)
 {
 	//チュートリアルモードの取得
 	CTutorialMode * pTutorialMode = CManager::GetTutorialMode();
@@ -159,6 +177,16 @@ void CPoseButtonManager::Input(void)
 	{
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
+	}
+	//キーボードの更新処理関数呼び出し
+	pKeyboard->Update();
+	//ジョイスティックの更新処理関数呼び出し
+	pJoystick->Update();
+	//ウィンドウがアクティブの場合
+	if (CManager::GetIsActiveWindow() == true)
+	{
+		//マウスカーソルの位置を画面の中心に設定する
+		SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	}
 	//上矢印キーが入力された場合
 	if (pKeyboard->GetKeyboardTrigger(DIK_UP))
@@ -223,16 +251,38 @@ void CPoseButtonManager::Input(void)
 		Uninit();
 		return;
 	}
+	//もしESCAPEキー又はジョイスティックのSTARTボタンを押されたら
+	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
+	{
+		//もしポーズ背景のポインタがnullptrではない場合
+		if (m_pPouseBG != nullptr)
+		{
+			//ポーズ背景の終了処理関数呼び出し
+			m_pPouseBG->Uninit();
+		}
+		//ボタンの総数分回す
+		for (int nCount = BUTTON_QUIT_GAME; nCount < BUTTON_MAX; nCount++)
+		{
+			//各ボタンの終了処理関数呼び出し
+			m_apButton[nCount]->Uninit();
+		}
+		//ポーズを未使用状態にする
+		SetbPause(false);
+		//終了処理関数呼び出し
+		Uninit();
+		return;
+	}
 	if (lpDIDevice != NULL &&js.lY == 0)
 	{
 		m_nInputCount = 0;
 	}
+
 }
 
 //=============================================================================
 // 選択処理関数
 //=============================================================================
-void CPoseButtonManager::Select(void)
+void CPauseButtonManager::Select(void)
 {
 	//もし現在のボタンが終了ボタンより下だったら
 	if (m_nButton < BUTTON_QUIT_GAME)
@@ -259,7 +309,7 @@ void CPoseButtonManager::Select(void)
 //=============================================================================
 // 初期生成処理関数
 //=============================================================================
-void CPoseButtonManager::InitCreateAll(void)
+void CPauseButtonManager::InitCreateAll(void)
 {
 	//ゲームに戻るボタンの生成
 	m_apButton[BUTTON_QUIT_GAME] = CQuitGameButton::Create(START_BUTTON_POSITION);

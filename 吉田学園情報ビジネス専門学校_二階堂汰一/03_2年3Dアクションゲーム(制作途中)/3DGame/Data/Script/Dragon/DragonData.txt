@@ -11,12 +11,12 @@ SCRIPT #この行は絶対に消さないこと!
 #================================================
 PARAMETER_SET
 
-Position = 0.0 0.0 400.0		# 位置
+Position = 0.0 0.0 -1000.0		# 位置
 Size = 1.0 1.0 1.0				# サイズ
 CollisionSize = 50.0 400.0 25.0	# 衝突判定用サイズ
-Rotation = 0.0 0.0 0.0			# 回転
+Rotation = 0.0 80.0 0.0			# 回転
 Move = 0.0 0.0 0.0				# 移動量
-Life = 0						# 体力
+Life = 100						# 体力
 Attack = 100					# 攻撃力
 
 END_PARAMETER_SET

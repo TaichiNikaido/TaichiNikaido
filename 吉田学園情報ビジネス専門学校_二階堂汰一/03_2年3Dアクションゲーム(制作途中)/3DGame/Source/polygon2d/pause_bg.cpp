@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ポーズ背景 [pouse_bg.cpp]
+// ポーズ背景 [pause_bg.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -11,14 +11,15 @@
 #include "Base/main.h"
 #include "Base/manager.h"
 #include "Base/renderer.h"
-#include "pouse_bg.h"
+#include "pause_bg.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))	//位置
-#define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))				//サイズ
-#define COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,0.3f))							//色
+#define TEXTURE_PASS ("Data/Texture/Logo/Logo_Title.png")							//テクスチャのパス
+#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 - 100.0f,0.0f))	//位置
+#define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))							//サイズ
+#define COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,0.05f))										//色
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -27,50 +28,50 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CPouseBG::CPouseBG()
+CPauseBG::CPauseBG(int nPriority) : CScene2d(nPriority)
 {
 }
 
 //=============================================================================
 // デストラクタ
 //=============================================================================
-CPouseBG::~CPouseBG()
+CPauseBG::~CPauseBG()
 {
 }
 
 //=============================================================================
 // 生成処理関数呼び出し
 //=============================================================================
-CPouseBG * CPouseBG::Create()
+CPauseBG * CPauseBG::Create()
 {
 	//ポーズ背景のポインタ
-	CPouseBG * pPouseBG = nullptr;
+	CPauseBG * pPauseBG = nullptr;
 	//ポーズ背景のポインタがnullptrの場合
-	if (pPouseBG == nullptr)
+	if (pPauseBG == nullptr)
 	{
 		//ポーズ背景のメモリ確保
-		pPouseBG = new CPouseBG;
+		pPauseBG = new CPauseBG;
 		//ポーズ背景のポインタがnullptrではない場合
-		if (pPouseBG != nullptr)
+		if (pPauseBG != nullptr)
 		{
 			//ポーズ背景の位置設定
-			pPouseBG->SetPosition(POSITION);
+			pPauseBG->SetPosition(POSITION);
 			//ポーズ背景のサイズ設定
-			pPouseBG->SetSize(SIZE);
+			pPauseBG->SetSize(SIZE);
 			//ポーズ背景の色設定
-			pPouseBG->SetColor(COLOR);
+			pPauseBG->SetColor(COLOR);
 			//ポーズ背景の初期化処理関数呼び出し
-			pPouseBG->Init();
+			pPauseBG->Init();
 		}
 	}
 	//ポーズ背景のポインタを返す
-	return pPouseBG;
+	return pPauseBG;
 }
 
 //=============================================================================
 // 初期化処理関数
 //=============================================================================
-HRESULT CPouseBG::Init(void)
+HRESULT CPauseBG::Init(void)
 {
 	//テクスチャのUV座標の設定
 	D3DXVECTOR2 aTexture[NUM_VERTEX];
@@ -88,7 +89,7 @@ HRESULT CPouseBG::Init(void)
 //=============================================================================
 // 終了処理関数
 //=============================================================================
-void CPouseBG::Uninit(void)
+void CPauseBG::Uninit(void)
 {
 	//ボタンの終了処理関数呼び出し
 	CScene2d::Uninit();
@@ -97,7 +98,7 @@ void CPouseBG::Uninit(void)
 //=============================================================================
 // 更新処理関数
 //=============================================================================
-void CPouseBG::Update(void)
+void CPauseBG::Update(void)
 {
 	//ボタンの更新処理関数呼び出し
 	CScene2d::Update();
@@ -106,7 +107,7 @@ void CPouseBG::Update(void)
 //=============================================================================
 // 描画処理関数
 //=============================================================================
-void CPouseBG::Draw(void)
+void CPauseBG::Draw(void)
 {
 	//ボタンの描画処理関数呼び出し
 	CScene2d::Draw();

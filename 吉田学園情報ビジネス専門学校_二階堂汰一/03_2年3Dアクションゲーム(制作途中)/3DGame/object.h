@@ -1,16 +1,16 @@
 //=============================================================================
 //
-// ライフのUI [ui_life.h]
+// オブジェクト [object.h]
 // Author : 二階堂汰一
 //
 //=============================================================================
-#ifndef _UI_LIFE_H_
-#define _UI_LIFE_H_
+#ifndef _OBJECT_H_
+#define _OBJECT_H_
 
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
-#include "Base/scene.h"
+#include "Base/scene3d.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -19,29 +19,24 @@
 //*****************************************************************************
 // 前方宣言
 //*****************************************************************************
-class CGauge;
 
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-class CLifeUI :public CScene
+class CObject :public CScene3d
 {
 public:
-	CLifeUI();
-	~CLifeUI();
+	CObject();
+	~CObject();
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void SetMaxLife(int nMaxLife) { m_nMaxLife = nMaxLife; }
-	void SetLife(int nLife) { m_nLife = nLife; }
-	void SetGauge(CGauge * pGauge) { m_pGauge = pGauge; }
+	void SetCollisionSize(D3DXVECTOR3 CollisionSize) { m_CollisionSize = CollisionSize; }
+	bool GetbCollision(void) { return m_bCollision; }
 private:
-	D3DXVECTOR3 m_Position;							//位置
-	D3DXVECTOR3 m_Size;								//サイズ
-	D3DXCOLOR m_Color;								//色
-	int m_nMaxLife;									//体力の最大値
-	int m_nLife;									//体力
-	CGauge * m_pGauge;								//ゲージのポインタ
+	void Collision(void);
+	D3DXVECTOR3 m_CollisionSize;	//衝突判定用のサイズ
+	bool m_bCollision;				//衝突したか
 };
 #endif

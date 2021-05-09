@@ -32,8 +32,11 @@ public:
 	typedef enum
 	{
 		MOTION_IDLE = 0,
-		MOTION_WALK,	//歩行モーション
-		MOTION_DASH,	//ダッシュモーション
+		MOTION_IDLE_WEAPON,
+		MOTION_WALK,
+		MOTION_WALK_WEAPON,
+		MOTION_GUARD,
+		MOTION_MAX
 	}MOTION;	//モーション
 	typedef enum
 	{
@@ -70,10 +73,9 @@ public:
 	void Update(void);
 	void Draw(void);
 	void Hit(void);
+	void AddLife(int nValue) { m_nLife += nValue; };
 	void SubLife(void);
 	void SetMove(D3DXVECTOR3 Move) { m_Move = Move; }
-	D3DXVECTOR3 GetPositionOld(void) { return m_PositionOld; }
-	D3DXVECTOR3 GetCollisionSize(void) { return m_CollisionSize; }
 	D3DXVECTOR3 GetMove(void) { return m_Move; }
 	int GetLife(void) { return m_nLife; }
 	float GetCameraDistance(void) { return m_fCameraDistance; }
@@ -81,14 +83,11 @@ private:
 	void Input(void);
 	void Move(void);
 	void Attack(void);
+	void Guard(void);
 	void Death(void);
 	void Collision(void);
 	void DataLoad(void);
-	void WeaponCreate(void);
-	void UICreate(void);
 	static CModel::MODEL_DATA m_aPlayerModelData[MAX_PARTS];	//モデル情報
-	D3DXVECTOR3 m_PositionOld;									//前の位置
-	D3DXVECTOR3 m_CollisionSize;								//当たり判定用サイズ
 	D3DXVECTOR3 m_DirectionDest;								//目的の向き
 	D3DXVECTOR3 m_Move;											//移動量
 	int m_nLife;												//体力
@@ -104,6 +103,7 @@ private:
 	bool m_bDash;												//ダッシュしてるか
 	bool m_bWeapon;												//武器を使用しているか
 	bool m_bAttack;												//攻撃をしているか
+	bool m_bGuard;												//ガードしているか
 	STATE m_State;												//状態
 	INPUT m_Input;												//入力情報
 };

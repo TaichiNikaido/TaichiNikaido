@@ -1,11 +1,11 @@
 //=============================================================================
 //
-// ポーズボタンマネージャー [pose_button_manager.h]
+// ポーズボタンマネージャー [pause_button_manager.h]
 // Author : 二階堂汰一
 //
 //=============================================================================
-#ifndef _POSE_BUTTON_MANAGER_H_
-#define _POSE_BUTTON_MANAGER_H_
+#ifndef _PAUSE_BUTTON_MANAGER_H_
+#define _PAUSE_BUTTON_MANAGER_H_
 
 //*****************************************************************************
 // ヘッダファイルのインクルード
@@ -21,17 +21,17 @@
 // 前方宣言
 //*****************************************************************************
 class CButton;
-class CPouseBG;
+class CPauseBG;
 
 //*****************************************************************************
 // クラス定義
 //*****************************************************************************
-class CPoseButtonManager : public CScene
+class CPauseButtonManager : public CScene
 {
 public:
-	CPoseButtonManager();
-	~CPoseButtonManager();
-	static CPoseButtonManager * Create(void);
+	CPauseButtonManager(int nPriority = PRIORITY_BUTTON);
+	~CPauseButtonManager();
+	static CPauseButtonManager * Create(void);
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
@@ -52,6 +52,6 @@ private:
 	CButton * m_apButton[BUTTON_MAX];	//ボタンのポインタ
 	int m_nButton;						//ボタン
 	int m_nInputCount;					//入力間隔
-	CPouseBG * m_pPouseBG;				//ポーズ背景のポインタ
+	CPauseBG * m_pPouseBG;				//ポーズ背景のポインタ
 };
 #endif

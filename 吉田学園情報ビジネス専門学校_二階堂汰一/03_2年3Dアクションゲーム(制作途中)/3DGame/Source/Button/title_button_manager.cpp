@@ -36,7 +36,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CTitleButtonManager::CTitleButtonManager()
+CTitleButtonManager::CTitleButtonManager(int nPriority) : CScene(nPriority)
 {
 	memset(m_apButton, NULL, sizeof(m_apButton));	//ボタンのポインタ
 	m_nButton = BUTTON_NONE;						//ボタン

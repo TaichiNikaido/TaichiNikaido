@@ -154,4 +154,6 @@ void CControllerGuidButton::Press(void)
 		//Œˆ’è‰¹‚ÌÄ¶
 		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
 	}
+	//‘€ìà–¾‰æ–Ê‚Ì¶¬
+	//
 }

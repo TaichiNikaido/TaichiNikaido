@@ -37,10 +37,11 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void SetbPouse(bool bPouse) { m_bPouse = bPouse; }
+	void SetbCreatePause(bool bPouse) { m_bCreatePause = bPouse; }
+	bool GetbCreatePause(void) { return m_bCreatePause; }
+	static CPlayer * GetPlayer(void) { return m_pPlayer; }
+	static CDragon * GetDragon(void) { return m_pDragon; }
 	CCamera * GetCamera(void) { return m_pCamera; }
-	CPlayer * GetPlayer(void) { return m_pPlayer; }
-	CDragon * GetDragon(void) { return m_pDragon; }
 private:
 	void Input(void);
 	void InitCreate(void);
@@ -48,11 +49,10 @@ private:
 	void BaseCreateAll(void);
 	void MapObjectCreateAll(void);
 	void CharacterCreateAll(void);
-	void UICreateAll(void);
-	CCamera * m_pCamera;		//カメラのポインタ
-	CPlayer * m_pPlayer;		//プレイヤーのポインタ
-	CDragon * m_pDragon;		//ドラゴンのポインタ
-	CLight * m_pLight;			//ライトのポインタ
-	bool m_bPouse;				//ポーズを使用してるか
+	static CPlayer * m_pPlayer;		//プレイヤーのポインタ
+	static CDragon * m_pDragon;		//ドラゴンのポインタ
+	CCamera * m_pCamera;			//カメラのポインタ
+	CLight * m_pLight;				//ライトのポインタ
+	bool m_bCreatePause;			//ポーズを生成してるか
 };
 #endif

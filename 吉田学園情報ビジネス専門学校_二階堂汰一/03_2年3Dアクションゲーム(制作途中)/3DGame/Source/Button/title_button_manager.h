@@ -28,7 +28,7 @@ class CButton;
 class CTitleButtonManager : public CScene
 {
 public:
-	CTitleButtonManager();
+	CTitleButtonManager(int nPriority = PRIORITY_BUTTON);
 	~CTitleButtonManager();
 	static CTitleButtonManager * Create(void);
 	HRESULT Init(void);

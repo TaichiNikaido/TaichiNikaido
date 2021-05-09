@@ -8,6 +8,7 @@
 //*****************************************************************************
 // ヘッダファイルのインクルード
 //*****************************************************************************
+#include "stdlib.h"
 #include "Base/main.h"
 #include "Base/manager.h"
 #include "Base/renderer.h"
@@ -154,6 +155,8 @@ void CAnyButton::Draw(void)
 //=============================================================================
 void CAnyButton::Input(void)
 {
+	//キーボードの番号
+	int nKeyNumber = 0;
 	//キーボードの取得
 	CKeyboard * pKeyboard = CManager::GetKeyboard();
 	//ジョイスティックの取得
@@ -172,6 +175,16 @@ void CAnyButton::Input(void)
 	{
 		//もし任意のボタンが押されたら
 		if (pJoystick->GetJoystickTrigger(nCount))
+		{
+			//プレス処理関数呼び出し
+			Press();
+		}
+	}
+	//最大キー数分回す
+	for (int nCount = 0; nCount <= NUM_KEY_MAX; nCount++)
+	{
+		//もし任意のキー押されたら
+		if (pKeyboard->GetKeyboardTrigger(nCount))
 		{
 			//プレス処理関数呼び出し
 			Press();

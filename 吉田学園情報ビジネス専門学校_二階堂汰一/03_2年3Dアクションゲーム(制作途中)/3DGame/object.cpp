@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ポーズ背景 [pouse_bg.cpp]
+// オブジェクト [object.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -11,15 +11,13 @@
 #include "Base/main.h"
 #include "Base/manager.h"
 #include "Base/renderer.h"
-#include "pouse_bg.h"
+#include "Mode/mode_game.h"
+#include "Character/player.h"
+#include "object.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define TEXTURE_PASS ("Data/Texture/Logo/Logo_Title.png")							//テクスチャのパス
-#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 - 100.0f,0.0f))	//位置
-#define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))							//サイズ
-#define COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,0.05f))										//色
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -28,87 +26,70 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CPouseBG::CPouseBG()
+CObject::CObject()
 {
+	m_CollisionSize = INITIAL_D3DXVECTOR3;	//衝突判定用のサイズ
 }
 
 //=============================================================================
 // デストラクタ
 //=============================================================================
-CPouseBG::~CPouseBG()
+CObject::~CObject()
 {
-}
-
-//=============================================================================
-// 生成処理関数呼び出し
-//=============================================================================
-CPouseBG * CPouseBG::Create()
-{
-	//ポーズ背景のポインタ
-	CPouseBG * pPouseBG = nullptr;
-	//タイトルロゴのポインタがnullptrの場合
-	if (pPouseBG == nullptr)
-	{
-		//ポーズ背景のメモリ確保
-		pPouseBG = new CPouseBG;
-		//ポーズ背景のポインタがnullptrではない場合
-		if (pPouseBG != nullptr)
-		{
-			//ポーズ背景の位置設定
-			pPouseBG->SetPosition(POSITION);
-			//ポーズ背景のサイズ設定
-			pPouseBG->SetSize(SIZE);
-			//ポーズ背景の色設定
-			pPouseBG->SetColor(COLOR);
-			//ポーズ背景の初期化処理関数呼び出し
-			pPouseBG->Init();
-		}
-	}
-	//タイトルロゴのボタンのポインタを返す
-	return pPouseBG;
 }
 
 //=============================================================================
 // 初期化処理関数
 //=============================================================================
-HRESULT CPouseBG::Init(void)
+HRESULT CObject::Init(void)
 {
-	//テクスチャのUV座標の設定
-	D3DXVECTOR2 aTexture[NUM_VERTEX];
-	aTexture[0] = D3DXVECTOR2(0.0f, 0.0f);
-	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
-	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
-	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
-	//ボタンの初期化処理関数呼び出し
-	CScene2d::Init();
-	//テクスチャの設定
-	SetTexture(aTexture);
 	return S_OK;
 }
 
 //=============================================================================
 // 終了処理関数
 //=============================================================================
-void CPouseBG::Uninit(void)
+void CObject::Uninit(void)
 {
-	//ボタンの終了処理関数呼び出し
-	CScene2d::Uninit();
 }
 
 //=============================================================================
 // 更新処理関数
 //=============================================================================
-void CPouseBG::Update(void)
+void CObject::Update(void)
 {
-	//ボタンの更新処理関数呼び出し
-	CScene2d::Update();
 }
 
 //=============================================================================
 // 描画処理関数
 //=============================================================================
-void CPouseBG::Draw(void)
+void CObject::Draw(void)
 {
-	//ボタンの描画処理関数呼び出し
-	CScene2d::Draw();
+}
+
+//=============================================================================
+// 衝突処理関数
+//=============================================================================
+void CObject::Collision(void)
+{
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPosition();
+	//サイズを取得する
+	D3DXVECTOR3 Size = GetSize();
+	//オブジェクトの衝突判定用の箱定義
+	D3DXVECTOR3 ObjectBoxMax = D3DXVECTOR3(Size.x / 2, Size.y / 2, Size.z / 2) + Position;
+	D3DXVECTOR3 ObjectBoxMin = D3DXVECTOR3(-Size.x / 2, -Size.y / 2, -Size.z / 2) + Position;
+	//プレイヤーの取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もしプレイヤーのポインタがnullptrではない場合
+	if (pPlayer != nullptr)
+	{
+		//プレイヤーの位置を取得する
+		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
+		//プレイヤーのサイズを取得する
+		D3DXVECTOR3 PlayerSize = pPlayer->GetSize();
+		//プレイヤーの衝突判定用の箱定義
+		D3DXVECTOR3 PlayerBoxMax = D3DXVECTOR3(PlayerSize.x / 2, PlayerSize.y / 2, PlayerSize.z / 2) + PlayerPosition;
+		D3DXVECTOR3 PlayerBoxMin = D3DXVECTOR3(-PlayerSize.x / 2, -PlayerSize.y / 2, -PlayerSize.z / 2) + PlayerPosition;
+	}
 }

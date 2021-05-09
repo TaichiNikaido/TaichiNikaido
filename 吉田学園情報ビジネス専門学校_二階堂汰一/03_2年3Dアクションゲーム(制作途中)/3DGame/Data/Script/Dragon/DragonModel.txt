@@ -15,7 +15,7 @@ NUM_MODEL = 27
 # モデルファイル名
 #------------------------------------------------------------------------------
 MODEL_FILENAME = Data/Model/Dragon/body.x			# [0]腹
-MODEL_FILENAME = Data/Model/Dragon/bodyUnder.x	# [1]胸
+MODEL_FILENAME = Data/Model/Dragon/bodyUnder.x		# [1]胸
 MODEL_FILENAME = Data/Model/Dragon/head.x			# [2]頭
 MODEL_FILENAME = Data/Model/Dragon/upperArm.x		# [3]右上腕
 MODEL_FILENAME = Data/Model/Dragon/frontArm.x		# [4]右前腕
@@ -194,7 +194,7 @@ CHARACTERSET
 	PARTSSET
 		INDEX = 20					# 首
 		PARENT = 0					# (親)腰
-		POS = 0.0 60.0 -10.0
+		POS = 0.0 60.0 10.0
 		ROT = 0.0 0.0 0.0
 	END_PARTSSET
 

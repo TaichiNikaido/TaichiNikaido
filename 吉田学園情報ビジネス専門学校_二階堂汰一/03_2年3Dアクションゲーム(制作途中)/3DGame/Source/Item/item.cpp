@@ -1,6 +1,6 @@
 //=============================================================================
 //
-// ドラゴンのライフのUI [ui_life_dragon.cpp]
+// アイテム [item.cpp]
 // Author : 二階堂汰一
 //
 //=============================================================================
@@ -12,9 +12,8 @@
 #include "Base/manager.h"
 #include "Base/renderer.h"
 #include "Mode/mode_game.h"
-#include "ui_life_dragon.h"
-#include "Polygon2d/gauge.h"
-#include "Character/enemy_dragon.h"
+#include "Character/player.h"
+#include "item.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -27,97 +26,59 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CDragonLifeUI::CDragonLifeUI()
+CItem::CItem()
 {
+	m_CollisionSize = INITIAL_D3DXVECTOR3;		//衝突判定用のサイズ
+	m_bCollision = false;						//衝突したか
 }
 
 //=============================================================================
 // デストラクタ
 //=============================================================================
-CDragonLifeUI::~CDragonLifeUI()
+CItem::~CItem()
 {
-}
-
-//=============================================================================
-// 生成処理関数
-//=============================================================================
-CDragonLifeUI * CDragonLifeUI::Create()
-{
-	//ドラゴンのライフのUIポインタ
-	CDragonLifeUI * pDragonLifeUI = nullptr;
-	//ドラゴンのライフのUIポインタがnullptrの場合
-	if (pDragonLifeUI == nullptr)
-	{
-		//ドラゴンのライフのUIのメモリ確保
-		pDragonLifeUI = new CDragonLifeUI;
-		//ドラゴンのライフのUIのポインタがnullptrではない場合
-		if (pDragonLifeUI != nullptr)
-		{
-			//ドラゴンのライフのUIの初期化処理関数呼び出し
-			pDragonLifeUI->Init();
-		}
-	}
-	//ドラゴンのライフのUIのポインタを返す
-	return pDragonLifeUI;
 }
 
 //=============================================================================
 // 初期化処理関数
 //=============================================================================
-HRESULT CDragonLifeUI::Init(void)
+HRESULT CItem::Init(void)
 {
-	//ドラゴンの取得
-	CDragon * pDragon = CManager::GetGameMode()->GetDragon();
-	//もしドラゴンのポインタがnullptrじゃない場合
-	if (pDragon != nullptr)
-	{
-		//ドラゴンの体力を取得
-		int nLife = pDragon->GetLife();
-		//体力の最大値を設定
-		SetMaxLife(nLife);
-		//体力を設定
-		SetLife(nLife);
-	}
-	//ゲージの生成処理関数呼び出し
-	SetGauge(CGauge::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)));
-	//ライフの初期化処理関数呼び出し
-	CLifeUI::Init();
 	return S_OK;
 }
 
 //=============================================================================
 // 終了処理関数
 //=============================================================================
-void CDragonLifeUI::Uninit(void)
+void CItem::Uninit(void)
 {
-	//ライフのUIの終了処理関数呼び出し
-	CLifeUI::Uninit();
+	//破棄処理関数
+	Release();
 }
 
 //=============================================================================
 // 更新処理関数
 //=============================================================================
-void CDragonLifeUI::Update(void)
+void CItem::Update(void)
 {
-	//ライフのUIの更新処理関数呼び出し
-	CLifeUI::Update();
-	//ドラゴンの取得
-	CDragon * pDragon = CManager::GetGameMode()->GetDragon();
-	//もしドラゴンのポインタがnullptrじゃない場合
-	if (pDragon != nullptr)
-	{
-		//ドラゴンの体力を取得
-		int nLife = pDragon->GetLife();
-		//体力を設定
-		SetLife(nLife);
-	}
 }
 
 //=============================================================================
 // 描画処理関数
 //=============================================================================
-void CDragonLifeUI::Draw(void)
+void CItem::Draw(void)
 {
-	//ライフのUIの描画処理関数呼び出し
-	CLifeUI::Draw();
+}
+
+//=============================================================================
+// 衝突判定処理関数
+//=============================================================================
+void CItem::Collision(void)
+{
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPosition();
+	//サイズを取得する
+	D3DXVECTOR3 Size = GetSize();
+	//プレイヤーの取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
 }

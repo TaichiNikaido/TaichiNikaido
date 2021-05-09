@@ -26,7 +26,7 @@
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CGaugeFlame::CGaugeFlame()
+CGaugeFlame::CGaugeFlame(int nPriority) : CScene2d(nPriority)
 {
 	m_nAnimationPattern = MINIMUM_ANIMATIN_PATTERN;	//アニメーションパターン
 	m_fAnimationValue = MINIMUM_ANIMATION_VALUE;	//アニメーションの値

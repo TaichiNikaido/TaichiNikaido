@@ -27,7 +27,7 @@
 class CScene3d :public CScene
 {
 public:
-	CScene3d(int nPriority = DEFAULT_PRIORITY);
+	CScene3d(int nPriority = PRIORITY_BASE);
 	virtual ~CScene3d();
 	virtual HRESULT Init(void) = 0;
 	virtual void Uninit(void) = 0;

@@ -28,7 +28,7 @@ LPDIRECT3DTEXTURE9 CTitleLogo::m_pTexture = nullptr;	//テクスチャのポインタ
 //=============================================================================
 // コンストラクタ
 //=============================================================================
-CTitleLogo::CTitleLogo()
+CTitleLogo::CTitleLogo(int nPriority) : CScene2d(nPriority)
 {
 }
 
