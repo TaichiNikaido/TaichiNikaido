@@ -12,7 +12,7 @@ SCRIPT #この行は絶対に消さないこと!
 PARAMETER_SET
 
 POS = 0.0 0.0 0.0				# 位置
-SIZE = 2700.0 2700.0 2700.0		# サイズ
+SIZE = 6700.0 6700.0 6700.0		# サイズ
 ROT = -90.0 0.0 0.0				# 回転
 
 END_PARAMETER_SET

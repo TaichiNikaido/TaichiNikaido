@@ -26,7 +26,7 @@
 class CPauseBG :public CScene2d
 {
 public:
-	CPauseBG(int nPriority = PRIORITY_2DPOLYGON);
+	CPauseBG(int nPriority = PRIORITY_BG);
 	~CPauseBG();
 	static CPauseBG * Create(void);
 	HRESULT Init(void);

@@ -135,7 +135,7 @@ void CTitleButtonManager::Input(void)
 	//上矢印キーが入力された場合
 	if (pKeyboard->GetKeyboardTrigger(DIK_UP))
 	{
-		//現在のボタンを加算する
+		//現在のボタンを減算する
 		m_nButton--;
 		//ボタンの選択時音再生処理関数呼び出し
 		m_apButton[m_nButton]->SelectSound();
@@ -147,7 +147,7 @@ void CTitleButtonManager::Input(void)
 		m_nInputCount++;
 		if (m_nInputCount % INPUT_INTERVAL == 0)
 		{
-			//現在のボタンを加算する
+			//現在のボタンを減算する
 			m_nButton--;
 			//ボタンの選択時音再生処理関数呼び出し
 			m_apButton[m_nButton]->SelectSound();

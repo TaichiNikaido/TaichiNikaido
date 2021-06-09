@@ -108,6 +108,8 @@ void CCamera::Update(void)
 //=============================================================================
 void CCamera::Input(void)
 {
+	//プレイヤーを取得する
+	CPlayer * pPlayer = CGameMode::GetPlayer();
 	//キーボードの取得
 	CKeyboard * pKeyboard = CManager::GetKeyboard();
 	//ジョイスティックの取得
@@ -125,48 +127,52 @@ void CCamera::Input(void)
 	POINT Point;
 	//マウスカーソルの位置を取得する
 	GetCursorPos(&Point);
-	//ウィンドウがアクティブの場合
-	if (CManager::GetIsActiveWindow() == true)
+	//もしプレイヤーの状態が死亡状態ではない場合
+	if (pPlayer->GetState() != CPlayer::STATE_DEATH)
 	{
-		//マウスカーソルの位置を画面の中心に設定する
-		SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-		//マウスでのカメラ操作
-		m_Rotation.z += (Point.y - (SCREEN_HEIGHT / 2)) * (0.01f * 1.0f);
-		m_Rotation.y -= (Point.x - (SCREEN_WIDTH / 2)) * (0.01f * 1.0f);
-	}
-	//スティックが上入力されたら
-	if (lpDIDevice != NULL &&js.lRz == -1000)
-	{
-		if (m_Rotation.z > D3DXToRadian(5.0f))
+		//ウィンドウがアクティブの場合
+		if (CManager::GetIsActiveWindow() == true)
 		{
-			m_Rotation.z -= D3DXToRadian(1.75f);
+			//マウスカーソルの位置を画面の中心に設定する
+			SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+			//マウスでのカメラ操作
+			m_Rotation.z += (Point.y - (SCREEN_HEIGHT / 2)) * (0.01f * 1.0f);
+			m_Rotation.y -= (Point.x - (SCREEN_WIDTH / 2)) * (0.01f * 1.0f);
 		}
-	}
-	//スティックが下入力されたら
-	if (lpDIDevice != NULL &&js.lRz == 1000)
-	{
-		if (m_Rotation.z < D3DXToRadian(115.0f))
+		//スティックが上入力されたら
+		if (lpDIDevice != NULL &&js.lRz == -1000)
 		{
-			m_Rotation.z += D3DXToRadian(1.75f);
+			if (m_Rotation.z > D3DXToRadian(5.0f))
+			{
+				m_Rotation.z -= D3DXToRadian(1.75f);
+			}
 		}
-	}
-	//スティックが左入力されたら
-	if (lpDIDevice != NULL &&js.lZ == -1000)
-	{
-		m_Rotation.y += D3DXToRadian(1.75f);
-	}
-	//スティックが右入力されたら
-	if (lpDIDevice != NULL &&js.lZ == 1000)
-	{
-		m_Rotation.y -= D3DXToRadian(1.75f);
-	}
-	if (m_Rotation.z < D3DXToRadian(5.0f))
-	{
-		m_Rotation.z = D3DXToRadian(5.0f);
-	}
-	if (m_Rotation.z > D3DXToRadian(115.0f))
-	{
-		m_Rotation.z = D3DXToRadian(115.0f);
+		//スティックが下入力されたら
+		if (lpDIDevice != NULL &&js.lRz == 1000)
+		{
+			if (m_Rotation.z < D3DXToRadian(115.0f))
+			{
+				m_Rotation.z += D3DXToRadian(1.75f);
+			}
+		}
+		//スティックが左入力されたら
+		if (lpDIDevice != NULL &&js.lZ == -1000)
+		{
+			m_Rotation.y += D3DXToRadian(1.75f);
+		}
+		//スティックが右入力されたら
+		if (lpDIDevice != NULL &&js.lZ == 1000)
+		{
+			m_Rotation.y -= D3DXToRadian(1.75f);
+		}
+		if (m_Rotation.z < D3DXToRadian(5.0f))
+		{
+			m_Rotation.z = D3DXToRadian(5.0f);
+		}
+		if (m_Rotation.z > D3DXToRadian(115.0f))
+		{
+			m_Rotation.z = D3DXToRadian(115.0f);
+		}
 	}
 }
 

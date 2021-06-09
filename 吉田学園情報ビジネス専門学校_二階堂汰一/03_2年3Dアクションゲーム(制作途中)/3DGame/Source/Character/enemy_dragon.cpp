@@ -17,6 +17,8 @@
 #include "Mode/mode_game.h"
 #include "enemy_dragon.h"
 #include "Character/player.h"
+#include "Polygon2d/game_clear_logo.h"
+#include "AttackPattern/attack_pattern_meteor.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -24,7 +26,8 @@
 #define MODEL_PASS ("Data/Script/Dragon/DragonModel.txt")		//ƒ‚ƒfƒ‹ƒXƒNƒŠƒvƒg‚ÌƒpƒX
 #define SCRIPT_PASS ("Data/Script/Dragon/DragonData.txt")		//ƒXƒPƒ‹ƒgƒ“‚ÌƒXƒNƒŠƒvƒg‚ÌƒpƒX
 #define MINIMUM_LIFE (0)										//‘Ì—Í‚ÌÅ¬’l
-#define ATTACK_AREA (300.0f)										//UŒ‚”ÍˆÍ
+#define ATTACK_AREA (1200.0f)									//UŒ‚ŠJn”ÍˆÍ
+#define BITING_AREA (300.0f)									//Šš‚İ‚Â‚«”ÍˆÍ
 
 //*****************************************************************************
 // Ã“Iƒƒ“ƒo•Ï”‚Ì‰Šú‰»
@@ -36,7 +39,8 @@ CModel::MODEL_DATA CDragon::m_aModelData[MAX_PARTS] = {};		//ƒ‚ƒfƒ‹ƒf[ƒ^‚Ìƒ|ƒCƒ
 //=============================================================================
 CDragon::CDragon()
 {
-	m_AttackPattern = ATTACK_NONE;	//UŒ‚ƒpƒ^[ƒ“
+	m_bGameClearLogoCreate = false;		//ƒQ[ƒ€ƒNƒŠƒAƒƒS‚ğ¶¬‚µ‚½‚©
+	m_AttackPattern = ATTACK_NONE;		//UŒ‚ƒpƒ^[ƒ“
 }
 
 //=============================================================================
@@ -174,6 +178,7 @@ HRESULT CDragon::Init(void)
 	SetModelData(m_aModelData);
 	//“G‚Ì‰Šú‰»ˆ—ŠÖ”ŒÄ‚Ño‚µ
 	CEnemy::Init();
+	CAttackPatternMeteor::Create();
 	return S_OK;
 }
 
@@ -191,10 +196,16 @@ void CDragon::Uninit(void)
 //=============================================================================
 void CDragon::Update(void)
 {
+	//ƒL[ƒ{[ƒh‚Ìæ“¾
+	CKeyboard * pKeyboard = CManager::GetKeyboard();
+	int nLife = GetLife();
+	if (pKeyboard->GetKeyboardTrigger(DIK_H))
+	{
+		nLife -= 20;
+		SetLife(nLife);
+	}
 	//“G‚ÌXVˆ—ŠÖ”ŒÄ‚Ño‚µ
 	CEnemy::Update();
-	//‹ŠEˆ—ŠÖ”ŒÄ‚Ño‚µ
-	Visibility();
 	//AIˆ—ŠÖ”ŒÄ‚Ño‚µ
 	AI();
 }
@@ -206,6 +217,118 @@ void CDragon::Draw(void)
 {
 	//“G‚Ì•`‰æˆ—ŠÖ”ŒÄ‚Ño‚µ
 	CEnemy::Draw();
+}
+
+//=============================================================================
+// AIˆ—ŠÖ”
+//=============================================================================
+void CDragon::AI(void)
+{
+	//ˆÊ’u‚Ìæ“¾
+	D3DXVECTOR3 Position = GetPosition();
+	//‰ñ“]‚Ìæ“¾
+	D3DXVECTOR3 Rotation = GetRotation();
+	//‘Ì—Í‚Ìæ“¾
+	int nLife = GetLife();
+	//ƒvƒŒƒCƒ„[‚Ìæ“¾
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//‚à‚µƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^‚ªnullptr‚Å‚Í‚È‚¢ê‡
+	if (pPlayer != nullptr)
+	{
+		//ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ğæ“¾‚·‚é
+		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
+		//ƒvƒŒƒCƒ„[‚ÌÕ“Ë”»’è—p‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
+		D3DXVECTOR3 PlayerCollisionSize = pPlayer->GetCollisionSize();
+		//ƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£‚ğ‹‚ß‚é
+		D3DXVECTOR3 PlayerDistance = D3DXVECTOR3(PlayerPosition.x - Position.x, PlayerPosition.y - Position.y, PlayerPosition.z - Position.z);
+		//ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ‹‚ß‚é
+		float Vector_length = sqrtf((PlayerDistance.x * PlayerDistance.x) * (PlayerDistance.y * PlayerDistance.y));
+		//“G‚ÆƒvƒŒƒCƒ„[‚Ì‹——£‚ª‚»‚ê‚¼‚ê‚Ì”¼Œa‚Ì˜a‚æ‚è¬‚³‚©‚Á‚½‚çÕ“Ë
+		if (powf(PlayerDistance.x, 2) + powf(PlayerDistance.z, 2)
+			<= pow(((ATTACK_AREA / 2) + (PlayerCollisionSize.x / 2)), 2))
+		{
+			//‚à‚µ‹ŠE‚Ì’†‚ÉƒvƒŒƒCƒ„[‚ª‚¢‚éê‡
+			if (Visibility() == true)
+			{
+				//“G‚ÆƒvƒŒƒCƒ„[‚Ì‹——£‚ª‚»‚ê‚¼‚ê‚Ì”¼Œa‚Ì˜a‚æ‚è¬‚³‚©‚Á‚½‚çÕ“Ë
+				if (powf(PlayerDistance.x, 2) + powf(PlayerDistance.z, 2)
+					<= pow(((BITING_AREA / 2) + (PlayerCollisionSize.x / 2)), 2))
+				{
+					//UŒ‚ƒpƒ^[ƒ“‚ğŠš‚İ‚Â‚«‚É‚·‚é
+					m_AttackPattern = ATTACK_BITING;
+				}
+			}
+		}
+	}
+	//ŠeUŒ‚ƒpƒ^[ƒ“‚É‚æ‚éˆ—
+	switch (m_AttackPattern)
+	{
+	case ATTACK_BITING:
+		break;
+	}
+	//‚à‚µ‘Ì—Í‚ª3Š„‚èˆÈ‰º‚É‚È‚Á‚½ê‡
+	if (nLife <= nLife * 0.3)
+	{
+	}
+	//‚à‚µ‘Ì—Í‚ª0‚É‚È‚Á‚½ê‡
+	if (nLife <= MINIMUM_LIFE)
+	{
+		//€–Sˆ—ŠÖ”ŒÄ‚Ño‚µ
+		Death();
+	}
+}
+
+//=============================================================================
+// Šš‚İ‚Â‚«ˆ—ŠÖ”
+//=============================================================================
+bool CDragon::Biting(void)
+{
+	//ˆÊ’u‚Ìæ“¾
+	D3DXVECTOR3 Position = GetPosition();
+	//‰ñ“]‚Ìæ“¾
+	D3DXVECTOR3 Rotation = GetRotation();
+	//‘Ì—Í‚Ìæ“¾
+	int nLife = GetLife();
+	//ƒvƒŒƒCƒ„[‚Ìæ“¾
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//‚à‚µƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^‚ªnullptr‚Å‚Í‚È‚¢ê‡
+	if (pPlayer != nullptr)
+	{
+		//ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ğæ“¾‚·‚é
+		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
+		//ƒvƒŒƒCƒ„[‚ÌÕ“Ë”»’è—p‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
+		D3DXVECTOR3 PlayerCollisionSize = pPlayer->GetCollisionSize();
+		//ƒvƒŒƒCƒ„[‚Æƒhƒ‰ƒSƒ“‚ÌƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+		D3DXVECTOR3 PlayerDistance = D3DXVECTOR3(PlayerPosition.x - Position.x, PlayerPosition.y - Position.y, PlayerPosition.z - Position.z);
+		////ƒvƒŒƒCƒ„[‚Æƒhƒ‰ƒSƒ“‚ÌƒxƒNƒgƒ‹‚Ì’·‚³‚ğ‹‚ß‚é
+		float Vector_length = sqrtf((PlayerDistance.x * PlayerDistance.x) + (PlayerDistance.z * PlayerDistance.z));
+		//ƒxƒNƒgƒ‹‚Æî‚Ì’·‚³‚Ì”äŠr
+		if (ATTACK_AREA < Vector_length)
+		{
+			return false;
+		}
+		D3DXVECTOR3 fan_dir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 rotate_fan_dir = D3DXVECTOR3(
+			fan_dir.x * cosf(D3DXToRadian(Rotation.y - 90.0f)) + fan_dir.z * -sinf(D3DXToRadian(Rotation.y - 90.0f)),
+			0.0f,
+			fan_dir.x * 1.0f * sinf(D3DXToRadian(Rotation.y - 90.0f)) + fan_dir.z * cosf(D3DXToRadian(Rotation.y - 90.0f)));
+		// î‚Æ“_‚ÌƒxƒNƒgƒ‹‚ğ’PˆÊƒxƒNƒgƒ‹‚É‚·‚é
+		D3DXVECTOR3 normal_fan_to_point = D3DXVECTOR3(
+			PlayerDistance.x / Vector_length,
+			0.0f,
+			PlayerDistance.z / Vector_length);
+		// “àÏŒvZ
+		float dot = normal_fan_to_point.x* rotate_fan_dir.x + normal_fan_to_point.z * rotate_fan_dir.z;
+		// î‚Ì”ÍˆÍ‚ğcos‚É‚·‚é
+		float fan_cos = cosf(D3DXToRadian(120.0f / 2.0f));
+		// “_‚ªî‚Ì”ÍˆÍ“à‚É‚ ‚é‚©‚ğ”äŠr‚·‚é
+		if (fan_cos > dot)
+		{
+			// “–‚½‚Á‚Ä‚È‚¢
+			return false;
+		}
+	}
+	return true;
 }
 
 //=============================================================================
@@ -238,80 +361,27 @@ bool CDragon::Visibility(void)
 			return false;
 		}
 		D3DXVECTOR3 fan_dir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-
 		D3DXVECTOR3 rotate_fan_dir = D3DXVECTOR3(
 			fan_dir.x * cosf(D3DXToRadian(Rotation.y - 90.0f)) + fan_dir.z * -sinf(D3DXToRadian(Rotation.y - 90.0f)),
 			0.0f,
 			fan_dir.x * 1.0f * sinf(D3DXToRadian(Rotation.y - 90.0f)) + fan_dir.z * cosf(D3DXToRadian(Rotation.y - 90.0f)));
-
-		// î‚Æ“_‚ÌƒxƒNƒgƒ‹‚ğ’PˆÊƒxƒNƒgƒ‹‚É‚·‚é
+		//î‚Æ“_‚ÌƒxƒNƒgƒ‹‚ğ’PˆÊƒxƒNƒgƒ‹‚É‚·‚é
 		D3DXVECTOR3 normal_fan_to_point = D3DXVECTOR3(
 			PlayerDistance.x / Vector_length,
 			0.0f,
 			PlayerDistance.z / Vector_length);
-
-		// “àÏŒvZ
+		//“àÏŒvZ
 		float dot = normal_fan_to_point.x* rotate_fan_dir.x + normal_fan_to_point.z * rotate_fan_dir.z;
-		// î‚Ì”ÍˆÍ‚ğcos‚É‚·‚é
+		//î‚Ì”ÍˆÍ‚ğcos‚É‚·‚é
 		float fan_cos = cosf(D3DXToRadian(120.0f / 2.0f));
-		// “_‚ªî‚Ì”ÍˆÍ“à‚É‚ ‚é‚©‚ğ”äŠr‚·‚é
+		//“_‚ªî‚Ì”ÍˆÍ“à‚É‚ ‚é‚©‚ğ”äŠr‚·‚é
 		if (fan_cos > dot)
 		{
 			// “–‚½‚Á‚Ä‚È‚¢
 			return false;
 		}
 	}
- 	return true;
-}
-
-//=============================================================================
-// AIˆ—ŠÖ”
-//=============================================================================
-void CDragon::AI(void)
-{
-	//ˆÊ’u‚Ìæ“¾
-	D3DXVECTOR3 Position = GetPosition();
-	//‰ñ“]‚Ìæ“¾
-	D3DXVECTOR3 Rotation = GetRotation();
-	//‘Ì—Í‚Ìæ“¾
-	int nLife = GetLife();
-	//ƒvƒŒƒCƒ„[‚Ìæ“¾
-	CPlayer * pPlayer = CGameMode::GetPlayer();
-	//‚à‚µƒvƒŒƒCƒ„[‚Ìƒ|ƒCƒ“ƒ^‚ªnullptr‚Å‚Í‚È‚¢ê‡
-	if (pPlayer != nullptr)
-	{
-		//ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ğæ“¾‚·‚é
-		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
-		//ƒvƒŒƒCƒ„[‚ÌÕ“Ë”»’è—p‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
-		D3DXVECTOR3 PlayerCollisionSize = pPlayer->GetCollisionSize();
-		//ƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£‚ğ‹‚ß‚é
-		D3DXVECTOR3 PlayerDistance = D3DXVECTOR3(PlayerPosition.x - Position.x, PlayerPosition.y - Position.y, PlayerPosition.z - Position.z);
-		//ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ‹‚ß‚é
-		float Vector_length = sqrtf((PlayerDistance.x * PlayerDistance.x) * (PlayerDistance.y * PlayerDistance.y));
-
-
-
-
-
-		//“G‚ÆƒvƒŒƒCƒ„[‚Ì‹——£‚ª‚»‚ê‚¼‚ê‚Ì”¼Œa‚Ì˜a‚æ‚è¬‚³‚©‚Á‚½‚çÕ“Ë
-		if (powf(PlayerDistance.x, 2) + powf(PlayerDistance.z, 2)
-			<= pow(((ATTACK_AREA / 2) + (PlayerCollisionSize.x / 2)), 2))
-		{
-
-		}
-	}
-
-	//‚à‚µ‘Ì—Í‚ª3Š„‚èˆÈ‰º‚É‚È‚Á‚½ê‡
-	if (nLife <= nLife * 0.3)
-	{
-
-	}
-	//‚à‚µ‘Ì—Í‚ª0‚É‚È‚Á‚½ê‡
-	if (nLife <= MINIMUM_LIFE)
-	{
-		//€–Sˆ—ŠÖ”ŒÄ‚Ño‚µ
-		Death();
-	}
+	return true;
 }
 
 //=============================================================================
@@ -319,4 +389,13 @@ void CDragon::AI(void)
 //=============================================================================
 void CDragon::Death(void)
 {
+	//‚à‚µƒQ[ƒ€ƒNƒŠƒAƒƒS‚ª¶¬‚µ‚Ä‚¢‚È‚¢ê‡
+	if (m_bGameClearLogoCreate == false)
+	{
+		//ƒQ[ƒ€ƒNƒŠƒAƒƒS‚Ì¶¬
+		CGameClearLogo::Create();
+		//ƒQ[ƒ€ƒNƒŠƒAƒƒS‚ğ¶¬‚µ‚½ó‘Ô‚É‚·‚é
+		m_bGameClearLogoCreate = true;
+	}
+
 }

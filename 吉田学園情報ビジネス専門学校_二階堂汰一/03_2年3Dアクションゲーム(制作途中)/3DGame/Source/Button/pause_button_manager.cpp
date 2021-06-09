@@ -24,11 +24,11 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define START_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, 740.0f, 0.0f))		//スタートボタンの位置
-#define TUTORIAL_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, 820.0f, 0.0f))	//チュートリアルボタンの位置
-#define RANKING_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, 900.0f, 0.0f))	//ランキングボタンの位置
-#define EXIT_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, 980.0f, 0.0f))		//終了ボタンの位置
-#define INPUT_INTERVAL (10)														//入力間隔
+#define QUIT_GAME_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, 740.0f, 0.0f))				//ゲームに戻るボタンの位置
+#define CONTROLLER_GUIDE_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, 820.0f, 0.0f))		//操作説明ボタンの位置
+#define BACK_TO_TITLE_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, 900.0f, 0.0f))			//タイトルに戻るボタンの位置
+#define EXIT_BUTTON_POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2, 980.0f, 0.0f))					//終了ボタンの位置
+#define INPUT_INTERVAL (10)																	//入力間隔
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -191,7 +191,7 @@ void CPauseButtonManager::Input(void)
 	//上矢印キーが入力された場合
 	if (pKeyboard->GetKeyboardTrigger(DIK_UP))
 	{
-		//現在のボタンを加算する
+		//現在のボタンを減算する
 		m_nButton--;
 		//ボタンの選択時音再生処理関数呼び出し
 		m_apButton[m_nButton]->SelectSound();
@@ -203,7 +203,7 @@ void CPauseButtonManager::Input(void)
 		m_nInputCount++;
 		if (m_nInputCount % INPUT_INTERVAL == 0)
 		{
-			//現在のボタンを加算する
+			//現在のボタンを減算する
 			m_nButton--;
 			//ボタンの選択時音再生処理関数呼び出し
 			m_apButton[m_nButton]->SelectSound();
@@ -312,11 +312,11 @@ void CPauseButtonManager::Select(void)
 void CPauseButtonManager::InitCreateAll(void)
 {
 	//ゲームに戻るボタンの生成
-	m_apButton[BUTTON_QUIT_GAME] = CQuitGameButton::Create(START_BUTTON_POSITION);
+	m_apButton[BUTTON_QUIT_GAME] = CQuitGameButton::Create(QUIT_GAME_BUTTON_POSITION);
 	//操作説明ボタンの生成
-	m_apButton[BUTTON_CONTROLLER_GUIDE] = CControllerGuidButton::Create(TUTORIAL_BUTTON_POSITION);
+	m_apButton[BUTTON_CONTROLLER_GUIDE] = CControllerGuidButton::Create(CONTROLLER_GUIDE_BUTTON_POSITION);
 	//タイトルボタンの生成
-	m_apButton[BUTTON_BACK_TO_TITLE] = CBackToTitleButton::Create(RANKING_BUTTON_POSITION);
+	m_apButton[BUTTON_BACK_TO_TITLE] = CBackToTitleButton::Create(BACK_TO_TITLE_BUTTON_POSITION);
 	//終了ボタンの生成
 	m_apButton[BUTTON_EXIT] = CExitButton::Create(EXIT_BUTTON_POSITION, CExitButton::TEXTURE_JAPANESE);
 }

@@ -28,24 +28,30 @@
 #include "Weapon/weapon_sword.h"
 #include "Weapon/weapon_shield.h"
 #include "Polygon3d/shadow.h"
+#include "Polygon3d/round_shadow.h"
+#include "Polygon2d/game_over_logo.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define MODEL_PASS ("Data/Script/Player/PlayerModel.txt")	//モデルスクリプトのパス
-#define SCRIPT_PASS ("Data/Script/Player/PlayerData.txt")	//プレイヤーデータのスクリプトのパス
-#define MINIMUM_LIFE (0)									//体力の最小値
-#define MINIMUM_ATTACK (0)									//攻撃力の最小値
-#define MINIMUM_ATTACK_COMBO (0)							//攻撃コンボ数の最小値
-#define MINIMUM_COOL_TIME (0)								//クールタイム
-#define MINIMUM_SPEED (0.0f)								//初期速さ
-#define MINIMUM_WALK_SPEED (0.0f)							//初期歩行速度
-#define MINIMUM_DASH_SPEED (0.0f)							//初期ダッシュ速度
-#define MINIMUM_ADD_DIRECTION_VALUE (D3DXToRadian(0.75f))	//向きの加算値の初期値
-#define MINIMUM_CAMERA_DISTANCE (0.0f)						//カメラとの距離
-#define ATTACK1_COOL_TIME (1)								//攻撃(1)のクールタイム
-#define ATTACK2_COOL_TIME (2)								//攻撃(2)のクールタイム
-#define ATTACK3_COOL_TIME (3)								//攻撃(3)のクールタイム
+#define MODEL_PASS ("Data/Script/Player/PlayerModel.txt")		//モデルスクリプトのパス
+#define SCRIPT_PASS ("Data/Script/Player/PlayerData.txt")		//プレイヤーデータのスクリプトのパス
+#define MINIMUM_LIFE (0)										//体力の最小値
+#define MINIMUM_ATTACK (0)										//攻撃力の最小値
+#define MINIMUM_ATTACK_COMBO (0)								//攻撃コンボ数の最小値
+#define MINIMUM_COOL_TIME (0)									//クールタイム
+#define MINIMUM_SPEED (0.0f)									//初期速さ
+#define MINIMUM_WALK_SPEED (0.0f)								//初期歩行速度
+#define MINIMUM_DASH_SPEED (0.0f)								//初期ダッシュ速度
+#define MINIMUM_ADD_DIRECTION_VALUE (D3DXToRadian(0.75f))		//向きの加算値の初期値
+#define MINIMUM_CAMERA_DISTANCE (0.0f)							//カメラとの距離
+#define ATTACK1_COOL_TIME (1)									//攻撃(1)のクールタイム
+#define ATTACK2_COOL_TIME (2)									//攻撃(2)のクールタイム
+#define ATTACK3_COOL_TIME (3)									//攻撃(3)のクールタイム
+#define BURNING_MINIMUM_TIME (0)								//燃焼時間の最小値
+#define BURNING_SUB_LIFE (1)									//燃焼時の体力減算量
+#define ROUND_SHADOW_SIZE (D3DXVECTOR3(50.0f,50.0f,50.0f))		//丸影のサイズ
+#define ROUND_SHADOW_COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,1.0f))		//丸影の色
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -59,22 +65,25 @@ CPlayer::CPlayer()
 {
 	m_DirectionDest = INITIAL_D3DXVECTOR3;				//目的の向き
 	m_Move = INITIAL_D3DXVECTOR3;						//移動量
+	m_nMaxLife = MINIMUM_LIFE;							//最大体力
 	m_nLife = MINIMUM_LIFE;								//体力
 	m_nAttack = MINIMUM_ATTACK;							//攻撃力
 	m_nAttackCombo = MINIMUM_ATTACK_COMBO;				//攻撃コンボ
 	m_nCoolTime = MINIMUM_COOL_TIME;					//クールタイム
 	m_nCoolTimeCount = MINIMUM_COOL_TIME;				//クールタイムカウント
+	m_nBurningTime = BURNING_MINIMUM_TIME;				//燃焼タイム
+	m_nBurningTiming = BURNING_MINIMUM_TIME;			//燃焼タイミング
+	m_nBurningTimeCount = BURNING_MINIMUM_TIME;			//燃焼カウント
 	m_fSpeed = MINIMUM_SPEED;							//速さ
 	m_fWalkSpeed = MINIMUM_WALK_SPEED;					//歩行速度
 	m_fDashSpeed = MINIMUM_DASH_SPEED;					//ダッシュ速度
 	m_fDirectionValue = MINIMUM_ADD_DIRECTION_VALUE;	//向きの値
 	m_fCameraDistance = MINIMUM_CAMERA_DISTANCE;		//カメラとの距離
-	m_bDash = false;									//ダッシュしてるか
 	m_bWeapon = false;									//武器を使用してるか
-	m_bAttack = false;									//攻撃してるか
-	m_bGuard = false;									//ガードしているか
+	m_bBurning = false;									//燃えてるか
 	m_State = STATE_NONE;								//状態
 	m_Input = INPUT_NONE;								//入力情報
+	m_pRoundShadow = nullptr;							//丸影のポインタ
 }
 
 //=============================================================================
@@ -206,10 +215,18 @@ HRESULT CPlayer::Init(void)
 {
 	//データ読み込み関数呼び出し
 	DataLoad();
+	//位置を取得する
+	D3DXVECTOR3 Position = GetPosition();
 	//モデル情報の設定
 	SetModelData(m_aPlayerModelData);
 	//キャラクターの初期化処理関数呼び出し
 	CCharacter::Init();
+	//もし丸影のポインタがnullptrの場合
+	if (m_pRoundShadow == nullptr)
+	{
+		//丸影の生成
+		m_pRoundShadow = CRoundShadow::Create(D3DXVECTOR3(Position.x,Position.y + 0.5f, Position.z), ROUND_SHADOW_SIZE, ROUND_SHADOW_COLOR);
+	}
 	return S_OK;
 }
 
@@ -227,36 +244,43 @@ void CPlayer::Uninit(void)
 //=============================================================================
 void CPlayer::Update(void)
 {
-	//モーションのポインタを取得する
-	CMotion * pMotion = GetpMotion();
 	//位置を取得する
 	D3DXVECTOR3 Position = GetPosition();
 	//キャラクターの更新処理関数呼び出し
 	CCharacter::Update();
-	//もし移動量が初期値の場合
-	if (m_Move == INITIAL_D3DXVECTOR3)
+	//もし状態が死亡状態ではない場合
+	if (m_State != STATE_DEATH)
 	{
-		if (m_bWeapon == false)
-		{
-			//もしモーションのポインタがnullptrではない場合
-			if (pMotion != nullptr)
-			{
-				//モーションを設定する
-				pMotion->SetMotion(MOTION_IDLE);
-			}
-		}
+		//入力処理関数呼び出し
+		Input();
 	}
-	//入力処理関数呼び出し
-	Input();
 	//位置更新
 	Position += m_Move;
+	//もし丸影のポインタがnullptrではない場合
+	if (m_pRoundShadow != nullptr)
+	{
+		//丸影に位置を設定する
+		m_pRoundShadow->SetPosition(D3DXVECTOR3(Position.x, Position.y + 0.5f, Position.z));
+	}
 	//位置を設定する
 	SetPosition(Position);
+	//モーション処理関数呼び出し
+	Motion();
+	//もし燃焼した場合
+	if (m_bBurning == true)
+	{
+		//燃焼処理関数呼び出し
+		Burning();
+	}
 	//もし体力が最小値以下になったら
 	if (m_nLife <= MINIMUM_LIFE)
 	{
-		//死亡処理関数呼び出し
-		Death();
+		//もし状態が死亡状態ではない場合
+		if (m_State != STATE_DEATH)
+		{
+			//死亡処理関数呼び出し
+			Death();
+		}
 	}
 }
 
@@ -294,17 +318,23 @@ void CPlayer::Input(void)
 	//もしダッシュキーが押されていたら
 	if (pKeyboard->GetKeyboardPress(DIK_LSHIFT) || pJoystick->GetJoystickPress(JS_RB))
 	{
-		//ダッシュする
-		m_bDash = true;
+		//状態をダッシュ状態にする
+		m_State = STATE_DASH;
 	}
 	else
 	{
-		//ダッシュを止める
-		m_bDash = false;
+		//状態を無にする
+		m_State = STATE_NONE;
 	}
 	//上移動処理
 	if (pKeyboard->GetKeyboardPress(DIK_W) || lpDIDevice != NULL &&js.lY == -1000)
 	{
+		//もしダッシュ状態ではない場合
+		if (m_State != STATE_DASH)
+		{
+			//状態を歩行状態にする
+			m_State = STATE_WALK;
+		}
 		//入力キー情報を上にする
 		m_Input = INPUT_UP;
 		//移動処理関数呼び出し
@@ -313,6 +343,12 @@ void CPlayer::Input(void)
 	//下移動処理
 	if (pKeyboard->GetKeyboardPress(DIK_S) || lpDIDevice != NULL &&js.lY == 1000)
 	{
+		//もしダッシュ状態ではない場合
+		if (m_State != STATE_DASH)
+		{
+			//状態を歩行状態にする
+			m_State = STATE_WALK;
+		}
 		//入力キー情報を下にする
 		m_Input = INPUT_DOWN;
 		//移動処理関数呼び出し
@@ -321,6 +357,12 @@ void CPlayer::Input(void)
 	//左移動処理
 	if (pKeyboard->GetKeyboardPress(DIK_A) || lpDIDevice != NULL &&js.lX == -1000)
 	{
+		//もしダッシュ状態ではない場合
+		if (m_State != STATE_DASH)
+		{
+			//状態を歩行状態にする
+			m_State = STATE_WALK;
+		}
 		//入力キー情報を左にする
 		m_Input = INPUT_LEFT;
 		//移動処理関数呼び出し
@@ -329,6 +371,12 @@ void CPlayer::Input(void)
 	//右移動処理
 	if (pKeyboard->GetKeyboardPress(DIK_D) || lpDIDevice != NULL &&js.lX == 1000)
 	{
+		//もしダッシュ状態ではない場合
+		if (m_State != STATE_DASH)
+		{
+			//状態を歩行状態にする
+			m_State = STATE_WALK;
+		}
 		//入力キー情報を右にする
 		m_Input = INPUT_RIGHT;
 		//移動処理関数呼び出し
@@ -345,8 +393,6 @@ void CPlayer::Input(void)
 		}
 		else
 		{
-			//抜刀モーションの再生
-			//
 			//武器を使用する
 			m_bWeapon = true;
 		}
@@ -354,8 +400,6 @@ void CPlayer::Input(void)
 	//納刀処理
 	if (pKeyboard->GetKeyboardTrigger(DIK_I) || pJoystick->GetJoystickTrigger(JS_X))
 	{
-		//納刀モーションの再生
-		//
 		//武器の使用を止める
 		m_bWeapon = false;
 	}
@@ -367,8 +411,16 @@ void CPlayer::Input(void)
 	}
 	else
 	{
-		//ガードを止める
-		m_bGuard = false;
+		//状態を無にする
+		STATE_NONE;
+	}
+	if (pKeyboard->GetKeyboardTrigger(DIK_O))
+	{
+		m_nLife = 0;
+	}
+	if (pKeyboard->GetKeyboardTrigger(DIK_L))
+	{
+		m_bBurning = true;
 	}
 }
 
@@ -377,40 +429,20 @@ void CPlayer::Input(void)
 //=============================================================================
 void CPlayer::Move(void)
 {
-	//モーションのポインタを取得する
-	CMotion * pMotion = GetpMotion();
 	//回転を取得
 	D3DXVECTOR3 Rotation = GetRotation();
-	//もしダッシュしていたら
-	if (m_bDash == true)
+	switch (m_State)
 	{
-		//速度をダッシュ速度にする
-		m_fSpeed = m_fDashSpeed;
-		//もしモーションのポインタがNULLではない場合
-		if (pMotion != nullptr)
-		{
-			//モーションを設定する
-			//pMotion->SetMotion(MOTION_DASH);
-		}
-	}
-	else
-	{
+	case STATE_WALK:
 		//速度を歩行速度にする
 		m_fSpeed = m_fWalkSpeed;
-		//もしモーションのポインタがNULLではない場合
-		if (pMotion != nullptr)
-		{
-			if (m_bWeapon == false)
-			{
-				//モーションを設定する
-				pMotion->SetMotion(MOTION_WALK);
-			}
-			else
-			{
-				//モーションを設定する
-				pMotion->SetMotion(MOTION_WALK_WEAPON);
-			}
-		}
+		break;
+	case STATE_DASH:
+		//速度をダッシュ速度にする
+		m_fSpeed = m_fDashSpeed;
+		break;
+	default:
+		break;
 	}
 	//カメラの取得
 	CCamera * pCamera = CManager::GetGameMode()->GetCamera();
@@ -419,49 +451,45 @@ void CPlayer::Move(void)
 	{
 		//カメラの回転を取得
 		D3DXVECTOR3 CameraRotation = pCamera->GetRotation();
-		//もし死亡状態じゃないとき
-		if (m_State != STATE_DEATH)
+		switch (m_Input)
 		{
-			switch (m_Input)
-			{
-				//もし入力情報が上の場合
-			case INPUT_UP:
-				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
-				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
-				break;
-				//もし入力情報が下の場合
-			case INPUT_DOWN:
-				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
-				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
-				break;
-				//もし入力情報が左の場合
-			case INPUT_LEFT:
-				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
-				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
-				break;
-				//もし入力情報が右の場合
-			case INPUT_RIGHT:
-				m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
-				m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
-				break;
-			default:
-				break;
-			}
-			//目的の向きを設定する
-			m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), atan2f(m_Move.x, m_Move.z) + D3DXToRadian(180.0f), D3DXToRadian(0.0f));
-			while (m_DirectionDest.y - Rotation.y < D3DXToRadian(-180))
-			{
-				m_DirectionDest.y += D3DXToRadian(360);
-			}
-			while (m_DirectionDest.y - Rotation.y > D3DXToRadian(180))
-			{
-				m_DirectionDest.y -= D3DXToRadian(360);
-			}
-			//プレイヤーの向きを更新する
-			Rotation += (m_DirectionDest - Rotation) * 0.1f;
-			//回転を設定
-			SetRotation(Rotation);
+			//もし入力情報が上の場合
+		case INPUT_UP:
+			m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
+			m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * m_fSpeed;
+			break;
+			//もし入力情報が下の場合
+		case INPUT_DOWN:
+			m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
+			m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(90.0f))) * -m_fSpeed;
+			break;
+			//もし入力情報が左の場合
+		case INPUT_LEFT:
+			m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
+			m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(180.0f))) * m_fSpeed;
+			break;
+			//もし入力情報が右の場合
+		case INPUT_RIGHT:
+			m_Move.x = sinf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
+			m_Move.z = cosf(-(CameraRotation.y + D3DXToRadian(0.0f))) * m_fSpeed;
+			break;
+		default:
+			break;
 		}
+		//目的の向きを設定する
+		m_DirectionDest = D3DXVECTOR3(D3DXToRadian(0.0f), atan2f(m_Move.x, m_Move.z) + D3DXToRadian(180.0f), D3DXToRadian(0.0f));
+		while (m_DirectionDest.y - Rotation.y < D3DXToRadian(-180))
+		{
+			m_DirectionDest.y += D3DXToRadian(360);
+		}
+		while (m_DirectionDest.y - Rotation.y > D3DXToRadian(180))
+		{
+			m_DirectionDest.y -= D3DXToRadian(360);
+		}
+		//プレイヤーの向きを更新する
+		Rotation += (m_DirectionDest - Rotation) * 0.1f;
+		//回転を設定
+		SetRotation(Rotation);
 	}
 }
 
@@ -471,15 +499,15 @@ void CPlayer::Move(void)
 void CPlayer::Attack(void)
 {
 	//もし攻撃状態がfalseの場合
-	if (m_bAttack == false)
+	if (m_State != STATE_ATTACK)
 	{
 		//もし攻撃コンボが最大数より下の場合
 		if (m_nAttackCombo < ATTACK_3)
 		{
 			//攻撃コンボを加算する
 			m_nAttackCombo++;
-			//攻撃状態をtrueにする
-			m_bAttack = true;
+			//状態を攻撃状態にする
+			m_State = STATE_ATTACK;
 		}
 		else
 		{
@@ -510,8 +538,6 @@ void CPlayer::Attack(void)
 	//もし現在のクールタイムが指定の時間を越えたら
 	if (m_nCoolTimeCount >= m_nCoolTime)
 	{
-		//攻撃状態をfalseにする
-		m_bAttack = false;
 	}
 }
 
@@ -520,19 +546,31 @@ void CPlayer::Attack(void)
 //=============================================================================
 void CPlayer::Guard(void)
 {
-	//モーションのポインタを取得する
-	CMotion * pMotion = GetpMotion();
-	//もしガードをしていない場合
-	if (m_bGuard == false)
+}
+
+//=============================================================================
+// 燃焼処理関数
+//=============================================================================
+void CPlayer::Burning(void)
+{
+	//体力を一定時間ごとに減少させる
+	if (m_nBurningTimeCount <= m_nBurningTime)
 	{
-		//もしモーションのポインタがnullptrではない場合
-		if (pMotion != nullptr)
+		//燃焼カウントを加算する
+		m_nBurningTimeCount++;
+		//もし燃焼タイミングになった場合
+		if (m_nBurningTimeCount % m_nBurningTiming == BURNING_MINIMUM_TIME)
 		{
-			//モーションを設定する
-			pMotion->SetMotion(3);
-			//ガード状態にする
-			m_bGuard = true;
+			//体力を減算する
+			m_nLife -= BURNING_SUB_LIFE;
 		}
+	}
+	else
+	{
+		//燃焼状態を止める
+		m_bBurning = false;
+		//燃焼カウントを初期化する
+		m_nBurningTimeCount = BURNING_MINIMUM_TIME;
 	}
 }
 
@@ -541,21 +579,43 @@ void CPlayer::Guard(void)
 //=============================================================================
 void CPlayer::Hit(void)
 {
-	//体力減算処理関数呼び出し
-	SubLife();
+}
+
+//=============================================================================
+// 体力加算処理関数
+//=============================================================================
+void CPlayer::AddLife(int nValue)
+{
+	//もし体力が最大値以下の場合
+	if (m_nLife < m_nMaxLife)
+	{
+		//体力を加算する
+		m_nLife += nValue;
+		//もし体力が最大値を越えた場合
+		if (m_nLife > m_nMaxLife)
+		{
+			//体力を最大値にする
+			m_nLife = m_nMaxLife;
+		}
+	}
 }
 
 //=============================================================================
 // 体力減算処理関数
 //=============================================================================
-void CPlayer::SubLife(void)
+void CPlayer::SubLife(int nValue)
 {
-	//ドラゴンの取得
-	CDragon * pDragon = CManager::GetGameMode()->GetDragon();
-	//もしドラゴンのポインタがnulptrではない場合
-	if (pDragon != nullptr)
+	//もし体力が0より多いの場合
+	if (m_nLife > MINIMUM_LIFE)
 	{
-		//ドラゴンの攻撃パターンの取得
+		//体力を加算する
+		m_nLife -= nValue;
+		//もし体力が最大値を越えた場合
+		if (m_nLife <= MINIMUM_LIFE)
+		{
+			//体力を0にする
+			m_nLife = MINIMUM_LIFE;
+		}
 	}
 }
 
@@ -564,6 +624,10 @@ void CPlayer::SubLife(void)
 //=============================================================================
 void CPlayer::Death(void)
 {
+	//状態を死亡状態にする
+	m_State = STATE_DEATH;
+	//ゲームオーバーロゴの生成
+	CGameOverLogo::Create();
 }
 
 //=============================================================================
@@ -592,6 +656,63 @@ void CPlayer::Collision(void)
 		//衝突判定用の箱の設定
 		D3DXVECTOR3 DragonBoxMax = D3DXVECTOR3(DragonCollisionSize.x / 2, DragonCollisionSize.y / 2, DragonCollisionSize.z / 2) + DragonPosition;
 		D3DXVECTOR3 DragonBoxMin = D3DXVECTOR3(-DragonCollisionSize.x / 2, -DragonCollisionSize.y / 2, -DragonCollisionSize.z / 2) + DragonPosition;
+	}
+}
+
+//=============================================================================
+// モーション処理関数
+//=============================================================================
+void CPlayer::Motion(void)
+{
+	//モーションのポインタを取得する
+	CMotion * pMotion = GetpMotion();
+	//もしモーションのポインタがnullptrではない場合
+	if (pMotion != nullptr)
+	{
+		switch (m_State)
+		{
+		case STATE_NONE:
+			//もし武器を使用していない場合
+			if (m_bWeapon == false)
+			{
+				//アイドルモーションを設定する
+				pMotion->SetMotion(MOTION_IDLE);
+			}
+			else
+			{
+				//武器所持アイドルモーションの再生
+				pMotion->SetMotion(MOTION_IDLE_WEAPON);
+			}
+			break;
+		case STATE_WALK:
+			//もし武器を使用していない場合
+			if (m_bWeapon == false)
+			{
+				//歩行モーションを設定する
+				pMotion->SetMotion(MOTION_WALK);
+			}
+			else
+			{
+				//武器所持歩行モーションを設定する
+				pMotion->SetMotion(MOTION_WALK_WEAPON);
+			}
+			break;
+		case STATE_DASH:
+			//もし武器を使用していない場合
+			if (m_bWeapon == false)
+			{
+
+			}
+			else
+			{
+
+			}
+			break;
+		case STATE_DEATH:
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -690,8 +811,22 @@ void CPlayer::DataLoad(void)
 						//現在のテキストがLifeだったら
 						if (strcmp(aCurrentText, "Life") == 0)
 						{
+							//最大体力の設定
+							sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &m_nMaxLife);
 							//体力の設定
 							sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &m_nLife);
+						}
+						//現在のテキストがBurningTimeだったら
+						if (strcmp(aCurrentText, "BurningTime") == 0)
+						{
+							//燃焼時間の設定
+							sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &m_nBurningTime);
+						}
+						//現在のテキストがBurningTimingだったら
+						if (strcmp(aCurrentText, "BurningTiming") == 0)
+						{
+							//燃焼タイミングの設定
+							sscanf(aReadText, "%s %s %d", &aUnnecessaryText, &aUnnecessaryText, &m_nBurningTiming);
 						}
 						//現在のテキストがWalkSpeedだったら
 						if (strcmp(aCurrentText, "WalkSpeed") == 0)

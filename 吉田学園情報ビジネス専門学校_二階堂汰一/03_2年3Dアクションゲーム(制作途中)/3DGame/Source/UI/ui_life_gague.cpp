@@ -14,6 +14,7 @@
 #include "Base/renderer.h"
 #include "ui_life_gauge.h"
 #include "Polygon2d/gauge.h"
+#include "Character/player.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -52,12 +53,12 @@ HRESULT CLifeGaugeUI::Init(void)
 	//もしゲージのポインタがnullptrじゃない場合
 	if (m_pGauge != nullptr)
 	{
+		//ゲージ初期化処理
+		m_pGauge->Init();
 		//ゲージに値の最大値を設定
 		m_pGauge->SetMaxValue(m_nMaxLife);
 		//ゲージに値を設定
 		m_pGauge->SetValue(m_nLife);
-		//ゲージ初期化処理
-		m_pGauge->Init();
 	}
 	return S_OK;
 }
@@ -84,8 +85,6 @@ void CLifeGaugeUI::Update(void)
 	//もしゲージのポインタがnullptrじゃない場合
 	if (m_pGauge != nullptr)
 	{
-		//ゲージに値の最大値を設定
-		m_pGauge->SetMaxValue(m_nMaxLife);
 		//ゲージに値を設定
 		m_pGauge->SetValue(m_nLife);
 		//ゲージの更新処理関数呼び出し
@@ -100,18 +99,16 @@ void CLifeGaugeUI::Draw(void)
 {
 	//ゲームモードの取得
 	CGameMode * pGameMode = CManager::GetGameMode();
-	//もしゲームのポインタがnullptrではない場合
-	if (pGameMode != nullptr)
+	//プレイヤーの取得
+	CPlayer * pPlayer = CGameMode::GetPlayer();
+	//もしゲームモードのポインタがnullptrではないかつプレイヤーのポインタがnullptrではない場合
+	if (pGameMode != nullptr && pPlayer != nullptr)
 	{
-		//もしポーズが生成されてない場合
-		if (pGameMode->GetbCreatePause() == false)
+		//もしポーズが生成されてないかつプレイヤーが死亡状態ではない場合
+		if (pGameMode->GetbCreatePause() == false && pPlayer->GetState() != CPlayer::STATE_DEATH)
 		{
-			//もしゲージのポインタがnullptrではない場合
-			if (m_pGauge != nullptr)
-			{
-				//ゲージの描画処理関数呼び出し
-				m_pGauge->Draw();
-			}
+			//ゲージの描画処理関数呼び出し
+			m_pGauge->Draw();
 		}
 	}
 }

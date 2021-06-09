@@ -36,7 +36,7 @@ public:
 	void Update(void);
 	void Draw(void);
 	void SetModelScriptPass(const char * pModelScriptPass) { m_apModelScriptPass[0] = pModelScriptPass; }
-	void SetModelData(CModel::MODEL_DATA ModelData[MAX_PARTS]);
+	void SetModelData(CModel::MODEL_DATA aModelData[MAX_PARTS]);
 	void SetCollisionSize(D3DXVECTOR3 CollisionSize) { m_CollisionSize = CollisionSize; }
 	CModel * GetModel(int nParts) { return m_apModel[nParts]; }
 	CMotion * GetpMotion(void) { return m_pMotion; }

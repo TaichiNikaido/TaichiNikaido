@@ -79,6 +79,18 @@
     <Filter Include="ソース ファイル\Item">
       <UniqueIdentifier>{12ad9067-9667-43cb-8b48-6ada4f244f7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object">
+      <UniqueIdentifier>{992709aa-8704-458b-9f1f-2462dfdec9ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Object">
+      <UniqueIdentifier>{2d181f81-f4f3-4bf6-8660-c5d2e38f49a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\AttackPattern">
+      <UniqueIdentifier>{611bcd50-76bd-47ff-9d85-0222ce9af562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\AttackPattern">
+      <UniqueIdentifier>{1fbaf61e-479e-4687-a4b6-4118dfbdb932}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\skybox.cpp">
@@ -237,12 +249,6 @@
     <ClCompile Include="Source\Button\pause_button_manager.cpp">
       <Filter>ソース ファイル\Button</Filter>
     </ClCompile>
-    <ClCompile Include="object.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="object_wood_box.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\UI\ui_life_gague.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
@@ -263,6 +269,39 @@
     </ClCompile>
     <ClCompile Include="Source\polygon2d\pause_bg.cpp">
       <Filter>ソース ファイル\Polygon2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Polygon3d\round_shadow.cpp">
+      <Filter>ソース ファイル\Polygon3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\object.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\object_meteor.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\polygon2d\game_clear_logo.cpp">
+      <Filter>ソース ファイル\Polygon2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\polygon2d\game_over_logo.cpp">
+      <Filter>ソース ファイル\Polygon2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Button\button_retry.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Button\game_over_button_manager.cpp">
+      <Filter>ソース ファイル\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\polygon2d\game_over_bg.cpp">
+      <Filter>ソース ファイル\Polygon2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\object_castle.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AttackPattern\attack_pattern_meteor.cpp">
+      <Filter>ソース ファイル\AttackPattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Polygon3d\round_fire.cpp">
+      <Filter>ソース ファイル\Polygon3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,12 +458,6 @@
     <ClInclude Include="Source\Button\pause_button_manager.h">
       <Filter>ヘッダー ファイル\Button</Filter>
     </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="object_wood_box.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Source\UI\ui_life_gauge.h">
       <Filter>ヘッダー ファイル\UI</Filter>
     </ClInclude>
@@ -445,6 +478,39 @@
     </ClInclude>
     <ClInclude Include="Source\polygon2d\pause_bg.h">
       <Filter>ヘッダー ファイル\Polygon2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Polygon3d\round_shadow.h">
+      <Filter>ヘッダー ファイル\Polygon3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\object.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\object_meteor.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\polygon2d\game_clear_logo.h">
+      <Filter>ヘッダー ファイル\Polygon2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\polygon2d\game_over_logo.h">
+      <Filter>ヘッダー ファイル\Polygon2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Button\button_retry.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Button\game_over_button_manager.h">
+      <Filter>ヘッダー ファイル\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\polygon2d\game_over_bg.h">
+      <Filter>ヘッダー ファイル\Polygon2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\object_castle.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AttackPattern\attack_pattern_meteor.h">
+      <Filter>ヘッダー ファイル\AttackPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Polygon3d\round_fire.h">
+      <Filter>ヘッダー ファイル\Polygon3d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

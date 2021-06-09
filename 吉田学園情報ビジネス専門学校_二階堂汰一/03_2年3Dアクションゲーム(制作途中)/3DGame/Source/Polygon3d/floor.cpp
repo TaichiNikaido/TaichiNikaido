@@ -24,7 +24,7 @@
 // マクロ定義
 //*****************************************************************************
 #define SCRIPT_PASS ("Data/Script/FloorData.txt")	//プレイヤーデータのスクリプトのパス
-#define TEXTURE_PASS ("Data/Texture/ground.jpg")	//テクスチャのパス
+#define TEXTURE_PASS ("Data/Texture/ground.png")	//テクスチャのパス
 
 //*****************************************************************************
 // 静的メンバ変数の初期化

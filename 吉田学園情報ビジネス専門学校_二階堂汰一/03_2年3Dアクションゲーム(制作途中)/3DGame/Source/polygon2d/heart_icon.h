@@ -26,7 +26,7 @@
 class CHeartIcon :public CScene2d
 {
 public:
-	CHeartIcon(int nPriority = PRIORITY_2DPOLYGON);
+	CHeartIcon(int nPriority = PRIORITY_POLYGON2D);
 	~CHeartIcon();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
@@ -35,7 +35,9 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	void SetPatternAnime(int nPatternAnime) { m_nPatternAnime = nPatternAnime; }
 private:
 	static LPDIRECT3DTEXTURE9 m_pTexture;	//テクスチャのポインタ
+	int m_nPatternAnime;					//パターンアニメ
 };
 #endif

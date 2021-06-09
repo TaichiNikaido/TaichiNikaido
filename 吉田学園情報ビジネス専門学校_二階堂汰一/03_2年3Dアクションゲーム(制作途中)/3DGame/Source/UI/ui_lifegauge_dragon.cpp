@@ -15,12 +15,13 @@
 #include "ui_life_gauge_dragon.h"
 #include "Polygon2d/gauge.h"
 #include "Character/enemy_dragon.h"
+#include "Character/player.h"
 
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define SIZE (D3DXVECTOR3(800.0f,30.0f,0.0f))
-#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2 - (SIZE.x / 2),SCREEN_HEIGHT / 4,0.0f))
+#define SIZE (D3DXVECTOR3(800.0f,15.0f,0.0f))
+#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2 - (SIZE.x / 2),SCREEN_HEIGHT / 6,0.0f))
 #define COLOR (D3DXCOLOR(1.0f,0.0f,0.0f,1.0f))
 
 //*****************************************************************************
@@ -91,10 +92,10 @@ HRESULT CDragonLifeGaugeUI::Init(void)
 		//体力を設定
 		SetLife(nLife);
 	}
-	//ライフの初期化処理関数呼び出し
-	CLifeGaugeUI::Init();
 	//ゲージの生成処理関数呼び出し
 	SetGauge(CGauge::Create(Position, Size, Color));
+	//ライフの初期化処理関数呼び出し
+	CLifeGaugeUI::Init();
 	return S_OK;
 }
 
@@ -120,8 +121,7 @@ void CDragonLifeGaugeUI::Update(void)
 	if (pDragon != nullptr)
 	{
 		//ドラゴンの体力を取得
-		int nLife = pDragon
-			->GetLife();
+		int nLife = pDragon->GetLife();
 		//体力を設定
 		SetLife(nLife);
 	}
@@ -132,6 +132,6 @@ void CDragonLifeGaugeUI::Update(void)
 //=============================================================================
 void CDragonLifeGaugeUI::Draw(void)
 {
-	//ライフのUIの描画処理関数呼び出し
+	//ライフゲージUIの描画処理関数呼び出し
 	CLifeGaugeUI::Draw();
 }

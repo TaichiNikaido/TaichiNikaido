@@ -108,7 +108,7 @@ HRESULT CTitleLogo::Init(void)
 	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
 	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
 	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
-	//ボタンの初期化処理関数呼び出し
+	//2Dシーンの初期化処理関数呼び出し
 	CScene2d::Init();
 	//テクスチャの設定
 	SetTexture(aTexture);
@@ -122,7 +122,7 @@ HRESULT CTitleLogo::Init(void)
 //=============================================================================
 void CTitleLogo::Uninit(void)
 {
-	//ボタンの終了処理関数呼び出し
+	//2Dシーンの終了処理関数呼び出し
 	CScene2d::Uninit();
 }
 
@@ -131,7 +131,7 @@ void CTitleLogo::Uninit(void)
 //=============================================================================
 void CTitleLogo::Update(void)
 {
-	//ボタンの更新処理関数呼び出し
+	//2Dシーンの更新処理関数呼び出し
 	CScene2d::Update();
 }
 
@@ -140,6 +140,6 @@ void CTitleLogo::Update(void)
 //=============================================================================
 void CTitleLogo::Draw(void)
 {
-	//ボタンの描画処理関数呼び出し
+	//2Dシーンの描画処理関数呼び出し
 	CScene2d::Draw();
 }

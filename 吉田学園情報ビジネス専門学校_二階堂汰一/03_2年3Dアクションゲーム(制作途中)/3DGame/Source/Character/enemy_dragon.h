@@ -34,7 +34,7 @@ public:
 	typedef enum
 	{
 		ATTACK_NONE = -1,
-		ATTACK_1,
+		ATTACK_BITING,
 		ATTACK_2,
 		ATTACK_3,
 		ATTACK_MAX
@@ -49,10 +49,12 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
-	bool Visibility(void);
 	void AI(void);
+	bool Biting(void);
+	bool Visibility(void);
 	void Death(void);
 	static CModel::MODEL_DATA m_aModelData[MAX_PARTS];	//モデルデータ
+	bool m_bGameClearLogoCreate;						//ゲームクリアロゴを生成したか
 	ATTACK_PATTERN m_AttackPattern;						//攻撃パターン
 };
 #endif

@@ -20,10 +20,13 @@
 #include "Character/enemy_dragon.h"
 #include "Weapon/weapon_sword.h"
 #include "Weapon/weapon_shield.h"
+#include "UI/ui_life_player.h"
 #include "UI/ui_life_gauge_dragon.h"
 #include "Polygon3d/floor.h"
 #include "Button/pause_button_manager.h"
 #include "skybox.h"
+#include "Object/object_meteor.h"
+#include "Object/object_castle.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -40,10 +43,10 @@ CDragon * CGameMode::m_pDragon = nullptr;	//ドラゴンのポインタ
 //=============================================================================
 CGameMode::CGameMode()
 {
-	m_pPlayer = nullptr;	//プレイヤーのポインタ
-	m_pDragon = nullptr;	//ドラゴンのポインタ
-	m_pCamera = nullptr;	//カメラのポインタ
-	m_pLight = nullptr;		//ライトのポインタ
+	m_pPlayer = nullptr;		//プレイヤーのポインタ
+	m_pDragon = nullptr;		//ドラゴンのポインタ
+	m_pCamera = nullptr;		//カメラのポインタ
+	m_pLight = nullptr;			//ライトのポインタ
 	m_bCreatePause = false;		//ポーズを使用してるか
 }
 
@@ -166,14 +169,18 @@ void CGameMode::Input(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-		//もしESCAPEキー又はジョイスティックのスタートボタンを押されたら
-	if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
+	//もしプレイヤーが死亡状態ではない場合
+	if (m_pPlayer->GetState() != CPlayer::STATE_DEATH)
 	{
-		//もしポーズを使用していない場合
-		if (m_bCreatePause == false)
+		//もしESCAPEキー又はジョイスティックのスタートボタンを押されたら
+		if (pKeyboard->GetKeyboardTrigger(DIK_ESCAPE) || pJoystick->GetJoystickTrigger(JS_START))
 		{
-			//ポーズボタンマネージャーの生成処理関数呼び出し
-			CPauseButtonManager::Create();
+			//もしポーズを使用していない場合
+			if (m_bCreatePause == false)
+			{
+				//ポーズボタンマネージャーの生成処理関数呼び出し
+				CPauseButtonManager::Create();
+			}
 		}
 	}
 }
@@ -237,7 +244,8 @@ void CGameMode::MapObjectCreateAll(void)
 	//スカイボックスの生成
 	CSkyBox::Create();
 	//床の生成
-	//CFloor::Create();
+	CFloor::Create();
+	CCastle::Create(D3DXVECTOR3(0.0f, 0.0f, 400.0f));
 }
 
 //=============================================================================
@@ -258,7 +266,7 @@ void CGameMode::CharacterCreateAll(void)
 			//盾の生成
 			CShield::Create();
 			//プレイヤーの体力のUI生成
-			//CPlayerLifeUI::Create();
+			CPlayerLifeUI::Create();
 		}
 	}
 	//もしドラゴンのポインタがnullptrの場合

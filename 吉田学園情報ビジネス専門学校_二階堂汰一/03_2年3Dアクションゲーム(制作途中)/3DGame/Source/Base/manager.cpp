@@ -29,10 +29,17 @@
 #include "Character/enemy_dragon.h"
 #include "Weapon/weapon_sword.h"
 #include "Weapon/weapon_shield.h"
+#include "Object/object_meteor.h"
+#include "Object/object_castle.h"
 #include "Polygon3d/floor.h"
+#include "Polygon3d/round_shadow.h"
+#include "Polygon3d/round_fire.h"
+#include "Polygon3d/round_fire.h"
 #include "Polygon2d/title_logo.h"
 #include "Polygon2d/letter.h"
 #include "Polygon2d/heart_icon.h"
+#include "Polygon2d/game_clear_logo.h"
+#include "Polygon2d/game_over_logo.h"
 #include "Button/button_any.h"
 #include "Button/button_start.h"
 #include "Button/button_tutorial.h"
@@ -41,6 +48,7 @@
 #include "Button/button_quit_game.h"
 #include "Button/button_controller_guid.h"
 #include "Button/button_back_to_title.h"
+#include "Button/button_retry.h"
 #include "skybox.h"
 
 //*****************************************************************************
@@ -153,7 +161,7 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 	//全読み込み関数呼び出し
 	LoadAll();
 	//モードの設定
-	SetMode(MODE_TITLE);
+	SetMode(MODE_GAME);
 	return S_OK;
 }
 
@@ -314,10 +322,18 @@ void CManager::LoadAll(void)
 	CSword::ModelLoad();
 	//盾のモデル読み込み
 	CShield::ModelLoad();
-	//ドラゴンモデル読み込み
+	//ドラゴンのモデル読み込み
 	CDragon::ModelLoad();
+	//メテオのモデル読み込み
+	CMeteor::ModelLoad();
+	//城のモデル読み込み
+	CCastle::ModelLoad();
 	//地面のテクスチャ読み込み
 	CFloor::TextureLoad();
+	//丸影のテクスチャ読み込み
+	CRoundShadow::TextureLoad();
+	//丸火のテクスチャ読み込み
+	CRoundFire::TextureLoad();
 	//何らかのボタンのテクスチャ読み込み
 	CAnyButton::TextureLoad();
 	//スタートボタンのテクスチャ読み込み
@@ -334,6 +350,12 @@ void CManager::LoadAll(void)
 	CControllerGuidButton::TextureLoad();
 	//タイトルに戻るボタンのテクスチャ読み込み
 	CBackToTitleButton::TextureLoad();
+	//リトライボタンのテクスチャ読み込み
+	CRetryButton::TextureLoad();
+	//ゲームクリアロゴのテクスチャ読み込み
+	CGameClearLogo::TextureLoad();
+	//ゲームオーバーロゴのテクスチャ読み込み
+	CGameOverLogo::TextureLoad();
 	//タイトルロゴのテクスチャ読み込み
 	CTitleLogo::TextureLoad();
 	//文字のテクスチャ読み込み
@@ -355,10 +377,18 @@ void CManager::UnloadAll(void)
 	CSword::ModelUnload();
 	//盾のモデル破棄
 	CShield::ModelUnload();
-	//ドラゴンモデル破棄
+	//ドラゴンのモデル破棄
 	CDragon::ModelUnload();
+	//メテオのモデル破棄
+	CMeteor::ModelUnload();
+	//城のモデル破棄
+	CCastle::ModelUnload();
 	//地面のテクスチャ破棄
 	CFloor::TextureUnload();
+	//丸影のテクスチャ破棄
+	CRoundShadow::TextureUnload();
+	//丸火のテクスチャ破棄
+	CRoundFire::TextureUnload();
 	//何らかのボタンのテクスチャ破棄
 	CAnyButton::TextureUnload();
 	//スタートボタンのテクスチャ破棄
@@ -375,6 +405,12 @@ void CManager::UnloadAll(void)
 	CControllerGuidButton::TextureUnload();
 	//タイトルに戻るボタンのテクスチャ破棄
 	CBackToTitleButton::TextureUnload();
+	//リトライボタンのテクスチャ破棄
+	CRetryButton::TextureUnload();
+	//ゲームクリアロゴのテクスチャ破棄
+	CGameClearLogo::TextureUnload();
+	//ゲームオーバーロゴのテクスチャ破棄
+	CGameOverLogo::TextureUnload();
 	//タイトルロゴのテクスチャ破棄
 	CTitleLogo::TextureUnload();
 	//文字のテクスチャ破棄

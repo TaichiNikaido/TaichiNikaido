@@ -255,13 +255,13 @@ void CCharacter::Draw(void)
 //=============================================================================
 // ƒ‚ƒfƒ‹î•ñ‚Ìİ’èˆ—ŠÖ”
 //=============================================================================
-void CCharacter::SetModelData(CModel::MODEL_DATA ModelData[MAX_PARTS])
+void CCharacter::SetModelData(CModel::MODEL_DATA aModelData[MAX_PARTS])
 {
 	for (int nCount = 0; nCount < MAX_PARTS; nCount++)
 	{
-		if (ModelData[nCount].pMesh != nullptr)
+		if (aModelData[nCount].pMesh != nullptr)
 		{
-			m_aModelData[nCount] = ModelData[nCount];
+			m_aModelData[nCount] = aModelData[nCount];
 		}
 	}
 }

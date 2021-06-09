@@ -19,8 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="object.cpp" />
-    <ClCompile Include="object_wood_box.cpp" />
+    <ClCompile Include="Source\AttackPattern\attack_pattern_meteor.cpp" />
     <ClCompile Include="Source\Base\billboard.cpp" />
     <ClCompile Include="Source\Base\camera.cpp" />
     <ClCompile Include="Source\Base\fade.cpp" />
@@ -44,8 +43,10 @@
     <ClCompile Include="Source\Button\button_exit.cpp" />
     <ClCompile Include="Source\Button\button_quit_game.cpp" />
     <ClCompile Include="Source\Button\button_ranking.cpp" />
+    <ClCompile Include="Source\Button\button_retry.cpp" />
     <ClCompile Include="Source\Button\button_start.cpp" />
     <ClCompile Include="Source\Button\button_tutorial.cpp" />
+    <ClCompile Include="Source\Button\game_over_button_manager.cpp" />
     <ClCompile Include="Source\Button\pause_button_manager.cpp" />
     <ClCompile Include="Source\Button\title_button_manager.cpp" />
     <ClCompile Include="Source\Character\character.cpp" />
@@ -63,6 +64,12 @@
     <ClCompile Include="Source\Mode\mode_result.cpp" />
     <ClCompile Include="Source\Mode\mode_title.cpp" />
     <ClCompile Include="Source\Mode\mode_tutorial.cpp" />
+    <ClCompile Include="Source\Object\object.cpp" />
+    <ClCompile Include="Source\Object\object_castle.cpp" />
+    <ClCompile Include="Source\Object\object_meteor.cpp" />
+    <ClCompile Include="Source\polygon2d\game_clear_logo.cpp" />
+    <ClCompile Include="Source\polygon2d\game_over_bg.cpp" />
+    <ClCompile Include="Source\polygon2d\game_over_logo.cpp" />
     <ClCompile Include="Source\polygon2d\gauge.cpp" />
     <ClCompile Include="Source\polygon2d\gaugeflaame.cpp" />
     <ClCompile Include="Source\polygon2d\heart_icon.cpp" />
@@ -70,6 +77,8 @@
     <ClCompile Include="Source\polygon2d\pause_bg.cpp" />
     <ClCompile Include="Source\polygon2d\title_logo.cpp" />
     <ClCompile Include="Source\Polygon3d\floor.cpp" />
+    <ClCompile Include="Source\Polygon3d\round_fire.cpp" />
+    <ClCompile Include="Source\Polygon3d\round_shadow.cpp" />
     <ClCompile Include="Source\Polygon3d\shadow.cpp" />
     <ClCompile Include="Source\skybox.cpp" />
     <ClCompile Include="Source\System\name.cpp" />
@@ -82,8 +91,7 @@
     <ClCompile Include="Source\Weapon\weapon_sword.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="object.h" />
-    <ClInclude Include="object_wood_box.h" />
+    <ClInclude Include="Source\AttackPattern\attack_pattern_meteor.h" />
     <ClInclude Include="Source\Base\camera.h" />
     <ClInclude Include="Source\Base\fade.h" />
     <ClInclude Include="Source\Base\input.h" />
@@ -106,8 +114,10 @@
     <ClInclude Include="Source\Button\button_exit.h" />
     <ClInclude Include="Source\Button\button_quit_game.h" />
     <ClInclude Include="Source\Button\button_ranking.h" />
+    <ClInclude Include="Source\Button\button_retry.h" />
     <ClInclude Include="Source\Button\button_start.h" />
     <ClInclude Include="Source\Button\button_tutorial.h" />
+    <ClInclude Include="Source\Button\game_over_button_manager.h" />
     <ClInclude Include="Source\Button\pause_button_manager.h" />
     <ClInclude Include="Source\Button\title_button_manager.h" />
     <ClInclude Include="Source\Character\character.h" />
@@ -125,6 +135,12 @@
     <ClInclude Include="Source\Mode\mode_result.h" />
     <ClInclude Include="Source\Mode\mode_title.h" />
     <ClInclude Include="Source\Mode\mode_tutorial.h" />
+    <ClInclude Include="Source\Object\object.h" />
+    <ClInclude Include="Source\Object\object_castle.h" />
+    <ClInclude Include="Source\Object\object_meteor.h" />
+    <ClInclude Include="Source\polygon2d\game_clear_logo.h" />
+    <ClInclude Include="Source\polygon2d\game_over_bg.h" />
+    <ClInclude Include="Source\polygon2d\game_over_logo.h" />
     <ClInclude Include="Source\polygon2d\gauge.h" />
     <ClInclude Include="Source\polygon2d\gaugeflame.h" />
     <ClInclude Include="Source\polygon2d\heart_icon.h" />
@@ -132,6 +148,8 @@
     <ClInclude Include="Source\polygon2d\pause_bg.h" />
     <ClInclude Include="Source\polygon2d\title_logo.h" />
     <ClInclude Include="Source\Polygon3d\floor.h" />
+    <ClInclude Include="Source\Polygon3d\round_fire.h" />
+    <ClInclude Include="Source\Polygon3d\round_shadow.h" />
     <ClInclude Include="Source\Polygon3d\shadow.h" />
     <ClInclude Include="Source\skybox.h" />
     <ClInclude Include="Source\System\name.h" />

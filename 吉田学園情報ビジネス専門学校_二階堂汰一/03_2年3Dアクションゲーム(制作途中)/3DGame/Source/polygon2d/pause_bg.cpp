@@ -17,9 +17,9 @@
 // マクロ定義
 //*****************************************************************************
 #define TEXTURE_PASS ("Data/Texture/Logo/Logo_Title.png")							//テクスチャのパス
-#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 - 100.0f,0.0f))	//位置
+#define POSITION (D3DXVECTOR3(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,0.0f))				//位置
 #define SIZE (D3DXVECTOR3(SCREEN_WIDTH,SCREEN_HEIGHT,0.0f))							//サイズ
-#define COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,0.05f))										//色
+#define COLOR (D3DXCOLOR(0.0f,0.0f,0.0f,0.5f))										//色
 
 //*****************************************************************************
 // 静的メンバ変数の初期化
@@ -79,7 +79,7 @@ HRESULT CPauseBG::Init(void)
 	aTexture[1] = D3DXVECTOR2(1.0f, 0.0f);
 	aTexture[2] = D3DXVECTOR2(0.0f, 1.0f);
 	aTexture[3] = D3DXVECTOR2(1.0f, 1.0f);
-	//ボタンの初期化処理関数呼び出し
+	//2Dシーンの初期化処理関数呼び出し
 	CScene2d::Init();
 	//テクスチャの設定
 	SetTexture(aTexture);
@@ -91,7 +91,7 @@ HRESULT CPauseBG::Init(void)
 //=============================================================================
 void CPauseBG::Uninit(void)
 {
-	//ボタンの終了処理関数呼び出し
+	//2Dシーンの終了処理関数呼び出し
 	CScene2d::Uninit();
 }
 
@@ -100,7 +100,7 @@ void CPauseBG::Uninit(void)
 //=============================================================================
 void CPauseBG::Update(void)
 {
-	//ボタンの更新処理関数呼び出し
+	//2Dシーンの更新処理関数呼び出し
 	CScene2d::Update();
 }
 
@@ -109,6 +109,6 @@ void CPauseBG::Update(void)
 //=============================================================================
 void CPauseBG::Draw(void)
 {
-	//ボタンの描画処理関数呼び出し
+	//2Dシーンの描画処理関数呼び出し
 	CScene2d::Draw();
 }

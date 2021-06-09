@@ -30,7 +30,7 @@
 class CGaugeFlame :public CScene2d
 {
 public:
-	CGaugeFlame(int nPriority = PRIORITY_2DPOLYGON);
+	CGaugeFlame(int nPriority = PRIORITY_POLYGON2D);
 	~CGaugeFlame();
 	HRESULT Init(void);
 	void Uninit(void);

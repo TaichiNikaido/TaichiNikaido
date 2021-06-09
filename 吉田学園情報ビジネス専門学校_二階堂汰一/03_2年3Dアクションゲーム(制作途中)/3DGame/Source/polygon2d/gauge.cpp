@@ -174,13 +174,13 @@ void CGauge::Update(void)
 {
 	//頂点情報のポインタ
 	VERTEX_2D *pVtx;
-	// 頂点バッファをロックし、頂点情報へのポインタを取得
+	//頂点バッファをロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-	// 頂点座標を設定
+	//頂点座標を設定
 	pVtx[0].pos = D3DXVECTOR3(m_Position.x, m_Position.y + (-m_Size.y / 2), 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(m_Position.x + m_Size.x * (m_nValue / m_nMaxValue), m_Position.y + (-m_Size.y / 2), 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(m_Position.x + m_Size.x * (float(m_nValue) / float(m_nMaxValue)), m_Position.y + (-m_Size.y / 2), 0.0f);
 	pVtx[2].pos = D3DXVECTOR3(m_Position.x, m_Position.y + (m_Size.y / 2), 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(m_Position.x + m_Size.x * (m_nValue / m_nMaxValue), m_Position.y + (m_Size.y / 2), 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(m_Position.x + m_Size.x * (float(m_nValue) / float(m_nMaxValue)), m_Position.y + (m_Size.y / 2), 0.0f);
 	//頂点バッファのアンロック
 	m_pVtxBuff->Unlock();
 }

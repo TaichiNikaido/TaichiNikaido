@@ -26,7 +26,7 @@
 class CTitleLogo :public CScene2d
 {
 public:
-	CTitleLogo(int nPriority = PRIORITY_2DPOLYGON);
+	CTitleLogo(int nPriority = PRIORITY_POLYGON2D);
 	~CTitleLogo();
 	static HRESULT TextureLoad(void);
 	static void TextureUnload(void);
