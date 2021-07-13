@@ -147,10 +147,6 @@ void CRoundFire::Update(void)
 		D3DXVECTOR3 PlayerPosition = pPlayer->GetPosition();
 		//プレイヤーまでの距離を求める
 		D3DXVECTOR3 Distance = D3DXVECTOR3(PlayerPosition.x - Position.x, PlayerPosition.y - Position.y, PlayerPosition.z - Position.z);
-		//もしプレイヤーの座標が指定サイズ内に入ったら衝突
-		if (powf(Distance.x, 2) + powf(Distance.z, 2)
-			<= pow(((METEOR_CREATE_MAX_AREA / 2) + (METEOR_SIZE / 2)), 2))
-		{
 	}
 }
 

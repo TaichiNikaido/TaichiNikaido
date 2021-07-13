@@ -245,6 +245,7 @@ void CGameMode::MapObjectCreateAll(void)
 	CSkyBox::Create();
 	//è∞ÇÃê∂ê¨
 	CFloor::Create();
+	//èÈÇÃê∂ê¨
 	CCastle::Create(D3DXVECTOR3(0.0f, 0.0f, 400.0f));
 }
 
