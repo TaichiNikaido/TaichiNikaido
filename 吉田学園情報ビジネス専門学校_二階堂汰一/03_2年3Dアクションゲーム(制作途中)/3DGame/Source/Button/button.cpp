@@ -98,16 +98,34 @@ void CButton::SelectColor(void)
 }
 
 //=============================================================================
-// 選択時音再生処理関数
+// ボタンのSE再生処理関数
 //=============================================================================
-void CButton::SelectSound(void)
+void CButton::PlayButtonSE(BUTTON_SE PlayButtonSE)
 {
-	//サウンドの取得
+	// サウンドの取得
 	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがnullptrではない場合
+	// ボタンSEの種類を設定
+	BUTTON_SE ButtonSE = PlayButtonSE;
+	// もしサウンドのポインタがnullptrではない場合
 	if (pSound != nullptr)
 	{
-		//選択音の再生
-		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_SELECT);
+		switch (ButtonSE)
+		{
+		case BUTTON_SE_SELECT:
+			// ボタン選択音の再生
+			pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_SELECT);
+			break;
+		case BUTTON_SE_PUSH:
+			// ボタンを押す音の再生
+			pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
+			break;
+		case BUTTON_SE_CANCEL:
+			// ボタンキャンセル音の再生
+			pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_CANCEL);
+			break;
+		default:
+			break;
+		}
 	}
 }
+

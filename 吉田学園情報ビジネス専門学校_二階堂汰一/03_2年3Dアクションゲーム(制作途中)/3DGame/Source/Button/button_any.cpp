@@ -210,14 +210,8 @@ void CAnyButton::Press(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-	//サウンドの取得
-	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLではない場合
-	if (pSound != nullptr)
-	{
-		//決定音の再生
-		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
-	}
+	//押したときのサウンド再生
+	PlayButtonSE(CButton::BUTTON_SE_PUSH);
 	//タイトルボタンマネージャーの生成
 	CTitleButtonManager::Create();
 	//キーボードの更新処理関数呼び出し

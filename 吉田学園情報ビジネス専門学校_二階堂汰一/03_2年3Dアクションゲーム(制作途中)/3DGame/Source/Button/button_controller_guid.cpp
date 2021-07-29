@@ -146,14 +146,8 @@ void CControllerGuidButton::Draw(void)
 //=============================================================================
 void CControllerGuidButton::Press(void)
 {
-	//サウンドの取得
-	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがNULLではない場合
-	if (pSound != NULL)
-	{
-		//決定音の再生
-		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
-	}
+	//押したときのサウンド再生
+	PlayButtonSE(CButton::BUTTON_SE_PUSH);
 	//操作説明画面の生成
 	//
 }

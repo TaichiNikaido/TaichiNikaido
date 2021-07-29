@@ -146,14 +146,8 @@ void CRankingButton::Draw(void)
 //=============================================================================
 void CRankingButton::Press(void)
 {
-	//サウンドの取得
-	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがnullptrじゃない場合
-	if (pSound != nullptr)
-	{
-		//決定音の再生
-		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
-	}
+	//押したときのサウンド再生
+	PlayButtonSE(CButton::BUTTON_SE_PUSH);
 	//ランキングモードに遷移する
 	CManager::StartFade(CManager::MODE_RANKING);
 }

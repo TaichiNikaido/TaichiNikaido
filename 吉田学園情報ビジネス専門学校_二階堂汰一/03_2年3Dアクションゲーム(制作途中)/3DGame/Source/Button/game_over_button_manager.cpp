@@ -133,7 +133,7 @@ void CGameOverButtonManager::Input(void)
 		//現在のボタンを減算する
 		m_nButton--;
 		//ボタンの選択時音再生処理関数呼び出し
-		m_apButton[m_nButton]->SelectSound();
+		m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 	}
 	//上矢印ボタンか上スティックが入力された場合
 	if (lpDIDevice != NULL &&js.rgdwPOV[0] == 0 || lpDIDevice != NULL &&js.lY == -1000)
@@ -145,7 +145,7 @@ void CGameOverButtonManager::Input(void)
 			//現在のボタンを減算する
 			m_nButton--;
 			//ボタンの選択時音再生処理関数呼び出し
-			m_apButton[m_nButton]->SelectSound();
+			m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 		}
 	}
 	//下矢印キーが入力された場合
@@ -154,7 +154,7 @@ void CGameOverButtonManager::Input(void)
 		//現在のボタンを減算する
 		m_nButton++;
 		//ボタンの選択時音再生処理関数呼び出し
-		m_apButton[m_nButton]->SelectSound();
+		m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 	}
 	//下矢印ボタンか下スティックが入力された場合
 	if (lpDIDevice != NULL &&js.rgdwPOV[0] == 18000 || lpDIDevice != NULL &&js.lY == 1000)
@@ -166,7 +166,7 @@ void CGameOverButtonManager::Input(void)
 			//現在のボタンを減算する
 			m_nButton++;
 			//ボタンの選択時音再生処理関数呼び出し
-			m_apButton[m_nButton]->SelectSound();
+			m_apButton[m_nButton]->PlayButtonSE(CButton::BUTTON_SE_SELECT);
 		}
 	}
 	//もしENTERキー又はジョイスティックのAボタンを押されたら

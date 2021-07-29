@@ -158,14 +158,8 @@ void CExitButton::Draw(void)
 //=============================================================================
 void CExitButton::Press(void)
 {
-	//サウンドの取得
-	CSound * pSound = CManager::GetSound();
-	//もしサウンドのポインタがnullptrではない場合
-	if (pSound != nullptr)
-	{
-		//決定音の再生
-		pSound->PlaySoundA(CSound::SOUND_LABEL_SE_BUTTON_PUSH);
-	}
+	//押したときのサウンド再生
+	PlayButtonSE(CButton::BUTTON_SE_PUSH);
 	//終了させる
 	exit(0);
 }
