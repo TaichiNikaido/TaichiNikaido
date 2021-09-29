@@ -62,7 +62,7 @@ CRenderer * CManager::m_pRenderer = nullptr;			//レンダラーのポインタ
 CSound * CManager::m_pSound = nullptr;					//サウンドのポインタ
 CKeyboard * CManager::m_pKeyboard = nullptr;			//キーボードのポインタ
 CMouse * CManager::m_pMouse = nullptr;					//マウスのポインタ
-CJoystick * CManager::m_pJoystick = nullptr;			//マネージャーのポインタ
+CJoystick * CManager::m_pJoystick = nullptr;			//ジョイスティックのポインタ
 CTutorialMode * CManager::m_pTutorialMode = nullptr;	//チュートリアルモードのポインタ
 CGameMode * CManager::m_pGameMode = nullptr;			//ゲームモードのポインタ
 CResultMode * CManager::m_pResultMode = nullptr;		//リザルトモードのポインタ
@@ -89,7 +89,7 @@ CManager::~CManager()
 //=============================================================================
 // 初期化処理関数
 //=============================================================================
-HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
+HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWindow)
 {
 	m_hWnd = hWnd;
 	//もしレンダラーのポインタがnullptrの場合
@@ -131,7 +131,7 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 		if (m_pKeyboard != nullptr)
 		{
 			//キーボードの初期化処理関数呼び出し
-			m_pKeyboard->Init(hInsitance, hWnd);
+			m_pKeyboard->Init(hInstance, hWnd);
 		}
 	}
 	//もしジョイスティックのポインタがnullptrの場合
@@ -143,7 +143,7 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 		if (m_pJoystick != nullptr)
 		{
 			//ジョイスティックの初期化処理関数呼び出し
-			m_pJoystick->Init(hInsitance, hWnd);
+			m_pJoystick->Init(hInstance, hWnd);
 		}
 	}
 	//もしマウスのポインタがnullptrの場合
@@ -155,7 +155,7 @@ HRESULT CManager::Init(HINSTANCE hInsitance, HWND hWnd, bool bWindow)
 		if (m_pMouse != NULL)
 		{
 			//マウスの初期化処理関数呼び出し
-			m_pMouse->Init(hInsitance, hWnd);
+			m_pMouse->Init(hInstance, hWnd);
 		}
 	}
 	//全読み込み関数呼び出し

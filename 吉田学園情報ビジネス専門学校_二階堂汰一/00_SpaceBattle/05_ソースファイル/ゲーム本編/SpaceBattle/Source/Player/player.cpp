@@ -435,7 +435,7 @@ void CPlayer::Input(void)
 		Move();
 	}
 	//弾発射キー入力処理
-	if (pKeyboard->GetKeyboardPress(DIK_SPACE) || lpDIDevice != NULL &&lpDIDevice != NULL && pJoystick->GetJoystickPress(JS_A))
+	if (pKeyboard->GetKeyboardPress(DIK_SPACE) || lpDIDevice != NULL && pJoystick->GetJoystickPress(JS_A))
 	{
 		//発射間隔のカウントを進める
 		m_nBulletInterval++;
