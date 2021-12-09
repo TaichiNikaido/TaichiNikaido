@@ -78,7 +78,7 @@ HRESULT CGameOverButtonManager::Init(void)
 	//ボタンの初期設定
 	m_nButton = BUTTON_RETRY;
 	//ボタンの初期選択処理関数呼び出し
-	m_apButton[m_nButton]->SelectColor();
+	m_apButton[m_nButton]->ChangeTranslucent(true);
 	return S_OK;
 }
 
@@ -198,10 +198,10 @@ void CGameOverButtonManager::Select(void)
 	for (int nCount = BUTTON_RETRY; nCount < BUTTON_MAX; nCount++)
 	{
 		//ボタンの選択されてない時の色変更処理関数呼び出し
-		m_apButton[nCount]->NotSelectColor();
+		m_apButton[nCount]->ChangeTranslucent(false);
 	}
 	//ボタンの選択時色変更処理関数呼び出し
-	m_apButton[m_nButton]->SelectColor();
+	m_apButton[m_nButton]->ChangeTranslucent(true);
 }
 
 //=============================================================================

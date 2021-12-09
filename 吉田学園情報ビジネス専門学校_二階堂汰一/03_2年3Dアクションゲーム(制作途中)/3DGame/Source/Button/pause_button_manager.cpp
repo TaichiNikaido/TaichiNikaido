@@ -89,7 +89,7 @@ HRESULT CPauseButtonManager::Init(void)
 	//ボタンの初期設定
 	m_nButton = BUTTON_QUIT_GAME;
 	//ボタンの初期選択処理関数呼び出し
-	m_apButton[m_nButton]->SelectColor();
+	m_apButton[m_nButton]->ChangeTranslucent(true);
 	//もしチュートリアルモードのポインタがnullptrじゃない場合
 	if (pTutorialMode != nullptr)
 	{
@@ -300,10 +300,10 @@ void CPauseButtonManager::Select(void)
 	for (int nCount = 0; nCount < BUTTON_MAX; nCount++)
 	{
 		//ボタンの選択されてない時の色変更処理関数呼び出し
-		m_apButton[nCount]->NotSelectColor();
+		m_apButton[nCount]->ChangeTranslucent(false);
 	}
 	//ボタンの選択時色変更処理関数呼び出し
-	m_apButton[m_nButton]->SelectColor();
+	m_apButton[m_nButton]->ChangeTranslucent(true);
 }
 
 //=============================================================================

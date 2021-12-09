@@ -40,8 +40,7 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	void NotSelectColor(void);
-	void SelectColor(void);
+	void ChangeTranslucent(bool bTranslucent);
 	void PlayButtonSE(BUTTON_SE PlayButtonSE);
 	virtual void Press(void) = 0;
 private:

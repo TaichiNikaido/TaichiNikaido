@@ -150,10 +150,6 @@ void CQuitGameButton::Press(void)
 {
 	//ポーズの使用状態を設定する
 	SetbPause(false);
-	//チュートリアルモードの取得
-	CTutorialMode * pTutorialMode = CManager::GetTutorialMode();
-	//ゲームモードの取得
-	CGameMode * pGameMode = CManager::GetGameMode();
 	//押したときのサウンド再生
 	PlayButtonSE(CButton::BUTTON_SE_PUSH);
 }

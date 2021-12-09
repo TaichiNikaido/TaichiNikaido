@@ -311,8 +311,6 @@ void CPlayer::Input(void)
 		lpDIDevice->Poll();
 		lpDIDevice->GetDeviceState(sizeof(DIJOYSTATE), &js);
 	}
-	//モーションのポインタを取得する
-	CMotion * pMotion = GetpMotion();
 	//移動量を0にする
 	m_Move = INITIAL_D3DXVECTOR3;
 	//もしダッシュキーが押されていたら

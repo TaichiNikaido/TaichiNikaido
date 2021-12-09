@@ -117,7 +117,7 @@ HRESULT CAnyButton::Init(void)
 	//テクスチャの割り当て
 	BindTexture(m_pTexture);
 	//選択時色変更処理関数呼び出し
-	SelectColor();
+	ChangeTranslucent(true);
 	return S_OK;
 }
 

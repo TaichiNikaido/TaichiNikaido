@@ -265,6 +265,8 @@ void CDragon::AI(void)
 	{
 	case ATTACK_BITING:
 		break;
+	default:
+		break;
 	}
 	//‚à‚µ‘Ì—Í‚ª3Š„‚èˆÈ‰º‚É‚È‚Á‚½ê‡
 	if (nLife <= nLife * 0.3)
@@ -397,5 +399,4 @@ void CDragon::Death(void)
 		//ƒQ[ƒ€ƒNƒŠƒAƒƒS‚ğ¶¬‚µ‚½ó‘Ô‚É‚·‚é
 		m_bGameClearLogoCreate = true;
 	}
-
 }
